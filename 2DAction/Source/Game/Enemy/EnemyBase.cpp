@@ -69,7 +69,7 @@ void EnemyBase::HitPlayreBullet()
 
 	--m_HP;
 	if( m_HP <= 0 ){
-		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, m_,50);
+		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50);
 		TaskStartDie();
 	}
 }
