@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Common\CmnGameAccesser.cpp" />
+    <ClCompile Include="Source\Common\Utility\CommonGameUtility.cpp" />
+    <ClCompile Include="Source\Flow\FlowBase.cpp" />
+    <ClCompile Include="Source\Flow\FlowGame.cpp" />
+    <ClCompile Include="Source\Flow\FlowManager.cpp" />
+    <ClCompile Include="Source\Flow\FlowTable.cpp" />
+    <ClCompile Include="Source\Flow\FlowTitle.cpp" />
+    <ClCompile Include="Source\Game\Effect\GameEffect.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Source\Game\Game2DBase.cpp" />
+    <ClCompile Include="Source\Game\GameMap.cpp" />
+    <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp" />
+    <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp" />
+    <ClCompile Include="Source\Game\Player\GamePlayer.cpp" />
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Math\MathAngle.cpp" />
+    <ClCompile Include="Source\Math\MathCommon.cpp" />
+    <ClCompile Include="Source\Math\MathVector.cpp" />
+    <ClCompile Include="Source\System\Draw2D\SystemDraw2DManager.cpp" />
+    <ClCompile Include="Source\System\Draw2D\SystemDraw2DResource.cpp" />
+    <ClCompile Include="Source\System\Input\SystemInputWatcher.cpp" />
+    <ClCompile Include="Source\System\picojson.cpp" />
+    <ClCompile Include="Source\System\Sound\SystemSoundManager.cpp" />
+    <ClCompile Include="Source\System\SystemFPSManager.cpp" />
+    <ClCompile Include="Source\System\SystemMessage.cpp" />
+    <ClCompile Include="Source\System\Task\SystemTaskManager.cpp" />
+    <ClCompile Include="Source\System\Task\SystemTaskUnit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Common\CmnGameAccesser.h" />
+    <ClInclude Include="Source\Common\CommonDefine.h" />
+    <ClInclude Include="Source\Common\Utility\CommonGameUtility.h" />
+    <ClInclude Include="Source\Flow\FlowBase.h" />
+    <ClInclude Include="Source\Flow\FlowGame.h" />
+    <ClInclude Include="Source\Flow\FlowManager.h" />
+    <ClInclude Include="Source\Flow\FlowTable.h" />
+    <ClInclude Include="Source\Flow\FlowTitle.h" />
+    <ClInclude Include="Source\Game\Effect\GameEffect.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyAAA.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyBase.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyManager.h" />
+    <ClInclude Include="Source\Game\Game2DBase.h" />
+    <ClInclude Include="Source\Game\GameMap.h" />
+    <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h" />
+    <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h" />
+    <ClInclude Include="Source\Game\Player\GamePlayer.h" />
+    <ClInclude Include="Source\Math\MathAngle.h" />
+    <ClInclude Include="Source\Math\MathCommon.h" />
+    <ClInclude Include="Source\Math\MathMatrix.h" />
+    <ClInclude Include="Source\Math\MathQuaternion.h" />
+    <ClInclude Include="Source\Math\MathVector.h" />
+    <ClInclude Include="Source\System\Draw2D\SystemDraw2DDefine.h" />
+    <ClInclude Include="Source\System\Draw2D\SystemDraw2DManager.h" />
+    <ClInclude Include="Source\System\Draw2D\SystemDraw2DResource.h" />
+    <ClInclude Include="Source\System\Input\SystemInputWatcher.h" />
+    <ClInclude Include="Source\System\picojson.h" />
+    <ClInclude Include="Source\System\Sound\SystemSoundManager.h" />
+    <ClInclude Include="Source\System\SystemDefine.h" />
+    <ClInclude Include="Source\System\SystemFPSManager.h" />
+    <ClInclude Include="Source\System\SystemMessage.h" />
+    <ClInclude Include="Source\System\Task\SystemTaskManager.h" />
+    <ClInclude Include="Source\System\Task\SystemTaskUnit.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{52377480-6CC6-47BE-A593-D04E651D02AB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>My2DAction</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(SolutionName)\Source;$(SolutionDir)$(SolutionName)\Lib\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(SolutionName)\Lib\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(SolutionName)\Source;$(SolutionDir)$(SolutionName)\Lib\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

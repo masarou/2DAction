@@ -1,0 +1,47 @@
+/* ====================================================================== */
+/**
+ * @brief  GamePlayerAttackGunから発射される球クラス
+ *
+ * @note
+ *		GamePlayerAttackGunを親として発射された球のクラス
+ *		一発の玉の情報を持ち、スピードや方向、位置情報を持つ
+ *		
+ */
+/* ====================================================================== */
+
+#ifndef ATTACK_BULLET
+#define ATTACK_BULLET
+
+#include "Game/Game2DBase.h"
+
+class Bullet
+{
+
+public:
+	Bullet( uint32_t uniqueNum, math::Vector2 &pos, math::Vector2 &vec );
+	~Bullet(void);
+
+	// 情報セット
+	void	SetBulletVec( math::Vector2 &vec ){ m_bulletVec = vec; }
+	void	SetBulletSpeed( float &spd ){ m_speed = spd; }
+
+	void	Update();
+	void	Draw();
+
+	// 情報取得
+	uint32_t GetUniqueNumber(){ return m_uniqueNumber; }
+	uint32_t GetLiveTime(){ return m_liveTime; }
+
+private:
+	
+	uint32_t		m_uniqueNumber;	// ほかの弾と区別するためにユニーク番号
+	uint32_t		m_liveTime;		// 生成されてからの時間
+	Game2DBase		*m_drawBullet;	// 弾描画クラス
+	TEX_DRAW_INFO	m_bulletInfo;	// 弾描画情報
+
+	math::Vector2	m_bulletVec;	// 発射方向
+	float			m_speed;		// 発射スピード
+
+};
+
+#endif

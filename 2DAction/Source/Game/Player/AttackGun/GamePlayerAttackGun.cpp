@@ -1,0 +1,107 @@
+/* ====================================================================== */
+/**
+ * @brief  プレイヤークラス
+ *
+ * @note
+ *		
+ */
+/* ====================================================================== */
+
+#include "GamePlayerAttackGun.h"
+
+// 固定値
+static const uint32_t BULLET_LIVE_TIME	= 300;
+static const uint32_t SHOOT_INTERBAL	= 0;
+
+AttackGun::AttackGun(void)
+	: m_intervalTime( 0 )
+{
+}
+
+
+AttackGun::~AttackGun(void)
+{
+}
+
+bool AttackGun::DieMain()
+{
+	// 保持しているクラスをすべて解放
+	std::vector<Bullet*>::iterator it = m_magazine.begin();
+	while(m_magazine.empty() == 0){
+		Bullet *bullet = (*it);
+		it = m_magazine.erase(it);
+		SAFE_DELETE(bullet);
+	}
+	m_magazine.clear();
+	return true;
+}
+
+/* ================================================ */
+/**
+ * @brief	位置、描画更新関数
+ */
+/* ================================================ */
+void AttackGun::Update()
+{
+	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
+		m_magazine.at( i )->Update();
+	}
+}
+
+void AttackGun::DrawUpdate()
+{
+	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
+		m_magazine.at( i )->Draw();
+	}
+
+	// 生成されて一定時間を超えたものは削除
+	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
+		if( m_magazine.at( i )->GetLiveTime() > BULLET_LIVE_TIME ){
+			DeleteBullet( m_magazine.at( i )->GetUniqueNumber() );
+		}
+	}
+
+	// 次の弾発射までの時間を減算
+	if( m_intervalTime > 0){
+		--m_intervalTime;
+	}
+}
+
+
+/* ================================================ */
+/**
+ * @brief	弾の発射
+ */
+/* ================================================ */
+void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
+{
+	if( m_intervalTime == 0 ){
+		static uint32_t uniqueNum = 0;
+		Bullet *bul = NEW Bullet( uniqueNum, pos, vec );
+		m_magazine.push_back( bul );
+
+		// 一定間隔の時間を設ける
+		m_intervalTime += SHOOT_INTERBAL;
+	}
+}
+
+/* ================================================ */
+/**
+ * @brief	弾の削除(画面外に出た、敵に当たった等々)
+ */
+/* ================================================ */
+void AttackGun::DeleteBullet( uint32_t uniqueNumber )
+{
+	std::vector<Bullet*>::iterator it = m_magazine.begin();
+	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
+		if( (*it)->GetUniqueNumber() == uniqueNumber ){
+			Bullet *pTmp = ( *it );
+			m_magazine.erase( it );
+			SAFE_DELETE( pTmp );
+			break;
+		}
+		++it;
+	}
+}
+
+

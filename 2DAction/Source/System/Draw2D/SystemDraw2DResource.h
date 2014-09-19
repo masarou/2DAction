@@ -1,0 +1,62 @@
+/* ====================================================================== */
+/**
+ * @brief  jsonに紐づいたTexリソース管理クラス
+ *
+ * @note
+ *		
+ */
+/* ====================================================================== */
+
+#ifndef SYSTEM_DRAW_RESOURCE_MANAGER
+#define SYSTEM_DRAW_RESOURCE_MANAGER
+
+#include "System/SystemDefine.h"
+#include "System/Draw2D/SystemDraw2DDefine.h"
+
+class TextureResourceManager
+{
+public:
+
+	TextureResourceManager(void);
+	~TextureResourceManager(void);
+
+	static void *Create();
+	static TextureResourceManager *GetInstance();
+
+	void LoadTextureInfo(const char *jsonFile);
+	void DeleteTextureInfo(const char *jsonFile);
+
+	// 読み込んだ画像ファイルの情報取得関数
+
+	// 読み込んだテクスチャの描画Handle取得
+	void GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle);
+	// 読み込んだテクスチャのデフォルトアニメ名取得
+	void GetDefaultAnimName( const char *jsonFile, std::string &defaultAnim);
+	// 読み込んだテクスチャの再生アニメ名取得
+	void GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim);
+	// frameの更新とframe数から適切なHandleの要素番号を返す
+	int32_t GetAnimHandleIndex( const char *jsonFile, const char *animName, uint32_t &frame);
+
+private:
+
+	struct RESOURCE_TEX{
+		std::string		m_jsonFile;
+		int32_t			m_readCounter;
+		TEX_INIT_INFO	m_texInfo;
+		int32_t			m_texHandle[SPLIT_MAX];
+		void Init(){
+			m_jsonFile = "";
+			m_readCounter = 0;
+			m_texInfo.Init();
+			for(uint32_t i = 0; i < NUMBEROF(m_texHandle); ++i){
+				m_texHandle[i] = INVALID_VALUE;
+			}
+		}
+	};
+
+	static TextureResourceManager	*s_pInstance;
+
+	std::vector<RESOURCE_TEX>	m_vRecource2D;
+
+};
+#endif //SYSTEM_DRAW_RESOURCE_MANAGER

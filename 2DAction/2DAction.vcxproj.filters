@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{23c06d47-eb42-4f88-b0c9-2d19c1302e9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{143f4594-da2d-481d-a75b-13cb06a78b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Task">
+      <UniqueIdentifier>{9ff8f701-2715-42a6-9f2d-465874af5d4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Flow">
+      <UniqueIdentifier>{7a0cb7d5-1b01-4604-a2d3-748f7d835c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Input">
+      <UniqueIdentifier>{8f27e513-6c71-49de-b739-dea87fa5d320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{770e7e59-34c3-4f40-b22b-86c46e7bdaaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{15cd31e2-b6ec-4c3c-9b39-050a232f35d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Sound">
+      <UniqueIdentifier>{8df6a614-a88d-4e19-97cb-28b2a9899262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Draw2D">
+      <UniqueIdentifier>{3ec096bf-5a57-4edb-887d-2e73655cfeaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player">
+      <UniqueIdentifier>{6a5ed5c6-8b5e-4242-a7cb-505f01a05590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player\AttackGun">
+      <UniqueIdentifier>{bd6bda42-351d-4c1c-9d42-6725f1f62520}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Enemy">
+      <UniqueIdentifier>{8562aac0-427e-4c4d-9ab7-6ea35f999247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Enemy\AI">
+      <UniqueIdentifier>{eb92e67e-4f50-48b9-95a2-2b9ee48d6c7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Effect">
+      <UniqueIdentifier>{7eacabea-4dfb-46cf-a861-23a175321c46}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\System\SystemDefine.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Task\SystemTaskManager.h">
+      <Filter>System\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Task\SystemTaskUnit.h">
+      <Filter>System\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\SystemMessage.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowBase.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowGame.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowManager.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowTable.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowTitle.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Input\SystemInputWatcher.h">
+      <Filter>System\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\MathAngle.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\MathCommon.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\MathMatrix.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\MathQuaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Math\MathVector.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\picojson.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Game2DBase.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Sound\SystemSoundManager.h">
+      <Filter>System\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameMap.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\SystemFPSManager.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Draw2D\SystemDraw2DDefine.h">
+      <Filter>System\Draw2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Draw2D\SystemDraw2DManager.h">
+      <Filter>System\Draw2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Draw2D\SystemDraw2DResource.h">
+      <Filter>System\Draw2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Player\GamePlayer.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\CmnGameAccesser.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h">
+      <Filter>Game\Player\AttackGun</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h">
+      <Filter>Game\Player\AttackGun</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\Utility\CommonGameUtility.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAAA.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyBase.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyManager.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\CommonDefine.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Effect\GameEffect.h">
+      <Filter>Game\Effect</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\System\Task\SystemTaskManager.cpp">
+      <Filter>System\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Task\SystemTaskUnit.cpp">
+      <Filter>System\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\SystemMessage.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowBase.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowGame.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowManager.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowTable.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowTitle.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Input\SystemInputWatcher.cpp">
+      <Filter>System\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\MathAngle.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\MathCommon.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\MathVector.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Game2DBase.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\picojson.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Sound\SystemSoundManager.cpp">
+      <Filter>System\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameMap.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\SystemFPSManager.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Draw2D\SystemDraw2DManager.cpp">
+      <Filter>System\Draw2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Draw2D\SystemDraw2DResource.cpp">
+      <Filter>System\Draw2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player\GamePlayer.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Common\CmnGameAccesser.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp">
+      <Filter>Game\Player\AttackGun</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp">
+      <Filter>Game\Player\AttackGun</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Common\Utility\CommonGameUtility.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyBase.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Effect\GameEffect.cpp">
+      <Filter>Game\Effect</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
