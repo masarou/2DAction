@@ -13,24 +13,26 @@
 #include "System/SystemDefine.h"
 #include "Game/Game2DBase.h"
 
-class EnemyBase : public TaskUnit
+class EnemyBase
 {
-private:
 
+public:
+
+	virtual ~EnemyBase(void);
+	uint32_t GetUniqueNumber(){ return m_uniqueIdOfEnemyAll; }
+
+	// 他クラスからのイベント処理
+	void EventUpdate( const Common::CMN_EVENT &eventId );
 
 protected:
 
 	EnemyBase( std::string jsonName, uint32_t uniqueId, Common::ENEMY_KIND kind );
-	virtual ~EnemyBase(void);
 
-	virtual void DrawUpdate() override;
-	virtual bool DieMain() override;
+	virtual void UpdateEnemy(){};	// 位置やAIによる数値周りの更新
+	virtual void DrawEnemy();		// 描画更新
+	void HitPlayreBullet();			// 弾が当たった時の処理
 
-	// 他クラスからのイベント処理
-	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
-	void HitPlayreBullet();
-
-public:
+protected:
 
 	uint32_t			m_uniqueIdOfEnemyAll;	// 敵全体の中での識別ID
 	Common::ENEMY_KIND	m_enemyKind;			// 敵の種類

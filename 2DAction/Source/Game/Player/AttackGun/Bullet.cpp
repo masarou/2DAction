@@ -30,6 +30,11 @@ Bullet::Bullet( uint32_t uniqueNum, math::Vector2 &pos, math::Vector2 &vec )
 	m_drawBullet->SetDrawInfo(m_bulletInfo);
 }
 
+Bullet::~Bullet(void)
+{
+	SAFE_DELETE(m_drawBullet);
+}
+
 void Bullet::Update()
 {
 	m_bulletInfo.m_pos += m_bulletVec * m_speed;
@@ -45,7 +50,7 @@ void Bullet::Draw()
 	m_drawBullet->DrawUpdate2D();
 }
 
-Bullet::~Bullet(void)
+const TEX_DRAW_INFO &Bullet::GetDrawInfo()
 {
-	SAFE_DELETE(m_drawBullet);
+	return m_drawBullet->GetDrawInfo();
 }

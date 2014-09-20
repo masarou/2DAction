@@ -16,7 +16,7 @@ EnemyAAA *EnemyAAA::Create( uint32_t uniqueID )
 }
 
 EnemyAAA::EnemyAAA( uint32_t uniqueID )
-	: EnemyBase( "player.json", 0, Common::KIND_AAA )
+	: EnemyBase( "player.json", uniqueID, Common::KIND_AAA )
 {
 }
 
@@ -24,7 +24,7 @@ EnemyAAA::~EnemyAAA(void)
 {
 }
 
-void EnemyAAA::Update()
+void EnemyAAA::UpdateEnemy()
 {
 	m_enemyInfo.m_pos += 0.5f;
 	m_enemyInfo.m_offset = gameUtility::GetPlayerOffsetPos();

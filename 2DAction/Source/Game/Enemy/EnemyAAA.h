@@ -20,7 +20,7 @@ public:
 
 protected:
 	
-	virtual void Update() override;
+	virtual void UpdateEnemy() override;
 
 private:
 

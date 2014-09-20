@@ -32,6 +32,8 @@ public:
 	//!設定アニメの更新
 	void DrawUpdate2D();
 
+	const TEX_DRAW_INFO &GetDrawInfo(){ return m_drawInfo; }
+
 protected:
 
 

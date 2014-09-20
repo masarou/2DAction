@@ -12,6 +12,7 @@
 //#include "EnemyBBB.h"
 //#include "EnemyCCC.h"
 //#include "EnemyDDD.h"
+#include "Game/Player/AttackGun/Bullet.h"
 
 EnemyManager *EnemyManager::m_pInstance = NULL;
 
@@ -55,26 +56,55 @@ void EnemyManager::CreateEnemy( Common::ENEMY_KIND kind )
 	}
 	if( pEnemy ){
 		m_enemyArray.push_back( pEnemy );
-		SetChildUnit( pEnemy );
 		++currUniqueNo;
 	}
 }
 
-bool EnemyManager::Init()
+void EnemyManager::DeleteEnemy( uint32_t uniqueNumber )
 {
+	std::vector<EnemyBase*>::iterator it = m_enemyArray.begin();
+	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+		if( (*it)->GetUniqueNumber() == uniqueNumber ){
+			EnemyBase *pTmp = ( *it );
+			m_enemyArray.erase( it );
+			SAFE_DELETE( pTmp );
+			break;
+		}
+		++it;
+	}
 
-	return true;
 }
 
-void EnemyManager::Update()
+void EnemyManager::CheckCollision( Bullet *bullet )
 {
-
+	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
+		if( 0 ){
+			Common::CMN_EVENT eventInfo;
+			eventInfo.m_event = Common::EVENT_HIT_BULLET;
+			eventInfo.m_eventValue = m_enemyArray.at(i)->GetUniqueNumber();
+			AddEvent( eventInfo );
+		}
+	}
 }
 
-bool EnemyManager::DieMain()
+
+// 派生先でのメッセージ処理
+void EnemyManager::EventUpdate( const Common::CMN_EVENT &eventId )
 {
+	switch( eventId.m_event ){
+	case Common::EVENT_HIT_BULLET:
+		{
+			// 弾が当たったことをおしえてやる
+			for(uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+				if( m_enemyArray.at(i)->GetUniqueNumber() == eventId.m_eventValue ){
+					m_enemyArray.at(i)->EventUpdate( eventId );
+				}
+			}
+		}
+		break;
 
-	return true;
+	default:
+
+		break;
+	}
 }
-
-

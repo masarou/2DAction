@@ -29,6 +29,7 @@ public:
 	void	Draw();
 
 	// î•ñæ“¾
+	const TEX_DRAW_INFO &GetDrawInfo();
 	uint32_t GetUniqueNumber(){ return m_uniqueNumber; }
 	uint32_t GetLiveTime(){ return m_liveTime; }
 

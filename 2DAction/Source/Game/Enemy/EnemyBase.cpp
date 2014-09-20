@@ -9,6 +9,7 @@
 
 #include "EnemyBase.h"
 #include "Game/Effect/GameEffect.h"
+#include "EnemyManager.h"
 
 EnemyBase::EnemyBase( std::string jsonName, uint32_t uniqueId, Common::ENEMY_KIND kind )
 : m_uniqueIdOfEnemyAll( uniqueId )
@@ -18,19 +19,14 @@ EnemyBase::EnemyBase( std::string jsonName, uint32_t uniqueId, Common::ENEMY_KIN
 	m_enemyInfo.Init();
 }
 
-void EnemyBase::DrawUpdate()
-{
-	m_enemy2D->DrawUpdate2D();
-}
-
-bool EnemyBase::DieMain()
+EnemyBase::~EnemyBase()
 {
 	SAFE_DELETE(m_enemy2D);
-	return true;
 }
 
-EnemyBase::~EnemyBase(void)
+void EnemyBase::DrawEnemy()
 {
+	m_enemy2D->DrawUpdate2D();
 }
 
 /* ================================================ */
@@ -62,14 +58,13 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 // プレイヤーの弾に当たった
 void EnemyBase::HitPlayreBullet()
 {
-	// もう死ぬ準備に入っているなら何もしない
-	if(IsDie()){
-		return;
-	}
-
 	--m_HP;
+
 	if( m_HP <= 0 ){
+		// 爆破エフェクトを出す
 		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50);
-		TaskStartDie();
+
+		// managerに管理から外すように伝える
+		EnemyManager::GetInstance()->DeleteEnemy( GetUniqueNumber() );
 	}
 }
