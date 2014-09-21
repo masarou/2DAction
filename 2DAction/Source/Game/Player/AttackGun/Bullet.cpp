@@ -11,6 +11,7 @@
 
 #include "Bullet.h"
 #include "Common/Utility/CommonGameUtility.h"
+#include "Game/Enemy/EnemyManager.h"
 
 Bullet::Bullet( uint32_t uniqueNum, math::Vector2 &pos, math::Vector2 &vec )
 	: m_uniqueNumber( uniqueNum )
@@ -38,8 +39,11 @@ Bullet::~Bullet(void)
 void Bullet::Update()
 {
 	m_bulletInfo.m_pos += m_bulletVec * m_speed;
-	m_bulletInfo.m_offset = gameUtility::GetPlayerOffsetPos();
+	m_bulletInfo.m_offset = GetPlayerOffsetPos();
 	m_drawBullet->SetDrawInfo(m_bulletInfo);
+
+	// 敵に当たったかチェック
+	EnemyManager::GetInstance()->CheckCollision( this );
 
 	++m_liveTime;
 }

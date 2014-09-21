@@ -95,6 +95,7 @@ void Game2DBase::SetAnim(std::string animTag)
 void Game2DBase::SetDrawInfo(const TEX_DRAW_INFO &info)
 {
 	m_drawInfo = info;
+	m_drawInfo.m_fileName = m_jsonFile;
 }
 
 /* ================================================ */
@@ -110,7 +111,7 @@ void Game2DBase::LoadTextureInfo(const char *jsonFile)
 	// “Ç‚Ýž‚ñ‚¾ƒtƒ@ƒCƒ‹‚©‚çî•ñŽæ“¾
 	TextureResourceManager::GetInstance()->GetTextureHandle( jsonFile, m_vTexHandle);
 	TextureResourceManager::GetInstance()->GetPlayAnimName( jsonFile, m_vAnimName);
-	TextureResourceManager::GetInstance()->GetDefaultAnimName( jsonFile, m_currentAnimTag);
+	m_currentAnimTag = TextureResourceManager::GetInstance()->GetDefaultAnimName( jsonFile );
 }
 
 /* ================================================ */

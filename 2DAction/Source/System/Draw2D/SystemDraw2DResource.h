@@ -28,14 +28,17 @@ public:
 
 	// 読み込んだ画像ファイルの情報取得関数
 
+
+	// 読み込んだテクスチャの画像情報取得
+	const TEX_INIT_INFO &GetLoadTextureInfo( const char *jsonFile );
 	// 読み込んだテクスチャの描画Handle取得
 	void GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle);
 	// 読み込んだテクスチャのデフォルトアニメ名取得
-	void GetDefaultAnimName( const char *jsonFile, std::string &defaultAnim);
+	const std::string GetDefaultAnimName( const char *jsonFile );
 	// 読み込んだテクスチャの再生アニメ名取得
 	void GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim);
 	// frameの更新とframe数から適切なHandleの要素番号を返す
-	int32_t GetAnimHandleIndex( const char *jsonFile, const char *animName, uint32_t &frame);
+	const int32_t GetAnimHandleIndex( const char *jsonFile, const char *animName, const uint32_t &frame);
 
 private:
 

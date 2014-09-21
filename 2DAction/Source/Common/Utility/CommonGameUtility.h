@@ -5,15 +5,15 @@
 #include "Math/MathCommon.h"
 #include "Math/MathVector.h"
 #include "Math/MathAngle.h"
+#include "Math/MathUtility.h"
 #include "System/SystemDefine.h"
+#include "System/Draw2D/SystemDraw2DDefine.h"
 
-class gameUtility{
 
-public:
+void AddPlayerOffsetPos( math::Vector2 &pos );
 
-	static void AddPlayerOffsetPos( math::Vector2 &pos );
-	static math::Vector2 GetPlayerOffsetPos();
+const math::Vector2 GetPlayerOffsetPos();
 
-};
+const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB );
 
 #endif

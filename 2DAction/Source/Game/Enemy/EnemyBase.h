@@ -19,17 +19,19 @@ class EnemyBase
 public:
 
 	virtual ~EnemyBase(void);
-	uint32_t GetUniqueNumber(){ return m_uniqueIdOfEnemyAll; }
 
-	// 他クラスからのイベント処理
-	void EventUpdate( const Common::CMN_EVENT &eventId );
+	virtual void UpdateEnemy(){};							// 位置やAIによる数値周りの更新
+	virtual void DrawEnemy();								// 描画更新
+	void EventUpdate( const Common::CMN_EVENT &eventId );	// managerからのイベント処理
+
+	const TEX_DRAW_INFO &GetDrawInfo();
+	uint32_t GetUniqueNumber(){ return m_uniqueIdOfEnemyAll; }
 
 protected:
 
 	EnemyBase( std::string jsonName, uint32_t uniqueId, Common::ENEMY_KIND kind );
 
-	virtual void UpdateEnemy(){};	// 位置やAIによる数値周りの更新
-	virtual void DrawEnemy();		// 描画更新
+
 	void HitPlayreBullet();			// 弾が当たった時の処理
 
 protected:

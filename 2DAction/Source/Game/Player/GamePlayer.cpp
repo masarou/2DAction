@@ -167,7 +167,7 @@ void GamePlayer::EventDamage()
 }
 
 // ƒAƒCƒeƒ€Žæ“¾
-void GamePlayer::PlayerGetItem( uint32_t itemId )
+void GamePlayer::PlayerGetItem( const uint32_t &itemId )
 {
 
 }

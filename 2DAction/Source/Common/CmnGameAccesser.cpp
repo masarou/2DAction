@@ -67,7 +67,7 @@ const math::Vector2 &GameAccesser::GetPlayerOffSet()
 	return m_offsetPlayer;
 }
 
-void GameAccesser::GetPlayerOffSet(float &posX, float &posY)
+void GameAccesser::GetPlayerOffSet( float &posX, float &posY)
 {
 	posX = m_offsetPlayer.x;
 	posY = m_offsetPlayer.y;

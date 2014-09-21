@@ -27,7 +27,7 @@ EnemyAAA::~EnemyAAA(void)
 void EnemyAAA::UpdateEnemy()
 {
 	m_enemyInfo.m_pos += 0.5f;
-	m_enemyInfo.m_offset = gameUtility::GetPlayerOffsetPos();
+	m_enemyInfo.m_offset = GetPlayerOffsetPos();
 	m_enemy2D->SetDrawInfo( m_enemyInfo );
 }
 

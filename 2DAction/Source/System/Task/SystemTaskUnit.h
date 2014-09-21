@@ -62,8 +62,8 @@ protected:
 
 	virtual bool Init(){return true;}
 	virtual void Update(){};
-	virtual void EventUpdate( const Common::CMN_EVENT &eventId ){};
 	virtual void DrawUpdate(){};
+	virtual void EventUpdate( const Common::CMN_EVENT &eventId ){};
 	virtual bool DieMain(){return true;}
 
 	// 派生先でのメッセージ処理

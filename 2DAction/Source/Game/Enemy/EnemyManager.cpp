@@ -13,6 +13,7 @@
 //#include "EnemyCCC.h"
 //#include "EnemyDDD.h"
 #include "Game/Player/AttackGun/Bullet.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 EnemyManager *EnemyManager::m_pInstance = NULL;
 
@@ -78,7 +79,8 @@ void EnemyManager::DeleteEnemy( uint32_t uniqueNumber )
 void EnemyManager::CheckCollision( Bullet *bullet )
 {
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
-		if( 0 ){
+		// 位置情報とテクスチャサイズを含めて当たっているかどうか
+		if( IsInRangeTexture( bullet->GetDrawInfo(), m_enemyArray.at(i)->GetDrawInfo() ) ){
 			Common::CMN_EVENT eventInfo;
 			eventInfo.m_event = Common::EVENT_HIT_BULLET;
 			eventInfo.m_eventValue = m_enemyArray.at(i)->GetUniqueNumber();
@@ -87,6 +89,19 @@ void EnemyManager::CheckCollision( Bullet *bullet )
 	}
 }
 
+void EnemyManager::Update()
+{
+	for(uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+		m_enemyArray.at(i)->UpdateEnemy();
+	}
+}
+
+void EnemyManager::DrawUpdate()
+{
+	for(uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+		m_enemyArray.at(i)->DrawEnemy();
+	}
+}
 
 // 派生先でのメッセージ処理
 void EnemyManager::EventUpdate( const Common::CMN_EVENT &eventId )

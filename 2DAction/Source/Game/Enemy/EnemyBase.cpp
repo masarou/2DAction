@@ -46,7 +46,16 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 		break;
 
 	}
+}
 
+/* ================================================ */
+/**
+ * @brief	•`‰æî•ñæ“¾
+ */
+/* ================================================ */
+const TEX_DRAW_INFO &EnemyBase::GetDrawInfo()
+{
+	return m_enemyInfo;
 }
 
 /* ================================================ */

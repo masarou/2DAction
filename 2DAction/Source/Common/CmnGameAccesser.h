@@ -30,7 +30,7 @@ public:
 
 	// ƒvƒŒƒCƒ„[î•ñæ“¾
 	const math::Vector2 &GetPlayerOffSet();
-	void GetPlayerOffSet(float &posX, float &posY);
+	void GetPlayerOffSet( float &posX, float &posY);
 
 private:
 

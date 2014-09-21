@@ -43,7 +43,7 @@ private:
 
 	// Šî’ê‚©‚çƒR[ƒ‹‚³‚ê‚éCommon::CMN_EVENT‚É‘Î‰‚µ‚½ŠÖ”
 	void EventDamage();
-	void PlayerGetItem( uint32_t itemId );
+	void PlayerGetItem( const uint32_t &itemId );
 
 
 

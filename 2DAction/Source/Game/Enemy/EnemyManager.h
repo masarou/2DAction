@@ -24,6 +24,9 @@ public:
 	void CheckCollision( Bullet *bullet );			// プレイヤーの弾との当たり判定
 
 protected:
+	
+	virtual void Update() override;
+	virtual void DrawUpdate() override;
 
 	// メッセージ処理
 	void EventUpdate( const Common::CMN_EVENT &eventId ) override;

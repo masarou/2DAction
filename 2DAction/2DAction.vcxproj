@@ -30,6 +30,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Math\MathAngle.cpp" />
     <ClCompile Include="Source\Math\MathCommon.cpp" />
+    <ClCompile Include="Source\Math\MathUtility.cpp" />
     <ClCompile Include="Source\Math\MathVector.cpp" />
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DManager.cpp" />
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DResource.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="Source\Math\MathCommon.h" />
     <ClInclude Include="Source\Math\MathMatrix.h" />
     <ClInclude Include="Source\Math\MathQuaternion.h" />
+    <ClInclude Include="Source\Math\MathUtility.h" />
     <ClInclude Include="Source\Math\MathVector.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DDefine.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DManager.h" />

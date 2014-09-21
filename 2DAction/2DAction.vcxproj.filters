@@ -148,6 +148,9 @@
     <ClInclude Include="Source\Game\Effect\GameEffect.h">
       <Filter>Game\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Math\MathUtility.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -234,6 +237,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Effect\GameEffect.cpp">
       <Filter>Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math\MathUtility.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

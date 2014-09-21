@@ -169,6 +169,22 @@ void TextureResourceManager::DeleteTextureInfo(const char *jsonFile)
 
 /* ================================================ */
 /**
+ * @brief	指定のjsonファイルからテクスチャの画像情報取得
+ */
+/* ================================================ */
+const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jsonFile )
+{
+	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
+		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
+			return m_vRecource2D.at(i).m_texInfo;
+		}
+	}
+	DEBUG_ASSERT("指定のjsonファイルの情報がない!!!");
+	return TEX_INIT_INFO();
+}
+
+/* ================================================ */
+/**
  * @brief	指定のjsonファイルからアニメ全体のHandle情報を取得
  */
 /* ================================================ */
@@ -192,16 +208,12 @@ void TextureResourceManager::GetTextureHandle( const char *jsonFile, std::vector
  * @brief	読み込んだテクスチャのデフォルトアニメ名取得
  */
 /* ================================================ */
-void TextureResourceManager::GetDefaultAnimName( const char *jsonFile, std::string &defaultAnim)
+const std::string TextureResourceManager::GetDefaultAnimName( const char *jsonFile )
 {
-	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
-		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
-			TEX_INIT_INFO &texInfo = m_vRecource2D.at(i).m_texInfo;
-			defaultAnim = texInfo.m_animDefault;
-			return;
-		}
-		return;
-	}
+	std::string retStr = "";
+	const TEX_INIT_INFO &texInfo = GetLoadTextureInfo( jsonFile );
+	retStr = texInfo.m_animDefault;
+	return retStr;
 }
 
 /* ================================================ */
@@ -211,14 +223,9 @@ void TextureResourceManager::GetDefaultAnimName( const char *jsonFile, std::stri
 /* ================================================ */
 void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim)
 {
-	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
-		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
-			TEX_INIT_INFO &texInfo = m_vRecource2D.at(i).m_texInfo;
-			for(uint32_t j = 0; j < texInfo.m_vAnimName.size();++j){
-				vAnim.push_back(texInfo.m_vAnimName.at(j).m_animTag);
-			}
-			return;
-		}
+	const TEX_INIT_INFO &texInfo = GetLoadTextureInfo( jsonFile );
+	for(uint32_t j = 0; j < texInfo.m_vAnimName.size();++j){
+		vAnim.push_back(texInfo.m_vAnimName.at(j).m_animTag);
 	}
 }
 
@@ -228,53 +235,45 @@ void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<
  *			適切なHandle配列のIndex値を返す
  */
 /* ================================================ */
-int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, const char *animName, uint32_t &frame)
+const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, const char *animName, const uint32_t &frame)
 {
 	uint32_t drawIndex = INVALID_VALUE;
 
-	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
-		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
-			//! jsonファイルからアニメ情報を調べる
-			TEX_INIT_INFO &texInfo = m_vRecource2D.at(i).m_texInfo;
-			for(uint32_t j = 0; j < texInfo.m_vAnimName.size(); ++j){
-				if(texInfo.m_vAnimName.at(j).m_animTag.compare(animName) == 0){
-					//! 表示すべき画像のIndexを調べる
-					ANIM_INFO &animInfo = texInfo.m_vAnimName.at(j);
-					uint32_t animIndex = 0;
-					if(frame != 0){
-						//! 現在が再生中アニメの何枚目を描画するか求める
-						animIndex = frame / animInfo.m_frameSpeed;
-					}
+	const TEX_INIT_INFO &texInfo = GetLoadTextureInfo( jsonFile );
+	for(uint32_t j = 0; j < texInfo.m_vAnimName.size(); ++j){
+		if(texInfo.m_vAnimName.at(j).m_animTag.compare(animName) == 0){
+			//! 表示すべき画像のIndexを調べる
+			const ANIM_INFO &animInfo = texInfo.m_vAnimName.at(j);
+			uint32_t animIndex = 0;
+			if(frame != 0){
+				//! 現在が再生中アニメの何枚目を描画するか求める
+				animIndex = frame / animInfo.m_frameSpeed;
+			}
 
-					//! 再生中
-					if(animIndex < animInfo.m_vPlayIndex.size()){
-						//!表示するテクスチャ設定
-						drawIndex = animInfo.m_vPlayIndex.at(animIndex);
-						return drawIndex;
+			//! 再生中
+			if(animIndex < animInfo.m_vPlayIndex.size()){
+				//!表示するテクスチャ設定
+				drawIndex = animInfo.m_vPlayIndex.at(animIndex);
+				return drawIndex;
+			}
+			//! 再生が終了している
+			else{
+
+				//! loop設定なら最初から、それ以外ならデフォルトアニメに戻す
+				if(animInfo.m_isLoop){
+					drawIndex = animInfo.m_vPlayIndex.at(0);
+					return drawIndex;
+				}
+				else{
+					//! デフォルトアニメの先頭Indexを返す
+					if( texInfo.m_animDefault.compare("") != 0 ){
+						drawIndex = GetAnimHandleIndex( jsonFile, texInfo.m_animDefault.c_str(), 0 );
 					}
-					//! 再生が終了している
 					else{
-
-						//! 再生を最初からにしてやる
-						frame = 0;
-
-						//! loop設定なら最初から、それ以外ならデフォルトアニメに戻す
-						if(animInfo.m_isLoop){
-							drawIndex = animInfo.m_vPlayIndex.at(0);
-							return drawIndex;
-						}
-						else{
-							//! デフォルトアニメの先頭Indexを返す
-							if( texInfo.m_animDefault.compare("") != 0 ){
-								drawIndex = GetAnimHandleIndex( jsonFile, texInfo.m_animDefault.c_str(), frame);
-							}
-							else{
-								// デフォルトアニメが設定されていないので無効値を返す
-								drawIndex = INVALID_VALUE;
-							}
-							return drawIndex;
-						}
+						// デフォルトアニメが設定されていないので無効値を返す
+						drawIndex = INVALID_VALUE;
 					}
+					return drawIndex;
 				}
 			}
 		}
