@@ -28,7 +28,8 @@ public:
 	~GameEffect(void);
 
 protected:
-
+	
+	virtual bool Init() override;
 	virtual bool DieMain() override;
 	virtual void Update() override;
 	virtual void DrawUpdate() override;

@@ -20,15 +20,12 @@ Bullet::Bullet( uint32_t uniqueNum, math::Vector2 &pos, math::Vector2 &vec )
 	, m_bulletVec( vec )
 	, m_speed( 12.0f )
 {
-	m_drawBullet = NEW Game2DBase("player.json");
-
-	// 描画情報セット
-	TEX_DRAW_INFO info;
-	m_bulletInfo.Init();
+	m_drawBullet = NEW Game2DBase("bullet.json");
 
 	//!初期位置セット
+	m_bulletInfo.Init();
+	m_bulletInfo.m_fileName = "bullet.json";
 	m_bulletInfo.m_pos = pos;
-	m_drawBullet->SetDrawInfo(m_bulletInfo);
 }
 
 Bullet::~Bullet(void)
@@ -39,7 +36,6 @@ Bullet::~Bullet(void)
 void Bullet::Update()
 {
 	m_bulletInfo.m_pos += m_bulletVec * m_speed;
-	m_bulletInfo.m_offset = GetPlayerOffsetPos();
 	m_drawBullet->SetDrawInfo(m_bulletInfo);
 
 	// 敵に当たったかチェック

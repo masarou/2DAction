@@ -32,6 +32,7 @@ public:
 	virtual void PadEventRight() override;
 	virtual void PadEventLeft() override;
 	virtual void PadEventDecide() override;
+	virtual void PadEventCancel() override;
 
 	bool IsNext(){return m_nextFlag;}
 

@@ -180,7 +180,7 @@ const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jso
 		}
 	}
 	DEBUG_ASSERT("指定のjsonファイルの情報がない!!!");
-	return TEX_INIT_INFO();
+	return m_vRecource2D.at(0).m_texInfo;
 }
 
 /* ================================================ */
@@ -235,7 +235,7 @@ void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<
  *			適切なHandle配列のIndex値を返す
  */
 /* ================================================ */
-const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, const char *animName, const uint32_t &frame)
+const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, const char *animName, uint32_t &frame)
 {
 	uint32_t drawIndex = INVALID_VALUE;
 
@@ -259,6 +259,9 @@ const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, 
 			//! 再生が終了している
 			else{
 
+				// フレーム初期化
+				frame = 0;
+
 				//! loop設定なら最初から、それ以外ならデフォルトアニメに戻す
 				if(animInfo.m_isLoop){
 					drawIndex = animInfo.m_vPlayIndex.at(0);
@@ -267,7 +270,7 @@ const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, 
 				else{
 					//! デフォルトアニメの先頭Indexを返す
 					if( texInfo.m_animDefault.compare("") != 0 ){
-						drawIndex = GetAnimHandleIndex( jsonFile, texInfo.m_animDefault.c_str(), 0 );
+						drawIndex = GetAnimHandleIndex( jsonFile, texInfo.m_animDefault.c_str(), frame );
 					}
 					else{
 						// デフォルトアニメが設定されていないので無効値を返す

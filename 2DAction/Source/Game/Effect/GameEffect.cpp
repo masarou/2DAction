@@ -18,9 +18,9 @@ GameEffect::GameEffect( EFFECT_KIND kind, uint32_t posX, uint32_t posY )
 	// 描画クラスセットアップ
 	m_pEffect = NEW Game2DBase(SelectEffectFile().c_str());
 	m_effectInfo.Init();
+	m_effectInfo.m_fileName = SelectEffectFile();
 	m_effectInfo.m_pos.x = posX;
 	m_effectInfo.m_pos.y = posY;
-	m_pEffect->SetDrawInfo(m_effectInfo);
 	m_pEffect->SetAnim(SelectEffectAnimTag());
 }
 
@@ -34,10 +34,14 @@ bool GameEffect::DieMain()
 	return true;
 }
 
+bool GameEffect::Init()
+{
+	m_pEffect->SetDrawInfo( m_effectInfo );
+	return true;
+}
+
 void GameEffect::Update()
 {
-
-
 }
 
 void GameEffect::DrawUpdate()

@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "SystemDraw2DManager.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 Draw2DManager *Draw2DManager::m_pInstance = NULL;
 
@@ -107,9 +108,14 @@ void Draw2DManager::DrawTexture(uint32_t drawIndex)
 	DRAW2D tmpInfo = m_vDrawTask.at(drawIndex);
 	SetDrawBlendMode( DX_BLENDMODE_ALPHA, tmpInfo.m_info.m_alpha);
 
+	math::Vector2 pos = math::Vector2( tmpInfo.m_info.m_pos.x, tmpInfo.m_info.m_pos.y );
+	if( tmpInfo.m_info.m_usePlayerOffset ){
+		pos -= GetPlayerOffsetPos();
+	}
+
 	DrawRotaGraph(
-		tmpInfo.m_info.m_pos.x - tmpInfo.m_info.m_offset.x
-		, tmpInfo.m_info.m_pos.y - tmpInfo.m_info.m_offset.y
+		pos.x
+		, pos.y
 		, tmpInfo.m_info.m_scale
 		, static_cast<uint32_t>(tmpInfo.m_info.m_rot.GetRadian())
 		, tmpInfo.m_handle

@@ -72,18 +72,18 @@ struct TEX_INIT_INFO{
 //描画更新の際の情報
 struct TEX_DRAW_INFO{
 	std::string		m_fileName;
-	double			m_scale;	//!<拡大率
-	math::Vector2	m_pos;		//!<位置情報
-	math::Vector2	m_offset;	//!<位置補正情報
-	math::Angle		m_rot;		//!<回転情報
-	uint32_t		m_alpha;	//!<透過情報
-	KIND_2D			m_kind2D;	//!<2Dの種類
-	PRIORITY		m_prioity;	//!<描画優先度
+	double			m_scale;			//!<拡大率
+	math::Vector2	m_pos;				//!<位置情報
+	bool			m_usePlayerOffset;	//!<位置補正の使用有無
+	math::Angle		m_rot;				//!<回転情報
+	uint32_t		m_alpha;			//!<透過情報
+	KIND_2D			m_kind2D;			//!<2Dの種類
+	PRIORITY		m_prioity;			//!<描画優先度
 	void Init(){
 		m_fileName = "";
 		m_scale = 1.0f;
 		m_pos = math::Vector2();
-		m_offset = math::Vector2();
+		m_usePlayerOffset = true;
 		m_rot = math::Angle();
 		m_alpha = 255;
 		m_kind2D = KIND_NORMAL;

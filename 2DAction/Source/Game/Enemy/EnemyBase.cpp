@@ -14,9 +14,15 @@
 EnemyBase::EnemyBase( std::string jsonName, uint32_t uniqueId, Common::ENEMY_KIND kind )
 : m_uniqueIdOfEnemyAll( uniqueId )
 , m_enemyKind( kind )
+, m_HP(1)
+, m_eye(math::Vector2())
+, m_enemy2D( NULL ) 
 {
 	m_enemy2D = NEW Game2DBase( jsonName.c_str() );
+
+	//!初期情報セット
 	m_enemyInfo.Init();
+	m_enemyInfo.m_fileName = jsonName;
 }
 
 EnemyBase::~EnemyBase()
@@ -71,7 +77,7 @@ void EnemyBase::HitPlayreBullet()
 
 	if( m_HP <= 0 ){
 		// 爆破エフェクトを出す
-		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50);
+		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, m_enemyInfo.m_pos.x, m_enemyInfo.m_pos.y);
 
 		// managerに管理から外すように伝える
 		EnemyManager::GetInstance()->DeleteEnemy( GetUniqueNumber() );

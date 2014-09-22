@@ -4,6 +4,7 @@
 #include "Game/Effect/GameEffect.h"
 
 #include "System/Sound/SystemSoundManager.h"
+#include "Game/Enemy/EnemyManager.h"
 
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
@@ -12,6 +13,7 @@ GamePlayer::GamePlayer(void)
 	// 描画クラスセットアップ
 	m_player2D = NEW Game2DBase("player.json");
 	m_playerInfo.Init();
+	m_playerInfo.m_usePlayerOffset = false;
 	m_playerInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
 	m_playerInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
 	m_player2D->SetDrawInfo(m_playerInfo);
@@ -126,10 +128,15 @@ void GamePlayer::PadEventLeft()
 	m_player2D->SetDrawInfo(m_playerInfo);
 }
 
-void GamePlayer::PadEventDecide(){
-
+void GamePlayer::PadEventDecide()
+{
 	GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50);
 	//m_nextFlag = true;
+}
+
+void GamePlayer::PadEventCancel()
+{
+	EnemyManager::GetInstance()->CreateEnemy( Common::KIND_AAA );
 }
 
 /* ================================================ */
