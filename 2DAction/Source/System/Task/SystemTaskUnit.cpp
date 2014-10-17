@@ -82,7 +82,7 @@ void TaskUnit::TaskStartDie()
  * @brief	親タスク設定
  */
 /* ================================================ */
-void TaskUnit::AddConnectionParent(TaskUnit *parent)
+void TaskUnit::AddConnectionParent( TaskUnit *parent )
 {
 	//! 親に設定される
 	if(!m_pParent){
@@ -99,7 +99,7 @@ void TaskUnit::AddConnectionParent(TaskUnit *parent)
  * @brief	子タスク設定
  */
 /* ================================================ */
-void TaskUnit::SetChildUnit(TaskUnit *unit)
+void TaskUnit::SetChildUnit( TaskUnit *unit )
 {
 	unit->AddConnectionParent(this);
 	m_pChildVec.push_back(unit);
@@ -110,7 +110,7 @@ void TaskUnit::SetChildUnit(TaskUnit *unit)
  * @brief	親子関係の解除
  */
 /* ================================================ */
-void TaskUnit::ReleaseConnection(TaskUnit *unit)
+void TaskUnit::ReleaseConnection( TaskUnit *unit )
 {
 	if(m_pParent == unit){
 		m_pParent = NULL;
@@ -133,9 +133,9 @@ void TaskUnit::ReleaseConnection(TaskUnit *unit)
  * @brief	親にメッセージを投げる
  */
 /* ================================================ */
-void TaskUnit::SendMessageToParent(Message *msg)
+void TaskUnit::SendMessageToParent( Message *msg )
 {
-	if(m_pParent){
+	if( m_pParent ){
 		m_pParent->MessageReceive(msg);
 	}
 }
@@ -145,21 +145,21 @@ void TaskUnit::SendMessageToParent(Message *msg)
  * @brief	ステータス変更
  */
 /* ================================================ */
-void TaskUnit::SetStatus(TASK_STATUS status)
+void TaskUnit::SetStatus( const TASK_STATUS &status )
 {
 	m_status = status;
 }
 
-void TaskUnit::SetDieStateFromParent(TaskUnit *pParent)
+void TaskUnit::SetDieStateFromParent( TaskUnit *pParent )
 {
-	if(!m_pParent || m_pParent != pParent){
+	if( !m_pParent || m_pParent != pParent ){
 		DEBUG_ASSERT("親以外から呼ばれたかそもそも親がない\n");
 	}
 
 	//! 親子関係を解除して死ぬ準備
-	ReleaseConnection(pParent);
-	if(GetStatus() < TASK_PRE_DIE){
-		SetStatus(TASK_PRE_DIE);
+	ReleaseConnection( pParent );
+	if( GetStatus() < TASK_PRE_DIE ){
+		SetStatus( TASK_PRE_DIE );
 	}
 }
 

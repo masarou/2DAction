@@ -30,13 +30,13 @@ public:
 	void Action();
 
 	//! •`‰æ—\–ñ
-	void PushDrawInfo(TEX_DRAW_INFO &texInfo, int32_t &handle, KIND_2D kind = KIND_NORMAL, PRIORITY priority = PRIORITY_MIDDLE);
+	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const KIND_2D &kind = KIND_NORMAL, const PRIORITY &priority = PRIORITY_MIDDLE );
 
 	//! •`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
-	void DeleteDrawInfo(int32_t &handle);
+	void DeleteDrawInfo( const int32_t &handle );
 	
 	//! •`‰æ‚ðŠŠ‚ç‚©‚É‚·‚é‚©ƒtƒ‰ƒO
-	void SetUseBilinear(bool flag){m_useBilinear = flag;}
+	void SetUseBilinear( const bool &flag ){m_useBilinear = flag;}
 
 private:
 
@@ -52,7 +52,7 @@ private:
 	};
 
 	//! •`‰æŽwŽ¦
-	void DrawTexture(uint32_t drawIndex);
+	void DrawTexture( const uint32_t &drawIndex);
 
 	static Draw2DManager	*m_pInstance;
 

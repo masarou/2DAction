@@ -23,7 +23,7 @@ Draw2DManager::~Draw2DManager(void)
 
 void Draw2DManager::Create()
 {
-	if(m_pInstance){
+	if( m_pInstance ){
 		DEBUG_ASSERT("m_pInstance is Already Created");
 	}
 	else{
@@ -33,7 +33,7 @@ void Draw2DManager::Create()
 
 Draw2DManager *Draw2DManager::GetInstance()
 {
-	if(!m_pInstance){
+	if( !m_pInstance ){
 		DEBUG_ASSERT("m_pInstance is NULL");
 		return NULL;
 	}
@@ -45,7 +45,7 @@ Draw2DManager *Draw2DManager::GetInstance()
  * @brief	•`‰æƒ^ƒXƒN’Ç‰Á
  */
 /* ================================================ */
-void Draw2DManager::PushDrawInfo(TEX_DRAW_INFO &texInfo, int32_t &handle, KIND_2D kind, PRIORITY priority)
+void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const KIND_2D &kind, const PRIORITY &priority )
 {
 	DRAW2D task;
 
@@ -61,11 +61,11 @@ void Draw2DManager::PushDrawInfo(TEX_DRAW_INFO &texInfo, int32_t &handle, KIND_2
  * @brief	•`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
  */
 /* ================================================ */
-void Draw2DManager::DeleteDrawInfo(int32_t &handle)
+void Draw2DManager::DeleteDrawInfo( const int32_t &handle )
 {
 	std::vector<DRAW2D>::iterator it = m_vDrawTask.begin();
-	for(uint32_t i = 0; i < m_vDrawTask.size(); ++i){
-		if(handle == m_vDrawTask.at(i).m_handle){
+	for( uint32_t i = 0; i < m_vDrawTask.size(); ++i ){
+		if( handle == m_vDrawTask.at(i).m_handle ){
 			it = m_vDrawTask.erase(it);
 			break;
 		}
@@ -80,11 +80,11 @@ void Draw2DManager::DeleteDrawInfo(int32_t &handle)
 /* ================================================ */
 void Draw2DManager::Action()
 {
-	for(uint32_t i = 0; i < KIND_MAX; ++i){
-		for(uint32_t j = 0; j < PRIORITY_MAX; ++j){
-			for(uint32_t k = 0; k < m_vDrawTask.size(); ++k){
-				if(m_vDrawTask.at(k).m_info.m_kind2D == static_cast<KIND_2D>(i)
-					&& m_vDrawTask.at(k).m_info.m_prioity == static_cast<PRIORITY>(j)){
+	for( uint32_t i = 0; i < KIND_MAX; ++i ){
+		for( uint32_t j = 0; j < PRIORITY_MAX; ++j ){
+			for( uint32_t k = 0; k < m_vDrawTask.size(); ++k ){
+				if( m_vDrawTask.at(k).m_info.m_kind2D == static_cast<KIND_2D>(i)
+					&& m_vDrawTask.at(k).m_info.m_prioity == static_cast<PRIORITY>(j) ){
 						DrawTexture(k);
 				}
 			}
@@ -99,14 +99,14 @@ void Draw2DManager::Action()
  * @brief	•`‰æŽwŽ¦
  */
 /* ================================================ */
-void Draw2DManager::DrawTexture(uint32_t drawIndex)
+void Draw2DManager::DrawTexture( const uint32_t &drawIndex )
 {
-	if(drawIndex > m_vDrawTask.size()){
+	if( drawIndex > m_vDrawTask.size() ){
 		return;
 	}
 
 	DRAW2D tmpInfo = m_vDrawTask.at(drawIndex);
-	SetDrawBlendMode( DX_BLENDMODE_ALPHA, tmpInfo.m_info.m_alpha);
+	SetDrawBlendMode( DX_BLENDMODE_ALPHA, tmpInfo.m_info.m_alpha );
 
 	math::Vector2 pos = math::Vector2( tmpInfo.m_info.m_pos.x, tmpInfo.m_info.m_pos.y );
 	if( tmpInfo.m_info.m_usePlayerOffset ){
@@ -122,5 +122,5 @@ void Draw2DManager::DrawTexture(uint32_t drawIndex)
 		, true
 		);
 
-	SetDrawBlendMode( DX_BLENDMODE_NOBLEND,  0);
+	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
 }

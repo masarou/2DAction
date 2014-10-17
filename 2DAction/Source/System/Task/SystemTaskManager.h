@@ -29,7 +29,7 @@ public:
 	virtual ~TaskManagerBase(void);
 
 	//! ユニットの登録
-	void AddUnit(TaskUnit *unit);
+	void AddUnit( TaskUnit *unit );
 
 	//! 更新処理
 	void Update();

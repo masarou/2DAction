@@ -11,7 +11,7 @@ SoundManager::SoundManager(void)
 : TaskUnit("Sound Manager")
 , m_fadeTag(INVALID_VALUE)
 {
-	ChangeLoadTable("SoundTest.json", true);
+	ChangeLoadTableBGM("SoundTest.json");
 }
 
 
@@ -131,8 +131,22 @@ void SoundManager::SetBgmVolume(const char *tag, uint32_t volume)
 	ChangeVolumeSoundMem( volume, handle);
 }
 
+/* ================================================ */
+/**
+ * @brief	ロードするテーブル変更(読み込んでいるものはクリア)
+ */
+/* ================================================ */
+void SoundManager::ChangeLoadTableBGM( const std::string &tableStr )
+{
+	ChangeLoadTableMain( tableStr, true );
+}
 
-void SoundManager::ChangeLoadTable(std::string tableStr, bool isLoadSound)
+void SoundManager::ChangeLoadTableSE( const std::string &tableStr )
+{
+	ChangeLoadTableMain( tableStr, false );
+}
+
+void SoundManager::ChangeLoadTableMain( const std::string &tableStr, const bool &isLoadSound )
 {
 	//! まず初期化
 	if(isLoadSound){

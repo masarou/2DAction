@@ -89,22 +89,22 @@ public:
 
 protected:
 
-	InputWatcher(uint32_t padIndex = DX_INPUT_PAD1);
+	InputWatcher( const uint32_t &padIndex = DX_INPUT_PAD1 );
 	~InputWatcher(void);
 	
 	//! 監視パッド変更
-	void ChangeWatchPadIndex(uint32_t &padIndex){m_watchPadIndex = padIndex;}
+	void ChangeWatchPadIndex( const uint32_t &padIndex ){m_watchPadIndex = padIndex;}
 
 	//! ボタン押し判定
 	const STICK_INFO &GetStickInfoRight();
 	const STICK_INFO &GetStickInfoLeft();
-	bool IsButtonPush(const BUTTON_KIND &kind);
-	bool IsButtonPress(const BUTTON_KIND &kind);
-	bool IsButtonRelease(const BUTTON_KIND &kind);
+	bool IsButtonPush( const BUTTON_KIND &kind );
+	bool IsButtonPress( const BUTTON_KIND &kind );
+	bool IsButtonRelease( const BUTTON_KIND &kind );
 
 	//! ボタンのイベントステータス設定
-	void SetPadButtonState(const BUTTON_KIND &kind, const BUTTON_EVENT_KIND &eventKind);
-	bool IsButtonEvent(const BUTTON_KIND &kind);	//!設定しているボタンによって有効か無効か判断
+	void SetPadButtonState( const BUTTON_KIND &kind, const BUTTON_EVENT_KIND &eventKind );
+	bool IsButtonEvent( const BUTTON_KIND &kind );	//!設定しているボタンによって有効か無効か判断
 
 
 	void CallPadEvent();
@@ -124,11 +124,11 @@ protected:
 	virtual void PadEventDown(){};
 	virtual void PadEventRight(){};
 	virtual void PadEventLeft(){};
-	virtual void PadEventCommand(uint32_t commandKind){};
+	virtual void PadEventCommand( const uint32_t &commandKind ){};
 
 	//! 以下必要な時に呼ぶ
 	//! コマンド作成
-	void MakeCommandTable(CommandTable *table);
+	void MakeCommandTable( CommandTable *table );
 
 private:
 
@@ -153,8 +153,8 @@ private:
 
 		BUTTON_MAX,
 	};
-	const STICK_INFO GetStickInfo(const STICK_KIND &stickKind);
-	BUTTON ConvButtonKindToButton(const BUTTON_KIND &kind);
+	const STICK_INFO GetStickInfo( const STICK_KIND &stickKind );
+	BUTTON ConvButtonKindToButton( const BUTTON_KIND &kind );
 
 	uint32_t	m_buttonState;					//!< 現在のボタンステータス
 	uint32_t	m_preButtonState;				//!< 前フレームのボタンステータス
@@ -180,7 +180,7 @@ class CommandTable{
 
 public:
 
-	CommandTable(uint8_t waitTime, uint32_t messageKind);
+	CommandTable( const uint8_t &waitTime, const uint32_t &messageKind );
 	~CommandTable();
 	static const uint8_t COMBINATION_MAX = 3;
 	static const uint8_t COMMAND_MAX = 10;
@@ -189,7 +189,7 @@ public:
 	const uint32_t &GetCommandKind(){return m_commandKind;}
 
 	//! コマンドチェック＋次ステップに進む
-	bool CheckCommand(uint32_t watchPad);
+	bool CheckCommand( const uint32_t &watchPad );
 	//! 実際のコマンド
 	uint32_t m_table[COMMAND_MAX+1][COMBINATION_MAX];
 
@@ -200,7 +200,7 @@ private:
 	//! ステップ等リセット
 	void Reset();
 	//! 指定ステップが押されているかどうか
-	bool IsStepButtonPress(uint32_t stepIndex, uint32_t watchPad);
+	bool IsStepButtonPress( const uint32_t &stepIndex, const uint32_t &watchPad );
 
 	//! 現在どこまでコマンド入力がされているか
 	uint8_t m_commandStep;

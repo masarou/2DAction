@@ -53,11 +53,11 @@ public:
 	bool IsDie();
 
 	//! 基本的に使用禁止
-	void SetDieStateFromParent(TaskUnit *pParent);
+	void SetDieStateFromParent( TaskUnit *pParent );
 
 protected:
 
-	TaskUnit(std::string name = "No Name", TASK_STATUS status = TASK_INIT);
+	TaskUnit( std::string name = "No Name", TASK_STATUS status = TASK_INIT );
 	virtual ~TaskUnit(void);
 
 	virtual bool Init(){return true;}
@@ -67,22 +67,22 @@ protected:
 	virtual bool DieMain(){return true;}
 
 	// 派生先でのメッセージ処理
-	virtual void MessageReceive(Message *msg){}
+	virtual void MessageReceive( Message *msg ){}
 
 	// 死ぬ時はこれを呼んで下さい
 	void TaskStartDie();
 
 	//! 親クラスの登録
-	void AddConnectionParent(TaskUnit *unit);
+	void AddConnectionParent( TaskUnit *unit );
 
 	//! 子クラスの登録
-	void SetChildUnit(TaskUnit *parent);
+	void SetChildUnit( TaskUnit *parent );
 
 	//! 親子関係の解除
-	void ReleaseConnection(TaskUnit *unit);
+	void ReleaseConnection( TaskUnit *unit );
 
 	//! 親にメッセージを投げる
-	void SendMessageToParent(Message *msg);
+	void SendMessageToParent( Message *msg );
 
 	//! タスクにイベント追加
 	void AddEvent( const Common::CMN_EVENT &cmnEvent );
@@ -90,7 +90,7 @@ protected:
 private:
 
 	//! ステータス変更
-	void SetStatus(TASK_STATUS status);
+	void SetStatus( const TASK_STATUS &status );
 
 	//! taskManagerから呼ばれるEvent関連処理を始める関数
 	void StartEventUpdate();

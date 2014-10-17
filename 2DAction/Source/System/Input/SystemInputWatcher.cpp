@@ -13,7 +13,7 @@
 //! スティックの無効範囲
 #define STICK_INVALID_RANGE 250
 
-InputWatcher::InputWatcher(uint32_t padIndex)
+InputWatcher::InputWatcher( const uint32_t &padIndex )
 : m_buttonState(0)
 , m_preButtonState(0)
 , m_watchPadIndex(padIndex)
@@ -50,9 +50,9 @@ InputWatcher::~InputWatcher(void)
  * @brief	ボタンが押されたかどうかの判定
  */
 /* ================================================ */
-bool InputWatcher::IsButtonPush(const BUTTON_KIND &kind)
+bool InputWatcher::IsButtonPush( const BUTTON_KIND &kind )
 {
-	if((m_buttonState & kind) && !(m_preButtonState & kind)){
+	if( (m_buttonState & kind) && !(m_preButtonState & kind) ){
 		return true;
 	}
 	return false;
@@ -63,7 +63,7 @@ bool InputWatcher::IsButtonPush(const BUTTON_KIND &kind)
  * @brief	ボタンが押されているかどうかの判定
  */
 /* ================================================ */
-bool InputWatcher::IsButtonPress(const BUTTON_KIND &kind)
+bool InputWatcher::IsButtonPress( const BUTTON_KIND &kind )
 {
 	if(m_buttonState & kind){
 		return true;
@@ -76,9 +76,9 @@ bool InputWatcher::IsButtonPress(const BUTTON_KIND &kind)
  * @brief	ボタンが離されたかどうかの判定
  */
 /* ================================================ */
-bool InputWatcher::IsButtonRelease(const BUTTON_KIND &kind)
+bool InputWatcher::IsButtonRelease( const BUTTON_KIND &kind )
 {
-	if(!(m_buttonState & kind) && (m_preButtonState & kind)){
+	if( !(m_buttonState & kind) && (m_preButtonState & kind) ){
 		return true;
 	}
 	return false;
@@ -89,7 +89,7 @@ bool InputWatcher::IsButtonRelease(const BUTTON_KIND &kind)
  * @brief	ボタンのイベントステータス設定
  */
 /* ================================================ */
-void InputWatcher::SetPadButtonState(const BUTTON_KIND &kind, const BUTTON_EVENT_KIND &eventKind)
+void InputWatcher::SetPadButtonState( const BUTTON_KIND &kind, const BUTTON_EVENT_KIND &eventKind )
 {
 	BUTTON button = ConvButtonKindToButton(kind);
 	m_buttonEventStatus[button] = eventKind;
@@ -100,11 +100,11 @@ void InputWatcher::SetPadButtonState(const BUTTON_KIND &kind, const BUTTON_EVENT
  * @brief	ボタンのイベントステータスによって呼ぶ関数変更
  */
 /* ================================================ */
-bool InputWatcher::IsButtonEvent(const BUTTON_KIND &kind)
+bool InputWatcher::IsButtonEvent( const BUTTON_KIND &kind )
 {
 	BUTTON button = ConvButtonKindToButton(kind);
 
-	switch(m_buttonEventStatus[button]){
+	switch( m_buttonEventStatus[button] ){
 	case EVENT_NOUSE:
 		break;
 	case EVENT_PUSH:
@@ -232,17 +232,17 @@ const InputWatcher::STICK_INFO &InputWatcher::GetStickInfoLeft()
  * @brief	スティックの情報取得(内部用)
  */
 /* ================================================ */
-const InputWatcher::STICK_INFO InputWatcher::GetStickInfo(const InputWatcher::STICK_KIND &stickKind)
+const InputWatcher::STICK_INFO InputWatcher::GetStickInfo( const InputWatcher::STICK_KIND &stickKind )
 {
 	int xx = 0;
 	int yy = 0;
 	math::Angle angle = 0.0f;
 
 	if(stickKind == STICK_LEFT){
-		GetJoypadAnalogInput( &xx, &yy, m_watchPadIndex);
+		GetJoypadAnalogInput( &xx, &yy, m_watchPadIndex );
 	}
 	else{
-		GetJoypadAnalogInputRight( &xx, &yy, m_watchPadIndex);
+		GetJoypadAnalogInputRight( &xx, &yy, m_watchPadIndex );
 	}
 
 	if(math::Abs(xx) < STICK_INVALID_RANGE
@@ -268,12 +268,12 @@ const InputWatcher::STICK_INFO InputWatcher::GetStickInfo(const InputWatcher::ST
  * @brief	複数のボタンを押す処理を作成
  */
 /* ================================================ */
-void InputWatcher::MakeCommandTable(CommandTable *table)
+void InputWatcher::MakeCommandTable( CommandTable *table )
 {
 	m_vCommandTable.push_back(table);
 }
 
-CommandTable::CommandTable(uint8_t waitTime, uint32_t commandKind)
+CommandTable::CommandTable( const uint8_t &waitTime, const uint32_t &commandKind )
 : m_commandStep(0)
 , m_waitTime(0)
 , m_waitTimeMax(waitTime)
@@ -295,11 +295,11 @@ CommandTable::~CommandTable(){
  * @brief	コマンドチェック＋次ステップに進む
  */
 /* ================================================ */
-bool CommandTable::CheckCommand(uint32_t watchPad)
+bool CommandTable::CheckCommand( const uint32_t &watchPad )
 {
 	bool isCommandFinish = false;
 
-	if(IsStepButtonPress(m_commandStep, watchPad)){
+	if( IsStepButtonPress(m_commandStep, watchPad) ){
 		//! 入力待機時間をリセットして次ステップへ
 		IncStep();
 		DEBUG_PRINT("step : %d \n", m_commandStep);
@@ -341,7 +341,7 @@ void CommandTable::Reset()
  * @brief	指定ステップが押されているかどうか
  */
 /* ================================================ */
-bool CommandTable::IsStepButtonPress(uint32_t stepIndex, uint32_t watchPad)
+bool CommandTable::IsStepButtonPress( const uint32_t &stepIndex, const uint32_t &watchPad )
 {
 	bool isStepPress = true;
 	for(uint32_t i = 0; i < COMBINATION_MAX; ++i){
@@ -350,7 +350,7 @@ bool CommandTable::IsStepButtonPress(uint32_t stepIndex, uint32_t watchPad)
 			break;
 		}
 		int state = GetJoypadInputState( watchPad );
-		if((state & m_table[stepIndex][i]) && !(m_prePadState & m_table[stepIndex][i])){
+		if( (state & m_table[stepIndex][i]) && !(m_prePadState & m_table[stepIndex][i]) ){
 			isStepPress = true;
 		}
 		else{
@@ -361,7 +361,7 @@ bool CommandTable::IsStepButtonPress(uint32_t stepIndex, uint32_t watchPad)
 	return isStepPress;
 }
 
-InputWatcher::BUTTON InputWatcher::ConvButtonKindToButton(const BUTTON_KIND &kind)
+InputWatcher::BUTTON InputWatcher::ConvButtonKindToButton( const BUTTON_KIND &kind )
 {
 	switch(kind){
 	case BUTTON_UP:			return UP;		break;

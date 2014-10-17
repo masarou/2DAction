@@ -59,11 +59,11 @@ TextureResourceManager *TextureResourceManager::GetInstance()
  * @brief	jsonファイルから描画情報取得
  */
 /* ================================================ */
-void TextureResourceManager::LoadTextureInfo(const char *jsonFile)
+void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 {
 	//! もうすでに読み込んでいるかチェック
-	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
-		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
+	for( uint32_t i = 0; i < m_vRecource2D.size(); ++i ){
+		if( m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0 ){
 			//! 読み込み済み
 			++m_vRecource2D.at(i).m_readCounter;
 			DEBUG_PRINT("/_/_/リソース再読み込み counter = %d/_/_/\n", m_vRecource2D.at(i).m_readCounter);
@@ -101,15 +101,15 @@ void TextureResourceManager::LoadTextureInfo(const char *jsonFile)
 
 	//! アニメ情報取得
 	picojson::value animData = root.get("animeInfo");
-	for(uint32_t i = 0;; ++i){
+	for( uint32_t i = 0;; ++i ){
 		picojson::value null;
-		if(animData.get(i) == null){
+		if( animData.get(i) == null ){
 			break;
 		}
 		ANIM_INFO data;
 		data.Init();
-		for(uint32_t j = 0;;++j){
-			if(animData.get(i).get("animIndex").get(j) == null){
+		for( uint32_t j = 0;;++j ){
+			if( animData.get(i).get("animIndex").get(j) == null ){
 				break;
 			}
 			uint32_t animIndex = static_cast<uint32_t>(animData.get(i).get("animIndex").get(j).get<double>());
@@ -136,19 +136,19 @@ void TextureResourceManager::LoadTextureInfo(const char *jsonFile)
  * @brief	描画情報削除
  */
 /* ================================================ */
-void TextureResourceManager::DeleteTextureInfo(const char *jsonFile)
+void TextureResourceManager::DeleteTextureInfo( const char *jsonFile )
 {
 	DEBUG_PRINT("/_/_/リソース解放 : %s/_/_/\n", jsonFile);
 	std::vector<RESOURCE_TEX>::iterator it = m_vRecource2D.begin();
-	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
+	for( uint32_t i = 0; i < m_vRecource2D.size(); ++i ){
 		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
 			//! 発見!!!
 			--m_vRecource2D.at(i).m_readCounter;
 
-			if(m_vRecource2D.at(i).m_readCounter <= 0){
+			if( m_vRecource2D.at(i).m_readCounter <= 0 ){
 				//! メモリ解放
-				for(uint32_t j = 0; j < NUMBEROF(it->m_texHandle); ++j){
-					if(it->m_texHandle[j] == INVALID_VALUE){
+				for( uint32_t j = 0; j < NUMBEROF(it->m_texHandle); ++j ){
+					if( it->m_texHandle[j] == INVALID_VALUE ){
 						break;
 					}
 					DeleteGraph(it->m_texHandle[j]);
@@ -174,8 +174,8 @@ void TextureResourceManager::DeleteTextureInfo(const char *jsonFile)
 /* ================================================ */
 const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jsonFile )
 {
-	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
-		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
+	for( uint32_t i = 0; i < m_vRecource2D.size(); ++i ){
+		if( m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0 ){
 			return m_vRecource2D.at(i).m_texInfo;
 		}
 	}
@@ -188,12 +188,12 @@ const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jso
  * @brief	指定のjsonファイルからアニメ全体のHandle情報を取得
  */
 /* ================================================ */
-void TextureResourceManager::GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle)
+void TextureResourceManager::GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle )
 {
 	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
-		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
-			for(uint32_t j = 0; j < NUMBEROF(m_vRecource2D.at(i).m_texHandle);++j){
-				if(m_vRecource2D.at(i).m_texHandle[j] == INVALID_VALUE){
+		if( m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0 ){
+			for( uint32_t j = 0; j < NUMBEROF(m_vRecource2D.at(i).m_texHandle);++j ){
+				if( m_vRecource2D.at(i).m_texHandle[j] == INVALID_VALUE ){
 					return;
 				}
 				vHandle.push_back(m_vRecource2D.at(i).m_texHandle[j]);
@@ -221,7 +221,7 @@ const std::string TextureResourceManager::GetDefaultAnimName( const char *jsonFi
  * @brief	指定のjsonファイルから再生アニメ名取得
  */
 /* ================================================ */
-void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim)
+void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim )
 {
 	const TEX_INIT_INFO &texInfo = GetLoadTextureInfo( jsonFile );
 	for(uint32_t j = 0; j < texInfo.m_vAnimName.size();++j){
@@ -235,12 +235,12 @@ void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<
  *			適切なHandle配列のIndex値を返す
  */
 /* ================================================ */
-const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, const char *animName, uint32_t &frame)
+const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, const char *animName, uint32_t &frame )
 {
 	uint32_t drawIndex = INVALID_VALUE;
 
 	const TEX_INIT_INFO &texInfo = GetLoadTextureInfo( jsonFile );
-	for(uint32_t j = 0; j < texInfo.m_vAnimName.size(); ++j){
+	for( uint32_t j = 0; j < texInfo.m_vAnimName.size(); ++j ){
 		if(texInfo.m_vAnimName.at(j).m_animTag.compare(animName) == 0){
 			//! 表示すべき画像のIndexを調べる
 			const ANIM_INFO &animInfo = texInfo.m_vAnimName.at(j);

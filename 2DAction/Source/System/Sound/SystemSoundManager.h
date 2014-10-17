@@ -26,16 +26,17 @@ public:
 	virtual void Update();
 
 	//! SEの処理(あらかじめ読み込んでおくのが前提)
-	void PlaySE(const char *tagSE);
-	void StopSE(const char *tagSE);
+	void PlaySE( const char *tagSE );
+	void StopSE( const char *tagSE );
 
 	//! BGMの再生(あらかじめ読み込んでおくのが前提)
-	void PlayBGM(const char *tagBGM);
-	void StopBGM(bool isFade = true);
-	void SetBgmVolume(const char *tag, uint32_t volume);
+	void PlayBGM( const char *tagBGM );
+	void StopBGM( const bool isFade = true );
+	void SetBgmVolume(const char *tag, uint32_t volume );
 
-	//! ロードするテーブル変更
-	void ChangeLoadTable(std::string tableStr, bool isLoadSound = false);
+	//! ロードするテーブル変更(読み込んでいるものはクリア)
+	void ChangeLoadTableBGM( const std::string &tableStr );
+	void ChangeLoadTableSE( const std::string &tableStr );
 
 private:
 
@@ -50,8 +51,11 @@ private:
 		}
 	};
 
+	//! ロードするテーブル変更
+	void ChangeLoadTableMain( const std::string &tableStr, const bool &isLoadSound = false );
+
 	//! 指定した識別名のハンドルIDを取得
-	const uint32_t &GetHandleId(const char *tag);
+	const uint32_t &GetHandleId( const char *tag );
 
 	SoundManager(void);
 

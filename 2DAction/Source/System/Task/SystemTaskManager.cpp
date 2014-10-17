@@ -41,7 +41,7 @@ TaskManagerBase::~TaskManagerBase(void)
  * @brief	É^ÉXÉNí«â¡
  */
 /* ================================================ */
-void TaskManagerBase::AddUnit(TaskUnit *unit)
+void TaskManagerBase::AddUnit( TaskUnit *unit )
 {
 	DEBUG_ASSERT(unit);
 	m_vTaskUnit.push_back(unit);
