@@ -14,11 +14,14 @@
 
 #include "Game/Game2DBase.h"
 
+// 固定値
+static const uint32_t BULLET_LIVE_TIME	= 300;
+
 class Bullet
 {
 
 public:
-	Bullet( uint32_t uniqueNum, math::Vector2 &pos, math::Vector2 &vec );
+	Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec );
 	~Bullet(void);
 
 	// 情報セット

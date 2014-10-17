@@ -19,15 +19,15 @@ class Game2DBase
 {
 public:
 
-	Game2DBase(const char *jsonFile);
+	Game2DBase( const char *jsonFile );
 	virtual ~Game2DBase(void);
 
 	//!再生中アニメの変更、取得
-	void SetAnim(std::string animTag);							
+	void SetAnim( const std::string &animTag );							
 	const char *GetPlayAnim(){return m_currentAnimTag.c_str();}
 	
 	//!描画設定更新
-	void SetDrawInfo(const TEX_DRAW_INFO &info);
+	void SetDrawInfo( const TEX_DRAW_INFO &info );
 	
 	//!設定アニメの更新
 	void DrawUpdate2D();

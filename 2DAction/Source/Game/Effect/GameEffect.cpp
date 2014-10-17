@@ -10,7 +10,7 @@
 #include "GameEffect.h"
 
 
-GameEffect::GameEffect( EFFECT_KIND kind, uint32_t posX, uint32_t posY )
+GameEffect::GameEffect( const EFFECT_KIND &kind, const uint32_t &posX, const uint32_t &posY )
 	: TaskUnit("GameEffect")
 	, m_kind( kind )
 	, m_pEffect( NULL )

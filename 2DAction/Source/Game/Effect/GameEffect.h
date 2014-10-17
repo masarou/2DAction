@@ -24,7 +24,7 @@ public:
 
 	};
 
-	GameEffect( EFFECT_KIND kind, uint32_t posX, uint32_t posY );
+	GameEffect( const EFFECT_KIND &kind, const uint32_t &posX, const uint32_t &posY );
 	~GameEffect(void);
 
 protected:

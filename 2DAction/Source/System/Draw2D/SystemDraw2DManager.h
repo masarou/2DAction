@@ -30,7 +30,7 @@ public:
 	void Action();
 
 	//! •`‰æ—\–ñ
-	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const KIND_2D &kind = KIND_NORMAL, const PRIORITY &priority = PRIORITY_MIDDLE );
+	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const KIND_2D &kind = KIND_NORMAL, const PRIORITY &priority = PRIORITY_NORMAL );
 
 	//! •`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
 	void DeleteDrawInfo( const int32_t &handle );

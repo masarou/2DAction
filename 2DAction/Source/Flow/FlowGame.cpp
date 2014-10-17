@@ -49,7 +49,7 @@ void FlowGame::FlowUpdate()
 
 	ChildUpdate();
 
-	if(player->IsNext()){
-		StartFade("proceed");
-	}
+	//if(player->IsNext()){
+	//	StartFade("proceed");
+	//}
 }

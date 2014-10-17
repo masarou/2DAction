@@ -27,9 +27,13 @@ enum KIND_2D{
 };
 
 enum PRIORITY{
-	PRIORITY_HIGH,
-	PRIORITY_MIDDLE,
+	PRIORITY_LOWEST,
 	PRIORITY_LOW,
+	PRIORITY_BELOW_NORMAL,	// ïWèÄà»â∫
+	PRIORITY_NORMAL,		// ïWèÄ
+	PRIORITY_ABOVE_NORMAL,	// ïWèÄà»è„
+	PRIORITY_HIGH,
+	PRIORITY_HIGHEST,
 
 	PRIORITY_MAX,
 };
@@ -87,7 +91,7 @@ struct TEX_DRAW_INFO{
 		m_rot = math::Angle();
 		m_alpha = 255;
 		m_kind2D = KIND_NORMAL;
-		m_prioity = PRIORITY_MIDDLE;
+		m_prioity = PRIORITY_NORMAL;
 	}
 };
 

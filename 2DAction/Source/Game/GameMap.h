@@ -36,7 +36,7 @@ private:
 	};
 
 	//!ƒ}ƒbƒvî•ñ“Ç‚İ‚İ
-	void LoadTextureInfo(const char *jsonFile);
+	void LoadTextureInfo( const char *jsonFile );
 
 	
 	TEX_INIT_INFO				m_texInfo;

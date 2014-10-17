@@ -29,7 +29,7 @@ public:
 
 protected:
 
-	EnemyBase( std::string jsonName, uint32_t uniqueId, Common::ENEMY_KIND kind );
+	EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind );
 	virtual void HitPlayreBullet();				// ’e‚ª“–‚½‚Á‚½‚Ìˆ—
 
 protected:

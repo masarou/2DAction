@@ -16,7 +16,7 @@ class EnemyAAA : public EnemyBase
 {
 public:
 
-	static EnemyAAA *Create( uint32_t uniqueID );
+	static EnemyAAA *Create( const uint32_t &uniqueID );
 
 protected:
 	
@@ -24,7 +24,7 @@ protected:
 
 private:
 
-	EnemyAAA( uint32_t uniqueID );
+	EnemyAAA( const uint32_t &uniqueID );
 	~EnemyAAA(void);
 
 };

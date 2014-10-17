@@ -68,7 +68,7 @@ void Game2DBase::DrawUpdate2D()
  * @brief	再生アニメ変更
  */
 /* ================================================ */
-void Game2DBase::SetAnim(std::string animTag)
+void Game2DBase::SetAnim( const std::string &animTag )
 {
 	if(m_currentAnimTag.compare(animTag.c_str()) == 0){
 		//!再生中アニメなら無視

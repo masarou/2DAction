@@ -11,7 +11,7 @@
 #include "Game/Effect/GameEffect.h"
 #include "EnemyManager.h"
 
-EnemyBase::EnemyBase( std::string jsonName, uint32_t uniqueId, Common::ENEMY_KIND kind )
+EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind )
 : m_uniqueIdOfEnemyAll( uniqueId )
 , m_enemyKind( kind )
 , m_HP(1)

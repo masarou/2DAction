@@ -13,7 +13,7 @@
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/Enemy/EnemyManager.h"
 
-Bullet::Bullet( uint32_t uniqueNum, math::Vector2 &pos, math::Vector2 &vec )
+Bullet::Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec )
 	: m_uniqueNumber( uniqueNum )
 	, m_liveTime( 0 )
 	, m_drawBullet( NULL )
@@ -39,9 +39,13 @@ void Bullet::Update()
 	m_drawBullet->SetDrawInfo(m_bulletInfo);
 
 	// 敵に当たったかチェック
-	EnemyManager::GetInstance()->CheckCollision( this );
-
-	++m_liveTime;
+	bool isHit = EnemyManager::GetInstance()->CheckCollisionToBullet( this );
+	if( isHit ){
+		m_liveTime = BULLET_LIVE_TIME;
+	}
+	else{
+		++m_liveTime;
+	}
 }
 
 void Bullet::Draw()

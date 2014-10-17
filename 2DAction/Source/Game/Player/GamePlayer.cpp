@@ -6,13 +6,16 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "Game/Enemy/EnemyManager.h"
 
+static uint32_t DAMAGE_INVISIBLE_TIME = 180;
+
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
-, m_nextFlag(false)
+, m_invisibleTime(0)
 {
 	// 描画クラスセットアップ
 	m_player2D = NEW Game2DBase("player.json");
 	m_playerInfo.Init();
+	m_playerInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_playerInfo.m_usePlayerOffset = false;
 	m_playerInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
 	m_playerInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
@@ -32,6 +35,11 @@ void GamePlayer::Update()
 {
 	CallPadEvent();
 
+	// 無敵時間中ならデクリメント
+	if( m_invisibleTime > 0 ){
+		--m_invisibleTime;
+	}
+
 	// 攻撃判定
 	if( GetStickInfoRight().m_vec != math::Vector2() ){
 		math::Vector2 pos = math::Vector2( m_playerInfo.m_pos.x, m_playerInfo.m_pos.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
@@ -39,6 +47,16 @@ void GamePlayer::Update()
 		vec.Normalize();
 		m_attackGun->ShootBullet( pos, vec );
 	}
+
+	// 敵に当たったかチェック
+	bool isHit = EnemyManager::GetInstance()->CheckCollisionToPlayer( this );
+	if( isHit ){
+		Common::CMN_EVENT hitEvent;
+		hitEvent.m_event		= Common::EVENT_HIT_ENEMY;
+		hitEvent.m_eventValue	= INVALID_VALUE;
+		AddEvent( hitEvent );
+	}
+
 }
 
 void GamePlayer::DrawUpdate()
@@ -51,8 +69,13 @@ void GamePlayer::DrawUpdate()
 	DrawFormatString( 0, 10, Color, "PlayerX = %.1f, PlayerY = %.1f\n", xx, yy);
 #endif
 
-	// プレイヤー描画
-	m_player2D->DrawUpdate2D();
+	if( m_invisibleTime % 3 == 1 ){
+		// ダメージを受けない時間帯ならば3フレに一回描画せず点滅させる
+	}
+	else{
+		// プレイヤー描画
+		m_player2D->DrawUpdate2D();
+	}
 }
 
 bool GamePlayer::DieMain(){
@@ -130,13 +153,22 @@ void GamePlayer::PadEventLeft()
 
 void GamePlayer::PadEventDecide()
 {
-	GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50);
-	//m_nextFlag = true;
+	GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50 );
 }
 
 void GamePlayer::PadEventCancel()
 {
 	EnemyManager::GetInstance()->CreateEnemy( Common::KIND_AAA );
+}
+
+/* ================================================ */
+/**
+ * @brief	情報取得関数
+ */
+/* ================================================ */
+const TEX_DRAW_INFO &GamePlayer::GetDrawInfo()
+{
+	return m_player2D->GetDrawInfo();
 }
 
 /* ================================================ */
@@ -148,7 +180,9 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
 	case Common::EVENT_HIT_ENEMY:
-		EventDamage();
+		if( m_invisibleTime == 0 ){
+			EventDamage();
+		}
 		break;
 	case Common::EVENT_GET_ITEM:
 		PlayerGetItem( eventId.m_eventValue );
@@ -170,7 +204,8 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 void GamePlayer::EventDamage()
 {
 
-
+	// ダメージを受けたら一定時間ダメージを受けない
+	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
 }
 
 // アイテム取得

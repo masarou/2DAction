@@ -10,8 +10,7 @@
 #include "GamePlayerAttackGun.h"
 
 // ŒÅ’è’l
-static const uint32_t BULLET_LIVE_TIME	= 300;
-static const uint32_t SHOOT_INTERBAL	= 0;
+static const uint32_t SHOOT_INTERBAL	= 10;
 
 AttackGun::AttackGun(void)
 	: m_intervalTime( 0 )
@@ -56,7 +55,7 @@ void AttackGun::DrawUpdate()
 
 	// ¶¬‚³‚ê‚Äˆê’èŠÔ‚ğ’´‚¦‚½‚à‚Ì‚Ííœ
 	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
-		if( m_magazine.at( i )->GetLiveTime() > BULLET_LIVE_TIME ){
+		if( m_magazine.at( i )->GetLiveTime() >= BULLET_LIVE_TIME ){
 			DeleteBullet( m_magazine.at( i )->GetUniqueNumber() );
 		}
 	}

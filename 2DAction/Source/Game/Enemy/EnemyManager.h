@@ -11,6 +11,7 @@
 #include "System/SystemDefine.h"
 #include "EnemyBase.h"
 
+class GamePlayer;
 class Bullet;
 
 class EnemyManager : TaskUnit
@@ -19,9 +20,12 @@ class EnemyManager : TaskUnit
 public:
 
 	static EnemyManager *GetInstance();
-	void CreateEnemy( Common::ENEMY_KIND kind );	// 敵キャラ生成
-	void DeleteEnemy( uint32_t uniqueNumber );		// 指定クラスを管理から外す
-	void CheckCollision( Bullet *bullet );			// プレイヤーの弾との当たり判定
+	void CreateEnemy( const Common::ENEMY_KIND &kind );		// 敵キャラ生成
+	void DeleteEnemy( const uint32_t &uniqueNumber );		// 指定クラスを管理から外す
+
+	bool CheckCollision( const TEX_DRAW_INFO &texInfo );	// 何かしらの描画物が敵に当たっているかどうかチェック
+	bool CheckCollisionToBullet( Bullet *bullet );			// プレイヤーの弾との当たり判定
+	bool CheckCollisionToPlayer( GamePlayer *player );		// プレイヤーとの当たり判定
 
 protected:
 	

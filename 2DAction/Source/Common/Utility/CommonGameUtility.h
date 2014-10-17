@@ -12,8 +12,9 @@
 
 void AddPlayerOffsetPos( math::Vector2 &pos );
 
-const math::Vector2 GetPlayerOffsetPos();
+const math::Vector2 &GetPlayerOffsetPos();
 
+// •`‰æˆÊ’u‚ªd‚È‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©(“–‚½‚è”»’è)
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB );
 
 #endif

@@ -33,8 +33,9 @@ public:
 	virtual void PadEventLeft() override;
 	virtual void PadEventDecide() override;
 	virtual void PadEventCancel() override;
-
-	bool IsNext(){return m_nextFlag;}
+	
+	// 情報取得
+	const TEX_DRAW_INFO &GetDrawInfo();
 
 protected:
 
@@ -46,9 +47,6 @@ private:
 	void EventDamage();
 	void PlayerGetItem( const uint32_t &itemId );
 
-
-
-	bool				m_nextFlag;
 	uint32_t			m_invisibleTime;//	何らかの理由で敵の攻撃を受けない時間
 	Game2DBase			*m_player2D;	// ユーザーの画像等管理
 	AttackGun			*m_attackGun;	// マシンガンクラス
