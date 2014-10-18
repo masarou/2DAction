@@ -12,6 +12,7 @@ SoundManager::SoundManager(void)
 , m_fadeTag(INVALID_VALUE)
 {
 	ChangeLoadTableBGM("SoundTest.json");
+	ChangeLoadTableSE("SoundTestSE.json");
 }
 
 

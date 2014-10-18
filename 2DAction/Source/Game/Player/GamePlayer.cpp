@@ -90,7 +90,6 @@ bool GamePlayer::DieMain(){
 /* ================================================ */
 void GamePlayer::PadEventUp()
 {
-	//SoundManager::GetInstance()->PlayBGM("SE_TEST01");
 	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, -3.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_UP)){
@@ -203,6 +202,8 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 // 敵と接触した
 void GamePlayer::EventDamage()
 {
+	// ダメージ音
+	SoundManager::GetInstance()->PlaySE("Damage");
 
 	// ダメージを受けたら一定時間ダメージを受けない
 	m_invisibleTime = DAMAGE_INVISIBLE_TIME;

@@ -47,6 +47,9 @@
     <Filter Include="Game\Effect">
       <UniqueIdentifier>{7eacabea-4dfb-46cf-a861-23a175321c46}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Item">
+      <UniqueIdentifier>{8d4d66c3-1b90-43e1-a05c-91e63b042c82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -151,6 +154,15 @@
     <ClInclude Include="Source\Math\MathUtility.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Flow\FlowResult.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Item\ItemManager.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Item\ItemObject.h">
+      <Filter>Game\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -240,6 +252,15 @@
     </ClCompile>
     <ClCompile Include="Source\Math\MathUtility.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowResult.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Item\ItemManager.cpp">
+      <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Item\ItemObject.cpp">
+      <Filter>Game\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

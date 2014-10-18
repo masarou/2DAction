@@ -16,6 +16,7 @@
     <ClCompile Include="Source\Flow\FlowBase.cpp" />
     <ClCompile Include="Source\Flow\FlowGame.cpp" />
     <ClCompile Include="Source\Flow\FlowManager.cpp" />
+    <ClCompile Include="Source\Flow\FlowResult.cpp" />
     <ClCompile Include="Source\Flow\FlowTable.cpp" />
     <ClCompile Include="Source\Flow\FlowTitle.cpp" />
     <ClCompile Include="Source\Game\Effect\GameEffect.cpp" />
@@ -24,6 +25,8 @@
     <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Game\Game2DBase.cpp" />
     <ClCompile Include="Source\Game\GameMap.cpp" />
+    <ClCompile Include="Source\Game\Item\ItemManager.cpp" />
+    <ClCompile Include="Source\Game\Item\ItemObject.cpp" />
     <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp" />
     <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayer.cpp" />
@@ -49,6 +52,7 @@
     <ClInclude Include="Source\Flow\FlowBase.h" />
     <ClInclude Include="Source\Flow\FlowGame.h" />
     <ClInclude Include="Source\Flow\FlowManager.h" />
+    <ClInclude Include="Source\Flow\FlowResult.h" />
     <ClInclude Include="Source\Flow\FlowTable.h" />
     <ClInclude Include="Source\Flow\FlowTitle.h" />
     <ClInclude Include="Source\Game\Effect\GameEffect.h" />
@@ -57,6 +61,8 @@
     <ClInclude Include="Source\Game\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Game\Game2DBase.h" />
     <ClInclude Include="Source\Game\GameMap.h" />
+    <ClInclude Include="Source\Game\Item\ItemManager.h" />
+    <ClInclude Include="Source\Game\Item\ItemObject.h" />
     <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h" />
     <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h" />
     <ClInclude Include="Source\Game\Player\GamePlayer.h" />

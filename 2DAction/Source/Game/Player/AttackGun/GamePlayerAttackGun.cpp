@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "GamePlayerAttackGun.h"
+#include "System/Sound/SystemSoundManager.h"
 
 // ŒÅ’è’l
 static const uint32_t SHOOT_INTERBAL	= 10;
@@ -78,6 +79,9 @@ void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 		static uint32_t uniqueNum = 0;
 		Bullet *bul = NEW Bullet( uniqueNum, pos, vec );
 		m_magazine.push_back( bul );
+		
+		// ”­ŽË‰¹‚ð–Â‚ç‚·
+		SoundManager::GetInstance()->PlaySE("ShootBullet");
 
 		// ˆê’èŠÔŠu‚ÌŽžŠÔ‚ðÝ‚¯‚é
 		m_intervalTime += SHOOT_INTERBAL;

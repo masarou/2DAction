@@ -10,6 +10,7 @@
 #include "EnemyBase.h"
 #include "Game/Effect/GameEffect.h"
 #include "EnemyManager.h"
+#include "System/Sound/SystemSoundManager.h"
 
 EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind )
 : m_uniqueIdOfEnemyAll( uniqueId )
@@ -78,6 +79,9 @@ void EnemyBase::HitPlayreBullet()
 	if( m_HP <= 0 ){
 		// 爆破エフェクトを出す
 		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, m_enemyInfo.m_pos.x, m_enemyInfo.m_pos.y);
+
+		// 爆発SE鳴らす
+		SoundManager::GetInstance()->PlaySE("Bomb");
 
 		// managerに管理から外すように伝える
 		EnemyManager::GetInstance()->DeleteEnemy( GetUniqueNumber() );
