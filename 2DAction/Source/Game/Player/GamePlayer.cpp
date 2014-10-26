@@ -5,8 +5,14 @@
 
 #include "System/Sound/SystemSoundManager.h"
 #include "Game/Enemy/EnemyManager.h"
+#include "Game/GameRegister.h"
 
 static uint32_t DAMAGE_INVISIBLE_TIME = 180;
+
+GamePlayer *GamePlayer::CreatePlayer()
+{
+	return NEW GamePlayer();
+}
 
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
@@ -47,16 +53,12 @@ void GamePlayer::Update()
 		vec.Normalize();
 		m_attackGun->ShootBullet( pos, vec );
 	}
+}
 
-	// 敵に当たったかチェック
-	bool isHit = EnemyManager::GetInstance()->CheckCollisionToPlayer( this );
-	if( isHit ){
-		Common::CMN_EVENT hitEvent;
-		hitEvent.m_event		= Common::EVENT_HIT_ENEMY;
-		hitEvent.m_eventValue	= INVALID_VALUE;
-		AddEvent( hitEvent );
-	}
-
+void GamePlayer::CollisionUpdate()
+{
+	// アイテム、敵との当たり判定は各マネージャクラスが行い、
+	// イベントをpushしてくれるのでここでは何もしない
 }
 
 void GamePlayer::DrawUpdate()
@@ -153,11 +155,12 @@ void GamePlayer::PadEventLeft()
 void GamePlayer::PadEventDecide()
 {
 	GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50 );
+	GameRegister::GetInstance()->GetManagerItem()->CreateItem( ItemObject::ITEM_RAPID_BULLET );
 }
 
 void GamePlayer::PadEventCancel()
 {
-	EnemyManager::GetInstance()->CreateEnemy( Common::KIND_AAA );
+	GameRegister::GetInstance()->GetManagerEnemy()->CreateEnemy( Common::KIND_AAA );
 }
 
 /* ================================================ */
@@ -168,6 +171,16 @@ void GamePlayer::PadEventCancel()
 const TEX_DRAW_INFO &GamePlayer::GetDrawInfo()
 {
 	return m_player2D->GetDrawInfo();
+}
+
+/* ================================================ */
+/**
+ * @brief	タスクにイベント追加
+ */
+/* ================================================ */
+void GamePlayer::AddEvent( const Common::CMN_EVENT &cmnEvent )
+{
+	TaskUnit::AddEvent( cmnEvent );
 }
 
 /* ================================================ */
@@ -184,7 +197,7 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 		}
 		break;
 	case Common::EVENT_GET_ITEM:
-		PlayerGetItem( eventId.m_eventValue );
+		PlayerGetItem( static_cast<ItemObject::ITEM_KIND>(eventId.m_eventValue) );
 		break;
 	default:
 
@@ -210,7 +223,18 @@ void GamePlayer::EventDamage()
 }
 
 // アイテム取得
-void GamePlayer::PlayerGetItem( const uint32_t &itemId )
+void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
 {
-
+	switch( itemKind ){
+	default:
+	case ItemObject::ITEM_RAPID_BULLET:
+		{
+			// 銃の発射間隔を狭める
+			AttackGun::GunState *gunState = m_attackGun->GetGunState();
+			if( gunState ){
+				gunState->m_shootInterval = ( gunState->m_shootInterval < 2 ) ? 0 : gunState->m_shootInterval - 2;
+			}
+		}
+		break;
+	}
 }

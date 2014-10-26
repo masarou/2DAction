@@ -163,6 +163,9 @@
     <ClInclude Include="Source\Game\Item\ItemObject.h">
       <Filter>Game\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameRegister.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -261,6 +264,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Item\ItemObject.cpp">
       <Filter>Game\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameRegister.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -34,16 +34,20 @@ public:
 	
 	void	Update();
 	void	Draw();
+	void	SetPlayerGetFlag();	// アイテムの無効化(消滅)
 
 	// 情報取得
 	const TEX_DRAW_INFO &GetDrawInfo();
-	uint32_t GetUniqueNumber(){ return m_uniqueNumber; }
-	uint32_t GetLiveTime(){ return m_liveTime; }
+	const uint32_t	&GetUniqueNumber(){ return m_uniqueNumber; }
+	const uint32_t	&GetLiveTime(){ return m_liveTime; }
+	const ITEM_KIND	&GetItemKind(){ return m_kindItem; }
+	const bool		&GetPlayerGetFlag(){ return m_isPlayerGet; }
 
 private:
 
 	std::string		GetItemFilePath();
 
+	bool			m_isPlayerGet;	// 
 	ITEM_KIND		m_kindItem;		// アイテムの種類
 	uint32_t		m_uniqueNumber;	// ほかのアイテムと区別するためにユニーク番号
 	uint32_t		m_liveTime;		// 生成されてからの時間

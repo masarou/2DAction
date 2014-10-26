@@ -61,9 +61,10 @@ protected:
 	virtual ~TaskUnit(void);
 
 	virtual bool Init(){return true;}
-	virtual void Update(){};
-	virtual void DrawUpdate(){};
-	virtual void EventUpdate( const Common::CMN_EVENT &eventId ){};
+	virtual void Update(){};			// 移動等の内部数値の更新
+	virtual void CollisionUpdate(){};	// 内部数値の更新を受けての他クラスとの当たり判定処理
+	virtual void EventUpdate( const Common::CMN_EVENT &eventId ){};	// イベント処理実行関数
+	virtual void DrawUpdate(){};		// 描画更新
 	virtual bool DieMain(){return true;}
 
 	// 派生先でのメッセージ処理
@@ -85,7 +86,7 @@ protected:
 	void SendMessageToParent( Message *msg );
 
 	//! タスクにイベント追加
-	void AddEvent( const Common::CMN_EVENT &cmnEvent );
+	virtual void AddEvent( const Common::CMN_EVENT &cmnEvent );
 
 private:
 

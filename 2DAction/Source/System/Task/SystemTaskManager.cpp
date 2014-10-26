@@ -91,6 +91,16 @@ void TaskManagerBase::Update()
 	DeleteDieUnit();
 }
 
+void TaskManagerBase::CollisionUpdate()
+{
+	for(uint32_t i = 0; i < m_vTaskUnit.size(); ++i){
+		TaskUnit *pTask = m_vTaskUnit.at(i);
+		if(pTask->GetStatus() == TaskUnit::TASK_ALIVE){
+			pTask->CollisionUpdate();
+		}
+	}
+}
+
 void TaskManagerBase::EventUpdate()
 {
 	for(uint32_t i = 0; i < m_vTaskUnit.size(); ++i){

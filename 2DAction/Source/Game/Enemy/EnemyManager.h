@@ -7,6 +7,9 @@
  */
 /* ====================================================================== */
 
+#ifndef ENEMY_MANAGER
+#define ENEMY_MANAGER
+
 #include "System/Task/SystemTaskUnit.h"
 #include "System/SystemDefine.h"
 #include "EnemyBase.h"
@@ -19,7 +22,8 @@ class EnemyManager : TaskUnit
 
 public:
 
-	static EnemyManager *GetInstance();
+	static EnemyManager *CreateEnemyManager();
+
 	void CreateEnemy( const Common::ENEMY_KIND &kind );		// 敵キャラ生成
 	void DeleteEnemy( const uint32_t &uniqueNumber );		// 指定クラスを管理から外す
 
@@ -30,6 +34,7 @@ public:
 protected:
 	
 	virtual void Update() override;
+	virtual void CollisionUpdate() override;
 	virtual void DrawUpdate() override;
 
 	// メッセージ処理
@@ -40,8 +45,9 @@ private:
 	EnemyManager(void);
 	~EnemyManager(void);
 	
-	static EnemyManager		*m_pInstance;
 	std::vector<EnemyBase*> m_enemyArray;	// 敵管理
 
 };
+
+#endif
 

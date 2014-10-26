@@ -1,0 +1,9 @@
+{
+	"soundTable":[
+		{"tag":"SE_TEST01", "file":"01 The Lonely Tower.mp3"},
+		{"tag":"SE_TEST02", "file":"02 Stairway to Revelation.mp3"},
+		{"tag":"SE_TEST03", "file":"03 Sanctuary Zero.mp3"},
+		{"tag":"SE_TEST04", "file":"04 Indignant Divinity.mp3"},
+		{"tag":"SE_TEST05", "file":"05 Divine Breath.mp3"}
+	]
+}

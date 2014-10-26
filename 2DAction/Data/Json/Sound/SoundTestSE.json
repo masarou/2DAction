@@ -1,0 +1,7 @@
+{
+	"soundTable":[
+		{"tag":"ShootBullet", "file":"se_maoudamashii_system43.mp3"},
+		{"tag":"Bomb", "file":"se_maoudamashii_explosion06.mp3"},
+		{"tag":"Damage", "file":"se_maoudamashii_explosion06.mp3"}
+	]
+}

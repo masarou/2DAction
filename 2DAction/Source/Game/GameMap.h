@@ -17,8 +17,8 @@
 class GameMap : public TaskUnit
 {
 public:
-
-	GameMap(void);
+	
+	static GameMap *GameMap::CreateGameMap();
 	~GameMap(void);
 
 	virtual void Update();
@@ -34,6 +34,8 @@ private:
 			m_walkOver = true;
 		}
 	};
+
+	GameMap(void);
 
 	//!ƒ}ƒbƒvî•ñ“Ç‚İ‚İ
 	void LoadTextureInfo( const char *jsonFile );

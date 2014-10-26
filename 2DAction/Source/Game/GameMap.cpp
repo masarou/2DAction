@@ -30,6 +30,11 @@ uint32_t MapData[ MAP_HEIGHT ][ MAP_WIDTH ] =
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } ,
 } ;
 
+GameMap *GameMap::CreateGameMap()
+{
+	return NEW GameMap();
+}
+
 GameMap::GameMap(void)
 : TaskUnit("GameMap")
 {

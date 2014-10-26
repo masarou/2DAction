@@ -11,6 +11,7 @@
 #define SYSTEM_ITEM_MANAGER
 
 #include "System/Task/SystemTaskUnit.h"
+#include "Game/Player/GamePlayer.h"
 #include "ItemObject.h"
 
 class ItemManager : public TaskUnit
@@ -18,10 +19,11 @@ class ItemManager : public TaskUnit
 
 public:
 
-	ItemManager(void);
+	static ItemManager *CreateItemManager();
 	~ItemManager(void);
 
 	virtual void Update() override;
+	virtual void CollisionUpdate() override;
 	virtual void DrawUpdate() override;
 	virtual bool DieMain() override;
 
@@ -32,6 +34,9 @@ public:
 
 private:
 
+	ItemManager(void);
+	bool CheckCollisionToPlayer( GamePlayer *player );	// 当たり判定関数
+	
 	std::vector<ItemObject*>	m_itemArray;		// アイテムの管理ベクタ
 
 };

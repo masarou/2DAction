@@ -25,6 +25,7 @@
     <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Game\Game2DBase.cpp" />
     <ClCompile Include="Source\Game\GameMap.cpp" />
+    <ClCompile Include="Source\Game\GameRegister.cpp" />
     <ClCompile Include="Source\Game\Item\ItemManager.cpp" />
     <ClCompile Include="Source\Game\Item\ItemObject.cpp" />
     <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="Source\Game\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Game\Game2DBase.h" />
     <ClInclude Include="Source\Game\GameMap.h" />
+    <ClInclude Include="Source\Game\GameRegister.h" />
     <ClInclude Include="Source\Game\Item\ItemManager.h" />
     <ClInclude Include="Source\Game\Item\ItemObject.h" />
     <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h" />

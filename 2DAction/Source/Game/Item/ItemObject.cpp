@@ -8,9 +8,11 @@
 /* ====================================================================== */
 
 #include "ItemObject.h"
+#include "System/Sound/SystemSoundManager.h"
 
 ItemObject::ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, const math::Vector2 &pos )
-: m_kindItem(kind)
+: m_isPlayerGet(false)
+, m_kindItem(kind)
 , m_uniqueNumber(uniqueId)
 , m_liveTime(0)
 , m_drawItem(NULL)
@@ -31,14 +33,8 @@ ItemObject::~ItemObject(void)
 
 void ItemObject::Update()
 {
-	// プレイヤーに当たったかチェック
-	bool isHit = false;//EnemyManager::GetInstance()->CheckCollisionToBullet( this );
-	if( isHit ){
-		m_liveTime = ITEM_LIVE_TIME;
-	}
-	else{
-		++m_liveTime;
-	}
+	// 生存時間更新
+	++m_liveTime;
 }
 
 void ItemObject::Draw()
@@ -53,6 +49,15 @@ void ItemObject::Draw()
 		// アイテム描画
 		m_drawItem->DrawUpdate2D();
 	}
+}
+
+void ItemObject::SetPlayerGetFlag()
+{
+	m_liveTime = ITEM_LIVE_TIME;
+	m_isPlayerGet = true;
+
+	// 取得音を鳴らす
+	SoundManager::GetInstance()->PlaySE("ShootBullet");
 }
 
 const TEX_DRAW_INFO &ItemObject::GetDrawInfo()

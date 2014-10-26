@@ -1,6 +1,6 @@
 /* ====================================================================== */
 /**
- * @brief  プレイヤークラス
+ * @brief  プレイヤーの攻撃管理クラス
  *
  * @note
  *		
@@ -10,12 +10,11 @@
 #include "GamePlayerAttackGun.h"
 #include "System/Sound/SystemSoundManager.h"
 
-// 固定値
-static const uint32_t SHOOT_INTERBAL	= 10;
 
 AttackGun::AttackGun(void)
 	: m_intervalTime( 0 )
 {
+	m_currState.Init();
 }
 
 
@@ -50,15 +49,17 @@ void AttackGun::Update()
 
 void AttackGun::DrawUpdate()
 {
-	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
-		m_magazine.at( i )->Draw();
-	}
 
 	// 生成されて一定時間を超えたものは削除
 	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
 		if( m_magazine.at( i )->GetLiveTime() >= BULLET_LIVE_TIME ){
 			DeleteBullet( m_magazine.at( i )->GetUniqueNumber() );
 		}
+	}
+
+	// 弾描画
+	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
+		m_magazine.at( i )->Draw();
 	}
 
 	// 次の弾発射までの時間を減算
@@ -77,14 +78,14 @@ void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 {
 	if( m_intervalTime == 0 ){
 		static uint32_t uniqueNum = 0;
-		Bullet *bul = NEW Bullet( uniqueNum, pos, vec );
+		Bullet *bul = NEW Bullet( uniqueNum, pos, vec, m_currState.m_speed );
 		m_magazine.push_back( bul );
 		
 		// 発射音を鳴らす
 		SoundManager::GetInstance()->PlaySE("ShootBullet");
 
 		// 一定間隔の時間を設ける
-		m_intervalTime += SHOOT_INTERBAL;
+		m_intervalTime += m_currState.m_shootInterval;
 	}
 }
 

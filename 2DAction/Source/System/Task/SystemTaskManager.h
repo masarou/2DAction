@@ -33,6 +33,7 @@ public:
 
 	//! XVˆ—
 	void Update();
+	void CollisionUpdate();
 	void EventUpdate();
 	void DrawUpdate();
 

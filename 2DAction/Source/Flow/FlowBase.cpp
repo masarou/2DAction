@@ -43,9 +43,10 @@ bool FlowBase::Finish()
 /* ================================================ */
 void FlowBase::ChildUpdate()
 {
-	Update();		//! 位置等の更新
-	EventUpdate();	//! 各クラスのイベント処理
-	DrawUpdate();	//! 描画等の更新
+	Update();			//! 位置等の更新
+	CollisionUpdate();	//! 衝突判定更新+各クラスにイベント発行
+	EventUpdate();		//! 各クラスのイベント処理
+	DrawUpdate();		//! 描画等の更新
 }
 
 /* ============================================== */

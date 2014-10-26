@@ -1,0 +1,6 @@
+{
+	"eventdata":[
+		{"event":"proceed", "path":"FlowGameMain.json"},
+		{"event":"return", "path":"FlowGameMain.json"}
+	]
+}

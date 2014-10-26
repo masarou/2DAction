@@ -12,13 +12,14 @@
 #include "Bullet.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/Enemy/EnemyManager.h"
+#include "Game/GameRegister.h"
 
-Bullet::Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec )
+Bullet::Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed )
 	: m_uniqueNumber( uniqueNum )
 	, m_liveTime( 0 )
 	, m_drawBullet( NULL )
 	, m_bulletVec( vec )
-	, m_speed( 12.0f )
+	, m_speed( speed )
 {
 	m_drawBullet = NEW Game2DBase("bullet.json");
 
@@ -39,7 +40,7 @@ void Bullet::Update()
 	m_drawBullet->SetDrawInfo(m_bulletInfo);
 
 	// 敵に当たったかチェック
-	bool isHit = EnemyManager::GetInstance()->CheckCollisionToBullet( this );
+	bool isHit = GameRegister::GetInstance()->GetManagerEnemy()->CheckCollisionToBullet( this );
 	if( isHit ){
 		m_liveTime = BULLET_LIVE_TIME;
 	}

@@ -7,6 +7,7 @@
  */
 /* ====================================================================== */
 
+#include "Game/GameRegister.h"
 #include "EnemyBase.h"
 #include "Game/Effect/GameEffect.h"
 #include "EnemyManager.h"
@@ -84,6 +85,6 @@ void EnemyBase::HitPlayreBullet()
 		SoundManager::GetInstance()->PlaySE("Bomb");
 
 		// manager‚ÉŠÇ—‚©‚çŠO‚·‚æ‚¤‚É“`‚¦‚é
-		EnemyManager::GetInstance()->DeleteEnemy( GetUniqueNumber() );
+		GameRegister::GetInstance()->GetManagerEnemy()->DeleteEnemy( GetUniqueNumber() );
 	}
 }

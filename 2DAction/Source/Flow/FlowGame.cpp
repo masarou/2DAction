@@ -9,9 +9,7 @@
 /* ====================================================================== */
 
 #include "FlowGame.h"
-#include "Game/Player/GamePlayer.h"
-#include "Game/GameMap.h"
-#include "Game/Enemy/EnemyManager.h"
+#include "Game/GameRegister.h"
 
 GamePlayer *player = NULL;
 
@@ -29,24 +27,23 @@ FlowGame::FlowGame(std::string fileName)
 
 FlowGame::~FlowGame(void)
 {
+	// ゲーム周りのクラス解放
+	GameRegister *pRegister = GameRegister::GetInstance();
+	SAFE_DELETE( pRegister );
+
 	DEBUG_PRINT("FlowGame削除！！\n");
 }
 
 bool FlowGame::Init()
 {
-	// 仮
-	GameMap *map = NEW GameMap();
-	player = NEW GamePlayer();
-	
+	// ゲームをするのに必要なインスタンス作成
+	GameRegister::CreateInstance();
+
 	return true;
 }
 
 void FlowGame::FlowUpdate()
 {
-	if(0){
-		EnemyManager::GetInstance()->CreateEnemy( Common::KIND_AAA );
-	}
-
 	ChildUpdate();
 
 	//if(player->IsNext()){

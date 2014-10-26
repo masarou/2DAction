@@ -9,21 +9,14 @@
 
 #include "EnemyManager.h"
 #include "EnemyAAA.h"
-//#include "EnemyBBB.h"
-//#include "EnemyCCC.h"
-//#include "EnemyDDD.h"
 #include "Game/Player/AttackGun/Bullet.h"
 #include "Game/Player/GamePlayer.h"
+#include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-EnemyManager *EnemyManager::m_pInstance = NULL;
-
-EnemyManager *EnemyManager::GetInstance()
+EnemyManager *EnemyManager::CreateEnemyManager()
 {
-	if( !m_pInstance ){
-		m_pInstance = NEW EnemyManager();
-	}
-	return m_pInstance;
+	return NEW EnemyManager();
 }
 
 EnemyManager::EnemyManager(void)
@@ -106,6 +99,7 @@ bool EnemyManager::CheckCollisionToBullet( Bullet *bullet )
 			eventInfo.m_eventValue = m_enemyArray.at(i)->GetUniqueNumber();
 			AddEvent( eventInfo );
 			isHit = true;
+			break;
 		}
 	}
 	return isHit;
@@ -134,6 +128,23 @@ void EnemyManager::Update()
 {
 	for(uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
 		m_enemyArray.at(i)->UpdateEnemy();
+	}
+}
+
+void EnemyManager::CollisionUpdate()
+{
+	// 敵がプレイヤーに当たったかチェック
+	GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
+	if( !pPlayer ){
+		return ;
+	}
+
+	bool isHit = CheckCollisionToPlayer( pPlayer );
+	if( isHit ){
+		Common::CMN_EVENT hitEvent;
+		hitEvent.m_event		= Common::EVENT_HIT_ENEMY;
+		hitEvent.m_eventValue	= INVALID_VALUE;
+		pPlayer->AddEvent( hitEvent );
 	}
 }
 

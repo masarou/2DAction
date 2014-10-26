@@ -20,6 +20,7 @@ public:
 	static FlowBase *Create(std::string fileName);
 
 private:
+
 	virtual bool Init();
 	virtual void FlowUpdate();
 
