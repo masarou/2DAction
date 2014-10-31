@@ -3,11 +3,13 @@
 #include "GamePlayer.h"
 #include "Game/Effect/GameEffect.h"
 
+#include "System/Draw2D/SystemDraw2DResource.h"
 #include "System/Sound/SystemSoundManager.h"
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/GameRegister.h"
 
 static uint32_t DAMAGE_INVISIBLE_TIME = 180;
+static uint32_t LIFE_POINT_MAX = 100;
 
 GamePlayer *GamePlayer::CreatePlayer()
 {
@@ -17,6 +19,7 @@ GamePlayer *GamePlayer::CreatePlayer()
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
 , m_invisibleTime(0)
+, m_playerLife(LIFE_POINT_MAX)
 {
 	// 描画クラスセットアップ
 	m_player2D = NEW Game2DBase("player.json");
@@ -26,6 +29,18 @@ GamePlayer::GamePlayer(void)
 	m_playerInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
 	m_playerInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
 	m_player2D->SetDrawInfo(m_playerInfo);
+
+	// 描画クラスセットアップ
+	m_life2D = NEW Game2DBase("lifeGauge.json");
+	m_lifeInfo.Init();
+	m_lifeInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_lifeInfo.m_usePlayerOffset = false;
+	m_lifeInfo.m_pos.x = 0.0f;
+	const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( "lifeGauge.json" );
+	m_lifeInfo.m_pos.y = static_cast<float>(WINDOW_HEIGHT - lifeTexInfo.m_sizeHeight);
+	m_lifeInfo.m_arrangeOrigin.x = 0.0f;
+	m_lifeInfo.m_arrangeOrigin.y = 0.0f;
+	m_life2D->SetDrawInfo(m_lifeInfo);
 
 	// 攻撃マシンガンクラスセット
 	m_attackGun = NEW AttackGun();
@@ -63,20 +78,29 @@ void GamePlayer::CollisionUpdate()
 
 void GamePlayer::DrawUpdate()
 {
-#ifdef _DEBUG
-	int Color = GetColor( 255 , 255 , 255 );
-	float xx = 0.0f;
-	float yy = 0.0f;
-	GameAccesser::GetInstance()->GetPlayerOffSet(xx, yy);
-	DrawFormatString( 0, 10, Color, "PlayerX = %.1f, PlayerY = %.1f\n", xx, yy);
-#endif
-
 	if( m_invisibleTime % 3 == 1 ){
 		// ダメージを受けない時間帯ならば3フレに一回描画せず点滅させる
 	}
 	else{
 		// プレイヤー描画
 		m_player2D->DrawUpdate2D();
+	}
+
+	// ライフゲージ描画
+	{
+		const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_lifeInfo.m_fileName.c_str() );
+		float ratio = static_cast<float>(m_playerLife)/static_cast<float>(LIFE_POINT_MAX);
+		float lifeValue = (WINDOW_WIDTH / lifeTexInfo.m_sizeWidth) * ratio;
+		
+		if( math::Absf( m_lifeInfo.m_scale.x - lifeValue ) > 0.2f ){
+			m_lifeInfo.m_scale.x *= (m_lifeInfo.m_scale.x - lifeValue < 0.0f) ? 1.02f : 0.98f ;
+		}
+		else{
+			m_lifeInfo.m_scale.x = lifeValue;
+		}
+
+		m_life2D->SetDrawInfo(m_lifeInfo);
+		m_life2D->DrawUpdate2D();
 	}
 }
 
@@ -220,6 +244,14 @@ void GamePlayer::EventDamage()
 
 	// ダメージを受けたら一定時間ダメージを受けない
 	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
+
+	// ライフを減らす
+	if( m_playerLife > 20 ){
+		m_playerLife -= 20;
+	}
+	else{
+		m_playerLife = 0;
+	}
 }
 
 // アイテム取得

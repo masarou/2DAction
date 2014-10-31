@@ -27,7 +27,7 @@ public:
 	const char *GetPlayAnim(){return m_currentAnimTag.c_str();}
 	
 	//!描画設定更新
-	void SetDrawInfo( const TEX_DRAW_INFO &info );
+	void SetDrawInfo( TEX_DRAW_INFO &info );
 	
 	//!設定アニメの更新
 	void DrawUpdate2D();

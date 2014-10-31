@@ -54,10 +54,16 @@ private:
 	void EventDamage();
 	void PlayerGetItem( const ItemObject::ITEM_KIND &itemKind );
 
-	uint32_t			m_invisibleTime;//	何らかの理由で敵の攻撃を受けない時間
-	Game2DBase			*m_player2D;	// ユーザーの画像等管理
+	uint32_t			m_playerLife;	// ユーザーライフ
+	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
 	AttackGun			*m_attackGun;	// マシンガンクラス
+
+	// 描画
+	Game2DBase			*m_player2D;	// ユーザーの画像等管理
 	TEX_DRAW_INFO		m_playerInfo;	// 描画関係情報
+
+	Game2DBase			*m_life2D;		// ライフ描画クラス
+	TEX_DRAW_INFO		m_lifeInfo;		// ライフ描画情報
 
 };
 

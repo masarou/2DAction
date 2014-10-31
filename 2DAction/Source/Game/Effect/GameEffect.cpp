@@ -19,8 +19,8 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const uint32_t &posX, const uin
 	m_pEffect = NEW Game2DBase(SelectEffectFile().c_str());
 	m_effectInfo.Init();
 	m_effectInfo.m_fileName = SelectEffectFile();
-	m_effectInfo.m_pos.x = posX;
-	m_effectInfo.m_pos.y = posY;
+	m_effectInfo.m_pos.x = static_cast<float>(posX);
+	m_effectInfo.m_pos.y = static_cast<float>(posY);
 	m_pEffect->SetAnim(SelectEffectAnimTag());
 }
 

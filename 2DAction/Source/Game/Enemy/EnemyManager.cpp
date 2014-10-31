@@ -27,6 +27,19 @@ EnemyManager::~EnemyManager(void)
 {
 }
 
+bool EnemyManager::DieMain()
+{
+	// •Û‚µ‚Ä‚¢‚éƒNƒ‰ƒX‚ğ‚·‚×‚Ä‰ğ•ú
+	std::vector<EnemyBase*>::iterator it = m_enemyArray.begin();
+	while(m_enemyArray.empty() == 0){
+		EnemyBase *enemy = (*it);
+		it = m_enemyArray.erase(it);
+		SAFE_DELETE(enemy);
+	}
+	m_enemyArray.clear();
+	return true;
+}
+
 void EnemyManager::CreateEnemy( const Common::ENEMY_KIND &kind )
 {
 	static uint32_t currUniqueNo = 0;

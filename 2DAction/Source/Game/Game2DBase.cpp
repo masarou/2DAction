@@ -92,10 +92,12 @@ void Game2DBase::SetAnim( const std::string &animTag )
  * @brief	描画の際に必要となる情報更新
  */
 /* ================================================ */
-void Game2DBase::SetDrawInfo(const TEX_DRAW_INFO &info)
+void Game2DBase::SetDrawInfo( TEX_DRAW_INFO &info)
 {
+	if( info.m_fileName.compare("") == 0 ){
+		info.m_fileName = m_jsonFile;
+	}
 	m_drawInfo = info;
-	m_drawInfo.m_fileName = m_jsonFile;
 }
 
 /* ================================================ */

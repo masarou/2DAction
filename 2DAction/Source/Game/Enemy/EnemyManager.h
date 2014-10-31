@@ -24,6 +24,8 @@ public:
 
 	static EnemyManager *CreateEnemyManager();
 
+	virtual bool DieMain() override;
+
 	void CreateEnemy( const Common::ENEMY_KIND &kind );		// 敵キャラ生成
 	void DeleteEnemy( const uint32_t &uniqueNumber );		// 指定クラスを管理から外す
 

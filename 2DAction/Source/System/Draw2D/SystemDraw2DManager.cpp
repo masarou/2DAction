@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "SystemDraw2DManager.h"
+#include "SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
 Draw2DManager *Draw2DManager::m_pInstance = NULL;
@@ -91,6 +92,14 @@ void Draw2DManager::Action()
 		}
 	}
 
+#ifdef _DEBUG
+	int Color = GetColor( 255 , 255 , 255 );
+	float xx = 0.0f;
+	float yy = 0.0f;
+	GameAccesser::GetInstance()->GetPlayerOffSet(xx, yy);
+	DrawFormatString( 0, 10, Color, "PlayerX = %.1f, PlayerY = %.1f\n", xx, yy);
+#endif
+
 	m_vDrawTask.clear();
 }
 
@@ -105,21 +114,29 @@ void Draw2DManager::DrawTexture( const uint32_t &drawIndex )
 		return;
 	}
 
-	DRAW2D tmpInfo = m_vDrawTask.at(drawIndex);
-	SetDrawBlendMode( DX_BLENDMODE_ALPHA, tmpInfo.m_info.m_alpha );
+	DRAW2D &drawInfo = m_vDrawTask.at(drawIndex);
+	SetDrawBlendMode( DX_BLENDMODE_ALPHA, drawInfo.m_info.m_alpha );
 
-	math::Vector2 pos = math::Vector2( tmpInfo.m_info.m_pos.x, tmpInfo.m_info.m_pos.y );
-	if( tmpInfo.m_info.m_usePlayerOffset ){
+	// ‰æ‘œ‚Ì•`‰æˆÊ’uŽæ“¾
+	math::Vector2 pos = math::Vector2( drawInfo.m_info.m_pos.x, drawInfo.m_info.m_pos.y );
+	if( drawInfo.m_info.m_usePlayerOffset ){
 		pos -= GetPlayerOffsetPos();
 	}
 
-	DrawRotaGraph(
+	// •`‰æ‰æ‘œ‚ÌƒTƒCƒYŽæ“¾
+	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( drawInfo.m_info.m_fileName.c_str() );
+
+	DrawRotaGraph3(
 		pos.x
 		, pos.y
-		, tmpInfo.m_info.m_scale
-		, static_cast<uint32_t>(tmpInfo.m_info.m_rot.GetRadian())
-		, tmpInfo.m_handle
+		, ( drawInfo.m_info.m_arrangeOrigin.x == INVALID_VALUE ) ? texInfo.m_sizeWidth / 2 : drawInfo.m_info.m_arrangeOrigin.x
+		, ( drawInfo.m_info.m_arrangeOrigin.y == INVALID_VALUE ) ? texInfo.m_sizeHeight / 2 : drawInfo.m_info.m_arrangeOrigin.y
+		, drawInfo.m_info.m_scale.x
+		, drawInfo.m_info.m_scale.y
+		, static_cast<uint32_t>(drawInfo.m_info.m_rot.GetRadian())
+		, drawInfo.m_handle
 		, true
+		, false
 		);
 
 	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
