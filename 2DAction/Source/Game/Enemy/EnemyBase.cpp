@@ -79,7 +79,7 @@ void EnemyBase::HitPlayreBullet()
 
 	if( m_HP <= 0 ){
 		// 爆破エフェクトを出す
-		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, m_enemyInfo.m_pos.x, m_enemyInfo.m_pos.y);
+		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_enemyInfo.m_pos.x), static_cast<uint32_t>(m_enemyInfo.m_pos.y) );
 
 		// 爆発SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Bomb");

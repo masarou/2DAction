@@ -15,7 +15,7 @@
 namespace math{
 
 // “ñ“_‚Ì‹——£‚Ì—İæ‚ğ•Ô‚·
-uint32_t GetDistance( const Vector2 &vecA, const Vector2 &vecB );
+float GetDistance( const Vector2 &vecA, const Vector2 &vecB );
 
 
 // “ñ“_‚Ì‹——£‚ªw’è”ÍˆÍ‚¢‚È‚¢‚©‚Ç‚¤‚©

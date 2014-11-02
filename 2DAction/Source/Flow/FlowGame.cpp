@@ -11,8 +11,6 @@
 #include "FlowGame.h"
 #include "Game/GameRegister.h"
 
-GamePlayer *player = NULL;
-
 FlowBase *FlowGame::Create(std::string fileName)
 {
 	return NEW FlowGame(fileName);
@@ -46,7 +44,7 @@ void FlowGame::FlowUpdate()
 {
 	ChildUpdate();
 
-	//if(player->IsNext()){
-	//	StartFade("proceed");
-	//}
+	if( GameRegister::GetInstance()->GetPlayer()->GetCurrentLife() == 0 ){
+		StartFade("proceed");
+	}
 }

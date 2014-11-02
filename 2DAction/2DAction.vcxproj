@@ -41,6 +41,7 @@
     <ClCompile Include="Source\System\Input\SystemInputWatcher.cpp" />
     <ClCompile Include="Source\System\picojson.cpp" />
     <ClCompile Include="Source\System\Sound\SystemSoundManager.cpp" />
+    <ClCompile Include="Source\System\SystemFadeManager.cpp" />
     <ClCompile Include="Source\System\SystemFPSManager.cpp" />
     <ClCompile Include="Source\System\SystemMessage.cpp" />
     <ClCompile Include="Source\System\Task\SystemTaskManager.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="Source\System\picojson.h" />
     <ClInclude Include="Source\System\Sound\SystemSoundManager.h" />
     <ClInclude Include="Source\System\SystemDefine.h" />
+    <ClInclude Include="Source\System\SystemFadeManager.h" />
     <ClInclude Include="Source\System\SystemFPSManager.h" />
     <ClInclude Include="Source\System\SystemMessage.h" />
     <ClInclude Include="Source\System\Task\SystemTaskManager.h" />

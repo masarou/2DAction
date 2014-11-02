@@ -12,9 +12,9 @@
 namespace math{
 
 // “ñ“_‚Ì‹——£‚Ì—İæ‚ğ•Ô‚·
-uint32_t GetDistance( const Vector2 &vecA, const Vector2 &vecB )
+float GetDistance( const Vector2 &vecA, const Vector2 &vecB )
 {
-	uint32_t ret = vecA.x*vecA.x + vecB.y*vecB.y;
+	float ret = vecA.x*vecA.x + vecB.y*vecB.y;
 	return ret;
 }
 
@@ -25,8 +25,8 @@ bool IsInRange( const Vector2 &vecA, const Vector2 &vecB, const uint32_t &range 
 }
 bool IsInRange( const Vector2 &vecA, const Vector2 &vecB, const float &range )
 {
-	uint32_t distance = GetDistance( vecA, vecB );
-	return ( static_cast<float>(distance) < (range*range) ? true : false );
+	float distance = GetDistance( vecA, vecB );
+	return ( distance < (range*range) ? true : false );
 }
 
 }

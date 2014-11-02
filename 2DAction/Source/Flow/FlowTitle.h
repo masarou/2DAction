@@ -11,6 +11,7 @@
 #define FLOW_TITLE
 
 #include "FlowBase.h"
+#include "Game/Game2DBase.h"
 #include "System/Input/SystemInputWatcher.h"
 
 class FlowTitle : public FlowBase, public InputWatcher 
@@ -21,16 +22,18 @@ public:
 
 protected:
 
-	virtual bool Init();
-	virtual void FlowUpdate();
-	virtual void PadEventDecide();
+	virtual bool Init() override;
+	virtual bool Finish() override;
+	virtual void FlowUpdate() override;
+	virtual void PadEventDecide() override;
 
 private:
 
 	FlowTitle(std::string fileName);
 	virtual ~FlowTitle(void);
 
-
+	Game2DBase			*m_title2D;		// タイトル一枚絵クラス
+	TEX_DRAW_INFO		m_titleInfo;	// タイトル一枚絵情報
 
 };
 #endif

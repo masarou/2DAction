@@ -5,6 +5,7 @@
 #include "System/SystemFPSManager.h"
 #include "System/Draw2D/SystemDraw2DManager.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
+#include "System/SystemFadeManager.h"
 #include "Common/CmnGameAccesser.h"
 #include "Flow/FlowManager.h"
 
@@ -28,14 +29,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 		return 0;
 	}
 
-	//! TaskUnitŒp³í’“•¨
-	FlowManager::Create();
-	SoundManager::Create();
-
-	//! ”ñŒp³í’“•¨
+	//! TaskUnit”ñŒp³í’“•¨
 	GameAccesser::Create();
 	Draw2DManager::Create();
 	TextureResourceManager::Create();
+
+	//! TaskUnitŒp³í’“•¨
+	FlowManager::Create();
+	SoundManager::Create();
+	FadeManager::Create();
 
 	while(1){
 

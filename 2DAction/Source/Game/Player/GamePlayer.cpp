@@ -105,6 +105,7 @@ void GamePlayer::DrawUpdate()
 }
 
 bool GamePlayer::DieMain(){
+	SAFE_DELETE(m_life2D);
 	SAFE_DELETE(m_player2D);
 	return true;
 }

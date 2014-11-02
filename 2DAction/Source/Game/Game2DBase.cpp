@@ -41,7 +41,7 @@ void Game2DBase::DrawUpdate2D()
 	}
 
 	// 描画の要素番号取得
-	uint32_t drawIndex = TextureResourceManager::GetInstance()->GetAnimHandleIndex( m_jsonFile.c_str(), m_currentAnimTag.c_str(), m_animCounter);
+	uint32_t drawIndex = TextureResourceManager::GetInstance()->GetAnimHandleIndex( m_jsonFile.c_str(), m_currentAnimTag, m_animCounter);
 
 	// 無効値が帰ってきた場合はアニメになにもセットしない(デフォルトアニメになにもセットされていない等)
 	if( drawIndex == INVALID_VALUE ){

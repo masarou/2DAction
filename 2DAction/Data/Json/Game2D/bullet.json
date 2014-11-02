@@ -10,6 +10,6 @@
 	],
 	
 	"animeInfo":[
-		{"animTag":"shoot",	"frameSpeed":1,	"animIndex":[0],	"loop":true}
+		{"animTag":"shoot",	"frameSpeed":1,	"animIndex":[0],	"nextAnim":"shoot"}
 	]	
 }

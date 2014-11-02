@@ -10,9 +10,9 @@
 	],
 	
 	"animeInfo":[
-		{"animTag":"up",	"frameSpeed":10,	"animIndex":[9,10,11],	"loop":true},
-		{"animTag":"down",	"frameSpeed":10,	"animIndex":[0,1,2],	"loop":true},
-		{"animTag":"right",	"frameSpeed":10,	"animIndex":[6,7,8],	"loop":true},
-		{"animTag":"left",	"frameSpeed":10,	"animIndex":[3,4,5],	"loop":true}
+		{"animTag":"up",	"frameSpeed":10,	"animIndex":[9,10,11],	"nextAnim":"up"},
+		{"animTag":"down",	"frameSpeed":10,	"animIndex":[0,1,2],	"nextAnim":"down"},
+		{"animTag":"right",	"frameSpeed":10,	"animIndex":[6,7,8],	"nextAnim":"right"},
+		{"animTag":"left",	"frameSpeed":10,	"animIndex":[3,4,5],	"nextAnim":"left"}
 	]	
 }

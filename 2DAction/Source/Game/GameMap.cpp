@@ -72,8 +72,8 @@ void GameMap::DrawUpdate()
 			int32_t MapWidht	= m_texInfo.m_sizeWidth;
 
 			//!•`‰æ‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚éˆÊ’u
-			int32_t posY = (i*m_texInfo.m_sizeHeight) - offsety;
-			int32_t posX = (j*m_texInfo.m_sizeWidth) - offsetx;
+			int32_t posY = (i*m_texInfo.m_sizeHeight) - static_cast<uint32_t>(offsety);
+			int32_t posX = (j*m_texInfo.m_sizeWidth) - static_cast<uint32_t>(offsetx);
 
 			//!‰æ–Ê“à‚©‚Ç‚¤‚©”»’è
 			if(posX < WidthUpper && posX > WidthLower

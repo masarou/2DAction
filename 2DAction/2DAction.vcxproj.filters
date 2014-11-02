@@ -166,6 +166,9 @@
     <ClInclude Include="Source\Game\GameRegister.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\SystemFadeManager.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -267,6 +270,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameRegister.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\SystemFadeManager.cpp">
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

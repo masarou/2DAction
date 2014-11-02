@@ -29,12 +29,13 @@ private:
 
 	//! 管理フローのステップ
 	enum FLOW_STATUS{
-		FLOW_IDLE,			// 何もしない
-		FLOW_FADEIN_WAIT,	//フェードイン待ち
-		FLOW_INIT,			// 初期化前
-		FLOW_FADEOUT_WAIT,	//フェードアウト待ち
-		FLOW_ACTION,		// 起動中
+		FLOW_FADEIN_CHECK,	// フェードインセット
+		FLOW_FADEIN_WAIT,	// フェードイン待ち
 		FLOW_CHANGE_WAIT,	// 死亡待ち
+		FLOW_INIT,			// 初期化前
+		FLOW_FADEOUT_CHECK,	// フェードアウトセット
+		FLOW_FADEOUT_WAIT,	// フェードアウト待ち
+		FLOW_ACTION,		// 起動中
 
 		FLOW_MAX,
 	};

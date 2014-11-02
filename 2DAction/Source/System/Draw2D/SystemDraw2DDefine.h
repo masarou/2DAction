@@ -40,14 +40,15 @@ enum PRIORITY{
 
 //!アニメーションの情報構造体
 struct ANIM_INFO{
-	std::string				m_animTag;
-	std::vector<uint32_t>	m_vPlayIndex;
-	uint32_t				m_frameSpeed;
-	bool					m_isLoop;
+	std::string				m_animTag;		// アニメ識別子
+	std::string				m_nextAnimTag;	// 再生終了時に次に再生したいアニメがあれば設定
+	std::vector<uint32_t>	m_vPlayIndex;	// アニメの再生絵の番号
+	uint32_t				m_frameSpeed;	// 再生スピード
 	void Init(){
+		m_animTag = "";
+		m_nextAnimTag = "";
 		m_vPlayIndex.clear();
 		m_frameSpeed = 10;
-		m_isLoop = false;
 	}
 };
 
@@ -88,7 +89,7 @@ struct TEX_DRAW_INFO{
 		m_fileName = "";
 		m_scale = math::Vector2( 1.0f, 1.0f );
 		m_pos = math::Vector2();
-		m_arrangeOrigin = math::Vector2( static_cast<float>(INVALID_VALUE), static_cast<float>(INVALID_VALUE) );
+		m_arrangeOrigin = math::Vector2( INVALID_FVALUE, INVALID_FVALUE );
 		m_usePlayerOffset = true;
 		m_rot = math::Angle();
 		m_alpha = 255;

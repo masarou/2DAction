@@ -38,6 +38,7 @@ public:
 	
 	// 情報取得
 	const TEX_DRAW_INFO &GetDrawInfo();
+	const uint32_t	&GetCurrentLife(){ return m_playerLife; }
 
 	//! タスクにイベント追加
 	void AddEvent( const Common::CMN_EVENT &cmnEvent ) override;

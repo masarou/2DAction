@@ -117,7 +117,7 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 		}
 		data.m_animTag		= animData.get(i).get("animTag").get<std::string>();
 		data.m_frameSpeed	= static_cast<uint32_t>(animData.get(i).get("frameSpeed").get<double>());
-		data.m_isLoop		= animData.get(i).get("loop").get<bool>();
+		data.m_nextAnimTag	= animData.get(i).get("nextAnim").get<std::string>();
 
 		//! 読み込んだアニメ情報を保持
 		basicInfo.m_vAnimName.push_back(data);
@@ -235,7 +235,7 @@ void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<
  *			適切なHandle配列のIndex値を返す
  */
 /* ================================================ */
-const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, const char *animName, uint32_t &frame )
+const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, std::string &animName, uint32_t &frame )
 {
 	uint32_t drawIndex = INVALID_VALUE;
 
@@ -261,23 +261,19 @@ const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, 
 
 				// フレーム初期化
 				frame = 0;
+				std::string nextAnimName = animInfo.m_nextAnimTag;
 
-				//! loop設定なら最初から、それ以外ならデフォルトアニメに戻す
-				if(animInfo.m_isLoop){
-					drawIndex = animInfo.m_vPlayIndex.at(0);
+				//! 次アニメが設定されているなら最初から、それ以外なら無効値
+				if( animInfo.m_nextAnimTag.compare("") != 0 ){
+					animName = animInfo.m_nextAnimTag;
+					drawIndex = GetAnimHandleIndex( jsonFile, nextAnimName, frame );
 					return drawIndex;
 				}
 				else{
-					//! デフォルトアニメの先頭Indexを返す
-					if( texInfo.m_animDefault.compare("") != 0 ){
-						drawIndex = GetAnimHandleIndex( jsonFile, texInfo.m_animDefault.c_str(), frame );
-					}
-					else{
-						// デフォルトアニメが設定されていないので無効値を返す
-						drawIndex = INVALID_VALUE;
-					}
-					return drawIndex;
+					// デフォルトアニメが設定されていないので無効値を返す
+					drawIndex = INVALID_VALUE;
 				}
+				return drawIndex;
 			}
 		}
 	}

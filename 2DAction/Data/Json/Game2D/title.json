@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"ActionGameTitle.png"
+		, "animDefault":"idle"
+		, "sizeW": 640
+		, "sizeH": 480
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"idle",	"frameSpeed":1,	"animIndex":[0],	"nextAnim":"idle"}
+	]	
+}
