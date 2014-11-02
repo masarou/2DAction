@@ -26,8 +26,7 @@ GamePlayer::GamePlayer(void)
 	m_playerInfo.Init();
 	m_playerInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_playerInfo.m_usePlayerOffset = false;
-	m_playerInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
-	m_playerInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
+	m_playerInfo.m_pos = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
 	m_player2D->SetDrawInfo(m_playerInfo);
 
 	// 描画クラスセットアップ
@@ -38,9 +37,16 @@ GamePlayer::GamePlayer(void)
 	m_lifeInfo.m_pos.x = 0.0f;
 	const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( "lifeGauge.json" );
 	m_lifeInfo.m_pos.y = static_cast<float>(WINDOW_HEIGHT - lifeTexInfo.m_sizeHeight);
-	m_lifeInfo.m_arrangeOrigin.x = 0.0f;
-	m_lifeInfo.m_arrangeOrigin.y = 0.0f;
+	m_lifeInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );
 	m_life2D->SetDrawInfo(m_lifeInfo);
+
+	m_lifeFrame2D = NEW Game2DBase("lifeFrame.json");
+	m_lifeFrameInfo.Init();
+	m_lifeFrameInfo.m_prioity = PRIORITY_HIGH;
+	m_lifeFrameInfo.m_usePlayerOffset = false;
+	m_lifeFrameInfo.m_pos = m_lifeInfo.m_pos;
+	m_lifeFrameInfo.m_arrangeOrigin = m_lifeInfo.m_arrangeOrigin;
+	m_lifeFrame2D->SetDrawInfo(m_lifeFrameInfo);
 
 	// 攻撃マシンガンクラスセット
 	m_attackGun = NEW AttackGun();
@@ -101,11 +107,13 @@ void GamePlayer::DrawUpdate()
 
 		m_life2D->SetDrawInfo(m_lifeInfo);
 		m_life2D->DrawUpdate2D();
+		m_lifeFrame2D->DrawUpdate2D();
 	}
 }
 
 bool GamePlayer::DieMain(){
 	SAFE_DELETE(m_life2D);
+	SAFE_DELETE(m_lifeFrame2D);
 	SAFE_DELETE(m_player2D);
 	return true;
 }

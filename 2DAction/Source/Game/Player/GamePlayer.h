@@ -66,6 +66,8 @@ private:
 	Game2DBase			*m_life2D;		// ライフ描画クラス
 	TEX_DRAW_INFO		m_lifeInfo;		// ライフ描画情報
 
+	Game2DBase			*m_lifeFrame2D;	// ライフ外枠クラス
+	TEX_DRAW_INFO		m_lifeFrameInfo;// ライフ外枠情報
 };
 
 #endif
