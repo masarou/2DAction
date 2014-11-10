@@ -155,7 +155,6 @@ void GamePlayer::PadEventDown()
 
 void GamePlayer::PadEventRight()
 {
-	//SoundManager::GetInstance()->PlayBGM("SE_TEST03");
 	GameAccesser::GetInstance()->AddPlayerOffSet(3.0f, 0.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_RIGHT)){
@@ -171,7 +170,6 @@ void GamePlayer::PadEventRight()
 
 void GamePlayer::PadEventLeft()
 {
-	//SoundManager::GetInstance()->PlayBGM("SE_TEST04");
 	GameAccesser::GetInstance()->AddPlayerOffSet(-3.0f, 0.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_LEFT)){

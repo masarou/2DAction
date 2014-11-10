@@ -1,9 +1,9 @@
 /* ====================================================================== */
 /**
- * @brief  フローのすべてを管理する一番大きいクラス
+ * @brief  
  *
- * @note 使用方法
-	
+ * @note
+ *		フローのすべてを管理するManager
  */
 /* ====================================================================== */
 
@@ -80,14 +80,14 @@ void FlowManager::Update()
 void FlowManager::DrawUpdate()
 {
 	if( !m_pFlow ){
-		DEBUG_ASSERT("m_pFlow が NULL");
+		DEBUG_ASSERT( 0, "m_pFlow が NULL");
 		return;
 	}
 
 	switch( m_step ){
 	case FLOW_MAX:
 	default:
-		DEBUG_ASSERT("FlowBaseの状態があり得ない");
+		DEBUG_ASSERT( 0, "FlowBaseの状態があり得ない");
 		break;
 
 	case FLOW_FADEIN_CHECK:

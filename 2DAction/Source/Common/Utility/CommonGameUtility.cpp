@@ -19,7 +19,6 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	const TEX_INIT_INFO &texInfoA = TextureResourceManager::GetInstance()->GetLoadTextureInfo( texA.m_fileName.c_str() );
 	const TEX_INIT_INFO &texInfoB = TextureResourceManager::GetInstance()->GetLoadTextureInfo( texB.m_fileName.c_str() );
 
-	uint32_t distance = math::GetDistance( texA.m_pos, texB.m_pos );
 	math::Vector2 diff = texA.m_pos - texB.m_pos;
 
 	float inRangeX = math::Absf(texInfoA.m_sizeWidth/2.0f) + math::Absf(texInfoB.m_sizeWidth/2.0f);

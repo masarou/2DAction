@@ -13,8 +13,10 @@
 #include "FlowTable.h"
 #include "FlowTitle.h"
 #include "FlowGame.h"
+#include "FlowResult.h"
+#include "FlowRetry.h"
 
-typedef FlowBase *(*pFunkRetFlowBase)(std::string fileName);
+typedef FlowBase *(*pFunkRetFlowBase)( const std::string &fileName );
 
 struct FLOW_DATA{
 	pFunkRetFlowBase	pCallFunktion;
@@ -24,9 +26,10 @@ struct FLOW_DATA{
 //! 各フローとjson名のテーブル
 static FLOW_DATA s_flowTablse[] = 
 {
-	{FlowTitle::Create, "FlowTitle.json"},
-	{FlowGame::Create,	"FlowGameMain.json"}
-
+	{FlowTitle::Create,		"FlowTitle.json"},
+	{FlowGame::Create,		"FlowGameMain.json"},
+	{FlowResult::Create,	"FlowGameResult.json"},
+	{FlowRetry::Create,		"FlowRetry.json"},
 
 };
 

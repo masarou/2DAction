@@ -25,7 +25,7 @@ Draw2DManager::~Draw2DManager(void)
 void Draw2DManager::Create()
 {
 	if( m_pInstance ){
-		DEBUG_ASSERT("m_pInstance is Already Created");
+		DEBUG_ASSERT( 0, "m_pInstance is Already Created");
 	}
 	else{
 		m_pInstance = NEW Draw2DManager();
@@ -35,7 +35,7 @@ void Draw2DManager::Create()
 Draw2DManager *Draw2DManager::GetInstance()
 {
 	if( !m_pInstance ){
-		DEBUG_ASSERT("m_pInstance is NULL");
+		DEBUG_ASSERT( 0, "m_pInstance is NULL");
 		return NULL;
 	}
 	return m_pInstance;

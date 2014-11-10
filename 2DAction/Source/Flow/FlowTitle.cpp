@@ -1,4 +1,3 @@
-
 /* ====================================================================== */
 /**
  * @brief  
@@ -10,12 +9,12 @@
 
 #include "FlowTitle.h"
 
-FlowBase *FlowTitle::Create(std::string fileName)
+FlowBase *FlowTitle::Create( const std::string &fileName )
 {
 	return NEW FlowTitle(fileName);
 }
 
-FlowTitle::FlowTitle(std::string fileName)
+FlowTitle::FlowTitle( const std::string &fileName )
 	: FlowBase( fileName )
 	, m_title2D( NULL )
 {
@@ -28,6 +27,8 @@ FlowTitle::FlowTitle(std::string fileName)
 	m_title2D->SetDrawInfo(m_titleInfo);
 
 	DEBUG_PRINT("FlowTitleê∂ê¨ÅIÅI\n");
+
+	//DEBUG_ASSERTOOO( 0, _T("teset"));
 }
 
 

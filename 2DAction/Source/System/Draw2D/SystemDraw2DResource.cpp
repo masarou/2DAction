@@ -37,7 +37,7 @@ TextureResourceManager::~TextureResourceManager(void)
 void *TextureResourceManager::Create()
 {
 	if(s_pInstance){
-		DEBUG_ASSERT("m_pInstance is Already Created");
+		DEBUG_ASSERT( 0, "m_pInstance is Already Created");
 	}
 	else{
 		s_pInstance = NEW TextureResourceManager();
@@ -48,7 +48,7 @@ void *TextureResourceManager::Create()
 TextureResourceManager *TextureResourceManager::GetInstance()
 {
 	if(!s_pInstance){
-		DEBUG_ASSERT("m_pInstance is NULL");
+		DEBUG_ASSERT( 0, "m_pInstance is NULL");
 		return NULL;
 	}
 	return s_pInstance;
@@ -164,7 +164,7 @@ void TextureResourceManager::DeleteTextureInfo( const char *jsonFile )
 		++it;
 	}
 	DEBUG_PRINT("/_/_/リソースが見つからなかった.../_/_/\n");
-	DEBUG_ASSERT("jsonFile is Nothing");
+	DEBUG_ASSERT( 0, "jsonFile is Nothing");
 }
 
 /* ================================================ */
@@ -179,7 +179,7 @@ const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jso
 			return m_vRecource2D.at(i).m_texInfo;
 		}
 	}
-	DEBUG_ASSERT("指定のjsonファイルの情報がない!!!");
+	DEBUG_ASSERT( 0, "指定のjsonファイルの情報がない!!!");
 	return m_vRecource2D.at(0).m_texInfo;
 }
 

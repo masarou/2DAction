@@ -16,7 +16,6 @@ namespace math{
 void CheckAngle(float &angle){
 	if( angle <  0.0f ){ angle += ANGLE_FULL; }
 	if( angle >= ANGLE_FULL ){ angle -= ANGLE_FULL; }
-	DEBUG_ASSERT( 0.0f <= angle && angle < ANGLE_FULL );	// ‚Æ‚è‚ ‚¦‚¸BB
 }
 
 float Angle::GetDegree() const

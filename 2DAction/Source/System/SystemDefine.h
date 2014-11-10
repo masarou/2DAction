@@ -50,14 +50,24 @@ static const char *TEXTURE_PATH				= "Data/Texture/";
 
 #if defined _DEBUG	// デバッグビルド
 
-#define DEBUG_ASSERT assert
+//アサート
+//#define DEBUG_ASSERT( expr, msg ) _ASSERT_EXPR( expr, _T(msg) )
+#define DEBUG_ASSERT( expr, msg ) \
+	{ \
+		if(!expr){ \
+			DEBUG_PRINT(msg); \
+			assert(expr); \
+		} \
+	}
+#define DEBUG_ASSERTOOO( expr, msg ) _ASSERT_EXPR( expr, msg );
+
 //出力プリント
 #define DEBUG_PRINT( str, ... ) \
-      { \
-        TCHAR c[256]; \
-        sprintf_s( c, str, __VA_ARGS__ ); \
-        OutputDebugString( c ); \
-      }
+	{ \
+		TCHAR c[256]; \
+		sprintf_s( c, str, __VA_ARGS__ ); \
+		OutputDebugString( c ); \
+	}
 
 #else				// リリースビルド
 

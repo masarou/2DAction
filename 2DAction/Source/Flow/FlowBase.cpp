@@ -1,4 +1,3 @@
-
 /* ====================================================================== */
 /**
  * @brief  
@@ -86,7 +85,7 @@ void FlowBase::LoadFlowFile()
 	}
 
 	if(m_vEventName.empty()){
-		DEBUG_ASSERT("m_vEventName is empty!!");
+		DEBUG_ASSERT( 0, "m_vEventName is empty!!");
 	}
 
 }
@@ -104,5 +103,5 @@ void FlowBase::StartFade(const char* eventStr)
 			return;
 		}
 	}
-	DEBUG_ASSERT("event–¼‚ª‚È‚¢");
+	DEBUG_ASSERT( 0, "event–¼‚ª‚È‚¢");
 }

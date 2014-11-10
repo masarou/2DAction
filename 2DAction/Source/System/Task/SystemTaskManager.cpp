@@ -43,7 +43,9 @@ TaskManagerBase::~TaskManagerBase(void)
 /* ================================================ */
 void TaskManagerBase::AddUnit( TaskUnit *unit )
 {
-	DEBUG_ASSERT(unit);
+	if( !unit ){
+		DEBUG_ASSERT( 0, "taskがNULL");
+	}
 	m_vTaskUnit.push_back(unit);
 }
 
@@ -58,7 +60,7 @@ void TaskManagerBase::Update()
 		TaskUnit *pTask = m_vTaskUnit.at(i);
 		switch(pTask->GetStatus()){
 		default:
-			DEBUG_ASSERT("/_/_/task status が想定外/_/_/");
+			DEBUG_ASSERT( 0, "/_/_/task status が想定外/_/_/");
 			break;
 
 		case TaskUnit::TASK_IDLE:
@@ -82,7 +84,7 @@ void TaskManagerBase::Update()
 			break;
 
 		case TaskUnit::TASK_DIE:
-			DEBUG_ASSERT("/_/_/ここに来るのはおかしい/_/_/");
+			DEBUG_ASSERT( 0, "/_/_/ここに来るのはおかしい/_/_/");
 			break;
 		}
 	}

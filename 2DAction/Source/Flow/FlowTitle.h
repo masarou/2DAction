@@ -18,7 +18,7 @@ class FlowTitle : public FlowBase, public InputWatcher
 {
 public:
 
-	static FlowBase *Create(std::string fileName);
+	static FlowBase *Create( const std::string &fileName );
 
 protected:
 
@@ -29,7 +29,7 @@ protected:
 
 private:
 
-	FlowTitle(std::string fileName);
+	FlowTitle( const std::string &fileName );
 	virtual ~FlowTitle(void);
 
 	Game2DBase			*m_title2D;		// タイトル一枚絵クラス

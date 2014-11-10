@@ -118,7 +118,7 @@ bool InputWatcher::IsButtonEvent( const BUTTON_KIND &kind )
 		break;
 	case EVENT_INVALID:
 	default:
-		DEBUG_ASSERT("想定外");
+		DEBUG_ASSERT( 0, "想定外");
 		break;
 	}
 	return false;
@@ -249,8 +249,8 @@ const InputWatcher::STICK_INFO InputWatcher::GetStickInfo( const InputWatcher::S
 		&& math::Abs(yy) < STICK_INVALID_RANGE){
 		// 傾いてはいるが無効範囲
 		angle = 0;
-		xx = 0.0f;
-		yy = 0.0f;
+		xx = 0;
+		yy = 0;
 	}
 	else{
 		angle = math::ArcTan2( static_cast<float>(yy), static_cast<float>(xx));
@@ -382,7 +382,7 @@ InputWatcher::BUTTON InputWatcher::ConvButtonKindToButton( const BUTTON_KIND &ki
 	case BUTTON_L3:			return L3;		break;
 
 	default:
-		DEBUG_ASSERT("ボタンの種類が想定外");
+		DEBUG_ASSERT( 0, "ボタンの種類が想定外");
 		break;
 	}
 	return BUTTON_MAX;

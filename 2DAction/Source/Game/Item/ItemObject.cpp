@@ -23,6 +23,7 @@ ItemObject::ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, const m
 	m_itemInfo.Init();
 	m_itemInfo.m_fileName = GetItemFilePath().c_str();
 	m_itemInfo.m_pos = pos;
+	m_drawItem->SetDrawInfo(m_itemInfo);
 }
 
 

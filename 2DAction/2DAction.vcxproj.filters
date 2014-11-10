@@ -169,6 +169,12 @@
     <ClInclude Include="Source\System\SystemFadeManager.h">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Flow\FlowRetry.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameScoreRecorder.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -273,6 +279,12 @@
     </ClCompile>
     <ClCompile Include="Source\System\SystemFadeManager.cpp">
       <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowRetry.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameScoreRecorder.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

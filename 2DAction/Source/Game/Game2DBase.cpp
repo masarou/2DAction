@@ -51,7 +51,7 @@ void Game2DBase::DrawUpdate2D()
 
 	// ”z—ñ—v‘f‚æ‚è‘å‚«‚©‚Á‚½ê‡‚à‰½‚à‚µ‚È‚¢
 	if(m_vTexHandle.size() <= drawIndex){
-		DEBUG_ASSERT("m_vTexHandle.size() <= drawIndex");
+		DEBUG_ASSERT( 0, "m_vTexHandle.size() <= drawIndex");
 		return;
 	}
 

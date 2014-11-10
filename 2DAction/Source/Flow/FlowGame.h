@@ -1,10 +1,9 @@
-
 /* ====================================================================== */
 /**
  * @brief  
  *
  * @note
- *		タイトル画面管理クラス
+ *		ゲーム画面管理クラス
  */
 /* ====================================================================== */
 #ifndef FLOW_GAME
@@ -17,14 +16,14 @@ class FlowGame : public FlowBase
 
 public:
 
-	static FlowBase *Create(std::string fileName);
+	static FlowBase *Create( const std::string &fileName );
 
 private:
 
 	virtual bool Init();
 	virtual void FlowUpdate();
 
-	FlowGame(std::string fileName);
+	FlowGame( const std::string &fileName );
 	virtual ~FlowGame(void);
 };
 #endif

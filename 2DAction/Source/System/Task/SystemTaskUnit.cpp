@@ -90,7 +90,7 @@ void TaskUnit::AddConnectionParent( TaskUnit *parent )
 	}
 	else{
 		//! すでにある場合はアサート
-		DEBUG_ASSERT("親がすでにあるのにまたセットしようとしている\n");
+		DEBUG_ASSERT( 0, "親がすでにあるのにまたセットしようとしている\n");
 	}
 }
 
@@ -125,7 +125,7 @@ void TaskUnit::ReleaseConnection( TaskUnit *unit )
 		}
 	}
 
-	DEBUG_ASSERT("親子関係がおかしい、ReleaseConnection引数が見当たらない。\n");
+	DEBUG_ASSERT( 0, "親子関係がおかしい、ReleaseConnection引数が見当たらない。\n");
 }
 
 /* ================================================ */
@@ -153,7 +153,7 @@ void TaskUnit::SetStatus( const TASK_STATUS &status )
 void TaskUnit::SetDieStateFromParent( TaskUnit *pParent )
 {
 	if( !m_pParent || m_pParent != pParent ){
-		DEBUG_ASSERT("親以外から呼ばれたかそもそも親がない\n");
+		DEBUG_ASSERT( 0, "親以外から呼ばれたかそもそも親がない\n");
 	}
 
 	//! 親子関係を解除して死ぬ準備

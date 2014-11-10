@@ -64,7 +64,7 @@ std::string GameEffect::SelectEffectFile()
 		break;
 
 	default:
-		DEBUG_ASSERT( "エフェクト種類が想定外" );
+		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
 		// とりあえず一番無難なものをセット
 		rtn = "effectBomb.json";
 		break;
@@ -81,7 +81,7 @@ std::string GameEffect::SelectEffectAnimTag()
 		break;
 
 	default:
-		DEBUG_ASSERT( "エフェクト種類が想定外" );
+		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
 		rtn = "";
 		break;
 	}

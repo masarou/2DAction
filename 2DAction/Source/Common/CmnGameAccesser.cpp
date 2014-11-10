@@ -16,7 +16,7 @@ GameAccesser *GameAccesser::m_pInstance = NULL;
 void GameAccesser::Create()
 {
 	if(m_pInstance){
-		DEBUG_ASSERT("m_pInstance is Already Created");
+		DEBUG_ASSERT( 0, "m_pInstance is Already Created");
 		return;
 	}
 	m_pInstance = NEW GameAccesser();
@@ -25,7 +25,7 @@ void GameAccesser::Create()
 GameAccesser *GameAccesser::GetInstance()
 {
 	if(!m_pInstance){
-		DEBUG_ASSERT("m_pInstance is NULL");
+		DEBUG_ASSERT( 0, "m_pInstance is NULL");
 	}
 	return m_pInstance;
 }

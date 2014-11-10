@@ -59,7 +59,7 @@ void EnemyManager::CreateEnemy( const Common::ENEMY_KIND &kind )
 		break;
 
 	default:
-		DEBUG_ASSERT( "敵の種類が想定外" );
+		DEBUG_ASSERT( 0,  "敵の種類が想定外" );
 		break;
 	}
 	if( pEnemy ){

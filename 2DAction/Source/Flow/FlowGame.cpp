@@ -4,19 +4,19 @@
  * @brief  
  *
  * @note
- *		タイトル画面管理クラス
+ *		ゲーム画面管理クラス
  */
 /* ====================================================================== */
 
 #include "FlowGame.h"
 #include "Game/GameRegister.h"
 
-FlowBase *FlowGame::Create(std::string fileName)
+FlowBase *FlowGame::Create( const std::string &fileName )
 {
 	return NEW FlowGame(fileName);
 }
 
-FlowGame::FlowGame(std::string fileName)
+FlowGame::FlowGame( const std::string &fileName )
 	: FlowBase(fileName)
 {
 	DEBUG_PRINT("FlowGame生成！！\n");
@@ -45,6 +45,6 @@ void FlowGame::FlowUpdate()
 	ChildUpdate();
 
 	if( GameRegister::GetInstance()->GetPlayer()->GetCurrentLife() == 0 ){
-		StartFade("proceed");
+		StartFade("gameend");
 	}
 }
