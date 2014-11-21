@@ -6,6 +6,7 @@
 #include "System/Draw2D/SystemDraw2DManager.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "System/SystemFadeManager.h"
+#include "Game/GameScoreRecorder.h"
 #include "Common/CmnGameAccesser.h"
 #include "Flow/FlowManager.h"
 
@@ -33,6 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	GameAccesser::Create();
 	Draw2DManager::Create();
 	TextureResourceManager::Create();
+	ScoreRecorder::Create();
 
 	//! TaskUnit継承常駐物
 	FlowManager::Create();
@@ -73,6 +75,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	SAFE_DELETE(p2DManager);
 	TextureResourceManager *pResMan = TextureResourceManager::GetInstance();
 	SAFE_DELETE(pResMan);
+	ScoreRecorder *pRecMan = ScoreRecorder::GetInstance();
+	SAFE_DELETE(pRecMan);
 
 	// ＤＸライブラリ使用の終了
 	DxLib_End();

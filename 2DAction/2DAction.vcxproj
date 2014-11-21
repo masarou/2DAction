@@ -22,6 +22,7 @@
     <ClCompile Include="Source\Flow\FlowTitle.cpp" />
     <ClCompile Include="Source\Game\Effect\GameEffect.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyAIBase.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Game\Game2DBase.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="Source\Flow\FlowTitle.h" />
     <ClInclude Include="Source\Game\Effect\GameEffect.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAAA.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyAIBase.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyBase.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Game\Game2DBase.h" />

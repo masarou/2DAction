@@ -139,6 +139,7 @@ void TaskManagerBase::DeleteDieUnit()
 		if(task->GetStatus() == TaskUnit::TASK_DIE){
 			it = m_vTaskUnit.erase(it);
 			SAFE_DELETE(task);
+			continue;
 		}
 		if(it != m_vTaskUnit.end()){
 			++it;

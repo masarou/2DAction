@@ -19,8 +19,6 @@ public:
 	static EnemyAAA *Create( const uint32_t &uniqueID );
 
 protected:
-	
-	virtual void UpdateEnemy() override;
 
 private:
 

@@ -2,6 +2,7 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "CommonGameUtility.h"
 #include "Math/MathUtility.h"
+#include "Game/Enemy/EnemyAIBase.h"
 
 void AddPlayerOffsetPos( math::Vector2 &pos )
 {
@@ -29,4 +30,21 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	}
 
 	return false;
+}
+
+EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI )
+{
+	EnemyAIBase *pRetAI = NULL;
+	//switch( nextAI ){
+	//case Common::AI_SEARCHING:	// プレイヤーを探している
+	//	pRetAI = NEW EnemyAIBase();
+	//	break;
+	//case Common::AI_MOVE_PLAYER:	// プレイヤーに近づく(体当たり攻撃)
+	//	pRetAI = NEW EnemyAIBase();
+	//	break;
+	//case Common::AI_SHOOTING:	// 遠距離攻撃(遠距離攻撃)
+	//	pRetAI = NEW EnemyAIBase();
+	//	break;
+	//}
+	return pRetAI;
 }

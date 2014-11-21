@@ -17,11 +17,10 @@ class TextureResourceManager
 {
 public:
 
-	TextureResourceManager(void);
-	~TextureResourceManager(void);
 
 	static void *Create();
 	static TextureResourceManager *GetInstance();
+	~TextureResourceManager(void);
 
 	void LoadTextureInfo( const char *jsonFile );
 	void DeleteTextureInfo( const char *jsonFile );
@@ -56,7 +55,8 @@ private:
 			}
 		}
 	};
-
+	
+	TextureResourceManager(void);
 	static TextureResourceManager	*s_pInstance;
 
 	std::vector<RESOURCE_TEX>	m_vRecource2D;

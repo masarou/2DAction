@@ -29,7 +29,16 @@ namespace Common{
 		KIND_CCC,
 		KIND_DDD,
 
-		ENEMY_MAX,
+		KIND_MAX,
+	};
+
+
+	enum ENEMY_AI{
+		AI_SEARCHING,	// プレイヤーを探している
+		AI_MOVE_PLAYER,	// プレイヤーに近づく(体当たり攻撃)
+		AI_SHOOTING,	// 遠距離攻撃(遠距離攻撃)
+
+		AI_MAX,
 	};
 
 }

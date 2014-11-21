@@ -17,7 +17,7 @@
 class GamePlayer;
 class Bullet;
 
-class EnemyManager : TaskUnit
+class EnemyManager : public TaskUnit
 {
 
 public:

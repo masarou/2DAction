@@ -23,10 +23,3 @@ EnemyAAA::EnemyAAA( const uint32_t &uniqueID )
 EnemyAAA::~EnemyAAA(void)
 {
 }
-
-void EnemyAAA::UpdateEnemy()
-{
-	m_enemyInfo.m_pos += 0.5f;
-	m_enemy2D->SetDrawInfo( m_enemyInfo );
-}
-

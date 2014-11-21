@@ -20,11 +20,10 @@ class Draw2DManager
 {
 public:
 
-	Draw2DManager(void);
-	~Draw2DManager(void);
 
 	static void Create();
 	static Draw2DManager *GetInstance();
+	~Draw2DManager(void);
 
 	//! ‡˜‚ğŒˆ‚ß‚Ä•`‰æ
 	void Action();
@@ -50,6 +49,8 @@ private:
 			loadCounter = 0;
 		}
 	};
+
+	Draw2DManager(void);
 
 	//! •`‰æw¦
 	void DrawTexture( const uint32_t &drawIndex);

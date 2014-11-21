@@ -175,6 +175,9 @@
     <ClInclude Include="Source\Game\GameScoreRecorder.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAIBase.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -285,6 +288,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameScoreRecorder.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAIBase.cpp">
+      <Filter>Game\Enemy\AI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

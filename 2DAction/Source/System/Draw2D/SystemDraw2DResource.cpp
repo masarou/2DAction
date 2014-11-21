@@ -9,6 +9,7 @@
 
 #include "System/picojson.h"
 #include "SystemDraw2DResource.h"
+#include "SystemDraw2DManager.h"
 
 TextureResourceManager *TextureResourceManager::s_pInstance = NULL;
 
@@ -151,8 +152,14 @@ void TextureResourceManager::DeleteTextureInfo( const char *jsonFile )
 					if( it->m_texHandle[j] == INVALID_VALUE ){
 						break;
 					}
+
+					// “Ç‚İ‚İ‰æ‘œ‚ğíœ
 					DeleteGraph(it->m_texHandle[j]);
+
+					// •`‰æ—\–ñ‚ğ‚µ‚Ä‚¢‚½‚©‚à‚µ‚ê‚È‚¢‚Ì‚Åíœ
+					Draw2DManager::GetInstance()->DeleteDrawInfo(it->m_texHandle[j]);
 				}
+
 				DEBUG_PRINT("/_/_/ƒŠƒ\[ƒX‰ğ•úŠ®—¹ : y%sz/_/_/\n", m_vRecource2D.at(i).m_jsonFile.c_str() );
 				m_vRecource2D.erase(it);
 			}
