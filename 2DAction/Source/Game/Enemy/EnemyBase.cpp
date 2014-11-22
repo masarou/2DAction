@@ -112,7 +112,7 @@ void EnemyBase::HitPlayreBullet()
 
 	if( m_HP <= 0 ){
 		// スコア追加
-		ScoreRecorder::GetInstance()->AddScore(123);
+		ScoreRecorder::GetInstance()->ScoreEvent( ScoreRecorder::ENEMY_AAA_DEATH );
 
 		// 爆破エフェクトを出す
 		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_enemyInfo.m_pos.x), static_cast<uint32_t>(m_enemyInfo.m_pos.y) );

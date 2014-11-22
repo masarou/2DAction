@@ -35,6 +35,21 @@ bool FlowBase::Finish()
 	return false;
 }
 
+
+/* ============================================== */
+/**
+ * @brief	子タスク更新処理
+ */
+/* ================================================ */
+void FlowBase::UpdateFlow()
+{
+	// パッド入力取得
+	CallPadEvent();
+
+	// 子の更新
+	ChildUpdate();
+}
+
 /* ============================================== */
 /**
  * @brief	子タスク更新処理
@@ -42,7 +57,7 @@ bool FlowBase::Finish()
 /* ================================================ */
 void FlowBase::ChildUpdate()
 {
-	Update();			//! 位置等の更新
+	Exec();				//! 位置等の更新
 	CollisionUpdate();	//! 衝突判定更新+各クラスにイベント発行
 	EventUpdate();		//! 各クラスのイベント処理
 	DrawUpdate();		//! 描画等の更新

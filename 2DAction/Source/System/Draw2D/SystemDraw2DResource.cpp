@@ -157,7 +157,7 @@ void TextureResourceManager::DeleteTextureInfo( const char *jsonFile )
 					DeleteGraph(it->m_texHandle[j]);
 
 					// •`‰æ—\–ñ‚ğ‚µ‚Ä‚¢‚½‚©‚à‚µ‚ê‚È‚¢‚Ì‚Åíœ
-					Draw2DManager::GetInstance()->DeleteDrawInfo(it->m_texHandle[j]);
+					Draw2DManager::GetInstance()->DeleteDrawInfo( jsonFile );
 				}
 
 				DEBUG_PRINT("/_/_/ƒŠƒ\[ƒX‰ğ•úŠ®—¹ : y%sz/_/_/\n", m_vRecource2D.at(i).m_jsonFile.c_str() );

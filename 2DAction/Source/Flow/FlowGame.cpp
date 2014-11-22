@@ -40,9 +40,9 @@ bool FlowGame::Init()
 	return true;
 }
 
-void FlowGame::FlowUpdate()
+void FlowGame::UpdateFlow()
 {
-	ChildUpdate();
+	FlowBase::UpdateFlow();
 
 	if( GameRegister::GetInstance()->GetPlayer()->GetCurrentLife() == 0 ){
 		StartFade("gameend");

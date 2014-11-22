@@ -40,6 +40,11 @@ GameAccesser::~GameAccesser()
 
 }
 
+void GameAccesser::InitAll()
+{
+	m_offsetPlayer.Set(0.0f,0.0f);
+}
+
 void GameAccesser::SetPlayerOffSet(const math::Vector2 &setPos)
 {
 	m_offsetPlayer = setPos;

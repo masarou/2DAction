@@ -24,6 +24,9 @@ public:
 	//! ユニットの登録
 	bool AddUnit(TaskUnit *unit);
 
+	//! 現在のフロー名取得
+	const char *GetCurrentFlow() const;
+
 private:
 
 	//! 管理フローのステップ
@@ -44,7 +47,6 @@ private:
 
 	virtual bool Init();
 	virtual void Update();
-	virtual void DrawUpdate();
 	virtual bool DieMain();
 
 	//! フロー変更

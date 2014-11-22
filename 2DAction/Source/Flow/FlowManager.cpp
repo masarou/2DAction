@@ -72,12 +72,18 @@ bool FlowManager::AddUnit(TaskUnit *unit)
 	return false;
 }
 
-void FlowManager::Update()
-{
 
+//! 現在のフロー名取得
+const char *FlowManager::GetCurrentFlow() const
+{
+	if( m_pFlow ){
+		return m_pFlow->GetFlowName().c_str();
+	}
+	DEBUG_ASSERT( 0, "フローがない!!");
+	return "";
 }
 
-void FlowManager::DrawUpdate()
+void FlowManager::Update()
 {
 	if( !m_pFlow ){
 		DEBUG_ASSERT( 0, "m_pFlow が NULL");
@@ -95,8 +101,8 @@ void FlowManager::DrawUpdate()
 		m_fadeNext = FLOW_CHANGE_WAIT;
 		FadeManager::GetInstance()->StartFadeIn();
 		
-		// ちらつきを抑えるためこのステートでもFlowUpdateを行う
-		m_pFlow->FlowUpdate();
+		// ちらつきを抑えるためこのステートでもUpdateを行う
+		m_pFlow->UpdateFlow();
 		break;
 
 	//! 暗転時のフロー変更を実際におこなう
@@ -122,13 +128,13 @@ void FlowManager::DrawUpdate()
 		m_fadeNext = FLOW_ACTION;
 		FadeManager::GetInstance()->StartFadeOut();
 
-		// ちらつきを抑えるためこのステートでもFlowUpdateを行う
-		m_pFlow->FlowUpdate();
+		// ちらつきを抑えるためこのステートでもUpdateを行う
+		m_pFlow->UpdateFlow();
 		break;
 
 	//! 通常処理
 	case FLOW_ACTION:
-		m_pFlow->FlowUpdate();
+		m_pFlow->UpdateFlow();
 		break;
 
 	//! フローの変更を行うための暗転待ちステップ
@@ -139,7 +145,7 @@ void FlowManager::DrawUpdate()
 			m_fadeNext = FLOW_MAX;
 		}
 		else{
-			m_pFlow->FlowUpdate();
+			m_pFlow->UpdateFlow();
 		}
 		break;
 	case FLOW_FADEOUT_WAIT:
@@ -148,7 +154,7 @@ void FlowManager::DrawUpdate()
 			m_step = m_fadeNext;
 			m_fadeNext = FLOW_MAX;
 		}
-		m_pFlow->FlowUpdate();
+		m_pFlow->UpdateFlow();
 		break;
 	}
 }

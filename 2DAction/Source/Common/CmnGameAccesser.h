@@ -22,6 +22,9 @@ public:
 	static void Create();
 	static GameAccesser *GetInstance();
 
+	// 初期化
+	void InitAll();
+
 	// プレイヤー情報セット
 	void SetPlayerOffSet(const math::Vector2 &setPos);
 	void SetPlayerOffSet(const float &posX, const float &posY);

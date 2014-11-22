@@ -54,7 +54,7 @@ void TaskManagerBase::AddUnit( TaskUnit *unit )
  * @brief	タスク更新処理
  */
 /* ================================================ */
-void TaskManagerBase::Update()
+void TaskManagerBase::Exec()
 {
 	for(uint32_t i = 0; i < m_vTaskUnit.size(); ++i){
 		TaskUnit *pTask = m_vTaskUnit.at(i);

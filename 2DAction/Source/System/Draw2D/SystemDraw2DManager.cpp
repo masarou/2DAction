@@ -73,6 +73,18 @@ void Draw2DManager::DeleteDrawInfo( const int32_t &handle )
 		++it;
 	}
 }
+void Draw2DManager::DeleteDrawInfo( const char *jsonFile )
+{
+	std::vector<DRAW2D>::iterator it = m_vDrawTask.begin();
+	for( uint32_t i = 0; i < m_vDrawTask.size(); ++i ){
+		if( m_vDrawTask.at(i).m_info.m_fileName.compare( jsonFile ) == 0 ){
+			it = m_vDrawTask.erase(it);
+		}
+		else{
+			++it;
+		}
+	}
+}
 
 /* ================================================ */
 /**

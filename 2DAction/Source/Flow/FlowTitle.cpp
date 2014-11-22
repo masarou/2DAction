@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "FlowTitle.h"
+#include "System/Sound/SystemSoundManager.h"
 
 FlowBase *FlowTitle::Create( const std::string &fileName )
 {
@@ -15,8 +16,54 @@ FlowBase *FlowTitle::Create( const std::string &fileName )
 }
 
 FlowTitle::FlowTitle( const std::string &fileName )
-	: FlowBase( fileName )
-	, m_title2D( NULL )
+: FlowBase( fileName )
+, m_pTitleTex( NULL )
+{
+	DEBUG_PRINT("FlowTitle生成！！\n");
+}
+
+
+FlowTitle::~FlowTitle(void)
+{
+	DEBUG_PRINT("FlowTitle削除！！\n");
+}
+
+bool FlowTitle::Finish()
+{
+	return true;
+}
+
+bool FlowTitle::Init()
+{
+	// 一枚絵作成
+	m_pTitleTex = Title2D::CreateTitle2D();
+	return true;
+}
+
+void FlowTitle::PadEventDecide()
+{
+	// 決定SE鳴らす
+	SoundManager::GetInstance()->PlaySE("Decide");
+	StartFade("proceed");
+}
+
+
+/* ====================================================================== */
+/**
+ * @brief  
+ *
+ * @note
+ *		タイトル一枚絵クラス
+ */
+/* ====================================================================== */
+Title2D *Title2D::CreateTitle2D()
+{
+	return NEW Title2D();
+}
+
+Title2D::Title2D()
+: TaskUnit("Title2D")
+, m_title2D( NULL )
 {
 	// 描画クラスセットアップ
 	m_title2D = NEW Game2DBase("title.json");
@@ -25,41 +72,16 @@ FlowTitle::FlowTitle( const std::string &fileName )
 	m_titleInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
 	m_titleInfo.m_usePlayerOffset = false;
 	m_title2D->SetDrawInfo(m_titleInfo);
-
-	DEBUG_PRINT("FlowTitle生成！！\n");
-
-	//DEBUG_ASSERTOOO( 0, _T("teset"));
 }
 
-
-FlowTitle::~FlowTitle(void)
+Title2D::~Title2D(void)
 {
 	SAFE_DELETE( m_title2D );
-	DEBUG_PRINT("FlowTitle削除！！\n");
 }
 
-//! 初期化処理記入
-bool FlowTitle::Finish()
+void Title2D::DrawUpdate()
 {
-	return true;
-}
-
-bool FlowTitle::Init()
-{
-	return true;
-}
-
-void FlowTitle::FlowUpdate()
-{
-	CallPadEvent();
-
-	// タイトル描画
-	m_title2D->DrawUpdate2D();
-
-	ChildUpdate();
-}
-
-void FlowTitle::PadEventDecide()
-{
-	StartFade("proceed");
+	if( m_title2D ){
+		m_title2D->DrawUpdate2D();
+	}
 }

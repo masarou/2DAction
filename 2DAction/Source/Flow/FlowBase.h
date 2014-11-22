@@ -12,8 +12,9 @@
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskManager.h"
 #include "System/Task/SystemTaskUnit.h"
+#include "System/Input/SystemInputWatcher.h"
 
-class FlowBase : public TaskManagerBase
+class FlowBase : public TaskManagerBase, public InputWatcher 
 {
 public:
 
@@ -23,11 +24,13 @@ public:
 	//! 初期化処理記入
 	virtual bool Init(){return true;}
 
-	//! 初期化処理記入
+	//!	終了処理記入
 	virtual bool Finish();
 
 	//! 毎フレーム呼ばれる
-	virtual void FlowUpdate() = 0;
+	virtual void UpdateFlow();
+
+	//! ぶら下がっている子の更新
 	void ChildUpdate();
 
 	//! タスク追加
@@ -35,6 +38,9 @@ public:
 
 	//! json読み込み
 	void LoadFlowFile();
+
+	//! 現在のフロー名取得
+	const std::string &GetFlowName(){ return m_fileName; }
 
 protected:
 

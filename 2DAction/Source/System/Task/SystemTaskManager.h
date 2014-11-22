@@ -31,16 +31,16 @@ public:
 	//! ユニットの登録
 	void AddUnit( TaskUnit *unit );
 
-	//! 更新処理
-	void Update();
-	void CollisionUpdate();
-	void EventUpdate();
-	void DrawUpdate();
-
 	//! 全タスク終了
 	bool ReleaseAllEnd();
 
 protected:
+
+	//! 更新処理
+	void Exec();
+	void CollisionUpdate();
+	void EventUpdate();
+	void DrawUpdate();
 
 	void DeleteDieUnit();
 	std::vector<TaskUnit*> m_vTaskUnit;
@@ -53,6 +53,11 @@ public:
 
 	virtual ~TaskManager(void){};
 	static TaskManager *GetInstance(){return m_pInstance;}
+
+	void ExecApp(){
+		Exec();
+		DrawUpdate();
+	}
 
 private:
 

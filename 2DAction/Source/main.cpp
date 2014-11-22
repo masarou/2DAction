@@ -34,12 +34,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	GameAccesser::Create();
 	Draw2DManager::Create();
 	TextureResourceManager::Create();
-	ScoreRecorder::Create();
 
 	//! TaskUnitŒp³í’“•¨
 	FlowManager::Create();
 	SoundManager::Create();
 	FadeManager::Create();
+	ScoreRecorder::Create();
 
 	while(1){
 
@@ -75,8 +75,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	SAFE_DELETE(p2DManager);
 	TextureResourceManager *pResMan = TextureResourceManager::GetInstance();
 	SAFE_DELETE(pResMan);
-	ScoreRecorder *pRecMan = ScoreRecorder::GetInstance();
-	SAFE_DELETE(pRecMan);
 
 	// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠŽg—p‚ÌI—¹
 	DxLib_End();
@@ -93,9 +91,7 @@ void GameMain()
 	//! •`‰ææ‚ð— ‰æ–Ê‚É‚·‚é
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
-	TaskManager::GetInstance()->Update();
-	TaskManager::GetInstance()->EventUpdate();
-	TaskManager::GetInstance()->DrawUpdate();
+	TaskManager::GetInstance()->ExecApp();
 
 	//! — ‰æ–Ê‚Ì“à—e‚ð•\‰æ–Ê‚É”½‰f‚³‚¹‚é
 	ScreenFlip() ;

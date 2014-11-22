@@ -20,8 +20,8 @@ public:
 
 private:
 
-	virtual bool Init();
-	virtual void FlowUpdate();
+	virtual bool Init() override;
+	virtual void UpdateFlow() override;
 
 	FlowGame( const std::string &fileName );
 	virtual ~FlowGame(void);

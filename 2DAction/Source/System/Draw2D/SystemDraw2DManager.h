@@ -33,6 +33,7 @@ public:
 
 	//! •`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
 	void DeleteDrawInfo( const int32_t &handle );
+	void DeleteDrawInfo( const char *jsonFile );
 	
 	//! •`‰æ‚ðŠŠ‚ç‚©‚É‚·‚é‚©ƒtƒ‰ƒO
 	void SetUseBilinear( const bool &flag ){m_useBilinear = flag;}
