@@ -1,4 +1,5 @@
 
+#include <random>
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "CommonGameUtility.h"
 #include "Math/MathUtility.h"
@@ -47,4 +48,13 @@ EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI )
 	//	break;
 	//}
 	return pRetAI;
+}
+
+int32_t GetRandamValue( const int32_t &max, const int32_t &min)
+{
+	//std::mt19937 rand;
+	//std::uniform_int_distribution<int> distribution( min, max );
+	//return distribution(rand);
+
+	return min + (int)(rand()*(max-min+1.0)/(1.0+RAND_MAX));
 }

@@ -18,7 +18,8 @@
 #include "System/Sound/SystemSoundManager.h"
 
 EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind )
-: m_uniqueIdOfEnemyAll( uniqueId )
+: m_enemyState( ENEMY_INIT )
+, m_uniqueIdOfEnemyAll( uniqueId )
 , m_enemyKind( kind )
 , m_HP(10)
 , m_eye(math::Vector2())
@@ -48,6 +49,12 @@ void EnemyBase::ChangeAIState( const Common::ENEMY_AI &nextAI )
 
 }
 
+bool EnemyBase::Init()
+{
+	m_HP = GetEnemyDefaultHP();
+	return true;
+}
+
 void EnemyBase::UpdateEnemy()
 {
 	if( m_pEnemyAI && m_nextAI != Common::AI_MAX )
@@ -67,8 +74,8 @@ void EnemyBase::UpdateEnemy()
 
 	// HP描画準備
 	m_textureLife.m_texInfo.m_pos.x = m_textureEnemy.m_texInfo.m_pos.x;
-	m_textureLife.m_texInfo.m_pos.y = m_textureEnemy.m_texInfo.m_pos.y - 30.0f;
-	m_textureLife.m_texInfo.m_scale.x = m_HP;
+	m_textureLife.m_texInfo.m_pos.y = m_textureEnemy.m_texInfo.m_pos.y + 30.0f;
+	m_textureLife.m_texInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
 	m_textureLife.m_pTex2D->SetDrawInfo( m_textureLife.m_texInfo );
 }
 
@@ -94,7 +101,7 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_BULLET:	// Playerの弾に当たった
-		HitPlayreBullet();
+		HitPlayreBullet( 10 ); // 仮
 		break;
 
 	}
@@ -117,9 +124,16 @@ const TEX_DRAW_INFO &EnemyBase::GetDrawInfo()
 /* ================================================ */
 
 // プレイヤーの弾に当たった
-void EnemyBase::HitPlayreBullet()
+void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 {
-	--m_HP;
+	if( m_HP <= damageValue ){
+		m_HP = 0;
+	}
+	else{
+		m_HP -= damageValue;
+	}
+
+	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue, m_textureEnemy.m_texInfo.m_pos.x, m_textureEnemy.m_texInfo.m_pos.y);
 
 	if( m_HP <= 0 ){
 		// スコア追加

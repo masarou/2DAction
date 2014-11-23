@@ -92,6 +92,12 @@ bool EnemyManager::CheckCollision( const TEX_DRAW_INFO &texInfo )
 {
 	bool isHit = false;
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
+		
+		// 初期化中だったら無視
+		if( m_enemyArray.at(i)->GetState() == EnemyBase::ENEMY_INIT ){
+			continue;
+		}
+
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		if( IsInRangeTexture( texInfo, m_enemyArray.at(i)->GetDrawInfo() ) ){
 			isHit = true;
@@ -105,6 +111,12 @@ bool EnemyManager::CheckCollisionToBullet( Bullet *bullet )
 {
 	bool isHit = false;
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
+
+		// 初期化中だったら無視
+		if( m_enemyArray.at(i)->GetState() == EnemyBase::ENEMY_INIT ){
+			continue;
+		}
+
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		if( IsInRangeTexture( bullet->GetDrawInfo(), m_enemyArray.at(i)->GetDrawInfo() ) ){
 			Common::CMN_EVENT eventInfo;
@@ -122,6 +134,12 @@ bool EnemyManager::CheckCollisionToPlayer( GamePlayer *player )
 {
 	bool isHit = false;
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
+
+		// 初期化中だったら無視
+		if( m_enemyArray.at(i)->GetState() == EnemyBase::ENEMY_INIT ){
+			continue;
+		}
+
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		TEX_DRAW_INFO tmp = player->GetDrawInfo();
 		tmp.m_pos += GetPlayerOffsetPos();
@@ -140,7 +158,21 @@ bool EnemyManager::CheckCollisionToPlayer( GamePlayer *player )
 void EnemyManager::Update()
 {
 	for(uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
-		m_enemyArray.at(i)->UpdateEnemy();
+		switch( m_enemyArray.at(i)->GetState() ){
+		default:
+		case EnemyBase::ENEMY_MAX:
+			DEBUG_ASSERT( 0, "敵のステータスが無効");
+			return;
+
+		case EnemyBase::ENEMY_INIT:
+			if( m_enemyArray.at(i)->Init() ){
+				m_enemyArray.at(i)->m_enemyState = EnemyBase::ENEMY_ACTION;
+			}
+			break;
+		case EnemyBase::ENEMY_ACTION:
+			m_enemyArray.at(i)->UpdateEnemy();
+			break;
+		}
 	}
 }
 
@@ -164,6 +196,12 @@ void EnemyManager::CollisionUpdate()
 void EnemyManager::DrawUpdate()
 {
 	for(uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+
+		// 初期化中だったら無視
+		if( m_enemyArray.at(i)->GetState() == EnemyBase::ENEMY_INIT ){
+			continue;
+		}
+
 		m_enemyArray.at(i)->DrawEnemy();
 	}
 }

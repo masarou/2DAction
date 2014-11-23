@@ -15,7 +15,7 @@
 #include "Math/MathAngle.h"
 #include "System/SystemDefine.h"
 
-#define SPLIT_MAX 80
+#define SPLIT_MAX 100
 
 //•`‰æ‚Ìí—Ş —Dæ
 enum KIND_2D{

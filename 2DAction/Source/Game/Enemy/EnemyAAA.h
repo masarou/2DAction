@@ -19,6 +19,8 @@ public:
 	static EnemyAAA *Create( const uint32_t &uniqueID );
 
 protected:
+	
+	virtual uint32_t GetEnemyDefaultHP(){return 100;}	// 敵クラスのデフォルトHP取得
 
 private:
 

@@ -29,10 +29,10 @@ public:
 	static GameRegister *CreateInstance();
 	static GameRegister *GetInstance();
 
-	GamePlayer		*GetPlayer();
-	EnemyManager	*GetManagerEnemy();
-	GameMap			*GetGameMap();
-	ItemManager	*GetManagerItem();
+	GamePlayer			*GetPlayer();
+	EnemyManager		*GetManagerEnemy();
+	GameMap				*GetGameMap();
+	ItemManager			*GetManagerItem();
 
 private:
 
@@ -42,10 +42,10 @@ private:
 	static GameRegister *s_pInstance;
 
 	// ˆÈ‰º‚ÌƒNƒ‰ƒX‚Ì‰ğ•ú‚ÍTaskUnit‚É”C‚¹‚é‚Ì‚Å¶¬‚Ì‚İ‚Å‚æ‚¢
-	GamePlayer		*m_pPlayer;
-	EnemyManager	*m_pEnemyManager;
-	GameMap			*m_pMap;
-	ItemManager		*m_pItemManager;
+	GamePlayer			*m_pPlayer;
+	EnemyManager		*m_pEnemyManager;
+	GameMap				*m_pMap;
+	ItemManager			*m_pItemManager;
 
 };
 

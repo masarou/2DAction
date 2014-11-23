@@ -10,12 +10,13 @@
 #ifndef ENEMY_MANAGER
 #define ENEMY_MANAGER
 
-#include "System/Task/SystemTaskUnit.h"
 #include "System/SystemDefine.h"
-#include "EnemyBase.h"
+#include "System/Task/SystemTaskUnit.h"
+#include "System/Draw2D/SystemDraw2DDefine.h"
 
 class GamePlayer;
 class Bullet;
+class EnemyBase;
 
 class EnemyManager : public TaskUnit
 {

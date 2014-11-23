@@ -23,4 +23,7 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 // 指定のAIクラスの生成
 EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI );
 
+// 指定の範囲内のランダムな数字を返す
+int32_t GetRandamValue( const int32_t &max, const int32_t &min);
+
 #endif

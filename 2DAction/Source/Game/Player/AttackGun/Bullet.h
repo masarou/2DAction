@@ -32,6 +32,7 @@ public:
 	void	Draw();
 
 	// 情報取得
+	const uint32_t &GetBulletDamage(){ return m_bulletDamage;}
 	const TEX_DRAW_INFO &GetDrawInfo();
 	uint32_t GetUniqueNumber(){ return m_uniqueNumber; }
 	uint32_t GetLiveTime(){ return m_liveTime; }
@@ -42,6 +43,7 @@ private:
 	uint32_t		m_liveTime;		// 生成されてからの時間
 	Texture2D		m_textureBullet;// プレイヤー画像
 
+	uint32_t		m_bulletDamage;		// 弾の威力
 	math::Vector2	m_bulletVec;	// 発射方向
 	float			m_speed;		// 発射スピード
 

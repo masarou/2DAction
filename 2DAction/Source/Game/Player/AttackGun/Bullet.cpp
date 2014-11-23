@@ -17,6 +17,7 @@
 Bullet::Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed )
 	: m_uniqueNumber( uniqueNum )
 	, m_liveTime( 0 )
+	, m_bulletDamage( 10 )
 	, m_bulletVec( vec )
 	, m_speed( speed )
 {

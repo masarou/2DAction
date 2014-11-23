@@ -70,4 +70,3 @@ ItemManager *GameRegister::GetManagerItem()
 {
 	return m_pItemManager;
 }
-
