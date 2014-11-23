@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"enemyLife.png"
+		, "animDefault":"default"
+		, "sizeW": 5
+		, "sizeH": 10
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":60,	"animIndex":[0],	"nextAnim":"default"}
+	]	
+}

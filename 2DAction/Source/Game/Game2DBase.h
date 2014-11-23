@@ -33,11 +33,7 @@ public:
 	void DrawUpdate2D();
 
 	const TEX_DRAW_INFO &GetDrawInfo(){ return m_drawInfo; }
-
-protected:
-
-
-
+	
 private:
 
 	//!テクスチャロード
@@ -55,6 +51,20 @@ private:
 	std::vector<int32_t>			m_vTexHandle;		// 描画Handle
 	std::vector<std::string>		m_vAnimName;		// 再生できるアニメ
 	
+};
+
+struct Texture2D{
+	Game2DBase			*m_pTex2D;			// 画像管理
+	TEX_DRAW_INFO		m_texInfo;			// 描画情報
+
+	void Init(){
+		m_pTex2D = NULL;
+		m_texInfo.Init();
+	}
+	void DeleteAndInit(){
+		SAFE_DELETE(m_pTex2D);
+		m_texInfo.Init();
+	}
 };
 
 #endif

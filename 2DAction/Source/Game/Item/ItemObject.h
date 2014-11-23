@@ -51,9 +51,7 @@ private:
 	ITEM_KIND		m_kindItem;		// アイテムの種類
 	uint32_t		m_uniqueNumber;	// ほかのアイテムと区別するためにユニーク番号
 	uint32_t		m_liveTime;		// 生成されてからの時間
-	Game2DBase		*m_drawItem;	// アイテム描画クラス
-	TEX_DRAW_INFO	m_itemInfo;		// アイテム描画情報
-
+	Texture2D		m_textureItem;	// タイトル一枚絵
 };
 
 #endif

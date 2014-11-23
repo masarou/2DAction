@@ -40,7 +40,7 @@ protected:
 
 	EnemyAIBase			*m_pEnemyAI;				// 思考クラス
 
-protected:
+private:
 
 	uint32_t			m_uniqueIdOfEnemyAll;	// 敵全体の中での識別ID
 	Common::ENEMY_KIND	m_enemyKind;			// 敵の種類
@@ -49,6 +49,10 @@ protected:
 	math::Vector2		m_eye;					// 敵の視線
 	Game2DBase			*m_pEnemy2D;			// 敵の画像等管理
 	TEX_DRAW_INFO		m_enemyInfo;			// 描画関係情報
+
+	
+	Texture2D			m_textureEnemy;			// 敵画像
+	Texture2D			m_textureLife;			// 敵ライフ画像
 
 	Common::ENEMY_AI	m_nextAI;				// 次に思考するAIステート
 };

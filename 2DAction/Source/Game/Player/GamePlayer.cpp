@@ -22,31 +22,32 @@ GamePlayer::GamePlayer(void)
 , m_playerLife(LIFE_POINT_MAX)
 {
 	// 描画クラスセットアップ
-	m_player2D = NEW Game2DBase("player.json");
-	m_playerInfo.Init();
-	m_playerInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_playerInfo.m_usePlayerOffset = false;
-	m_playerInfo.m_pos = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
-	m_player2D->SetDrawInfo(m_playerInfo);
+	m_texturePlayer.Init();
+	m_texturePlayer.m_pTex2D = NEW Game2DBase("player.json");
+	m_texturePlayer.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_texturePlayer.m_texInfo.m_usePlayerOffset = false;
+	m_texturePlayer.m_texInfo.m_pos = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	m_texturePlayer.m_pTex2D->SetDrawInfo(m_texturePlayer.m_texInfo);
 
 	// 描画クラスセットアップ
-	m_life2D = NEW Game2DBase("lifeGauge.json");
-	m_lifeInfo.Init();
-	m_lifeInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_lifeInfo.m_usePlayerOffset = false;
-	m_lifeInfo.m_pos.x = 0.0f;
+	m_textureLife.Init();
+	m_textureLife.m_pTex2D = NEW Game2DBase("lifeGauge.json");
+	m_textureLife.m_texInfo.Init();
+	m_textureLife.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_textureLife.m_texInfo.m_usePlayerOffset = false;
+	m_textureLife.m_texInfo.m_pos.x = 0.0f;
 	const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( "lifeGauge.json" );
-	m_lifeInfo.m_pos.y = static_cast<float>(WINDOW_HEIGHT - lifeTexInfo.m_sizeHeight);
-	m_lifeInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );
-	m_life2D->SetDrawInfo(m_lifeInfo);
+	m_textureLife.m_texInfo.m_pos.y = static_cast<float>(WINDOW_HEIGHT - lifeTexInfo.m_sizeHeight);
+	m_textureLife.m_texInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );
+	m_textureLife.m_pTex2D->SetDrawInfo(m_textureLife.m_texInfo);
 
-	m_lifeFrame2D = NEW Game2DBase("lifeFrame.json");
-	m_lifeFrameInfo.Init();
-	m_lifeFrameInfo.m_prioity = PRIORITY_HIGH;
-	m_lifeFrameInfo.m_usePlayerOffset = false;
-	m_lifeFrameInfo.m_pos = m_lifeInfo.m_pos;
-	m_lifeFrameInfo.m_arrangeOrigin = m_lifeInfo.m_arrangeOrigin;
-	m_lifeFrame2D->SetDrawInfo(m_lifeFrameInfo);
+	m_textureLifeFrame.Init();
+	m_textureLifeFrame.m_pTex2D = NEW Game2DBase("lifeFrame.json");
+	m_textureLifeFrame.m_texInfo.m_prioity = PRIORITY_HIGH;
+	m_textureLifeFrame.m_texInfo.m_usePlayerOffset = false;
+	m_textureLifeFrame.m_texInfo.m_pos = m_textureLife.m_texInfo.m_pos;
+	m_textureLifeFrame.m_texInfo.m_arrangeOrigin = m_textureLife.m_texInfo.m_arrangeOrigin;
+	m_textureLifeFrame.m_pTex2D->SetDrawInfo(m_textureLifeFrame.m_texInfo);
 
 	// 攻撃マシンガンクラスセット
 	m_attackGun = NEW AttackGun();
@@ -69,7 +70,7 @@ void GamePlayer::Update()
 
 	// 攻撃判定
 	if( GetStickInfoRight().m_vec != math::Vector2() ){
-		math::Vector2 pos = math::Vector2( m_playerInfo.m_pos.x, m_playerInfo.m_pos.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
+		math::Vector2 pos = math::Vector2( m_texturePlayer.m_texInfo.m_pos.x, m_texturePlayer.m_texInfo.m_pos.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
 		math::Vector2 vec = GetStickInfoRight().m_vec;
 		vec.Normalize();
 		m_attackGun->ShootBullet( pos, vec );
@@ -89,32 +90,32 @@ void GamePlayer::DrawUpdate()
 	}
 	else{
 		// プレイヤー描画
-		m_player2D->DrawUpdate2D();
+		m_texturePlayer.m_pTex2D->DrawUpdate2D();
 	}
 
 	// ライフゲージ描画
 	{
-		const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_lifeInfo.m_fileName.c_str() );
+		const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureLife.m_texInfo.m_fileName.c_str() );
 		float ratio = static_cast<float>(m_playerLife)/static_cast<float>(LIFE_POINT_MAX);
 		float lifeValue = (WINDOW_WIDTH / lifeTexInfo.m_sizeWidth) * ratio;
 		
-		if( math::Absf( m_lifeInfo.m_scale.x - lifeValue ) > 0.2f ){
-			m_lifeInfo.m_scale.x *= (m_lifeInfo.m_scale.x - lifeValue < 0.0f) ? 1.02f : 0.98f ;
+		if( math::Absf( m_textureLife.m_texInfo.m_scale.x - lifeValue ) > 0.2f ){
+			m_textureLife.m_texInfo.m_scale.x *= (m_textureLife.m_texInfo.m_scale.x - lifeValue < 0.0f) ? 1.02f : 0.98f ;
 		}
 		else{
-			m_lifeInfo.m_scale.x = lifeValue;
+			m_textureLife.m_texInfo.m_scale.x = lifeValue;
 		}
 
-		m_life2D->SetDrawInfo(m_lifeInfo);
-		m_life2D->DrawUpdate2D();
-		m_lifeFrame2D->DrawUpdate2D();
+		m_textureLife.m_pTex2D->SetDrawInfo(m_textureLife.m_texInfo);
+		m_textureLife.m_pTex2D->DrawUpdate2D();
+		m_textureLifeFrame.m_pTex2D->DrawUpdate2D();
 	}
 }
 
 bool GamePlayer::DieMain(){
-	SAFE_DELETE(m_life2D);
-	SAFE_DELETE(m_lifeFrame2D);
-	SAFE_DELETE(m_player2D);
+	m_texturePlayer.DeleteAndInit();
+	m_textureLife.DeleteAndInit();
+	m_textureLifeFrame.DeleteAndInit();
 	return true;
 }
 
@@ -128,14 +129,13 @@ void GamePlayer::PadEventUp()
 	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, -3.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_UP)){
-		m_player2D->SetAnim("up");
+		m_texturePlayer.m_pTex2D->SetAnim("up");
 	}
 	else if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
 		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
 		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
-		m_player2D->SetAnim("up");
+		m_texturePlayer.m_pTex2D->SetAnim("up");
 	}
-	m_player2D->SetDrawInfo(m_playerInfo);
 }
 
 void GamePlayer::PadEventDown()
@@ -143,14 +143,13 @@ void GamePlayer::PadEventDown()
 	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, 3.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_DOWN)){
-		m_player2D->SetAnim("down");
+		m_texturePlayer.m_pTex2D->SetAnim("down");
 	}
 	else if(!IsButtonPress(InputWatcher::BUTTON_UP)
 		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
 		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
-		m_player2D->SetAnim("down");
+		m_texturePlayer.m_pTex2D->SetAnim("down");
 	}
-	m_player2D->SetDrawInfo(m_playerInfo);
 }
 
 void GamePlayer::PadEventRight()
@@ -158,14 +157,13 @@ void GamePlayer::PadEventRight()
 	GameAccesser::GetInstance()->AddPlayerOffSet(3.0f, 0.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_RIGHT)){
-		m_player2D->SetAnim("right");
+		m_texturePlayer.m_pTex2D->SetAnim("right");
 	}
 	else if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
 		&& !IsButtonPress(InputWatcher::BUTTON_UP)
 		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
-		m_player2D->SetAnim("right");
+		m_texturePlayer.m_pTex2D->SetAnim("right");
 	}
-	m_player2D->SetDrawInfo(m_playerInfo);
 }
 
 void GamePlayer::PadEventLeft()
@@ -173,14 +171,13 @@ void GamePlayer::PadEventLeft()
 	GameAccesser::GetInstance()->AddPlayerOffSet(-3.0f, 0.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_LEFT)){
-		m_player2D->SetAnim("left");
+		m_texturePlayer.m_pTex2D->SetAnim("left");
 	}
 	else if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
 		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
 		&& !IsButtonPress(InputWatcher::BUTTON_UP)){
-		m_player2D->SetAnim("left");
+		m_texturePlayer.m_pTex2D->SetAnim("left");
 	}
-	m_player2D->SetDrawInfo(m_playerInfo);
 }
 
 void GamePlayer::PadEventDecide()
@@ -201,7 +198,10 @@ void GamePlayer::PadEventCancel()
 /* ================================================ */
 const TEX_DRAW_INFO &GamePlayer::GetDrawInfo()
 {
-	return m_player2D->GetDrawInfo();
+	if( m_texturePlayer.m_pTex2D == NULL ){
+		DEBUG_ASSERT( 0, "プレイヤーの描画クラスがNULL");
+	}
+	return m_texturePlayer.m_pTex2D->GetDrawInfo();
 }
 
 /* ================================================ */

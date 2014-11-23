@@ -13,15 +13,15 @@
 GameEffect::GameEffect( const EFFECT_KIND &kind, const uint32_t &posX, const uint32_t &posY )
 	: TaskUnit("GameEffect")
 	, m_kind( kind )
-	, m_pEffect( NULL )
 {
 	// 描画クラスセットアップ
-	m_pEffect = NEW Game2DBase(SelectEffectFile().c_str());
-	m_effectInfo.Init();
-	m_effectInfo.m_fileName = SelectEffectFile();
-	m_effectInfo.m_pos.x = static_cast<float>(posX);
-	m_effectInfo.m_pos.y = static_cast<float>(posY);
-	m_pEffect->SetAnim(SelectEffectAnimTag());
+	m_textureEffect.Init();
+	m_textureEffect.m_pTex2D = NEW Game2DBase(SelectEffectFile().c_str());
+	m_textureEffect.m_texInfo.Init();
+	m_textureEffect.m_texInfo.m_fileName = SelectEffectFile();
+	m_textureEffect.m_texInfo.m_pos.x = static_cast<float>(posX);
+	m_textureEffect.m_texInfo.m_pos.y = static_cast<float>(posY);
+	m_textureEffect.m_pTex2D->SetAnim(SelectEffectAnimTag());
 }
 
 GameEffect::~GameEffect(void)
@@ -30,13 +30,13 @@ GameEffect::~GameEffect(void)
 
 bool GameEffect::DieMain()
 {
-	SAFE_DELETE(m_pEffect);
+	m_textureEffect.DeleteAndInit();
 	return true;
 }
 
 bool GameEffect::Init()
 {
-	m_pEffect->SetDrawInfo( m_effectInfo );
+	m_textureEffect.m_pTex2D->SetDrawInfo( m_textureEffect.m_texInfo );
 	return true;
 }
 
@@ -46,13 +46,13 @@ void GameEffect::Update()
 
 void GameEffect::DrawUpdate()
 {
-	if( std::string("").compare(m_pEffect->GetPlayAnim()) == 0 ){
+	if( std::string("").compare(m_textureEffect.m_pTex2D->GetPlayAnim()) == 0 ){
 		// アニメは終わったので自殺
 		TaskStartDie();
 		return;
 	}
 
-	m_pEffect->DrawUpdate2D();
+	m_textureEffect.m_pTex2D->DrawUpdate2D();
 }
 
 std::string GameEffect::SelectEffectFile()

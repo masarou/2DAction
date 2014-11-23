@@ -45,10 +45,6 @@ void AttackGun::Update()
 	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
 		m_magazine.at( i )->Update();
 	}
-}
-
-void AttackGun::DrawUpdate()
-{
 
 	// ¶¬‚³‚ê‚Äˆê’èŠÔ‚ğ’´‚¦‚½‚à‚Ì‚Ííœ
 	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
@@ -56,7 +52,10 @@ void AttackGun::DrawUpdate()
 			DeleteBullet( m_magazine.at( i )->GetUniqueNumber() );
 		}
 	}
+}
 
+void AttackGun::DrawUpdate()
+{
 	// ’e•`‰æ
 	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
 		m_magazine.at( i )->Draw();

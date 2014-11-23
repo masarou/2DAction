@@ -17,27 +17,27 @@
 Bullet::Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed )
 	: m_uniqueNumber( uniqueNum )
 	, m_liveTime( 0 )
-	, m_drawBullet( NULL )
 	, m_bulletVec( vec )
 	, m_speed( speed )
 {
-	m_drawBullet = NEW Game2DBase("bullet.json");
+	m_textureBullet.Init();
+	m_textureBullet.m_pTex2D = NEW Game2DBase("bullet.json");
 
 	//!‰ŠúˆÊ’uƒZƒbƒg
-	m_bulletInfo.Init();
-	m_bulletInfo.m_fileName = "bullet.json";
-	m_bulletInfo.m_pos = pos;
+	m_textureBullet.m_texInfo.Init();
+	m_textureBullet.m_texInfo.m_fileName = "bullet.json";
+	m_textureBullet.m_texInfo.m_pos = pos;
 }
 
 Bullet::~Bullet(void)
 {
-	SAFE_DELETE(m_drawBullet);
+	m_textureBullet.DeleteAndInit();
 }
 
 void Bullet::Update()
 {
-	m_bulletInfo.m_pos += m_bulletVec * m_speed;
-	m_drawBullet->SetDrawInfo(m_bulletInfo);
+	m_textureBullet.m_texInfo.m_pos += m_bulletVec * m_speed;
+	m_textureBullet.m_pTex2D->SetDrawInfo(m_textureBullet.m_texInfo);
 
 	// “G‚É“–‚½‚Á‚½‚©ƒ`ƒFƒbƒN
 	bool isHit = GameRegister::GetInstance()->GetManagerEnemy()->CheckCollisionToBullet( this );
@@ -52,10 +52,13 @@ void Bullet::Update()
 void Bullet::Draw()
 {
 	// ’e•`‰æ
-	m_drawBullet->DrawUpdate2D();
+	m_textureBullet.m_pTex2D->DrawUpdate2D();
 }
 
 const TEX_DRAW_INFO &Bullet::GetDrawInfo()
 {
-	return m_drawBullet->GetDrawInfo();
+	if( m_textureBullet.m_pTex2D == NULL ){
+		DEBUG_ASSERT( 0, "’e‚Ì•`‰æƒNƒ‰ƒX‚ªNULL");
+	}
+	return m_textureBullet.m_pTex2D->GetDrawInfo();
 }

@@ -15,21 +15,21 @@ ItemObject::ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, const m
 , m_kindItem(kind)
 , m_uniqueNumber(uniqueId)
 , m_liveTime(0)
-, m_drawItem(NULL)
 {
-	m_drawItem = NEW Game2DBase( GetItemFilePath().c_str() );
+	m_textureItem.Init();
+
+	m_textureItem.m_pTex2D = NEW Game2DBase( GetItemFilePath().c_str() );
 
 	//!初期位置セット
-	m_itemInfo.Init();
-	m_itemInfo.m_fileName = GetItemFilePath().c_str();
-	m_itemInfo.m_pos = pos;
-	m_drawItem->SetDrawInfo(m_itemInfo);
+	m_textureItem.m_texInfo.m_fileName = GetItemFilePath().c_str();
+	m_textureItem.m_texInfo.m_pos = pos;
+	m_textureItem.m_pTex2D->SetDrawInfo( m_textureItem.m_texInfo );
 }
 
 
 ItemObject::~ItemObject(void)
 {
-	SAFE_DELETE(m_drawItem);
+	m_textureItem.DeleteAndInit();
 }
 
 void ItemObject::Update()
@@ -43,12 +43,12 @@ void ItemObject::Draw()
 	// 消える三秒前ぐらいから点滅させる
 	if( m_liveTime > ITEM_LIVE_TIME - 180 ){
 		if( m_liveTime%3 != 1 ){
-			m_drawItem->DrawUpdate2D();
+			m_textureItem.m_pTex2D->DrawUpdate2D();
 		}
 	}
 	else{
 		// アイテム描画
-		m_drawItem->DrawUpdate2D();
+		m_textureItem.m_pTex2D->DrawUpdate2D();
 	}
 }
 
@@ -63,7 +63,10 @@ void ItemObject::SetPlayerGetFlag()
 
 const TEX_DRAW_INFO &ItemObject::GetDrawInfo()
 {
-	return m_drawItem->GetDrawInfo();
+	if( m_textureItem.m_pTex2D == NULL ){
+		DEBUG_ASSERT( 0, "アイテムの描画クラスがNULL");
+	}
+	return m_textureItem.m_pTex2D->GetDrawInfo();
 }
 
 

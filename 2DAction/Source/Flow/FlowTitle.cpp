@@ -63,25 +63,26 @@ Title2D *Title2D::CreateTitle2D()
 
 Title2D::Title2D()
 : TaskUnit("Title2D")
-, m_title2D( NULL )
 {
+	m_textureTitle.Init();
+
 	// 描画クラスセットアップ
-	m_title2D = NEW Game2DBase("title.json");
-	m_titleInfo.Init();
-	m_titleInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
-	m_titleInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
-	m_titleInfo.m_usePlayerOffset = false;
-	m_title2D->SetDrawInfo(m_titleInfo);
+	m_textureTitle.m_pTex2D = NEW Game2DBase("title.json");
+	m_textureTitle.m_texInfo.Init();
+	m_textureTitle.m_texInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
+	m_textureTitle.m_texInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
+	m_textureTitle.m_texInfo.m_usePlayerOffset = false;
+	m_textureTitle.m_pTex2D->SetDrawInfo(m_textureTitle.m_texInfo);
 }
 
 Title2D::~Title2D(void)
 {
-	SAFE_DELETE( m_title2D );
+	m_textureTitle.DeleteAndInit();
 }
 
 void Title2D::DrawUpdate()
 {
-	if( m_title2D ){
-		m_title2D->DrawUpdate2D();
+	if( m_textureTitle.m_pTex2D ){
+		m_textureTitle.m_pTex2D->DrawUpdate2D();
 	}
 }

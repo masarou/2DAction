@@ -59,9 +59,8 @@ private:
 
 	Title2D();
 	virtual ~Title2D(void);
-
-	Game2DBase			*m_title2D;		// タイトル一枚絵
-	TEX_DRAW_INFO		m_titleInfo;	// タイトル一枚絵情報
+	
+	Texture2D			m_textureTitle;	// タイトル一枚絵
 };
 #endif
 

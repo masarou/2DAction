@@ -39,9 +39,8 @@ public:
 	std::string SelectEffectFile();		// 読み込みファイル選別関数
 	std::string SelectEffectAnimTag();	// 再生アニメタグ取得
 
-	EFFECT_KIND			m_kind;			// 演出の種類
-	Game2DBase			*m_pEffect;		// 描画クラス本体
-	TEX_DRAW_INFO		m_effectInfo;	// 描画情報
+	EFFECT_KIND		m_kind;				// 演出の種類
+	Texture2D		m_textureEffect;	// エフェクト
 	
 };
 

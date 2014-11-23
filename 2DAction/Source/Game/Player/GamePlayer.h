@@ -60,14 +60,9 @@ private:
 	AttackGun			*m_attackGun;	// マシンガンクラス
 
 	// 描画
-	Game2DBase			*m_player2D;	// ユーザーの画像等管理
-	TEX_DRAW_INFO		m_playerInfo;	// 描画関係情報
-
-	Game2DBase			*m_life2D;		// ライフ描画クラス
-	TEX_DRAW_INFO		m_lifeInfo;		// ライフ描画情報
-
-	Game2DBase			*m_lifeFrame2D;	// ライフ外枠クラス
-	TEX_DRAW_INFO		m_lifeFrameInfo;// ライフ外枠情報
+	Texture2D			m_texturePlayer;	// プレイヤー画像
+	Texture2D			m_textureLife;		// ライフ画像
+	Texture2D			m_textureLifeFrame;	// ライフ外枠画像
 };
 
 #endif

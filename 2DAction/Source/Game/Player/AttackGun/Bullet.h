@@ -40,8 +40,7 @@ private:
 	
 	uint32_t		m_uniqueNumber;	// ほかの弾と区別するためにユニーク番号
 	uint32_t		m_liveTime;		// 生成されてからの時間
-	Game2DBase		*m_drawBullet;	// 弾描画クラス
-	TEX_DRAW_INFO	m_bulletInfo;	// 弾描画情報
+	Texture2D		m_textureBullet;// プレイヤー画像
 
 	math::Vector2	m_bulletVec;	// 発射方向
 	float			m_speed;		// 発射スピード
