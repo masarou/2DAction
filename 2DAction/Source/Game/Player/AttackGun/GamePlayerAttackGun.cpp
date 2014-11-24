@@ -47,9 +47,14 @@ void AttackGun::Update()
 	}
 
 	// 生成されて一定時間を超えたものは削除
-	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
-		if( m_magazine.at( i )->GetLiveTime() >= BULLET_LIVE_TIME ){
-			DeleteBullet( m_magazine.at( i )->GetUniqueNumber() );
+	for( auto it = m_magazine.begin(); it != m_magazine.end() ;){
+		if( (*it)->GetLiveTime() >= BULLET_LIVE_TIME ){
+			Bullet *pTmp = ( *it );
+			it = m_magazine.erase( it );
+			SAFE_DELETE( pTmp );
+		}
+		else{
+			++it;
 		}
 	}
 }
@@ -93,18 +98,18 @@ void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
  * @brief	弾の削除(画面外に出た、敵に当たった等々)
  */
 /* ================================================ */
-void AttackGun::DeleteBullet( uint32_t uniqueNumber )
+std::vector<Bullet*>::iterator AttackGun::DeleteBullet( uint32_t uniqueNumber )
 {
-	std::vector<Bullet*>::iterator it = m_magazine.begin();
-	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
+	auto it = m_magazine.begin();
+	for(; it != m_magazine.end() ; ++it ){
 		if( (*it)->GetUniqueNumber() == uniqueNumber ){
 			Bullet *pTmp = ( *it );
-			m_magazine.erase( it );
+			it = m_magazine.erase( it );
 			SAFE_DELETE( pTmp );
 			break;
 		}
-		++it;
 	}
+	return it;
 }
 
 

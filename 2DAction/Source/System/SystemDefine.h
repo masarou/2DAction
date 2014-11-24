@@ -38,8 +38,8 @@ static const char *SE_PATH					= "Data/Sound/SE/";
 static const char *TEXTURE_PATH				= "Data/Texture/";
 
 //定数
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define WINDOW_WIDTH 1366
+#define WINDOW_HEIGHT 768
 
 //リークチェック用
 #define _CRTDBG_MAP_ALLOC

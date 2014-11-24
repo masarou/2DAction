@@ -56,6 +56,7 @@ private:
 	void PlayerGetItem( const ItemObject::ITEM_KIND &itemKind );
 
 	uint32_t			m_playerLife;	// ユーザーライフ
+	uint32_t			m_speedMove;	// 行動速度
 	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
 	AttackGun			*m_attackGun;	// マシンガンクラス
 

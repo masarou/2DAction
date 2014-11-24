@@ -30,6 +30,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 		return 0;
 	}
 
+	// ウインドウサイズ設定
+	SetGraphMode( WINDOW_WIDTH, WINDOW_HEIGHT, 32);
+
 	//! TaskUnit非継承常駐物
 	GameAccesser::Create();
 	Draw2DManager::Create();

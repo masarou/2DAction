@@ -18,6 +18,7 @@ GamePlayer *GamePlayer::CreatePlayer()
 
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
+, m_speedMove( 30 )
 , m_invisibleTime(0)
 , m_playerLife(LIFE_POINT_MAX)
 {
@@ -126,7 +127,7 @@ bool GamePlayer::DieMain(){
 /* ================================================ */
 void GamePlayer::PadEventUp()
 {
-	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, -3.0f);
+	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, -1.0f*m_speedMove);
 
 	if(IsButtonPush(InputWatcher::BUTTON_UP)){
 		m_texturePlayer.m_pTex2D->SetAnim("up");
@@ -140,7 +141,7 @@ void GamePlayer::PadEventUp()
 
 void GamePlayer::PadEventDown()
 {
-	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, 3.0f);
+	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, 1.0f*m_speedMove);
 
 	if(IsButtonPush(InputWatcher::BUTTON_DOWN)){
 		m_texturePlayer.m_pTex2D->SetAnim("down");
@@ -154,7 +155,7 @@ void GamePlayer::PadEventDown()
 
 void GamePlayer::PadEventRight()
 {
-	GameAccesser::GetInstance()->AddPlayerOffSet(3.0f, 0.0f);
+	GameAccesser::GetInstance()->AddPlayerOffSet(1.0f*m_speedMove, 0.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_RIGHT)){
 		m_texturePlayer.m_pTex2D->SetAnim("right");
@@ -168,7 +169,7 @@ void GamePlayer::PadEventRight()
 
 void GamePlayer::PadEventLeft()
 {
-	GameAccesser::GetInstance()->AddPlayerOffSet(-3.0f, 0.0f);
+	GameAccesser::GetInstance()->AddPlayerOffSet(-1.0f*m_speedMove, 0.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_LEFT)){
 		m_texturePlayer.m_pTex2D->SetAnim("left");
