@@ -72,12 +72,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	RemoveFontResourceEx("Data/Font/misaki_gothic.ttf", FR_PRIVATE, NULL);
 
 	//! 常駐物削除
-	GameAccesser *pStats = GameAccesser::GetInstance();
-	SAFE_DELETE(pStats);
-	Draw2DManager *p2DManager = Draw2DManager::GetInstance();
-	SAFE_DELETE(p2DManager);
-	TextureResourceManager *pResMan = TextureResourceManager::GetInstance();
-	SAFE_DELETE(pResMan);
+	GameAccesser::GetInstance()->DeleteGameAccesser();
+	Draw2DManager::GetInstance()->DeleteDraw2DManager();
+	TextureResourceManager::GetInstance()->DeleteResourceManager();
 
 	// ＤＸライブラリ使用の終了
 	DxLib_End();

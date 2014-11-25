@@ -20,13 +20,9 @@ public:
 
 	static void *Create();
 	static TextureResourceManager *GetInstance();
-	~TextureResourceManager(void);
 
 	void LoadTextureInfo( const char *jsonFile );
 	void DeleteTextureInfo( const char *jsonFile );
-
-	// 読み込んだ画像ファイルの情報取得関数
-
 
 	// 読み込んだテクスチャの画像情報取得
 	const TEX_INIT_INFO &GetLoadTextureInfo( const char *jsonFile );
@@ -38,6 +34,9 @@ public:
 	void GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim );
 	// frameの更新とframe数から適切なHandleの要素番号を返す
 	const int32_t GetAnimHandleIndex( const char *jsonFile, std::string &animName, uint32_t &frame );
+
+	// クラスの解放
+	void DeleteResourceManager();
 
 private:
 
@@ -57,9 +56,10 @@ private:
 	};
 	
 	TextureResourceManager(void);
-	static TextureResourceManager	*s_pInstance;
+	~TextureResourceManager(void);
 
-	std::vector<RESOURCE_TEX>	m_vRecource2D;
+	static TextureResourceManager	*s_pInstance;
+	std::vector<RESOURCE_TEX>		m_vRecource2D;
 
 };
 #endif //SYSTEM_DRAW_RESOURCE_MANAGER

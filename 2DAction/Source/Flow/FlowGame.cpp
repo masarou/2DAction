@@ -26,8 +26,7 @@ FlowGame::FlowGame( const std::string &fileName )
 FlowGame::~FlowGame(void)
 {
 	// ゲーム周りのクラス解放
-	GameRegister *pRegister = GameRegister::GetInstance();
-	SAFE_DELETE( pRegister );
+	GameRegister::GetInstance()->DeleteRegister();
 
 	DEBUG_PRINT("FlowGame削除！！\n");
 }

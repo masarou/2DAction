@@ -1,0 +1,37 @@
+{
+	"basicInfo":[
+		{"fileName":"tile.png"
+		, "sizeW": 32
+		, "sizeH": 32
+		, "splitW": 8
+		, "splitH": 3
+		, "total": 24 }
+	],
+	
+	"mapinfo":[
+		{"kind": 0},
+		{"kind": 1},
+		{"kind": 2},
+		{"kind": 3},
+		{"kind": 4},
+		{"kind": 5},
+		{"kind": 6},
+		{"kind": 7},
+		{"kind": 8},
+		{"kind": 9},
+		{"kind": 10},
+		{"kind": 11},
+		{"kind": 12},
+		{"kind": 13},
+		{"kind": 14},
+		{"kind": 15},
+		{"kind": 16},
+		{"kind": 17},
+		{"kind": 18},
+		{"kind": 19},
+		{"kind": 20},
+		{"kind": 21},
+		{"kind": 22},
+		{"kind": 23}
+	]	
+}

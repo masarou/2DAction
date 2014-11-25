@@ -40,10 +40,13 @@ GameRegister::GameRegister(void)
 	m_pItemManager = ItemManager::CreateItemManager();
 }
 
+void GameRegister::DeleteRegister()
+{
+	SAFE_DELETE( s_pInstance );
+}
 
 GameRegister::~GameRegister(void)
 {
-	s_pInstance = NULL;
 }
 
 /* ================================================ */

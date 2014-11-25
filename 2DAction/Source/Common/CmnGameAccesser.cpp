@@ -11,23 +11,23 @@
 #include "CmnGameAccesser.h"
 #include "System/SystemDefine.h"
 
-GameAccesser *GameAccesser::m_pInstance = NULL;
+GameAccesser *GameAccesser::s_pInstance = NULL;
 
 void GameAccesser::Create()
 {
-	if(m_pInstance){
-		DEBUG_ASSERT( 0, "m_pInstance is Already Created");
+	if(s_pInstance){
+		DEBUG_ASSERT( 0, "s_pInstance is Already Created");
 		return;
 	}
-	m_pInstance = NEW GameAccesser();
+	s_pInstance = NEW GameAccesser();
 }
 
 GameAccesser *GameAccesser::GetInstance()
 {
-	if(!m_pInstance){
-		DEBUG_ASSERT( 0, "m_pInstance is NULL");
+	if(!s_pInstance){
+		DEBUG_ASSERT( 0, "s_pInstance is NULL");
 	}
-	return m_pInstance;
+	return s_pInstance;
 }
 
 GameAccesser::GameAccesser()
@@ -37,7 +37,11 @@ GameAccesser::GameAccesser()
 
 GameAccesser::~GameAccesser()
 {
+}
 
+void GameAccesser::DeleteGameAccesser()
+{
+	SAFE_DELETE( s_pInstance );
 }
 
 void GameAccesser::InitAll()

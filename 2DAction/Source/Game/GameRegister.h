@@ -24,8 +24,6 @@ class GameRegister
 
 public:
 
-	~GameRegister(void);
-
 	static GameRegister *CreateInstance();
 	static GameRegister *GetInstance();
 
@@ -34,9 +32,12 @@ public:
 	GameMap				*GetGameMap();
 	ItemManager			*GetManagerItem();
 
+	void DeleteRegister();	// ƒŒƒWƒXƒ^‰ğ•ú
+
 private:
 
 	GameRegister(void);
+	~GameRegister(void);
 
 
 	static GameRegister *s_pInstance;

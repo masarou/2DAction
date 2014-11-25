@@ -118,7 +118,7 @@ GameEffectDamage::GameEffectDamage()
 
 GameEffectDamage::~GameEffectDamage()
 {
-
+	s_pInstance = NULL;
 }
 
 bool GameEffectDamage::Init()

@@ -20,10 +20,8 @@ class Draw2DManager
 {
 public:
 
-
 	static void Create();
 	static Draw2DManager *GetInstance();
-	~Draw2DManager(void);
 
 	//! ‡˜‚ğŒˆ‚ß‚Ä•`‰æ
 	void Action();
@@ -37,6 +35,9 @@ public:
 	
 	//! •`‰æ‚ğŠŠ‚ç‚©‚É‚·‚é‚©ƒtƒ‰ƒO
 	void SetUseBilinear( const bool &flag ){m_useBilinear = flag;}
+
+	//! ƒNƒ‰ƒX‚Ì‰ğ•ú
+	void DeleteDraw2DManager();
 
 private:
 
@@ -52,11 +53,12 @@ private:
 	};
 
 	Draw2DManager(void);
+	~Draw2DManager(void);
 
 	//! •`‰æw¦
 	void DrawTexture( const uint32_t &drawIndex);
 
-	static Draw2DManager	*m_pInstance;
+	static Draw2DManager	*s_pInstance;
 
 	bool					m_useBilinear;
 	std::vector<DRAW2D>		m_vDrawTask;

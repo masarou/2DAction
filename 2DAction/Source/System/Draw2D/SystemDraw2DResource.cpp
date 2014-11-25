@@ -17,8 +17,11 @@ TextureResourceManager::TextureResourceManager(void)
 {
 }
 
-
 TextureResourceManager::~TextureResourceManager(void)
+{
+}
+
+void TextureResourceManager::DeleteResourceManager()
 {
 	DEBUG_PRINT("/_/_/TextureResourceManager íœ/_/_/\n");
 
@@ -31,6 +34,8 @@ TextureResourceManager::~TextureResourceManager(void)
 			DeleteGraph(m_vRecource2D.at(i).m_texHandle[j]);
 		}
 	}
+
+	SAFE_DELETE( s_pInstance );
 	
 	DEBUG_PRINT("/_/_/TextureResourceManager íœŠ®—¹/_/_/\n");
 }

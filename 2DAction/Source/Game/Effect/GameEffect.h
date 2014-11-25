@@ -50,7 +50,6 @@ class GameEffectDamage : public TaskUnit
 
 public:
 
-	
 	static GameEffectDamage *GetInstance();
 
 	void CreateEffectDamage( const uint32_t &value, const uint32_t &posX, const uint32_t &posY );

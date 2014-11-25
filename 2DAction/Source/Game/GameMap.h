@@ -27,11 +27,11 @@ public:
 private:
 
 	struct TILE_INFO{
-		int32_t m_tileHandle;
-		bool m_walkOver;
+		int32_t		m_tileHandle;
+		uint32_t	m_height;
 		void Init(){
 			m_tileHandle = INVALID_VALUE;
-			m_walkOver = true;
+			m_height = 0;
 		}
 	};
 
@@ -39,10 +39,22 @@ private:
 
 	//!マップ情報読み込み
 	void LoadTextureInfo( const char *jsonFile );
+	void LoadMapInfo( const char *jsonFile );
 
+	struct MAP_INFO{
+		std::vector<uint32_t>	m_vTileKind;
+		uint32_t				m_width;
+		uint32_t				m_height;
+		void Init(){
+			m_vTileKind.clear();
+			m_width		= INVALID_VALUE;
+			m_height	= INVALID_VALUE;
+		}
+	};
 	
 	TEX_INIT_INFO				m_texInfo;
-	std::vector<TILE_INFO>		m_vTileInfo;
+	MAP_INFO					m_mapInfo;		// マップ情報
+	std::vector<TILE_INFO>		m_vTileInfo;	// タイル一枚当たりの情報
 };
 
 #endif

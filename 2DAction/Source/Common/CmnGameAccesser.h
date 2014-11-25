@@ -17,8 +17,6 @@ class GameAccesser
 
 public:
 
-	~GameAccesser();
-
 	static void Create();
 	static GameAccesser *GetInstance();
 
@@ -35,11 +33,15 @@ public:
 	const math::Vector2 &GetPlayerOffSet();
 	void GetPlayerOffSet( float &posX, float &posY);
 
+	// GameAccesser解放
+	void DeleteGameAccesser();
+
 private:
 
 	GameAccesser();
+	~GameAccesser();
 
-	static GameAccesser *m_pInstance;
+	static GameAccesser *s_pInstance;
 
 	//! 内部的なプレイヤー座標
 	math::Vector2	m_offsetPlayer;

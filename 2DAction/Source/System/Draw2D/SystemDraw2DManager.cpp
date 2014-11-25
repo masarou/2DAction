@@ -11,7 +11,7 @@
 #include "SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-Draw2DManager *Draw2DManager::m_pInstance = NULL;
+Draw2DManager *Draw2DManager::s_pInstance = NULL;
 
 Draw2DManager::Draw2DManager(void)
 : m_useBilinear(false)
@@ -22,23 +22,28 @@ Draw2DManager::~Draw2DManager(void)
 {
 }
 
+void Draw2DManager::DeleteDraw2DManager()
+{
+	SAFE_DELETE( s_pInstance );
+}
+
 void Draw2DManager::Create()
 {
-	if( m_pInstance ){
-		DEBUG_ASSERT( 0, "m_pInstance is Already Created");
+	if( s_pInstance ){
+		DEBUG_ASSERT( 0, "s_pInstance is Already Created");
 	}
 	else{
-		m_pInstance = NEW Draw2DManager();
+		s_pInstance = NEW Draw2DManager();
 	}
 }
 
 Draw2DManager *Draw2DManager::GetInstance()
 {
-	if( !m_pInstance ){
-		DEBUG_ASSERT( 0, "m_pInstance is NULL");
+	if( !s_pInstance ){
+		DEBUG_ASSERT( 0, "s_pInstance is NULL");
 		return NULL;
 	}
-	return m_pInstance;
+	return s_pInstance;
 }
 
 /* ================================================ */
