@@ -18,6 +18,7 @@ FlowBase *FlowGame::Create( const std::string &fileName )
 
 FlowGame::FlowGame( const std::string &fileName )
 	: FlowBase(fileName)
+	, m_gameTimer( 0 )
 {
 	DEBUG_PRINT("FlowGame¶¬II\n");
 }
@@ -43,7 +44,12 @@ void FlowGame::UpdateFlow()
 {
 	FlowBase::UpdateFlow();
 
+	++m_gameTimer;
+
 	if( GameRegister::GetInstance()->GetPlayer()->GetCurrentLife() == 0 ){
+		StartFade("gameend");
+	}
+	else if( m_gameTimer > 6000 ){
 		StartFade("gameend");
 	}
 }

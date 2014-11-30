@@ -1,0 +1,16 @@
+{
+	"basicInfo":[
+		{"fileName":"choiceBG.png"
+		, "animDefault":"default"
+		, "sizeW": 250
+		, "sizeH": 50
+		, "splitW": 1
+		, "splitH": 11
+		, "total": 11 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":10,	"animIndex":[0],	"nextAnim":"default"},
+		{"animTag":"spot",	"frameSpeed":5,	"animIndex":[1,2,3,4,5,6,7,8,9,10],	"nextAnim":"spot"}
+	]	
+}

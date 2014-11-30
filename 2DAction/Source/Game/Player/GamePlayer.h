@@ -23,7 +23,7 @@ public:
 	static GamePlayer *CreatePlayer();
 	~GamePlayer(void);
 
-	//virtual bool Init() override;
+	virtual bool Init() override;
 	virtual void Update() override;
 	virtual void CollisionUpdate() override;
 	virtual void DrawUpdate() override;
@@ -35,6 +35,8 @@ public:
 	virtual void PadEventLeft() override;
 	virtual void PadEventDecide() override;
 	virtual void PadEventCancel() override;
+	virtual void PadEventR1() override;
+	virtual void PadEventL1() override;
 	
 	// 情報取得
 	const TEX_DRAW_INFO &GetDrawInfo();
@@ -51,12 +53,17 @@ private:
 
 	GamePlayer(void);
 
+	// 引数のベクター分移動ができるかどうかチェック
+	bool CanMoveThisPos( const math::Vector2 &nextFlameAddValue );
+
 	// 基底からコールされるCommon::CMN_EVENTに対応した関数
 	void EventDamage();
 	void PlayerGetItem( const ItemObject::ITEM_KIND &itemKind );
 
 	uint32_t			m_playerLife;	// ユーザーライフ
 	uint32_t			m_speedMove;	// 行動速度
+	uint32_t			m_speedMoveBase;// 基本行動速度
+	float				m_speedMultiply;// 行動速度の倍率
 	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
 	AttackGun			*m_attackGun;	// マシンガンクラス
 

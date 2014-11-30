@@ -40,7 +40,7 @@ public:
 	void LoadFlowFile();
 
 	//! 現在のフロー名取得
-	const std::string &GetFlowName(){ return m_fileName; }
+	const std::string &GetFlowFilePath(){ return m_filePath; }
 
 protected:
 
@@ -53,7 +53,7 @@ private:
 		std::string filePath;	//!< イベントに対するファイル名
 	};
 
-	std::string m_fileName;		//!< json名
+	std::string m_filePath;		//!< 読み込んでいるjsonファイルパス
 	std::vector<FLOW_DATA> m_vEventName;
 };
 #endif

@@ -25,6 +25,9 @@ private:
 
 	FlowGame( const std::string &fileName );
 	virtual ~FlowGame(void);
+
+	uint32_t	m_gameTimer;		// ƒQ[ƒ€‚ÌƒvƒŒƒCŠÔ
+
 };
 #endif
 

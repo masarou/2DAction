@@ -2,8 +2,8 @@
 	"basicInfo":[
 		{"fileName":"ActionGameTitle.png"
 		, "animDefault":"idle"
-		, "sizeW": 640
-		, "sizeH": 480
+		, "sizeW": 1366
+		, "sizeH": 768
 		, "splitW": 1
 		, "splitH": 1
 		, "total": 1 }

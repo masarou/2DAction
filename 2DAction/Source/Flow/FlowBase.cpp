@@ -12,7 +12,7 @@
 #include "FlowManager.h"
 
 FlowBase::FlowBase(std::string fileName)
-	: m_fileName(fileName)
+	: m_filePath(fileName)
 {
 	LoadFlowFile();
 }
@@ -82,7 +82,7 @@ void FlowBase::AddChildTask(TaskUnit *pTask)
 /* ================================================ */
 void FlowBase::LoadFlowFile()
 {
-	std::ifstream ifs(m_fileName.c_str());
+	std::ifstream ifs(m_filePath.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);

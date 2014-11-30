@@ -6,9 +6,6 @@
 
 #define MAP_TIP_SIZE	32		// マップチップ一つのドットサイズ
 
-#define MAP_WIDTH		100		// マップの幅
-#define MAP_HEIGHT		100		// マップの縦長さ
-
 GameMap *GameMap::CreateGameMap()
 {
 	return NEW GameMap();
@@ -36,19 +33,19 @@ void GameMap::Update()
 
 void GameMap::DrawUpdate()
 {
-	for(int32_t i = 0; i < MAP_HEIGHT; ++i){
-		for(int32_t j = 0; j < MAP_WIDTH; ++j){
+	for(uint32_t i = 0; i < m_mapInfo.m_height; ++i){
+		for(uint32_t j = 0; j < m_mapInfo.m_width; ++j){
 
 			//!プレイヤー情報取得
 			float offsetx = 0.0f;
 			float offsety = 0.0f;
 			GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
 
-			//!現在描画したい端(画面外でも50pixel間では描画)
-			int32_t WidthLower	= - MAP_TIP_SIZE;
-			int32_t WidthUpper	= WINDOW_WIDTH + MAP_TIP_SIZE;
-			int32_t HeightLower = - MAP_TIP_SIZE;
-			int32_t HeightUpper = WINDOW_HEIGHT + MAP_TIP_SIZE;
+			//!現在描画したい端(画面外でも一マス分では描画)
+			int32_t WidthLower	= -1 * m_texInfo.m_sizeHeight;
+			int32_t WidthUpper	= WINDOW_WIDTH + m_texInfo.m_sizeHeight;
+			int32_t HeightLower = -1 * MAP_TIP_SIZE;
+			int32_t HeightUpper = WINDOW_HEIGHT + m_texInfo.m_sizeHeight;
 
 			//!マップチップの大きさ
 			int32_t MapHeight	= m_texInfo.m_sizeHeight;
@@ -62,7 +59,7 @@ void GameMap::DrawUpdate()
 			if(posX < WidthUpper && posX > WidthLower
 				&& posY < HeightUpper && posY > HeightLower){
 
-					uint32_t index = m_mapInfo.m_vTileKind[i*MAP_WIDTH + j];
+					uint32_t index = m_mapInfo.m_vTileKind[i*m_mapInfo.m_width + j];
 					TILE_INFO tmpInfo = m_vTileInfo.at(index-1);
 					DrawRotaGraph(
 					posX
@@ -75,6 +72,59 @@ void GameMap::DrawUpdate()
 		}
 	}
 }
+
+uint32_t GameMap::GetTileHeight( const uint32_t &posX, const uint32_t &posY )
+{
+	return GetTileHeight( math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
+}
+
+uint32_t GameMap::GetTileHeight( const math::Vector2 &pos )
+{
+	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){
+		return 0;
+	}
+
+	uint32_t retValue = 0;
+	uint32_t row	= ( static_cast<uint32_t>(pos.y) / m_texInfo.m_sizeHeight);	// マップ全体で縦何番目か
+	uint32_t column	= ( static_cast<uint32_t>(pos.x) / m_texInfo.m_sizeWidth);	// 横何番目か
+	uint32_t index	= row*m_mapInfo.m_width + column;
+
+	if( m_mapInfo.m_vTileKind.size() > index ){
+		uint32_t tileKind = m_mapInfo.m_vTileKind.at(index);
+		for( uint32_t i = 0; i < m_vTileInfo.size() ; ++i ){
+			if( m_vTileInfo.at(i).m_tileTileKind == tileKind - 1 ){
+				retValue = m_vTileInfo.at(i).m_tileHeight;
+				break;
+			}
+		}
+	}
+
+	return retValue;
+}
+
+//uint32_t GameMap::GetTileHeight( const math::Vector2 &pos )
+//{
+//	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){
+//		return 0;
+//	}
+//
+//	uint32_t retValue = 0;
+//	uint32_t row	= (pos.y / m_texInfo.m_sizeHeight);	// マップ全体で縦何番目か
+//	uint32_t column	= (pos.x / m_texInfo.m_sizeWidth);	// 横何番目か
+//	uint32_t index	= row*m_mapInfo.m_width + column;
+//
+//	if( m_mapInfo.m_vTileKind.size() > index ){
+//		uint32_t tileKind = m_mapInfo.m_vTileKind.at(index);
+//		for( uint32_t i = 0; i < m_vTileInfo.size() ; ++i ){
+//			if( m_vTileInfo.at(i).m_tileTileKind == tileKind ){
+//				retValue = m_vTileInfo.at(i).m_tileHeight;
+//				break;
+//			}
+//		}
+//	}
+//
+//	return retValue;
+//}
 
 void GameMap::LoadTextureInfo(const char *jsonFile)
 {
@@ -112,9 +162,9 @@ void GameMap::LoadTextureInfo(const char *jsonFile)
 		TILE_INFO tileInfo;
 		tileInfo.Init();
 
-		uint32_t index = static_cast<uint32_t>(mapData.get(i).get("kind").get<double>());
-		tileInfo.m_tileHandle = texHandle[index];
-		tileInfo.m_height = mapData.get(i).get("height").get<bool>();
+		tileInfo.m_tileTileKind = static_cast<uint32_t>(mapData.get(i).get("kind").get<double>());
+		tileInfo.m_tileHandle = texHandle[i];
+		tileInfo.m_tileHeight = static_cast<uint32_t>(mapData.get(i).get("height").get<double>());
 		m_vTileInfo.push_back(tileInfo);
 	}
 }

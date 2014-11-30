@@ -6,7 +6,7 @@
  *		フローのすべてを管理するManager
  */
 /* ====================================================================== */
-
+#include "typeinfo.h"
 #include "FlowManager.h"
 #include "Flow/FlowTitle.h"
 #include "Flow/FlowTable.h"
@@ -77,7 +77,7 @@ bool FlowManager::AddUnit(TaskUnit *unit)
 const char *FlowManager::GetCurrentFlow() const
 {
 	if( m_pFlow ){
-		return m_pFlow->GetFlowName().c_str();
+		return typeid(m_pFlow).name();
 	}
 	DEBUG_ASSERT( 0, "フローがない!!");
 	return "";

@@ -133,7 +133,9 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 		m_HP -= damageValue;
 	}
 
-	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue, m_textureEnemy.m_texInfo.m_pos.x, m_textureEnemy.m_texInfo.m_pos.y);
+	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
+		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_pos.x)
+		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_pos.y));
 
 	if( m_HP <= 0 ){
 		// ƒXƒRƒA’Ç‰Á

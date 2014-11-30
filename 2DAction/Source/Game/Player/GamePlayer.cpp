@@ -8,7 +8,7 @@
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/GameRegister.h"
 
-static uint32_t DAMAGE_INVISIBLE_TIME = 180;
+static uint32_t DAMAGE_INVISIBLE_TIME = 120;
 static uint32_t LIFE_POINT_MAX = 100;
 
 GamePlayer *GamePlayer::CreatePlayer()
@@ -18,7 +18,9 @@ GamePlayer *GamePlayer::CreatePlayer()
 
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
-, m_speedMove( 30 )
+, m_speedMove( 0 )
+, m_speedMoveBase( 3 )
+, m_speedMultiply( 0.0f )
 , m_invisibleTime(0)
 , m_playerLife(LIFE_POINT_MAX)
 {
@@ -60,14 +62,34 @@ GamePlayer::~GamePlayer(void)
 {
 }
 
+bool GamePlayer::Init()
+{
+	// 画像の真ん中がオフセット位置になるように調整しておく
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_texturePlayer.m_texInfo.m_fileName.c_str() );
+	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
+
+	return true;
+}
+
 void GamePlayer::Update()
 {
-	CallPadEvent();
+	{
+		// マイフレーム値が変わるような項目はここで
+		m_speedMove = m_speedMoveBase * static_cast<uint32_t>(m_speedMultiply + 0.5f);
+		if( m_speedMultiply > 1.0f ){
+			m_speedMultiply *= 0.95f;
+		}
+		if( m_speedMultiply < 1.0f ){
+			m_speedMultiply = 1.0f;
+		}
 
-	// 無敵時間中ならデクリメント
-	if( m_invisibleTime > 0 ){
-		--m_invisibleTime;
+		// 無敵時間中ならデクリメント
+		if( m_invisibleTime > 0 ){
+			--m_invisibleTime;
+		}
 	}
+
+	CallPadEvent();
 
 	// 攻撃判定
 	if( GetStickInfoRight().m_vec != math::Vector2() ){
@@ -127,56 +149,88 @@ bool GamePlayer::DieMain(){
 /* ================================================ */
 void GamePlayer::PadEventUp()
 {
-	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, -1.0f*m_speedMove);
+	math::Vector2 moveVal = math::Vector2(0.0f, -1.0f*m_speedMove);
 
-	if(IsButtonPush(InputWatcher::BUTTON_UP)){
-		m_texturePlayer.m_pTex2D->SetAnim("up");
-	}
-	else if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
+	// 移動先が歩けないならば移動しない
+	if( !CanMoveThisPos( moveVal ) ){
+		if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
 		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
 		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
+			// ほかに方向キーが押されていなければアニメだけ変えておく
+			m_texturePlayer.m_pTex2D->SetAnim("up");
+		}
+		return;
+	}
+
+	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
+
+	if(IsButtonPush(InputWatcher::BUTTON_UP)){
 		m_texturePlayer.m_pTex2D->SetAnim("up");
 	}
 }
 
 void GamePlayer::PadEventDown()
 {
-	GameAccesser::GetInstance()->AddPlayerOffSet(0.0f, 1.0f*m_speedMove);
+	math::Vector2 moveVal = math::Vector2(0.0f, 1.0f*m_speedMove);
 
-	if(IsButtonPush(InputWatcher::BUTTON_DOWN)){
-		m_texturePlayer.m_pTex2D->SetAnim("down");
-	}
-	else if(!IsButtonPress(InputWatcher::BUTTON_UP)
+	// 移動先が歩けないならば移動しない
+	if( !CanMoveThisPos( moveVal ) ){
+		if(!IsButtonPress(InputWatcher::BUTTON_UP)
 		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
 		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
+			// ほかに方向キーが押されていなければアニメだけ変えておく
+			m_texturePlayer.m_pTex2D->SetAnim("down");
+		}
+		return;
+	}
+
+	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
+
+	if(IsButtonPush(InputWatcher::BUTTON_DOWN)){
 		m_texturePlayer.m_pTex2D->SetAnim("down");
 	}
 }
 
 void GamePlayer::PadEventRight()
 {
+	math::Vector2 moveVal = math::Vector2(1.0f*m_speedMove, 0.0f);
+
+	// 移動先が歩けないならば移動しない
+	if( !CanMoveThisPos( moveVal ) ){
+		if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
+		&& !IsButtonPress(InputWatcher::BUTTON_UP)
+		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
+			// ほかに方向キーが押されていなければアニメだけ変えておく
+			m_texturePlayer.m_pTex2D->SetAnim("right");
+		}
+		return;
+	}
+
 	GameAccesser::GetInstance()->AddPlayerOffSet(1.0f*m_speedMove, 0.0f);
 
 	if(IsButtonPush(InputWatcher::BUTTON_RIGHT)){
-		m_texturePlayer.m_pTex2D->SetAnim("right");
-	}
-	else if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
-		&& !IsButtonPress(InputWatcher::BUTTON_UP)
-		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
 		m_texturePlayer.m_pTex2D->SetAnim("right");
 	}
 }
 
 void GamePlayer::PadEventLeft()
 {
-	GameAccesser::GetInstance()->AddPlayerOffSet(-1.0f*m_speedMove, 0.0f);
+	math::Vector2 moveVal = math::Vector2(-1.0f*m_speedMove, 0.0f);
 
-	if(IsButtonPush(InputWatcher::BUTTON_LEFT)){
-		m_texturePlayer.m_pTex2D->SetAnim("left");
-	}
-	else if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
+	// 移動先が歩けないならば移動しない
+	if( !CanMoveThisPos( moveVal ) ){
+		if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
 		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
 		&& !IsButtonPress(InputWatcher::BUTTON_UP)){
+			// ほかに方向キーが押されていなければアニメだけ変えておく
+			m_texturePlayer.m_pTex2D->SetAnim("left");
+		}
+		return;
+	}
+
+	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
+
+	if(IsButtonPush(InputWatcher::BUTTON_LEFT)){
 		m_texturePlayer.m_pTex2D->SetAnim("left");
 	}
 }
@@ -190,6 +244,16 @@ void GamePlayer::PadEventDecide()
 void GamePlayer::PadEventCancel()
 {
 	GameRegister::GetInstance()->GetManagerEnemy()->CreateEnemy( Common::KIND_AAA );
+}
+
+void GamePlayer::PadEventR1()
+{
+	m_speedMultiply = 7.0f;
+}
+
+void GamePlayer::PadEventL1()
+{
+	m_speedMultiply = 7.0f;
 }
 
 /* ================================================ */
@@ -214,6 +278,34 @@ void GamePlayer::AddEvent( const Common::CMN_EVENT &cmnEvent )
 {
 	TaskUnit::AddEvent( cmnEvent );
 }
+
+/* ================================================ */
+/**
+ * @brief	現在のステータスでプレイヤーが引数のベクター分移動ができるかどうかチェック
+ */
+/* ================================================ */
+bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
+{
+	bool ret = false;
+
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_texturePlayer.m_texInfo.m_fileName.c_str() );
+
+	math::Vector2 nextFlamePos;
+	GameAccesser::GetInstance()->GetPlayerOffSet( nextFlamePos.x, nextFlamePos.y );
+
+	// offsetの数値分位置を引いて描画しているので実際に調べるときは足してやる
+	// さらにプレイヤー画像の画像中心位置になるように足してやる
+	nextFlamePos += nextFlameAddValue;
+	nextFlamePos.x = static_cast<float>(WINDOW_WIDTH / 2.0f) + nextFlamePos.x + (playerTexInfo.m_sizeWidth / 2.0f);
+	nextFlamePos.y = static_cast<float>(WINDOW_HEIGHT / 2.0f) + nextFlamePos.y + (playerTexInfo.m_sizeHeight / 2.0f);
+
+	// 移動先が歩けないならば移動しない
+	if( GameRegister::GetInstance()->GetGameMap()->GetTileHeight( nextFlamePos ) == 0 ){
+		ret = true;
+	}
+	return ret;
+}
+
 
 /* ================================================ */
 /**

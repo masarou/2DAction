@@ -24,14 +24,19 @@ public:
 	virtual void Update();
 	virtual void DrawUpdate();
 
+	uint32_t GetTileHeight( const math::Vector2 &pos );
+	uint32_t GetTileHeight( const uint32_t &posX, const uint32_t &posY );
+
 private:
 
 	struct TILE_INFO{
 		int32_t		m_tileHandle;
-		uint32_t	m_height;
+		int32_t		m_tileTileKind;
+		uint32_t	m_tileHeight;	// タイルの高さ(ユーザーが乗れるか否か)
 		void Init(){
 			m_tileHandle = INVALID_VALUE;
-			m_height = 0;
+			m_tileTileKind = INVALID_VALUE;
+			m_tileHeight = 0;
 		}
 	};
 
