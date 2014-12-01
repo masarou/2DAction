@@ -15,6 +15,8 @@
 #include "FlowGame.h"
 #include "FlowResult.h"
 #include "FlowRetry.h"
+#include "FlowViewScore.h"
+#include "FlowExit.h"
 
 typedef FlowBase *(*pFunkRetFlowBase)( const std::string &fileName );
 
@@ -30,6 +32,8 @@ static FLOW_DATA s_flowTablse[] =
 	{FlowGame::Create,		"FlowGameMain.json"},
 	{FlowResult::Create,	"FlowGameResult.json"},
 	{FlowRetry::Create,		"FlowRetry.json"},
+	{FlowViewScore::Create,	"FlowScore.json"},
+	{FlowExit::Create,		"FlowExit.json"},
 
 };
 

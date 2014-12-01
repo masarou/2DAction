@@ -1,6 +1,7 @@
 {
 	"eventdata":[
-		{"event":"proceed", "path":"FlowGameMain.json"},
-		{"event":"return", "path":"FlowGameMain.json"}
+		{"event":"startgame", "path":"FlowGameMain.json"},
+		{"event":"score", "path":"FlowScore.json"},
+		{"event":"exit", "path":"FlowExit.json"}
 	]
 }

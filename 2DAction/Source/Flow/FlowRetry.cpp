@@ -3,60 +3,69 @@
  * @brief  
  *
  * @note
- *		タイトル画面管理クラス
+ *		ゲーム終了後リトライ確認画面クラス
  */
 /* ====================================================================== */
-
-#include "FlowTitle.h"
+#include "FlowRetry.h"
+#include "Game/GameScoreRecorder.h"
 #include "System/Sound/SystemSoundManager.h"
 
-FlowBase *FlowTitle::Create( const std::string &fileName )
+FlowBase *FlowRetry::Create( const std::string &fileName )
 {
-	return NEW FlowTitle(fileName);
+	return NEW FlowRetry(fileName);
 }
 
-FlowTitle::FlowTitle( const std::string &fileName )
-: FlowBase( fileName )
-, m_pTitleTex( NULL )
+FlowRetry::FlowRetry( const std::string &fileName )
+: FlowBase(fileName)
+, m_pRetryTex( NULL )
 {
-	DEBUG_PRINT("FlowTitle生成！！\n");
+	DEBUG_PRINT("FlowRetry生成！！\n");
 }
 
 
-FlowTitle::~FlowTitle(void)
+FlowRetry::~FlowRetry(void)
 {
-	DEBUG_PRINT("FlowTitle削除！！\n");
+	DEBUG_PRINT("FlowRetry削除！！\n");
 }
 
-bool FlowTitle::Finish()
-{
-	return true;
-}
-
-bool FlowTitle::Init()
+bool FlowRetry::Init()
 {
 	// 一枚絵作成
-	m_pTitleTex = Title2D::CreateTitle2D();
+	m_pRetryTex = Retry2D::CreateRetry2D();
 	return true;
 }
 
-void FlowTitle::PadEventDecide()
+bool FlowRetry::Finish()
+{
+	// 常駐物で初期化が必要なものリセット
+
+	// スコア初期化
+	ScoreRecorder::GetInstance()->ScoreReset();
+	// プレイヤーオフセットリセット
+	GameAccesser::GetInstance()->InitAll();
+
+	return true;
+}
+
+/* ================================================ */
+/**
+ * @brief	パッド操作関数
+ */
+/* ================================================ */
+void FlowRetry::PadEventDecide()
 {
 	// 決定SE鳴らす
 	SoundManager::GetInstance()->PlaySE("Decide");
 
-	switch( m_pTitleTex->GetSelectedNo() ){
+	switch( m_pRetryTex->GetSelectedNo() ){
 	default:
 		
 		break;
-	case Title2D::SELECT_START:
-	StartFade("startgame");
+	case Retry2D::SELECT_RETRY:
+	StartFade("retrygame");
 		break;
-	case Title2D::SELECT_SCORE:
-	StartFade("score");
-		break;
-	case Title2D::SELECT_EXIT:
-	StartFade("exit");
+	case Retry2D::SELECT_TITLE:
+	StartFade("title");
 		break;
 	}
 }
@@ -70,28 +79,28 @@ void FlowTitle::PadEventDecide()
  *		タイトル一枚絵クラス
  */
 /* ====================================================================== */
-Title2D *Title2D::CreateTitle2D()
+Retry2D *Retry2D::CreateRetry2D()
 {
-	return NEW Title2D();
+	return NEW Retry2D();
 }
 
-Title2D::Title2D()
-: TaskUnit("Title2D")
+Retry2D::Retry2D()
+: TaskUnit("Retry2D")
 , m_selectNo( 0 )
 {
-	m_textureTitle.Init();
+	m_textureRetry.Init();
 
 	// 描画クラスセットアップ
-	m_textureTitle.m_pTex2D = NEW Game2DBase("title.json");
-	m_textureTitle.m_texInfo.Init();
-	m_textureTitle.m_texInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
-	m_textureTitle.m_texInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
-	m_textureTitle.m_texInfo.m_usePlayerOffset = false;
-	m_textureTitle.m_pTex2D->SetDrawInfo(m_textureTitle.m_texInfo);
+	m_textureRetry.m_pTex2D = NEW Game2DBase("title.json");
+	m_textureRetry.m_texInfo.Init();
+	m_textureRetry.m_texInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
+	m_textureRetry.m_texInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
+	m_textureRetry.m_texInfo.m_usePlayerOffset = false;
+	m_textureRetry.m_pTex2D->SetDrawInfo(m_textureRetry.m_texInfo);
 
 	m_texInfo.Init();
 	m_texInfo.m_usePlayerOffset = false;
-	for( uint32_t i = 0; i < SELECT_MAX; ++i ){
+	for( uint32_t i = 0; i < SELECT_RETRY_MAX; ++i ){
 		m_pTexChoiceArray[i] = NULL;
 		m_pTexChoiceBGArray[i] = NULL;
 
@@ -102,18 +111,18 @@ Title2D::Title2D()
 	}
 }
 
-Title2D::~Title2D(void)
+Retry2D::~Retry2D(void)
 {
-	m_textureTitle.DeleteAndInit();
+	m_textureRetry.DeleteAndInit();
 	
-	for( uint32_t i = 0; i < SELECT_MAX; ++i ){
+	for( uint32_t i = 0; i < SELECT_RETRY_MAX; ++i ){
 		SAFE_DELETE( m_pTexChoiceArray[i] );
 		SAFE_DELETE( m_pTexChoiceBGArray[i] );
 	}
 }
 
 
-bool Title2D::Init()
+bool Retry2D::Init()
 {
 	// 方向キーのパッドイベントはPUSHで呼ぶように設定
 	SetPadButtonState( InputWatcher::BUTTON_UP,		InputWatcher::EVENT_PUSH );
@@ -124,54 +133,50 @@ bool Title2D::Init()
 	return true;
 }
 
-void Title2D::PadEventUp()
+void Retry2D::PadEventUp()
 {
 }
 
-void Title2D::PadEventDown()
+void Retry2D::PadEventDown()
 {
 }
-void Title2D::PadEventRight()
+void Retry2D::PadEventRight()
 {
-	m_selectNo = (m_selectNo+1) % SELECT_MAX;
+	m_selectNo = (m_selectNo+1) % SELECT_RETRY_MAX;
 }
-void Title2D::PadEventLeft()
+void Retry2D::PadEventLeft()
 {
-	m_selectNo = (m_selectNo+(SELECT_MAX - 1)) % SELECT_MAX;
+	m_selectNo = (m_selectNo+(SELECT_RETRY_MAX - 1)) % SELECT_RETRY_MAX;
 }
 
-void Title2D::Update()
+void Retry2D::Update()
 {
 	CallPadEvent();
 }
 
-void Title2D::DrawUpdate()
+void Retry2D::DrawUpdate()
 {
-	if( m_textureTitle.m_pTex2D ){
-		m_textureTitle.m_pTex2D->DrawUpdate2D();
+	if( m_textureRetry.m_pTex2D ){
+		m_textureRetry.m_pTex2D->DrawUpdate2D();
 	}
 	
-	for( uint32_t i = 0; i < SELECT_MAX; ++i){
+	for( uint32_t i = 0; i < SELECT_RETRY_MAX; ++i){
 		if( !m_pTexChoiceArray[i] || !m_pTexChoiceBGArray[i] ){
 			continue;
 		}
 		switch(i){
 		default:
 			DEBUG_ASSERT( 0, "想定外の値" );
-			m_pTexChoiceArray[i]->SetAnim("start");
+			m_pTexChoiceArray[i]->SetAnim("title");
 			m_texInfo.m_pos = math::Vector2( 100.0f, 40.0f );
 			break;
-		case SELECT_START:
-			m_pTexChoiceArray[i]->SetAnim("start");
+		case SELECT_RETRY:
+			m_pTexChoiceArray[i]->SetAnim("retry");
 			m_texInfo.m_pos = math::Vector2( 100.0f, 40.0f );
 			break;
-		case SELECT_SCORE:
-			m_pTexChoiceArray[i]->SetAnim("score");
+		case SELECT_TITLE:
+			m_pTexChoiceArray[i]->SetAnim("title");
 			m_texInfo.m_pos = math::Vector2( 400.0f, 40.0f );
-			break;
-		case SELECT_EXIT:
-			m_pTexChoiceArray[i]->SetAnim("exit");
-			m_texInfo.m_pos = math::Vector2( 700.0f, 40.0f );
 			break;
 		}
 

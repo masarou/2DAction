@@ -19,18 +19,18 @@ public:
 	~Message(void);
 
 	const uint32_t getSignal(){
-		return msgKind;
+		return m_msgKind;
 	}
 
 	void* getPtr(){
-		return ptr;
+		return m_ptr;
 	}
 
 private:
-	// m_‚Â‚¯‚éH
-	uint32_t msgKind;
-	void *ptr;
-	bool tellOther;
+
+	uint32_t	m_msgKind;
+	void		*m_ptr;
+	bool		m_tellOther;
 };
 
 #endif

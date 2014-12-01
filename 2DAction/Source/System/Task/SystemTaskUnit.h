@@ -68,7 +68,7 @@ protected:
 	virtual bool DieMain(){return true;}
 
 	// 派生先でのメッセージ処理
-	virtual void MessageReceive( Message *msg ){}
+	virtual void MessageReceive( const Message &msg ){}
 
 	// 死ぬ時はこれを呼んで下さい
 	void TaskStartDie();
@@ -83,7 +83,7 @@ protected:
 	void ReleaseConnection( TaskUnit *unit );
 
 	//! 親にメッセージを投げる
-	void SendMessageToParent( Message *msg );
+	void SendMessageToParent( const Message &msg );
 
 	//! タスクにイベント追加
 	virtual void AddEvent( const Common::CMN_EVENT &cmnEvent );

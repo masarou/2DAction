@@ -1,9 +1,9 @@
 #include "SystemMessage.h"
 
 Message::Message(uint32_t kind, void *pt)
-: msgKind(kind)
-, ptr(pt)
-, tellOther(false)
+: m_msgKind(kind)
+, m_ptr(pt)
+, m_tellOther(false)
 {
 }
 

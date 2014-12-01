@@ -133,7 +133,7 @@ void TaskUnit::ReleaseConnection( TaskUnit *unit )
  * @brief	親にメッセージを投げる
  */
 /* ================================================ */
-void TaskUnit::SendMessageToParent( Message *msg )
+void TaskUnit::SendMessageToParent( const Message &msg )
 {
 	if( m_pParent ){
 		m_pParent->MessageReceive(msg);

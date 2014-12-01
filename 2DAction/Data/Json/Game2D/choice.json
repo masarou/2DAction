@@ -5,13 +5,15 @@
 		, "sizeW": 250
 		, "sizeH": 50
 		, "splitW": 1
-		, "splitH": 3
-		, "total": 3 }
+		, "splitH": 5
+		, "total": 5 }
 	],
 	
 	"animeInfo":[
 		{"animTag":"start",	"frameSpeed":10,	"animIndex":[0],	"nextAnim":"start"},
 		{"animTag":"score",	"frameSpeed":10,	"animIndex":[1],	"nextAnim":"score"},
-		{"animTag":"exit",	"frameSpeed":10,	"animIndex":[2],	"nextAnim":"exit"}
+		{"animTag":"exit",	"frameSpeed":10,	"animIndex":[2],	"nextAnim":"exit"},
+		{"animTag":"retry",	"frameSpeed":10,	"animIndex":[3],	"nextAnim":"retry"},
+		{"animTag":"title",	"frameSpeed":10,	"animIndex":[4],	"nextAnim":"title"}
 	]	
 }
