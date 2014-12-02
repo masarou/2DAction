@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Common\CmnGameAccesser.cpp" />
+    <ClCompile Include="Source\Common\CmnNumberCounter.cpp" />
     <ClCompile Include="Source\Common\Utility\CommonGameUtility.cpp" />
     <ClCompile Include="Source\Flow\FlowBase.cpp" />
     <ClCompile Include="Source\Flow\FlowExit.cpp" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Common\CmnGameAccesser.h" />
+    <ClInclude Include="Source\Common\CmnNumberCounter.h" />
     <ClInclude Include="Source\Common\CommonDefine.h" />
     <ClInclude Include="Source\Common\Utility\CommonGameUtility.h" />
     <ClInclude Include="Source\Flow\FlowBase.h" />

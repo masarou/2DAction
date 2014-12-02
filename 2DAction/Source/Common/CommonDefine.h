@@ -41,5 +41,9 @@ namespace Common{
 		AI_MAX,
 	};
 
+	struct SAVE_SCORE{
+		uint32_t m_scoreTimeAttack[5];
+		uint32_t m_scoreEndless[5];
+	};
 }
 #endif

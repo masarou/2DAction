@@ -184,6 +184,9 @@
     <ClInclude Include="Source\Flow\FlowViewScore.h">
       <Filter>Flow</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Common\CmnNumberCounter.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -303,6 +306,9 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\FlowViewScore.cpp">
       <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Common\CmnNumberCounter.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

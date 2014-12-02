@@ -1,0 +1,58 @@
+/* ====================================================================== */
+/**
+ * @brief  スコア表示クラス
+ *
+ * @note
+ *		
+ */
+/* ====================================================================== */
+#ifndef SCORE_COUNTER
+#define SCORE_COUNTER
+
+#include "System/SystemDefine.h"
+#include "System/Task/SystemTaskUnit.h"
+#include "Game/Game2DBase.h"
+
+class NumberCounter : public TaskUnit
+{
+public:
+
+	~NumberCounter(void);
+	
+	static NumberCounter *Create( const char *readJson );
+
+	// 初期化
+	void Reset();
+	// スコア追加
+	void AddValue( int32_t addValue );
+	// スコア取得
+	const int32_t &GetValue(){ return m_value; }
+	// 描画情報セット
+	void SetDrawInfo( const TEX_DRAW_INFO &drawInfo );
+	// カウントアニメをやめる
+	void CountAnimEnd();
+
+protected:
+
+	virtual bool Init() override;
+	virtual void Update() override;
+	virtual void DrawUpdate() override;
+	virtual bool DieMain() override;
+
+private:
+
+	NumberCounter( const char *readJson );
+
+	void UpdateScore( const uint32_t &score );
+
+	std::string	m_readFile;			// 読み込んでいるjson
+	uint32_t	m_counter;			// 数値が上がっているときにSEを定期的にならすカウンタ
+	int32_t		m_value;
+	int32_t		m_currDispValue;
+
+	std::vector<Game2DBase*>	m_pNumber2DArray;	// 得点の画像等管理
+	TEX_DRAW_INFO				m_numberInfo;		// 描画関係情報
+
+};
+
+#endif

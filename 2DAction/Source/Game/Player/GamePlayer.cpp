@@ -346,8 +346,8 @@ void GamePlayer::EventDamage()
 	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
 
 	// ƒ‰ƒCƒt‚ðŒ¸‚ç‚·
-	if( m_playerLife > 20 ){
-		m_playerLife -= 20;
+	if( m_playerLife > 50 ){
+		m_playerLife -= 50;
 	}
 	else{
 		m_playerLife = 0;
