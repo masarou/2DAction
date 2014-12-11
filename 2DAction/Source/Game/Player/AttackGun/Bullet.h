@@ -32,10 +32,10 @@ public:
 	void	Draw();
 
 	// î•ñæ“¾
-	const uint32_t &GetBulletDamage(){ return m_bulletDamage;}
-	const TEX_DRAW_INFO &GetDrawInfo();
-	uint32_t GetUniqueNumber(){ return m_uniqueNumber; }
-	uint32_t GetLiveTime(){ return m_liveTime; }
+	const uint32_t &GetBulletDamage() const{ return m_bulletDamage;}
+	const TEX_DRAW_INFO &GetDrawInfo() const;
+	const uint32_t &GetUniqueNumber() const{ return m_uniqueNumber; }
+	const uint32_t &GetLiveTime() const{ return m_liveTime; }
 
 private:
 	

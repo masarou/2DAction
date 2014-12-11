@@ -40,7 +40,7 @@ public:
 	void LoadFlowFile();
 
 	//! Œ»İ‚Ìƒtƒ[–¼æ“¾
-	const std::string &GetFlowFilePath(){ return m_filePath; }
+	const std::string &GetFlowFilePath() const{ return m_filePath; }
 
 protected:
 

@@ -165,7 +165,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const uint32_t
 		tex.m_pTex2D = NEW Game2DBase("damageNum.json");
 		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("damageNum.json");
 		basePos.x -= texInfo.m_sizeWidth;
-		tex.m_texInfo.m_pos	= basePos;
+		tex.m_texInfo.m_pos		= basePos;
+		tex.m_texInfo.m_prioity	= PRIORITY_ABOVE_NORMAL;
 		tex.m_pTex2D->SetDrawInfo( tex.m_texInfo );
 		damageInfo.m_array2D.push_back( tex );
 	}

@@ -30,7 +30,7 @@ public:
 	void AddPlayerOffSet(const float posX, const float posY);
 
 	// ƒvƒŒƒCƒ„[î•ñæ“¾
-	const math::Vector2 &GetPlayerOffSet();
+	const math::Vector2 &GetPlayerOffSet() const;
 	void GetPlayerOffSet( float &posX, float &posY);
 
 	// GameAccesser‰ğ•ú

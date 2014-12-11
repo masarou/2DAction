@@ -59,7 +59,7 @@ public:
 
 	static Title2D *CreateTitle2D();
 
-	uint32_t GetSelectedNo(){ return m_selectNo; }
+	const uint32_t &GetSelectedNo(){ return m_selectNo; }
 
 protected:
 	

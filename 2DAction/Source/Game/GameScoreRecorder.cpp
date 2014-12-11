@@ -82,7 +82,7 @@ void ScoreRecorder::ScoreEvent( const SCORE_KIND &kind )
 	++m_scoreDetail[static_cast<uint32_t>(kind)];
 }
 
-const int32_t ScoreRecorder::GetScore()
+const int32_t ScoreRecorder::GetScore() const
 {
 	int32_t score = 0;
 	if( m_pNumCounter ){

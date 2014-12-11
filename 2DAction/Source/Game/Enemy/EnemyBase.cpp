@@ -101,7 +101,7 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_BULLET:	// Player‚Ì’e‚É“–‚½‚Á‚½
-		HitPlayreBullet( 10 ); // ‰¼
+		HitPlayreBullet( 30 ); // ‰¼
 		break;
 
 	}
@@ -112,7 +112,7 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
  * @brief	•`‰æî•ñŽæ“¾
  */
 /* ================================================ */
-const TEX_DRAW_INFO &EnemyBase::GetDrawInfo()
+const TEX_DRAW_INFO &EnemyBase::GetDrawInfo() const
 {
 	return m_textureEnemy.m_texInfo;
 }
@@ -148,6 +148,7 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 		SoundManager::GetInstance()->PlaySE("Bomb");
 
 		// manager‚ÉŠÇ—‚©‚çŠO‚·‚æ‚¤‚É“`‚¦‚é
-		GameRegister::GetInstance()->GetManagerEnemy()->DeleteEnemy( GetUniqueNumber() );
+		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
+		pEnemyMan->DeleteEnemy( GetUniqueNumber() );
 	}
 }

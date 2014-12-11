@@ -7,6 +7,7 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/GameRegister.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 static uint32_t DAMAGE_INVISIBLE_TIME = 120;
 static uint32_t LIFE_POINT_MAX = 100;
@@ -24,12 +25,23 @@ GamePlayer::GamePlayer(void)
 , m_invisibleTime(0)
 , m_playerLife(LIFE_POINT_MAX)
 {
+}
+
+
+GamePlayer::~GamePlayer(void)
+{
+}
+
+bool GamePlayer::Init()
+{
 	// 描画クラスセットアップ
 	m_texturePlayer.Init();
 	m_texturePlayer.m_pTex2D = NEW Game2DBase("player.json");
 	m_texturePlayer.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_texturePlayer.m_texInfo.m_usePlayerOffset = false;
 	m_texturePlayer.m_texInfo.m_pos = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	m_texturePlayer.m_texInfo.m_fileName = "player.json";
+	GetBelongAreaInMap( m_texturePlayer.m_texInfo );
 	m_texturePlayer.m_pTex2D->SetDrawInfo(m_texturePlayer.m_texInfo);
 
 	// 描画クラスセットアップ
@@ -55,15 +67,7 @@ GamePlayer::GamePlayer(void)
 	// 攻撃マシンガンクラスセット
 	m_attackGun = NEW AttackGun();
 	SetChildUnit( m_attackGun );
-}
 
-
-GamePlayer::~GamePlayer(void)
-{
-}
-
-bool GamePlayer::Init()
-{
 	// 画像の真ん中がオフセット位置になるように調整しておく
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_texturePlayer.m_texInfo.m_fileName.c_str() );
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
@@ -108,6 +112,9 @@ void GamePlayer::CollisionUpdate()
 
 void GamePlayer::DrawUpdate()
 {
+	//EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
+	//pEnemyMan->CreateEnemy( Common::KIND_AAA );
+
 	if( m_invisibleTime % 3 == 1 ){
 		// ダメージを受けない時間帯ならば3フレに一回描画せず点滅させる
 	}
@@ -238,12 +245,14 @@ void GamePlayer::PadEventLeft()
 void GamePlayer::PadEventDecide()
 {
 	GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50 );
-	GameRegister::GetInstance()->GetManagerItem()->CreateItem( ItemObject::ITEM_RAPID_BULLET );
+	ItemManager *pItemMan = GameRegister::GetInstance()->UpdateManagerItem();
+	pItemMan->CreateItem( ItemObject::ITEM_RAPID_BULLET );
 }
 
 void GamePlayer::PadEventCancel()
 {
-	GameRegister::GetInstance()->GetManagerEnemy()->CreateEnemy( Common::KIND_AAA );
+	EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
+	pEnemyMan->CreateEnemy( Common::KIND_AAA );
 }
 
 void GamePlayer::PadEventR1()
@@ -261,7 +270,7 @@ void GamePlayer::PadEventL1()
  * @brief	情報取得関数
  */
 /* ================================================ */
-const TEX_DRAW_INFO &GamePlayer::GetDrawInfo()
+const TEX_DRAW_INFO &GamePlayer::GetDrawInfo() const
 {
 	if( m_texturePlayer.m_pTex2D == NULL ){
 		DEBUG_ASSERT( 0, "プレイヤーの描画クラスがNULL");
@@ -300,7 +309,8 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
 	nextFlamePos.y = static_cast<float>(WINDOW_HEIGHT / 2.0f) + nextFlamePos.y + (playerTexInfo.m_sizeHeight / 2.0f);
 
 	// 移動先が歩けないならば移動しない
-	if( GameRegister::GetInstance()->GetGameMap()->GetTileHeight( nextFlamePos ) == 0 ){
+	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
+	if( pMap && pMap->GetTileHeight( nextFlamePos ) == 0 ){
 		ret = true;
 	}
 	return ret;
@@ -362,10 +372,8 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
 	case ItemObject::ITEM_RAPID_BULLET:
 		{
 			// 銃の発射間隔を狭める
-			AttackGun::GunState *gunState = m_attackGun->GetGunState();
-			if( gunState ){
-				gunState->m_shootInterval = ( gunState->m_shootInterval < 2 ) ? 0 : gunState->m_shootInterval - 2;
-			}
+			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
+			gunState.m_shootInterval = ( gunState.m_shootInterval < 2 ) ? 0 : gunState.m_shootInterval - 2;
 		}
 		break;
 	}

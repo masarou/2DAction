@@ -142,10 +142,14 @@ void Retry2D::PadEventDown()
 }
 void Retry2D::PadEventRight()
 {
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
 	m_selectNo = (m_selectNo+1) % SELECT_RETRY_MAX;
 }
 void Retry2D::PadEventLeft()
 {
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
 	m_selectNo = (m_selectNo+(SELECT_RETRY_MAX - 1)) % SELECT_RETRY_MAX;
 }
 

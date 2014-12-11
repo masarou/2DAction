@@ -24,7 +24,7 @@ public:
 
 	//!再生中アニメの変更、取得
 	void SetAnim( const std::string &animTag );							
-	const char *GetPlayAnim(){return m_currentAnimTag.c_str();}
+	const char *GetPlayAnim() const{return m_currentAnimTag.c_str();}
 	
 	//!描画設定更新
 	void SetDrawInfo( TEX_DRAW_INFO &info );
@@ -32,7 +32,7 @@ public:
 	//!設定アニメの更新
 	void DrawUpdate2D();
 
-	const TEX_DRAW_INFO &GetDrawInfo(){ return m_drawInfo; }
+	const TEX_DRAW_INFO &GetDrawInfo() const{ return m_drawInfo; }
 	
 private:
 
@@ -50,7 +50,7 @@ private:
 	std::string						m_currentAnimTag;	//!<再生中のアニメ
 	std::vector<int32_t>			m_vTexHandle;		// 描画Handle
 	std::vector<std::string>		m_vAnimName;		// 再生できるアニメ
-	
+
 };
 
 struct Texture2D{

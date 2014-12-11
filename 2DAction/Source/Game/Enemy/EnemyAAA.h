@@ -20,7 +20,7 @@ public:
 
 protected:
 	
-	virtual uint32_t GetEnemyDefaultHP(){return 100;}	// 敵クラスのデフォルトHP取得
+	virtual uint32_t GetEnemyDefaultHP() const{return 100;}	// 敵クラスのデフォルトHP取得
 
 private:
 

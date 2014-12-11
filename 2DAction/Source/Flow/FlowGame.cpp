@@ -46,10 +46,8 @@ void FlowGame::UpdateFlow()
 
 	++m_gameTimer;
 
-	if( GameRegister::GetInstance()->GetPlayer()->GetCurrentLife() == 0 ){
-		StartFade("gameend");
-	}
-	else if( m_gameTimer > 6000 ){
+	const GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
+	if( pPlayer->GetCurrentLife() == 0 ){
 		StartFade("gameend");
 	}
 }

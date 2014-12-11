@@ -14,6 +14,9 @@
 #include "System/Draw2D/SystemDraw2DDefine.h"
 #include "Game2DBase.h"
 
+// 当たり判定を行う際のマップの分割数
+static const uint32_t HIT_AREA_SPLIT_MAX = 6;
+
 class GameMap : public TaskUnit
 {
 public:
@@ -24,8 +27,11 @@ public:
 	virtual void Update();
 	virtual void DrawUpdate();
 
-	uint32_t GetTileHeight( const math::Vector2 &pos );
-	uint32_t GetTileHeight( const uint32_t &posX, const uint32_t &posY );
+	const uint32_t GetTileHeight( const math::Vector2 &pos ) const;
+	const uint32_t GetTileHeight( const uint32_t &posX, const uint32_t &posY ) const;
+	
+	const uint32_t Get2DMortonNumber( const math::Vector2 &pos ) const;	// 引数が当たり判定を行う空間の何番にいるかを求める
+	const uint32_t GetBelongArea( const math::Vector2 &pos ) const;		// 位置情報から当たり判定空間を求める
 
 private:
 
@@ -48,8 +54,8 @@ private:
 
 	struct MAP_INFO{
 		std::vector<uint32_t>	m_vTileKind;
-		uint32_t				m_width;
-		uint32_t				m_height;
+		uint32_t				m_width;		// 横にタイルが何枚あるか
+		uint32_t				m_height;		// 縦にタイルが何枚あるか
 		void Init(){
 			m_vTileKind.clear();
 			m_width		= INVALID_VALUE;

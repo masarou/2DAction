@@ -20,10 +20,16 @@ const math::Vector2 &GetPlayerOffsetPos();
 // 描画位置が重なっているかどうか(当たり判定)
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB );
 
+// マップ上での所属空間を求める
+const void GetBelongAreaInMap( TEX_DRAW_INFO &tex );
+
 // 指定のAIクラスの生成
 EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI );
 
 // 指定の範囲内のランダムな数字を返す
 int32_t GetRandamValue( const int32_t &max, const int32_t &min);
+
+// セーブデータの情報を取得
+bool GetSaveRanking( Common::SAVE_SCORE &saveData );
 
 #endif

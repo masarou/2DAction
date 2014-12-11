@@ -54,7 +54,7 @@ void ItemManager::Update()
 
 void ItemManager::CollisionUpdate()
 {
-	GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
+	GamePlayer *pPlayer = GameRegister::GetInstance()->UpdatePlayer();
 	if( !pPlayer ){
 		return ;
 	}
@@ -124,7 +124,7 @@ void ItemManager::DeleteItem( uint32_t uniqueNumber )
  * @brief	指定プレイヤーとの当たり判定チェック
  */
 /* ================================================ */
-bool ItemManager::CheckCollisionToPlayer( GamePlayer *player )
+bool ItemManager::CheckCollisionToPlayer( GamePlayer *player ) const
 {
 	bool isHit = false;
 	for( uint32_t i = 0; i < m_itemArray.size() ; ++i){

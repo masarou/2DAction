@@ -140,19 +140,15 @@ void InputWatcher::CallPadEvent()
 
 	if(IsButtonEvent(BUTTON_UP)){
 		PadEventUp();
-		DEBUG_PRINT("BUTTON_UP\n");
 	}
 	if(IsButtonEvent(BUTTON_DOWN)){
 		PadEventDown();
-		DEBUG_PRINT("BUTTON_DOWN\n");
 	}
 	if(IsButtonEvent(BUTTON_LEFT)){
 		PadEventLeft();
-		DEBUG_PRINT("BUTTON_LEFT\n");
 	}
 	if(IsButtonEvent(BUTTON_RIGHT)){
 		PadEventRight();
-		DEBUG_PRINT("BUTTON_RIGHT\n");
 	}
 	if(IsButtonEvent(BUTTON_DECIDE)){
 		PadEventDecide();

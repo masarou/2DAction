@@ -22,9 +22,6 @@ GameRegister *GameRegister::CreateInstance()
 
 GameRegister *GameRegister::GetInstance()
 {
-	if( !s_pInstance ){
-		CreateInstance();
-	}
 	return s_pInstance;
 }
 
@@ -54,22 +51,42 @@ GameRegister::~GameRegister(void)
  * @brief	各種インスタンス取得関数
  */
 /* ================================================ */
-GamePlayer *GameRegister::GetPlayer()
+GamePlayer *GameRegister::UpdatePlayer()
 {
 	return m_pPlayer;
 }
 
-EnemyManager *GameRegister::GetManagerEnemy()
+EnemyManager *GameRegister::UpdateManagerEnemy()
 {
 	return m_pEnemyManager;
 }
 
-GameMap *GameRegister::GetGameMap()
+GameMap *GameRegister::UpdateGameMap()
 {
 	return m_pMap;
 }
 
-ItemManager *GameRegister::GetManagerItem()
+ItemManager *GameRegister::UpdateManagerItem()
+{
+	return m_pItemManager;
+}
+
+const GamePlayer *GameRegister::GetPlayer() const
+{
+	return m_pPlayer;
+}
+
+const EnemyManager *GameRegister::GetManagerEnemy() const
+{
+	return m_pEnemyManager;
+}
+
+const GameMap *GameRegister::GetGameMap() const
+{
+	return m_pMap;
+}
+
+const ItemManager *GameRegister::GetManagerItem() const
 {
 	return m_pItemManager;
 }

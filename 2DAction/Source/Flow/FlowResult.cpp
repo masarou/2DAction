@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "FlowResult.h"
 #include "Game/GameScoreRecorder.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 FlowBase *FlowResult::Create( const std::string &fileName )
 {
@@ -37,7 +38,7 @@ bool FlowResult::Init()
 
 	// 今回のプレイを反映させたランキング作成
 	Common::SAVE_SCORE scoreLog;
-	bool retVal = CheckSaveData( scoreLog );
+	bool retVal = GetSaveRanking( scoreLog );
 	if( retVal ){
 		UpdateSortRanking( scoreLog );
 	}
@@ -87,44 +88,6 @@ void FlowResult::UpdateSortRanking( Common::SAVE_SCORE &scoreData )
 		scoreData.m_scoreTimeAttack[i] = ranking.at(i);
 	}
 }
-
-bool FlowResult::CheckSaveData( Common::SAVE_SCORE &saveData )
-{
-	// ファイルがない場合もあるので一度開いて作成しておく
-	FILE *fpCheck = fopen( "playLog.dat", "r" );
-	if( !fpCheck ){
-		// ファイルがない場合もあるので一度開いて作成しておく
-		FILE *fpCreate = fopen( "playLog.dat", "a" );
-		fclose( fpCreate );
-
-		// デフォルトの値を詰めておく
-		Common::SAVE_SCORE scoreLog = {
-			{ 1000, 500, 300, 100, 0},
-			{ 1000, 500, 300, 100, 0},
-		};
-		FILE *fpWriteDef = fopen( "playLog.dat", "wb" );
-		if( fpWriteDef == NULL ){
-			return false;
-		}
-		fwrite( &scoreLog, sizeof(scoreLog), 1, fpWriteDef );
-		fclose( fpWriteDef );
-	}
-	else{
-		// ファイルは存在している
-		fclose( fpCheck );
-	}
-
-	// プレイログ読み込み
-	FILE *fpRead = fopen( "playLog.dat", "rb" );
-	if( fpRead == NULL ){
-		return 0;
-	}
-	fread( &saveData, sizeof(saveData), 1, fpRead );
-	fclose( fpRead );
-
-	return true;
-}
-
 
 /* ====================================================================== */
 /**

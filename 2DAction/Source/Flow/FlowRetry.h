@@ -54,7 +54,7 @@ public:
 
 	static Retry2D *CreateRetry2D();
 
-	uint32_t GetSelectedNo(){ return m_selectNo; }
+	const uint32_t &GetSelectedNo() const{ return m_selectNo; }
 
 protected:
 	

@@ -37,11 +37,11 @@ public:
 	void	SetPlayerGetFlag();	// ƒAƒCƒeƒ€‚Ì–³Œø‰»(Á–Å)
 
 	// î•ñæ“¾
-	const TEX_DRAW_INFO &GetDrawInfo();
-	const uint32_t	&GetUniqueNumber(){ return m_uniqueNumber; }
-	const uint32_t	&GetLiveTime(){ return m_liveTime; }
-	const ITEM_KIND	&GetItemKind(){ return m_kindItem; }
-	const bool		&GetPlayerGetFlag(){ return m_isPlayerGet; }
+	const TEX_DRAW_INFO &GetDrawInfo() const;
+	const uint32_t	&GetUniqueNumber() const{ return m_uniqueNumber; }
+	const uint32_t	&GetLiveTime() const{ return m_liveTime; }
+	const ITEM_KIND	&GetItemKind() const{ return m_kindItem; }
+	const bool		&GetPlayerGetFlag() const{ return m_isPlayerGet; }
 
 private:
 

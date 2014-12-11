@@ -27,10 +27,15 @@ public:
 	static GameRegister *CreateInstance();
 	static GameRegister *GetInstance();
 
-	GamePlayer			*GetPlayer();
-	EnemyManager		*GetManagerEnemy();
-	GameMap				*GetGameMap();
-	ItemManager			*GetManagerItem();
+	GamePlayer			*UpdatePlayer();
+	EnemyManager		*UpdateManagerEnemy();
+	GameMap				*UpdateGameMap();
+	ItemManager			*UpdateManagerItem();
+
+	const GamePlayer			*GetPlayer() const;
+	const EnemyManager			*GetManagerEnemy() const;
+	const GameMap				*GetGameMap() const;
+	const ItemManager			*GetManagerItem() const;
 
 	void DeleteRegister();	// ƒŒƒWƒXƒ^‰ğ•ú
 

@@ -41,7 +41,8 @@ void Bullet::Update()
 	m_textureBullet.m_pTex2D->SetDrawInfo(m_textureBullet.m_texInfo);
 
 	// 敵に当たったかチェック
-	bool isHit = GameRegister::GetInstance()->GetManagerEnemy()->CheckCollisionToBullet( this );
+	EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
+	bool isHit = pEnemyMan->CheckCollisionToBullet( this );
 	if( isHit ){
 		m_liveTime = BULLET_LIVE_TIME;
 	}
@@ -56,7 +57,7 @@ void Bullet::Draw()
 	m_textureBullet.m_pTex2D->DrawUpdate2D();
 }
 
-const TEX_DRAW_INFO &Bullet::GetDrawInfo()
+const TEX_DRAW_INFO &Bullet::GetDrawInfo() const
 {
 	if( m_textureBullet.m_pTex2D == NULL ){
 		DEBUG_ASSERT( 0, "弾の描画クラスがNULL");

@@ -28,7 +28,7 @@ struct FLOW_DATA{
 //! 各フローとjson名のテーブル
 static FLOW_DATA s_flowTablse[] = 
 {
-	{FlowTitle::Create,		"FlowTitle.json"},
+	{FlowTitle::Create,		"FlowTitle.json",		},
 	{FlowGame::Create,		"FlowGameMain.json"},
 	{FlowResult::Create,	"FlowGameResult.json"},
 	{FlowRetry::Create,		"FlowRetry.json"},

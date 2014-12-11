@@ -18,14 +18,6 @@
 #define SPLIT_MAX 100
 
 //描画の種類 優先
-enum KIND_2D{
-	KIND_BACK,
-	KIND_NORMAL,
-	KIND_FILTER,
-
-	KIND_MAX,
-};
-
 enum PRIORITY{
 	PRIORITY_LOWEST,
 	PRIORITY_LOW,
@@ -83,8 +75,9 @@ struct TEX_DRAW_INFO{
 	bool			m_usePlayerOffset;	//!<位置補正の使用有無
 	math::Angle		m_rot;				//!<回転情報
 	uint32_t		m_alpha;			//!<透過情報
-	KIND_2D			m_kind2D;			//!<2Dの種類
 	PRIORITY		m_prioity;			//!<描画優先度
+	uint32_t		m_belongLv;			// マップ上での所属空間(当たり判定)
+	uint32_t		m_belongIndex;		// 所属空間の番号(当たり判定)
 	void Init(){
 		m_fileName = "";
 		m_scale = math::Vector2( 1.0f, 1.0f );
@@ -93,8 +86,9 @@ struct TEX_DRAW_INFO{
 		m_usePlayerOffset = true;
 		m_rot = math::Angle();
 		m_alpha = 255;
-		m_kind2D = KIND_NORMAL;
 		m_prioity = PRIORITY_NORMAL;
+		m_belongLv = INVALID_VALUE;
+		m_belongIndex = INVALID_VALUE;
 	}
 };
 

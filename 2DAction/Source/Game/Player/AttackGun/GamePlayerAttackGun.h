@@ -48,7 +48,7 @@ public:
 	// 弾の削除(画面外に出た、敵に当たった等々)
 	std::vector<Bullet*>::iterator DeleteBullet( uint32_t uniqueNumber );
 	// 銃のステート更新
-	GunState *GetGunState(){ return &m_currState; }
+	GunState &UpdateGunState(){ return m_currState; }
 
 private:
 

@@ -61,7 +61,7 @@ void ItemObject::SetPlayerGetFlag()
 	SoundManager::GetInstance()->PlaySE("ShootBullet");
 }
 
-const TEX_DRAW_INFO &ItemObject::GetDrawInfo()
+const TEX_DRAW_INFO &ItemObject::GetDrawInfo() const
 {
 	if( m_textureItem.m_pTex2D == NULL ){
 		DEBUG_ASSERT( 0, "アイテムの描画クラスがNULL");

@@ -184,7 +184,7 @@ void TextureResourceManager::DeleteTextureInfo( const char *jsonFile )
  * @brief	指定のjsonファイルからテクスチャの画像情報取得
  */
 /* ================================================ */
-const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jsonFile )
+const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jsonFile ) const
 {
 	for( uint32_t i = 0; i < m_vRecource2D.size(); ++i ){
 		if( m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0 ){
@@ -200,7 +200,7 @@ const TEX_INIT_INFO &TextureResourceManager::GetLoadTextureInfo( const char *jso
  * @brief	指定のjsonファイルからアニメ全体のHandle情報を取得
  */
 /* ================================================ */
-void TextureResourceManager::GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle )
+void TextureResourceManager::GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle ) const
 {
 	for(uint32_t i = 0; i < m_vRecource2D.size(); ++i){
 		if( m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0 ){
@@ -220,7 +220,7 @@ void TextureResourceManager::GetTextureHandle( const char *jsonFile, std::vector
  * @brief	読み込んだテクスチャのデフォルトアニメ名取得
  */
 /* ================================================ */
-const std::string TextureResourceManager::GetDefaultAnimName( const char *jsonFile )
+const std::string TextureResourceManager::GetDefaultAnimName( const char *jsonFile ) const
 {
 	std::string retStr = "";
 	const TEX_INIT_INFO &texInfo = GetLoadTextureInfo( jsonFile );
@@ -233,7 +233,7 @@ const std::string TextureResourceManager::GetDefaultAnimName( const char *jsonFi
  * @brief	指定のjsonファイルから再生アニメ名取得
  */
 /* ================================================ */
-void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim )
+void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim ) const
 {
 	const TEX_INIT_INFO &texInfo = GetLoadTextureInfo( jsonFile );
 	for(uint32_t j = 0; j < texInfo.m_vAnimName.size();++j){
@@ -247,7 +247,7 @@ void TextureResourceManager::GetPlayAnimName( const char *jsonFile, std::vector<
  *			適切なHandle配列のIndex値を返す
  */
 /* ================================================ */
-const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, std::string &animName, uint32_t &frame )
+const int32_t TextureResourceManager::GetAnimHandleIndex( const char *jsonFile, std::string &animName, uint32_t &frame ) const
 {
 	uint32_t drawIndex = INVALID_VALUE;
 

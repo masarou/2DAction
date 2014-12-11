@@ -88,7 +88,7 @@ void EnemyManager::DeleteEnemy( const uint32_t &uniqueNumber )
  * @brief	敵クラスとの当たり判定関数
  */
 /* ================================================ */
-bool EnemyManager::CheckCollision( const TEX_DRAW_INFO &texInfo )
+bool EnemyManager::CheckCollision( const TEX_DRAW_INFO &texInfo ) const
 {
 	bool isHit = false;
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
@@ -107,7 +107,7 @@ bool EnemyManager::CheckCollision( const TEX_DRAW_INFO &texInfo )
 	return isHit;
 }
 
-bool EnemyManager::CheckCollisionToBullet( Bullet *bullet )
+bool EnemyManager::CheckCollisionToBullet( const Bullet *bullet )
 {
 	bool isHit = false;
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
@@ -130,7 +130,7 @@ bool EnemyManager::CheckCollisionToBullet( Bullet *bullet )
 	return isHit;
 }
 
-bool EnemyManager::CheckCollisionToPlayer( GamePlayer *player )
+bool EnemyManager::CheckCollisionToPlayer( const GamePlayer *player ) const
 {
 	bool isHit = false;
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
@@ -179,7 +179,7 @@ void EnemyManager::Update()
 void EnemyManager::CollisionUpdate()
 {
 	// 敵がプレイヤーに当たったかチェック
-	GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
+	GamePlayer *pPlayer = GameRegister::GetInstance()->UpdatePlayer();
 	if( !pPlayer ){
 		return ;
 	}

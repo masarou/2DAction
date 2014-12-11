@@ -26,7 +26,7 @@ public:
 	// スコア追加
 	void AddValue( int32_t addValue );
 	// スコア取得
-	const int32_t &GetValue(){ return m_value; }
+	const int32_t &GetValue() const{ return m_value; }
 	// 描画情報セット
 	void SetDrawInfo( const TEX_DRAW_INFO &drawInfo );
 	// カウントアニメをやめる

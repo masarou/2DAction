@@ -27,7 +27,7 @@ public:
 	void Action();
 
 	//! •`‰æ—\–ñ
-	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const KIND_2D &kind = KIND_NORMAL, const PRIORITY &priority = PRIORITY_NORMAL );
+	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority = PRIORITY_NORMAL );
 
 	//! •`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
 	void DeleteDrawInfo( const int32_t &handle );
@@ -55,8 +55,11 @@ private:
 	Draw2DManager(void);
 	~Draw2DManager(void);
 
+
+
 	//! •`‰æŽwŽ¦
-	void DrawTexture( const uint32_t &drawIndex);
+	void DrawTexture( const uint32_t &drawIndex );
+	void PushDrawInfoMain( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority = PRIORITY_NORMAL );
 
 	static Draw2DManager	*s_pInstance;
 

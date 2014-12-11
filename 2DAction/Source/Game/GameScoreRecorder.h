@@ -38,7 +38,7 @@ public:
 	// スコア追加
 	void ScoreEvent( const SCORE_KIND &kind );
 	// スコア取得
-	const int32_t GetScore();
+	const int32_t GetScore() const;
 
 private:
 

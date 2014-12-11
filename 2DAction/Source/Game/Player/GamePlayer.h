@@ -39,8 +39,8 @@ public:
 	virtual void PadEventL1() override;
 	
 	// 情報取得
-	const TEX_DRAW_INFO &GetDrawInfo();
-	const uint32_t	&GetCurrentLife(){ return m_playerLife; }
+	const TEX_DRAW_INFO &GetDrawInfo()  const;
+	const uint32_t	&GetCurrentLife() const{ return m_playerLife; }
 
 	//! タスクにイベント追加
 	void AddEvent( const Common::CMN_EVENT &cmnEvent ) override;

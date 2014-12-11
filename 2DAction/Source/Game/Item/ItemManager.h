@@ -35,7 +35,7 @@ public:
 private:
 
 	ItemManager(void);
-	bool CheckCollisionToPlayer( GamePlayer *player );	// 当たり判定関数
+	bool CheckCollisionToPlayer( GamePlayer *player ) const;	// 当たり判定関数
 	
 	std::vector<ItemObject*>	m_itemArray;		// アイテムの管理ベクタ
 

@@ -51,7 +51,35 @@ Draw2DManager *Draw2DManager::GetInstance()
  * @brief	描画タスク追加
  */
 /* ================================================ */
-void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const KIND_2D &kind, const PRIORITY &priority )
+void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )
+{
+	if( !texInfo.m_usePlayerOffset ){
+		PushDrawInfoMain( texInfo, handle, priority );
+		return;
+	}
+
+	////!現在描画したい端(画面外でも一マス分では描画)
+	//int32_t WidthLower	= -1 * 50;
+	//int32_t WidthUpper	= WINDOW_WIDTH + 50;
+	//int32_t HeightLower = -1 * 50;
+	//int32_t HeightUpper = WINDOW_HEIGHT + 50;
+
+	////!プレイヤー情報取得
+	//float offsetx = 0.0f;
+	//float offsety = 0.0f;
+	//GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
+
+	////!描画しようとしている位置
+	//int32_t posY = texInfo.m_pos.y - static_cast<uint32_t>(offsety);
+	//int32_t posX = texInfo.m_pos.x - static_cast<uint32_t>(offsetx);
+
+	//if(posX < WidthUpper && posX > WidthLower
+	//&& posY < HeightUpper && posY > HeightLower){
+	//	PushDrawInfoMain( texInfo, handle, priority );
+	//}
+}
+
+void Draw2DManager::PushDrawInfoMain( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )
 {
 	DRAW2D task;
 
@@ -61,6 +89,7 @@ void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &h
 
 	m_vDrawTask.push_back(task);
 }
+
 
 /* ================================================ */
 /**
@@ -98,24 +127,13 @@ void Draw2DManager::DeleteDrawInfo( const char *jsonFile )
 /* ================================================ */
 void Draw2DManager::Action()
 {
-	for( uint32_t i = 0; i < KIND_MAX; ++i ){
-		for( uint32_t j = 0; j < PRIORITY_MAX; ++j ){
-			for( uint32_t k = 0; k < m_vDrawTask.size(); ++k ){
-				if( m_vDrawTask.at(k).m_info.m_kind2D == static_cast<KIND_2D>(i)
-					&& m_vDrawTask.at(k).m_info.m_prioity == static_cast<PRIORITY>(j) ){
-						DrawTexture(k);
-				}
+	for( uint32_t i = 0; i < PRIORITY_MAX; ++i ){
+		for( uint32_t j = 0; j < m_vDrawTask.size(); ++j ){
+			if( m_vDrawTask.at(j).m_info.m_prioity == static_cast<PRIORITY>(i) ){
+				DrawTexture(j);
 			}
 		}
 	}
-
-#ifdef _DEBUG
-	int Color = GetColor( 255 , 255 , 255 );
-	float xx = 0.0f;
-	float yy = 0.0f;
-	GameAccesser::GetInstance()->GetPlayerOffSet(xx, yy);
-	DrawFormatString( 0, 10, Color, "PlayerX = %.1f, PlayerY = %.1f\n", xx, yy);
-#endif
 
 	m_vDrawTask.clear();
 }

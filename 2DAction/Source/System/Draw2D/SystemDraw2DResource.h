@@ -25,15 +25,15 @@ public:
 	void DeleteTextureInfo( const char *jsonFile );
 
 	// 読み込んだテクスチャの画像情報取得
-	const TEX_INIT_INFO &GetLoadTextureInfo( const char *jsonFile );
+	const TEX_INIT_INFO &GetLoadTextureInfo( const char *jsonFile ) const;
 	// 読み込んだテクスチャの描画Handle取得
-	void GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle );
+	void GetTextureHandle( const char *jsonFile, std::vector<int32_t> &vHandle ) const;
 	// 読み込んだテクスチャのデフォルトアニメ名取得
-	const std::string GetDefaultAnimName( const char *jsonFile );
+	const std::string GetDefaultAnimName( const char *jsonFile ) const;
 	// 読み込んだテクスチャの再生アニメ名取得
-	void GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim );
+	void GetPlayAnimName( const char *jsonFile, std::vector<std::string> &vAnim ) const;
 	// frameの更新とframe数から適切なHandleの要素番号を返す
-	const int32_t GetAnimHandleIndex( const char *jsonFile, std::string &animName, uint32_t &frame );
+	const int32_t GetAnimHandleIndex( const char *jsonFile, std::string &animName, uint32_t &frame ) const;
 
 	// クラスの解放
 	void DeleteResourceManager();

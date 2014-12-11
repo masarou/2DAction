@@ -133,10 +133,14 @@ void Title2D::PadEventDown()
 }
 void Title2D::PadEventRight()
 {
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
 	m_selectNo = (m_selectNo+1) % SELECT_MAX;
 }
 void Title2D::PadEventLeft()
 {
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
 	m_selectNo = (m_selectNo+(SELECT_MAX - 1)) % SELECT_MAX;
 }
 

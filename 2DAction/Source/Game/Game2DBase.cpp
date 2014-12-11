@@ -11,6 +11,7 @@
 #include "System/picojson.h"
 #include "Game2DBase.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 Game2DBase::Game2DBase(const char *jsonFile)
 : m_animCounter(0)
@@ -97,6 +98,10 @@ void Game2DBase::SetDrawInfo( TEX_DRAW_INFO &info)
 	if( info.m_fileName.compare("") == 0 ){
 		info.m_fileName = m_jsonFile;
 	}
+	
+	// 位置情報から空間当たり判定をセットしておく
+	GetBelongAreaInMap( info );
+
 	m_drawInfo = info;
 }
 

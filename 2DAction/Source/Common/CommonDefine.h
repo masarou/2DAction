@@ -41,9 +41,11 @@ namespace Common{
 		AI_MAX,
 	};
 
+
+	const uint32_t RANKING_RECORD_MAX = 5;
 	struct SAVE_SCORE{
-		uint32_t m_scoreTimeAttack[5];
-		uint32_t m_scoreEndless[5];
+		uint32_t m_scoreTimeAttack[RANKING_RECORD_MAX];
+		uint32_t m_scoreEndless[RANKING_RECORD_MAX];
 	};
 }
 #endif

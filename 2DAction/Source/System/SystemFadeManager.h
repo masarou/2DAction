@@ -34,7 +34,7 @@ public:
 	// î•ñæ“¾
 	void	StartFadeIn();
 	void	StartFadeOut();
-	const STATE_FADE &GetCurrentState(){ return m_currState; }
+	const STATE_FADE &GetCurrentState() const{ return m_currState; }
 
 protected:
 

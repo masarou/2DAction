@@ -73,12 +73,12 @@ void GameMap::DrawUpdate()
 	}
 }
 
-uint32_t GameMap::GetTileHeight( const uint32_t &posX, const uint32_t &posY )
+const uint32_t GameMap::GetTileHeight( const uint32_t &posX, const uint32_t &posY ) const
 {
 	return GetTileHeight( math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
 }
 
-uint32_t GameMap::GetTileHeight( const math::Vector2 &pos )
+const uint32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
 {
 	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){
 		return 0;
@@ -98,33 +98,41 @@ uint32_t GameMap::GetTileHeight( const math::Vector2 &pos )
 			}
 		}
 	}
-
 	return retValue;
 }
 
-//uint32_t GameMap::GetTileHeight( const math::Vector2 &pos )
-//{
-//	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){
-//		return 0;
-//	}
-//
-//	uint32_t retValue = 0;
-//	uint32_t row	= (pos.y / m_texInfo.m_sizeHeight);	// マップ全体で縦何番目か
-//	uint32_t column	= (pos.x / m_texInfo.m_sizeWidth);	// 横何番目か
-//	uint32_t index	= row*m_mapInfo.m_width + column;
-//
-//	if( m_mapInfo.m_vTileKind.size() > index ){
-//		uint32_t tileKind = m_mapInfo.m_vTileKind.at(index);
-//		for( uint32_t i = 0; i < m_vTileInfo.size() ; ++i ){
-//			if( m_vTileInfo.at(i).m_tileTileKind == tileKind ){
-//				retValue = m_vTileInfo.at(i).m_tileHeight;
-//				break;
-//			}
-//		}
-//	}
-//
-//	return retValue;
-//}
+// 二進数表示の全てのビットの前に0をつける
+// 例) 引数 5(101) → 17(010001)
+DWORD BitSeparate32( uint32_t n )
+{
+	n = (n|(n<<8)) & 0x00ff00ff;	// 0000 0000 1111 1111 0000 0000 1111 1111
+	n = (n|(n<<4)) & 0x0f0f0f0f;	// 0000 1111 0000 1111 0000 1111 0000 1111
+	n = (n|(n<<2)) & 0x33333333;	// 0011 0011 0011 0011 0011 0011 0011 0011
+	return (n|(n<<1)) & 0x55555555;	// 0101 0101 0101 0101 0101 0101 0101 0101
+}
+
+const uint32_t GameMap::Get2DMortonNumber( const math::Vector2 &pos ) const
+{
+	return (BitSeparate32(static_cast<uint32_t>(pos.x)) | (BitSeparate32(static_cast<uint32_t>(pos.y))<<1));
+}
+
+const uint32_t GameMap::GetBelongArea( const math::Vector2 &pos ) const
+{
+	uint32_t retValue = 0;
+
+	uint32_t columnNum = m_mapInfo.m_vTileKind.size() / m_mapInfo.m_width;
+	uint32_t rowNum = m_mapInfo.m_vTileKind.size() / m_mapInfo.m_height;
+
+	// 調べるエリア最小の一片の長さ
+	float width = (columnNum*MAP_TIP_SIZE) / pow(static_cast<double>(2), static_cast<double>(HIT_AREA_SPLIT_MAX));
+	float height = (rowNum*MAP_TIP_SIZE) / pow(static_cast<double>(2), static_cast<double>(HIT_AREA_SPLIT_MAX));
+
+	uint32_t numberC = static_cast<uint32_t>(pos.x / height);
+	uint32_t numberR = static_cast<uint32_t>(pos.y / width);
+
+	retValue = Get2DMortonNumber( math::Vector2(static_cast<float>(numberC), static_cast<float>(numberR)) );
+	return retValue;
+}
 
 void GameMap::LoadTextureInfo(const char *jsonFile)
 {

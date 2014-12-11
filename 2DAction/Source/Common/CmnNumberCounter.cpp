@@ -136,7 +136,7 @@ void NumberCounter::UpdateScore( const uint32_t &score )
 	for(;m_pNumber2DArray.size() < digitNum;){
 		Game2DBase *tmp = NEW Game2DBase( m_readFile.c_str() );
 		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("number.json");
-		m_numberInfo.m_pos.x -= texInfo.m_sizeWidth;
+		m_numberInfo.m_pos.x -= texInfo.m_sizeWidth*m_numberInfo.m_scale.x;
 		tmp->SetDrawInfo(m_numberInfo);
 		m_pNumber2DArray.push_back(tmp);
 	}

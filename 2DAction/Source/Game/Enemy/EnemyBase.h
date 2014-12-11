@@ -35,11 +35,11 @@ public:
 	void EventUpdate( const Common::CMN_EVENT &eventId );	// manager‚©‚ç‚ÌƒCƒxƒ“ƒgˆ—
 
 	// î•ñæ“¾ŠÖ”
-	const ENEMY_STATE &GetState(){ return m_enemyState; }
-	const TEX_DRAW_INFO &GetDrawInfo();
-	const uint32_t &GetEnemyHitPoint(){ return m_HP; }
-	const math::Vector2 &GetEnemyEyeSight(){ return m_eye; }
-	const uint32_t &GetUniqueNumber(){ return m_uniqueIdOfEnemyAll; }
+	const ENEMY_STATE &GetState() const{ return m_enemyState; }
+	const TEX_DRAW_INFO &GetDrawInfo() const;
+	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
+	const math::Vector2 &GetEnemyEyeSight() const{ return m_eye; }
+	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }
 	void ChangeAIState( const Common::ENEMY_AI &nextAI );
 
 protected:
