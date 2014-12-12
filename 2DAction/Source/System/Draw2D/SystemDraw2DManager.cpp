@@ -53,30 +53,10 @@ Draw2DManager *Draw2DManager::GetInstance()
 /* ================================================ */
 void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )
 {
-	if( !texInfo.m_usePlayerOffset ){
+	// 画面内に表示するものであれば描画
+	if( IsPositionInWindowArea(texInfo) ){
 		PushDrawInfoMain( texInfo, handle, priority );
-		return;
 	}
-
-	////!現在描画したい端(画面外でも一マス分では描画)
-	//int32_t WidthLower	= -1 * 50;
-	//int32_t WidthUpper	= WINDOW_WIDTH + 50;
-	//int32_t HeightLower = -1 * 50;
-	//int32_t HeightUpper = WINDOW_HEIGHT + 50;
-
-	////!プレイヤー情報取得
-	//float offsetx = 0.0f;
-	//float offsety = 0.0f;
-	//GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
-
-	////!描画しようとしている位置
-	//int32_t posY = texInfo.m_pos.y - static_cast<uint32_t>(offsety);
-	//int32_t posX = texInfo.m_pos.x - static_cast<uint32_t>(offsetx);
-
-	//if(posX < WidthUpper && posX > WidthLower
-	//&& posY < HeightUpper && posY > HeightLower){
-	//	PushDrawInfoMain( texInfo, handle, priority );
-	//}
 }
 
 void Draw2DManager::PushDrawInfoMain( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )

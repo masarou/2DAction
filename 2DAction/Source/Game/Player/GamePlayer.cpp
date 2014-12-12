@@ -77,6 +77,10 @@ bool GamePlayer::Init()
 
 void GamePlayer::Update()
 {
+	if( m_playerLife == 0 ){
+		return;
+	}
+
 	{
 		// マイフレーム値が変わるような項目はここで
 		m_speedMove = m_speedMoveBase * static_cast<uint32_t>(m_speedMultiply + 0.5f);
@@ -119,7 +123,8 @@ void GamePlayer::DrawUpdate()
 		// ダメージを受けない時間帯ならば3フレに一回描画せず点滅させる
 	}
 	else{
-		// プレイヤー描画
+		// プレイヤー描画	
+		m_texturePlayer.m_pTex2D->SetDrawInfo(m_texturePlayer.m_texInfo);
 		m_texturePlayer.m_pTex2D->DrawUpdate2D();
 	}
 

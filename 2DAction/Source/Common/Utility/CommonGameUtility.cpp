@@ -18,9 +18,51 @@ const math::Vector2 &GetPlayerOffsetPos()
 	return GameAccesser::GetInstance()->GetPlayerOffSet();
 }
 
+const bool IsSameBelongArea( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
+{
+	bool retVal = false;
+
+	// どちらかの空間Lvが0=画面全体なら当たり判定は必ず必要
+	// 同じ空間Lv,番号なら当たり判定を行う
+	if( (texA.m_belongLv == 0 || texB.m_belongLv == 0)
+		|| (texA.m_belongLv == texB.m_belongLv && texA.m_belongIndex == texB.m_belongIndex) ){
+		retVal = true;
+	}
+	else{
+		// 空間Lvが同じなのにIndexが違うなら判定なし
+		if( texA.m_belongLv == texB.m_belongLv ){
+			retVal = false;
+		}
+
+		uint32_t smallLv	= 0;
+		uint32_t smallIndex	= 0;
+		uint32_t bigLv		= 0;
+		uint32_t bigIndex	= 0;
+
+		if( texA.m_belongLv < texB.m_belongLv ){
+			smallLv		= texA.m_belongLv;
+			smallIndex	= texA.m_belongIndex;
+			bigLv		= texB.m_belongLv;
+			bigIndex	= texB.m_belongIndex;
+		}
+		else{
+			smallLv		= texB.m_belongLv;
+			smallIndex	= texB.m_belongIndex;
+			bigLv		= texA.m_belongLv;
+			bigIndex	= texA.m_belongIndex;
+		}
+		uint32_t diffLv = bigLv - smallLv;
+		uint32_t convIndex = bigIndex >> diffLv*2;
+		if( convIndex == smallIndex ){
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
 {
-	if( texA.m_belongLv != texB.m_belongLv || texA.m_belongIndex != texB.m_belongIndex ){
+	if( !IsSameBelongArea( texA, texB ) ){
 		return false;
 	}
 
@@ -50,8 +92,23 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	if( !pMap ){ return; }
 
 	// 画像の左上と右下の位置を求める
-	math::Vector2 upperLeft		= math::Vector2( tex.m_pos.x - (texInfo.m_sizeWidth/2.0f), tex.m_pos.y - (texInfo.m_sizeHeight/2.0f) );
-	math::Vector2 underRight	= math::Vector2( tex.m_pos.x + (texInfo.m_sizeWidth/2.0f), tex.m_pos.y + (texInfo.m_sizeHeight/2.0f) );
+	float offsetX = tex.m_pos.x;
+	float offsetY = tex.m_pos.y;
+
+	// オフセットを使用していない
+	// 常に画面上に固定で表示されている描画物の当たり判定の場合
+	// プレイヤーの初期位置を考慮して値を変更してやる必要がある
+	if( !tex.m_usePlayerOffset ){
+		//!プレイヤー情報取得
+		float offsetx = 0.0f;
+		float offsety = 0.0f;
+		GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
+		offsetX = WINDOW_WIDTH/2.0f + offsetx;
+		offsetY = WINDOW_HEIGHT/2.0f + offsety;
+	}
+
+	math::Vector2 upperLeft		= math::Vector2( offsetX - (texInfo.m_sizeWidth/2.0f), offsetY - (texInfo.m_sizeHeight/2.0f) );
+	math::Vector2 underRight	= math::Vector2( offsetX + (texInfo.m_sizeWidth/2.0f), offsetY + (texInfo.m_sizeHeight/2.0f) );
 
 	const uint32_t upper = pMap->GetBelongArea( upperLeft );
 	const uint32_t under = pMap->GetBelongArea( underRight );
@@ -70,6 +127,41 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 			areaNum = areaNum >> 2;
 		}
 	}
+	//DEBUG_PRINT( " m_belongLv = %d, m_belongIndex = %d\n", tex.m_belongLv, tex.m_belongIndex );
+}
+
+
+bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
+{
+	if( !texInfo.m_usePlayerOffset ){
+		return true;
+	}
+	return IsPositionInWindowArea( static_cast<int32_t>(texInfo.m_pos.x), static_cast<int32_t>(texInfo.m_pos.y) );
+}
+bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
+{
+	bool retVal = false;
+
+	//!プレイヤー情報取得
+	float offsetx = 0.0f;
+	float offsety = 0.0f;
+	GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
+
+	//!現在描画したい端(画面外でも一マス分では描画)
+	int32_t WidthLower	= -1 * 50;
+	int32_t WidthUpper	= WINDOW_WIDTH + 50;
+	int32_t HeightLower = -1 * 50;
+	int32_t HeightUpper = WINDOW_HEIGHT + 50;
+
+	//!描画しようとしている位置
+	int32_t posY = yy - static_cast<int32_t>(offsety);
+	int32_t posX = xx - static_cast<int32_t>(offsetx);
+
+	if(posX < WidthUpper && posX > WidthLower
+	&& posY < HeightUpper && posY > HeightLower){
+		retVal = true;
+	}
+	return retVal;
 }
 
 EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI )

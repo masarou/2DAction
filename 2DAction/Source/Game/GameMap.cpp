@@ -3,6 +3,7 @@
 #include "GameMap.h"
 #include "System/picojson.h"
 #include "System/Sound/SystemSoundManager.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 #define MAP_TIP_SIZE	32		// マップチップ一つのドットサイズ
 
@@ -36,38 +37,29 @@ void GameMap::DrawUpdate()
 	for(uint32_t i = 0; i < m_mapInfo.m_height; ++i){
 		for(uint32_t j = 0; j < m_mapInfo.m_width; ++j){
 
-			//!プレイヤー情報取得
-			float offsetx = 0.0f;
-			float offsety = 0.0f;
-			GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
-
-			//!現在描画したい端(画面外でも一マス分では描画)
-			int32_t WidthLower	= -1 * m_texInfo.m_sizeHeight;
-			int32_t WidthUpper	= WINDOW_WIDTH + m_texInfo.m_sizeHeight;
-			int32_t HeightLower = -1 * MAP_TIP_SIZE;
-			int32_t HeightUpper = WINDOW_HEIGHT + m_texInfo.m_sizeHeight;
-
-			//!マップチップの大きさ
-			int32_t MapHeight	= m_texInfo.m_sizeHeight;
-			int32_t MapWidht	= m_texInfo.m_sizeWidth;
-
 			//!描画しようとしている位置
-			int32_t posY = (i*m_texInfo.m_sizeHeight) - static_cast<uint32_t>(offsety);
-			int32_t posX = (j*m_texInfo.m_sizeWidth) - static_cast<uint32_t>(offsetx);
+			int32_t posY = i*m_texInfo.m_sizeHeight;
+			int32_t posX = j*m_texInfo.m_sizeWidth;
 
 			//!画面内かどうか判定
-			if(posX < WidthUpper && posX > WidthLower
-				&& posY < HeightUpper && posY > HeightLower){
+			if( IsPositionInWindowArea( posX, posY ) ){
 
-					uint32_t index = m_mapInfo.m_vTileKind[i*m_mapInfo.m_width + j];
-					TILE_INFO tmpInfo = m_vTileInfo.at(index-1);
-					DrawRotaGraph(
-					posX
-					, posY
-					, 1.0f
-					, 0.0f
-					, tmpInfo.m_tileHandle
-					, true);
+				//!プレイヤー情報取得
+				float offsetx = 0.0f;
+				float offsety = 0.0f;
+				GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
+				posY += - static_cast<int32_t>(offsety);
+				posX += - static_cast<int32_t>(offsetx);
+
+				uint32_t index = m_mapInfo.m_vTileKind[i*m_mapInfo.m_width + j];
+				TILE_INFO tmpInfo = m_vTileInfo.at(index-1);
+				DrawRotaGraph(
+				posX
+				, posY
+				, 1.0f
+				, 0.0f
+				, tmpInfo.m_tileHandle
+				, true);
 			}
 		}
 	}
@@ -124,8 +116,9 @@ const uint32_t GameMap::GetBelongArea( const math::Vector2 &pos ) const
 	uint32_t rowNum = m_mapInfo.m_vTileKind.size() / m_mapInfo.m_height;
 
 	// 調べるエリア最小の一片の長さ
-	float width = (columnNum*MAP_TIP_SIZE) / pow(static_cast<double>(2), static_cast<double>(HIT_AREA_SPLIT_MAX));
-	float height = (rowNum*MAP_TIP_SIZE) / pow(static_cast<double>(2), static_cast<double>(HIT_AREA_SPLIT_MAX));
+	double splitValue = pow(static_cast<double>(2), static_cast<double>(HIT_AREA_SPLIT_MAX));
+	float width = (columnNum*MAP_TIP_SIZE) / static_cast<float>( splitValue );
+	float height = (rowNum*MAP_TIP_SIZE) / static_cast<float>( splitValue );
 
 	uint32_t numberC = static_cast<uint32_t>(pos.x / height);
 	uint32_t numberR = static_cast<uint32_t>(pos.y / width);
