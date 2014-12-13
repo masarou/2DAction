@@ -73,10 +73,13 @@ const uint32_t GameMap::GetTileHeight( const uint32_t &posX, const uint32_t &pos
 const uint32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
 {
 	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){
-		return 0;
+		return INVALID_VALUE;
+	}
+	if( pos.x < 0.0f || pos.y < 0.0f ){
+		return INVALID_VALUE;
 	}
 
-	uint32_t retValue = 0;
+	uint32_t retValue = INVALID_VALUE;
 	uint32_t row	= ( static_cast<uint32_t>(pos.y) / m_texInfo.m_sizeHeight);	// マップ全体で縦何番目か
 	uint32_t column	= ( static_cast<uint32_t>(pos.x) / m_texInfo.m_sizeWidth);	// 横何番目か
 	uint32_t index	= row*m_mapInfo.m_width + column;

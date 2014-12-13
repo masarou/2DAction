@@ -31,6 +31,8 @@ public:
 	void SetDrawInfo( const TEX_DRAW_INFO &drawInfo );
 	// カウントアニメをやめる
 	void CountAnimEnd();
+	// カウントアニメ中かどうか
+	bool IsPlayCountAnim();
 
 protected:
 

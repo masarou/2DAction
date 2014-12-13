@@ -256,8 +256,10 @@ void GamePlayer::PadEventDecide()
 
 void GamePlayer::PadEventCancel()
 {
-	EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
-	pEnemyMan->CreateEnemy( Common::KIND_AAA );
+	for( uint32_t i = 0; i < 1000 ;++i ){
+		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
+		pEnemyMan->CreateEnemy( Common::KIND_AAA );
+	}
 }
 
 void GamePlayer::PadEventR1()

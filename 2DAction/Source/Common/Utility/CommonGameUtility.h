@@ -33,6 +33,9 @@ bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy );
 // 指定のAIクラスの生成
 EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI );
 
+// プレイヤーの位置情報を取得
+math::Vector2 GetPlayerPos();
+
 // 指定の範囲内のランダムな数字を返す
 int32_t GetRandamValue( const int32_t &max, const int32_t &min);
 

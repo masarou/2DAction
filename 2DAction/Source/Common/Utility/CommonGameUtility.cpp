@@ -113,7 +113,6 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	const uint32_t upper = pMap->GetBelongArea( upperLeft );
 	const uint32_t under = pMap->GetBelongArea( underRight );
 
-	// 排他的論理和
 	uint32_t areaNum = upper^under;
 	uint32_t belongLv = 0;		// rootがLv0, 大きくになるにつれて親、子、孫となる
 	uint32_t belongIndex = 0;
@@ -179,6 +178,18 @@ EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI )
 	//	break;
 	//}
 	return pRetAI;
+}
+
+// プレイヤーの位置情報を取得
+math::Vector2 GetPlayerPos()
+{
+	math::Vector2 offset;
+	math::Vector2 defaultPos;
+	GameAccesser::GetInstance()->GetPlayerOffSet( offset.x, offset.y );
+	defaultPos.x = WINDOW_WIDTH/2.0f;
+	defaultPos.y = WINDOW_HEIGHT/2.0f;
+
+	return defaultPos + offset;
 }
 
 int32_t GetRandamValue( const int32_t &max, const int32_t &min)

@@ -52,7 +52,7 @@ void EnemyBase::ChangeAIState( const Common::ENEMY_AI &nextAI )
 bool EnemyBase::Init()
 {
 	m_HP = GetEnemyDefaultHP();
-	return true;
+	return InitMain();
 }
 
 void EnemyBase::UpdateEnemy()
@@ -69,7 +69,12 @@ void EnemyBase::UpdateEnemy()
 	}
 
 	// AI‚É‚æ‚Á‚ÄXV‚³‚ê‚½’l‚ğ”½‰f
-	m_textureEnemy.m_texInfo.m_pos += 0.5f;
+	math::Vector2 moveVec;
+	math::Vector2 plPos = GetPlayerPos();
+	moveVec = plPos - m_textureEnemy.m_texInfo.m_pos;
+	moveVec.Normalize();
+
+	m_textureEnemy.m_texInfo.m_pos += moveVec*3.0f;
 	m_textureEnemy.m_pTex2D->SetDrawInfo( m_textureEnemy.m_texInfo );
 
 	// HP•`‰æ€”õ

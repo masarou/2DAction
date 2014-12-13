@@ -75,6 +75,14 @@ void NumberCounter::CountAnimEnd()
 	m_currDispValue = m_value + 1;
 }
 
+bool NumberCounter::IsPlayCountAnim()
+{
+	if( m_currDispValue == m_value ){
+		return false;
+	}
+	return true;
+}
+
 bool NumberCounter::Init()
 {
 	UpdateScore(0);
