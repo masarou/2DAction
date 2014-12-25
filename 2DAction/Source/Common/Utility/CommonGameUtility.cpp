@@ -4,6 +4,9 @@
 #include "CommonGameUtility.h"
 #include "Math/MathUtility.h"
 #include "Game/Enemy/EnemyAIBase.h"
+#include "Game/Enemy/EnemyAISearch.h"
+#include "Game/Enemy/EnemyAITackle.h"
+#include "Game/Enemy/EnemyAIShoot.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 
@@ -166,17 +169,17 @@ bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
 EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI )
 {
 	EnemyAIBase *pRetAI = NULL;
-	//switch( nextAI ){
-	//case Common::AI_SEARCHING:	// プレイヤーを探している
-	//	pRetAI = NEW EnemyAIBase();
-	//	break;
-	//case Common::AI_MOVE_PLAYER:	// プレイヤーに近づく(体当たり攻撃)
-	//	pRetAI = NEW EnemyAIBase();
-	//	break;
-	//case Common::AI_SHOOTING:	// 遠距離攻撃(遠距離攻撃)
-	//	pRetAI = NEW EnemyAIBase();
-	//	break;
-	//}
+	switch( nextAI ){
+	case Common::AI_SEARCHING:	// プレイヤーを探している
+		pRetAI = EnemyAISearch::Create();
+		break;
+	case Common::AI_MOVE_PLAYER:	// プレイヤーに近づく(体当たり攻撃)
+		pRetAI = EnemyAITackle::Create();
+		break;
+	case Common::AI_SHOOTING:	// 遠距離攻撃(遠距離攻撃)
+		pRetAI = EnemyAIShoot::Create();
+		break;
+	}
 	return pRetAI;
 }
 

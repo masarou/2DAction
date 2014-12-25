@@ -5,6 +5,7 @@
 
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "System/Sound/SystemSoundManager.h"
+#include "System/Message/SystemMessageManager.h"
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"
@@ -256,7 +257,7 @@ void GamePlayer::PadEventDecide()
 
 void GamePlayer::PadEventCancel()
 {
-	for( uint32_t i = 0; i < 1000 ;++i ){
+	for( uint32_t i = 0; i < 100 ;++i ){
 		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
 		pEnemyMan->CreateEnemy( Common::KIND_AAA );
 	}
@@ -292,7 +293,7 @@ const TEX_DRAW_INFO &GamePlayer::GetDrawInfo() const
 /* ================================================ */
 void GamePlayer::AddEvent( const Common::CMN_EVENT &cmnEvent )
 {
-	TaskUnit::AddEvent( cmnEvent );
+	SystemMessageManager::GetInstance()->PushMessage( GetUniqueId(), cmnEvent );
 }
 
 /* ================================================ */

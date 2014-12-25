@@ -16,7 +16,7 @@ namespace Common{
 
 		// その他
 
-		CMN_EVENT_MAX,
+		EVENT_MESSAGE_MAX,
 	};
 	struct CMN_EVENT{
 		EVENT_MESSAGE	m_event;		// 何が起こったか？
@@ -34,6 +34,7 @@ namespace Common{
 
 
 	enum ENEMY_AI{
+		AI_NONE,		// 何もしない
 		AI_SEARCHING,	// プレイヤーを探している
 		AI_MOVE_PLAYER,	// プレイヤーに近づく(体当たり攻撃)
 		AI_SHOOTING,	// 遠距離攻撃(遠距離攻撃)

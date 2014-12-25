@@ -1,6 +1,7 @@
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskManager.h"
+#include "System/Message/SystemMessageManager.h"
 #include "System/Sound/SystemSoundManager.h"
 #include "System/SystemFPSManager.h"
 #include "System/Draw2D/SystemDraw2DManager.h"
@@ -37,6 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	GameAccesser::Create();
 	Draw2DManager::Create();
 	TextureResourceManager::Create();
+	SystemMessageManager::Create();
 
 	//! TaskUnit継承常駐物
 	FlowManager::Create();
@@ -72,9 +74,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	RemoveFontResourceEx("Data/Font/misaki_gothic.ttf", FR_PRIVATE, NULL);
 
 	//! 常駐物削除
-	GameAccesser::GetInstance()->DeleteGameAccesser();
-	Draw2DManager::GetInstance()->DeleteDraw2DManager();
+	SystemMessageManager::GetInstance()->DeleteMessageManager();
 	TextureResourceManager::GetInstance()->DeleteResourceManager();
+	Draw2DManager::GetInstance()->DeleteDraw2DManager();
+	GameAccesser::GetInstance()->DeleteGameAccesser();
 
 	// ＤＸライブラリ使用の終了
 	DxLib_End();

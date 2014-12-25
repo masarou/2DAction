@@ -12,12 +12,14 @@
 
 #include "Common/CommonDefine.h"
 #include "Common/Utility/CommonGameUtility.h"
-#include "System/SystemDefine.h"
 #include "Game/Game2DBase.h"
 #include "Game/Enemy/EnemyAIBase.h"
 #include "Game/Enemy/EnemyManager.h"
+#include "System/SystemDefine.h"
+#include "System/Message/SystemMessageUnit.h"
 
-class EnemyBase
+
+class EnemyBase : public SystemMessageUnit
 {
 
 	friend EnemyManager;
@@ -33,7 +35,8 @@ public:
 
 	virtual ~EnemyBase(void);
 
-	void EventUpdate( const Common::CMN_EVENT &eventId );	// managerからのイベント処理
+	// ほかのクラスからのイベント処理
+	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
 
 	// 情報取得関数
 	const ENEMY_STATE &GetState() const{ return m_enemyState; }
@@ -72,6 +75,7 @@ private:
 	Texture2D			m_textureLife;					// 敵ライフ画像
 
 	Common::ENEMY_AI	m_nextAI;						// 次に思考するAIステート
+	Common::ENEMY_AI	m_prevAI;						// ひとつ前のAIステート
 };
 
 #endif

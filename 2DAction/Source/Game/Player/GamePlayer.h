@@ -12,11 +12,12 @@
 
 #include "System/Task/SystemTaskUnit.h"
 #include "System/Input/SystemInputWatcher.h"
+#include "System/Message/SystemMessageUnit.h"
 #include "AttackGun/GamePlayerAttackGun.h"
 #include "Game/Game2DBase.h"
 #include "Game/Item/ItemObject.h"
 
-class GamePlayer : public TaskUnit, InputWatcher
+class GamePlayer : public TaskUnit, public InputWatcher, public SystemMessageUnit
 {
 public:
 
@@ -43,7 +44,7 @@ public:
 	const uint32_t	&GetCurrentLife() const{ return m_playerLife; }
 
 	//! タスクにイベント追加
-	void AddEvent( const Common::CMN_EVENT &cmnEvent ) override;
+	void AddEvent( const Common::CMN_EVENT &cmnEvent );
 
 protected:
 

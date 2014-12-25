@@ -39,7 +39,6 @@ protected:
 	//! XVˆ—
 	void Exec();
 	void CollisionUpdate();
-	void EventUpdate();
 	void DrawUpdate();
 
 	void DeleteDieUnit();

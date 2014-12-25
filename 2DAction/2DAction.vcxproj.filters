@@ -50,6 +50,9 @@
     <Filter Include="Game\Item">
       <UniqueIdentifier>{8d4d66c3-1b90-43e1-a05c-91e63b042c82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Message">
+      <UniqueIdentifier>{e91735cd-0e47-4f7e-b235-7345a3a2d238}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -187,6 +190,21 @@
     <ClInclude Include="Source\Common\CmnNumberCounter.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAISearch.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAIShoot.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAITackle.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Message\SystemMessageUnit.h">
+      <Filter>System\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Message\SystemMessageManager.h">
+      <Filter>System\Message</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -262,9 +280,6 @@
     <ClCompile Include="Source\Common\Utility\CommonGameUtility.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp">
-      <Filter>Game\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Enemy\EnemyBase.cpp">
       <Filter>Game\Enemy</Filter>
     </ClCompile>
@@ -309,6 +324,24 @@
     </ClCompile>
     <ClCompile Include="Source\Common\CmnNumberCounter.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAISearch.cpp">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAIShoot.cpp">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAITackle.cpp">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Message\SystemMessageUnit.cpp">
+      <Filter>System\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Message\SystemMessageManager.cpp">
+      <Filter>System\Message</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

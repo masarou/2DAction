@@ -162,29 +162,3 @@ void TaskUnit::SetDieStateFromParent( TaskUnit *pParent )
 		SetStatus( TASK_PRE_DIE );
 	}
 }
-
-/* ================================================ */
-/**
- * @brief	タスクにイベント追加(ほかのタスクとの当たり判定等)
- */
-/* ================================================ */
-void TaskUnit::AddEvent( const Common::CMN_EVENT &cmnEvent )
-{
-	m_eventVec.push_back(cmnEvent);
-}
-
-/* ================================================ */
-/**
- * @brief	派生先にpushされたイベントを伝える
- */
-/* ================================================ */
-void TaskUnit::StartEventUpdate()
-{
-	for( uint32_t i = 0; i < m_eventVec.size() ; ++i )
-	{
-		EventUpdate( m_eventVec.at(i) );
-	}
-
-	// イベントは毎フレームリセット
-	m_eventVec.clear();
-}

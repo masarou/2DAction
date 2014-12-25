@@ -12,6 +12,7 @@
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"
+#include "System/Message/SystemMessageUnit.h"
 #include "System/Draw2D/SystemDraw2DDefine.h"
 
 class GamePlayer;
@@ -40,16 +41,13 @@ protected:
 	virtual void CollisionUpdate() override;
 	virtual void DrawUpdate() override;
 
-	// メッセージ処理
-	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
-
 private:
 
 	EnemyManager(void);
 	~EnemyManager(void);
 	
 	std::vector<EnemyBase*> m_enemyArray;	// 敵管理
-
+	std::vector<EnemyBase*> m_delEnemyArray;
 };
 
 #endif

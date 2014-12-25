@@ -73,9 +73,9 @@ void EnemyManager::DeleteEnemy( const uint32_t &uniqueNumber )
 	std::vector<EnemyBase*>::iterator it = m_enemyArray.begin();
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
 		if( (*it)->GetUniqueNumber() == uniqueNumber ){
-			EnemyBase *pTmp = ( *it );
+			// 削除リストにpushしておく後ほど削除
+			m_delEnemyArray.push_back( ( *it ) );
 			m_enemyArray.erase( it );
-			SAFE_DELETE( pTmp );
 			break;
 		}
 		++it;
@@ -122,7 +122,7 @@ bool EnemyManager::CheckCollisionToBullet( const Bullet *bullet )
 			Common::CMN_EVENT eventInfo;
 			eventInfo.m_event = Common::EVENT_HIT_BULLET;
 			eventInfo.m_eventValue = m_enemyArray.at(i)->GetUniqueNumber();
-			AddEvent( eventInfo );
+			SystemMessageManager::GetInstance()->PushMessage( m_enemyArray.at(i)->GetUniqueId(), eventInfo );
 			isHit = true;
 			break;
 		}
@@ -174,6 +174,14 @@ void EnemyManager::Update()
 			break;
 		}
 	}
+	
+	// 削除リストにいる敵を削除
+	auto it = m_delEnemyArray.begin();
+	for( uint32_t i = 0; it != m_delEnemyArray.end() ; ++i ){
+		EnemyBase *pTmp = ( *it );
+		it = m_delEnemyArray.erase( it );
+		SAFE_DELETE( pTmp );
+	}
 }
 
 void EnemyManager::CollisionUpdate()
@@ -203,30 +211,5 @@ void EnemyManager::DrawUpdate()
 		}
 
 		m_enemyArray.at(i)->DrawEnemy();
-	}
-}
-
-/* ================================================ */
-/**
- * @brief	派生先でのメッセージ処理
- */
-/* ================================================ */
-void EnemyManager::EventUpdate( const Common::CMN_EVENT &eventId )
-{
-	switch( eventId.m_event ){
-	case Common::EVENT_HIT_BULLET:
-		{
-			// 弾が当たったことをおしえてやる
-			for(uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
-				if( m_enemyArray.at(i)->GetUniqueNumber() == eventId.m_eventValue ){
-					m_enemyArray.at(i)->EventUpdate( eventId );
-				}
-			}
-		}
-		break;
-
-	default:
-
-		break;
 	}
 }

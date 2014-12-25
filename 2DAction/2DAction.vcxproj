@@ -26,6 +26,9 @@
     <ClCompile Include="Source\Game\Effect\GameEffect.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAIBase.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyAISearch.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyAIShoot.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyAITackle.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Game\Game2DBase.cpp" />
@@ -45,6 +48,8 @@
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DManager.cpp" />
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DResource.cpp" />
     <ClCompile Include="Source\System\Input\SystemInputWatcher.cpp" />
+    <ClCompile Include="Source\System\Message\SystemMessageManager.cpp" />
+    <ClCompile Include="Source\System\Message\SystemMessageUnit.cpp" />
     <ClCompile Include="Source\System\picojson.cpp" />
     <ClCompile Include="Source\System\Sound\SystemSoundManager.cpp" />
     <ClCompile Include="Source\System\SystemFadeManager.cpp" />
@@ -70,6 +75,9 @@
     <ClInclude Include="Source\Game\Effect\GameEffect.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAAA.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAIBase.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyAISearch.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyAIShoot.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyAITackle.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyBase.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Game\Game2DBase.h" />
@@ -91,6 +99,8 @@
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DManager.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DResource.h" />
     <ClInclude Include="Source\System\Input\SystemInputWatcher.h" />
+    <ClInclude Include="Source\System\Message\SystemMessageManager.h" />
+    <ClInclude Include="Source\System\Message\SystemMessageUnit.h" />
     <ClInclude Include="Source\System\picojson.h" />
     <ClInclude Include="Source\System\Sound\SystemSoundManager.h" />
     <ClInclude Include="Source\System\SystemDefine.h" />

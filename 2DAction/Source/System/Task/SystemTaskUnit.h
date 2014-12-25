@@ -63,7 +63,6 @@ protected:
 	virtual bool Init(){return true;}
 	virtual void Update(){};			// 移動等の内部数値の更新
 	virtual void CollisionUpdate(){};	// 内部数値の更新を受けての他クラスとの当たり判定処理
-	virtual void EventUpdate( const Common::CMN_EVENT &eventId ){};	// イベント処理実行関数
 	virtual void DrawUpdate(){};		// 描画更新
 	virtual bool DieMain(){return true;}
 
@@ -85,16 +84,10 @@ protected:
 	//! 親にメッセージを投げる
 	void SendMessageToParent( const Message &msg );
 
-	//! タスクにイベント追加
-	virtual void AddEvent( const Common::CMN_EVENT &cmnEvent );
-
 private:
 
 	//! ステータス変更
 	void SetStatus( const TASK_STATUS &status );
-
-	//! taskManagerから呼ばれるEvent関連処理を始める関数
-	void StartEventUpdate();
 
 	//! クラスの状態
 	std::string m_name;
@@ -106,8 +99,6 @@ private:
 	//! 子クラス
 	std::vector<TaskUnit*> m_pChildVec;
 
-	//! イベントベクタ
-	std::vector< Common::CMN_EVENT > m_eventVec;	
 };
 
 #endif //SYSTEM_TASK_UNIT

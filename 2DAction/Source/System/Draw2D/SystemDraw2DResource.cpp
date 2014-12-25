@@ -43,7 +43,7 @@ void TextureResourceManager::DeleteResourceManager()
 void *TextureResourceManager::Create()
 {
 	if(s_pInstance){
-		DEBUG_ASSERT( 0, "m_pInstance is Already Created");
+		DEBUG_ASSERT( 0, "TextureResourceManager is Already Created");
 	}
 	else{
 		s_pInstance = NEW TextureResourceManager();

@@ -24,7 +24,8 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_HP(10)
 , m_eye(math::Vector2())
 , m_pEnemyAI( NULL )
-, m_nextAI( Common::AI_MAX )
+, m_nextAI( Common::AI_NONE )
+, m_prevAI( Common::AI_NONE )
 {
 	m_textureEnemy.Init();
 	m_textureEnemy.m_pTex2D = NEW Game2DBase( jsonName.c_str() );
@@ -51,7 +52,12 @@ void EnemyBase::ChangeAIState( const Common::ENEMY_AI &nextAI )
 
 bool EnemyBase::Init()
 {
-	m_HP = GetEnemyDefaultHP();
+	m_HP		= GetEnemyDefaultHP();
+
+	// ’¼‘O‚ÌAI‚ª‚È‚¢‚Ì‚Å“¯‚¶AI‚É‚µ‚Ä‚¨‚­
+	m_prevAI	= Common::AI_SEARCHING;
+	m_nextAI	= Common::AI_SEARCHING;
+
 	return InitMain();
 }
 
@@ -59,8 +65,10 @@ void EnemyBase::UpdateEnemy()
 {
 	if( m_pEnemyAI && m_nextAI != Common::AI_MAX )
 	{
+		m_prevAI = m_pEnemyAI->GetAIKind();
 		SAFE_DELETE( m_pEnemyAI );
 		m_pEnemyAI = ChangeEnemyAI( m_nextAI );
+		m_pEnemyAI->SetThingingEnemy(this);
 		m_nextAI = Common::AI_MAX;
 	}
 
