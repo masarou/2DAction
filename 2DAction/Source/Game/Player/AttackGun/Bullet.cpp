@@ -27,7 +27,7 @@ Bullet::Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math:
 	//!初期位置セット
 	m_textureBullet.m_texInfo.Init();
 	m_textureBullet.m_texInfo.m_fileName = "bullet.json";
-	m_textureBullet.m_texInfo.m_pos = pos;
+	m_textureBullet.m_texInfo.m_posOrigin = pos;
 }
 
 Bullet::~Bullet(void)
@@ -37,7 +37,7 @@ Bullet::~Bullet(void)
 
 void Bullet::Update()
 {
-	m_textureBullet.m_texInfo.m_pos += m_bulletVec * m_speed;
+	m_textureBullet.m_texInfo.m_posOrigin += m_bulletVec * m_speed;
 	m_textureBullet.m_pTex2D->SetDrawInfo(m_textureBullet.m_texInfo);
 
 	// 敵に当たったかチェック

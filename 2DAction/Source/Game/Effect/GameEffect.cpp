@@ -11,17 +11,17 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-GameEffect::GameEffect( const EFFECT_KIND &kind, const uint32_t &posX, const uint32_t &posY )
+GameEffect::GameEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
 	: TaskUnit("GameEffect")
 	, m_kind( kind )
 {
 	// 描画クラスセットアップ
 	m_textureEffect.Init();
-	m_textureEffect.m_pTex2D = NEW Game2DBase(SelectEffectFile().c_str());
+	m_textureEffect.m_pTex2D = NEW Game2DBase( SelectEffectFile().c_str() );
 	m_textureEffect.m_texInfo.Init();
 	m_textureEffect.m_texInfo.m_fileName = SelectEffectFile();
-	m_textureEffect.m_texInfo.m_pos.x = static_cast<float>(posX);
-	m_textureEffect.m_texInfo.m_pos.y = static_cast<float>(posY);
+	m_textureEffect.m_texInfo.m_posOrigin.x = static_cast<float>(posX);
+	m_textureEffect.m_texInfo.m_posOrigin.y = static_cast<float>(posY);
 	m_textureEffect.m_pTex2D->SetAnim(SelectEffectAnimTag());
 }
 
@@ -139,7 +139,7 @@ bool GameEffectDamage::DieMain()
 	return true;
 }
 
-void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const uint32_t &posX, const uint32_t &posY )
+void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t &posX, const int32_t &posY )
 {
 	EFFECT_DAMAGE_INFO damageInfo;
 	damageInfo.Init();
@@ -165,7 +165,7 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const uint32_t
 		tex.m_pTex2D = NEW Game2DBase("damageNum.json");
 		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("damageNum.json");
 		basePos.x -= texInfo.m_sizeWidth;
-		tex.m_texInfo.m_pos		= basePos;
+		tex.m_texInfo.m_posOrigin		= basePos;
 		tex.m_texInfo.m_prioity	= PRIORITY_ABOVE_NORMAL;
 		tex.m_pTex2D->SetDrawInfo( tex.m_texInfo );
 		damageInfo.m_array2D.push_back( tex );
@@ -212,7 +212,7 @@ void GameEffectDamage::DrawUpdate()
 	// 描画
 	for( uint32_t i = 0; i < m_damageArray.size() ; ++i ){
 		for( uint32_t j = 0; j < m_damageArray.at(i).m_array2D.size(); ++j){
-			m_damageArray.at(i).m_array2D.at(j).m_texInfo.m_pos.y -= static_cast<float>( 2 );
+			m_damageArray.at(i).m_array2D.at(j).m_texInfo.m_posOrigin.y -= static_cast<float>( 2 );
 			m_damageArray.at(i).m_array2D.at(j).m_pTex2D->SetDrawInfo( m_damageArray.at(i).m_array2D.at(j).m_texInfo );
 			m_damageArray.at(i).m_array2D.at(j).m_pTex2D->DrawUpdate2D();
 		}

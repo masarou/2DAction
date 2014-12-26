@@ -53,7 +53,7 @@ bool GamePlayer::Init()
 	m_texturePlayer.m_pTex2D = NEW Game2DBase("player.json");
 	m_texturePlayer.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_texturePlayer.m_texInfo.m_usePlayerOffset = false;
-	m_texturePlayer.m_texInfo.m_pos = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	m_texturePlayer.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
 	m_texturePlayer.m_texInfo.m_fileName = "player.json";
 	GetBelongAreaInMap( m_texturePlayer.m_texInfo );
 	m_texturePlayer.m_pTex2D->SetDrawInfo(m_texturePlayer.m_texInfo);
@@ -64,9 +64,9 @@ bool GamePlayer::Init()
 	m_textureLife.m_texInfo.Init();
 	m_textureLife.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_textureLife.m_texInfo.m_usePlayerOffset = false;
-	m_textureLife.m_texInfo.m_pos.x = 0.0f;
+	m_textureLife.m_texInfo.m_posOrigin.x = 0.0f;
 	const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( "lifeGauge.json" );
-	m_textureLife.m_texInfo.m_pos.y = static_cast<float>(WINDOW_HEIGHT - lifeTexInfo.m_sizeHeight);
+	m_textureLife.m_texInfo.m_posOrigin.y = static_cast<float>(WINDOW_HEIGHT - lifeTexInfo.m_sizeHeight);
 	m_textureLife.m_texInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );
 	m_textureLife.m_pTex2D->SetDrawInfo(m_textureLife.m_texInfo);
 
@@ -74,7 +74,7 @@ bool GamePlayer::Init()
 	m_textureLifeFrame.m_pTex2D = NEW Game2DBase("lifeFrame.json");
 	m_textureLifeFrame.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureLifeFrame.m_texInfo.m_usePlayerOffset = false;
-	m_textureLifeFrame.m_texInfo.m_pos = m_textureLife.m_texInfo.m_pos;
+	m_textureLifeFrame.m_texInfo.m_posOrigin = m_textureLife.m_texInfo.m_posOrigin;
 	m_textureLifeFrame.m_texInfo.m_arrangeOrigin = m_textureLife.m_texInfo.m_arrangeOrigin;
 	m_textureLifeFrame.m_pTex2D->SetDrawInfo(m_textureLifeFrame.m_texInfo);
 
@@ -119,7 +119,7 @@ void GamePlayer::Update()
 
 	// 攻撃判定
 	if( GetStickInfoRight().m_vec != math::Vector2() ){
-		math::Vector2 pos = math::Vector2( m_texturePlayer.m_texInfo.m_pos.x, m_texturePlayer.m_texInfo.m_pos.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
+		math::Vector2 pos = math::Vector2( m_texturePlayer.m_texInfo.m_posOrigin.x, m_texturePlayer.m_texInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
 		math::Vector2 vec = GetStickInfoRight().m_vec;
 		vec.Normalize();
 		m_attackGun->ShootBullet( pos, vec );
@@ -323,8 +323,8 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
 	// offsetの数値分位置を引いて描画しているので実際に調べるときは足してやる
 	// さらにプレイヤー画像の画像中心位置になるように足してやる
 	nextFlamePos += nextFlameAddValue;
-	nextFlamePos.x = static_cast<float>(WINDOW_WIDTH / 2.0f) + nextFlamePos.x + (playerTexInfo.m_sizeWidth / 2.0f);
-	nextFlamePos.y = static_cast<float>(WINDOW_HEIGHT / 2.0f) + nextFlamePos.y + (playerTexInfo.m_sizeHeight / 2.0f);
+	nextFlamePos.x += static_cast<float>(WINDOW_WIDTH / 2.0f) + (playerTexInfo.m_sizeWidth / 2.0f);
+	nextFlamePos.y += static_cast<float>(WINDOW_HEIGHT / 2.0f) + (playerTexInfo.m_sizeHeight / 2.0f);
 
 	// 移動先が歩けないならば移動しない
 	if( GetMapHeight( nextFlamePos ) == 0 ){

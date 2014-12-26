@@ -143,7 +143,7 @@ bool EnemyManager::CheckCollisionToPlayer( const GamePlayer *player ) const
 
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		TEX_DRAW_INFO tmp = player->GetDrawInfo();
-		tmp.m_pos += GetPlayerOffsetPos();
+		tmp.m_posOrigin += GetPlayerOffsetPos();
 		if( IsInRangeTexture( tmp, m_enemyArray.at(i)->GetDrawInfo() ) ){
 			isHit = true;
 		}

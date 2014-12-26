@@ -66,8 +66,8 @@ ViewScore2D::ViewScore2D()
 {
 	// 数字表示用画像情報
 	m_numberInfo.Init();
-	m_numberInfo.m_pos.x = WINDOW_WIDTH - 300.0f;
-	m_numberInfo.m_pos.y = 100.0f;
+	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH - 300.0f;
+	m_numberInfo.m_posOrigin.y = 100.0f;
 	m_numberInfo.m_usePlayerOffset = false;
 }
 
@@ -82,8 +82,8 @@ bool ViewScore2D::Init()
 	m_textureResult.Init();
 	m_textureResult.m_pTex2D = NEW Game2DBase("title.json");
 	m_textureResult.m_texInfo.Init();
-	m_textureResult.m_texInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
-	m_textureResult.m_texInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
+	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
 
@@ -93,7 +93,7 @@ bool ViewScore2D::Init()
 	// ランキング描画
 	for( uint32_t i = 0; i < Common::RANKING_RECORD_MAX; ++i ){
 		m_pNumCounter[i] = NumberCounter::Create("number.json");
-		m_numberInfo.m_pos.y += 100.0f;
+		m_numberInfo.m_posOrigin.y += 100.0f;
 		m_numberInfo.m_scale = math::Vector2(2.0f,2.0f);
 		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
 		m_pNumCounter[i]->AddValue( m_scoreData.m_scoreTimeAttack[i] );

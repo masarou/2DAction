@@ -77,17 +77,11 @@ void EnemyBase::UpdateEnemy()
 	}
 
 	//// AIによって更新された値を反映
-	//math::Vector2 moveVec;
-	//math::Vector2 plPos = GetPlayerPos();
-	//moveVec = plPos - m_textureEnemy.m_texInfo.m_pos;
-	//moveVec.Normalize();
-
-	//m_textureEnemy.m_texInfo.m_pos += moveVec*3.0f;
 	m_textureEnemy.m_pTex2D->SetDrawInfo( m_textureEnemy.m_texInfo );
 
 	// HP描画準備
-	m_textureLife.m_texInfo.m_pos.x = m_textureEnemy.m_texInfo.m_pos.x;
-	m_textureLife.m_texInfo.m_pos.y = m_textureEnemy.m_texInfo.m_pos.y + 30.0f;
+	m_textureLife.m_texInfo.m_posOrigin.x = m_textureEnemy.m_texInfo.m_posOrigin.x;
+	m_textureLife.m_texInfo.m_posOrigin.y = m_textureEnemy.m_texInfo.m_posOrigin.y + 30.0f;
 	m_textureLife.m_texInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
 	m_textureLife.m_pTex2D->SetDrawInfo( m_textureLife.m_texInfo );
 }
@@ -147,15 +141,15 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 	}
 
 	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
-		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_pos.x)
-		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_pos.y));
+		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.x)
+		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.y));
 
 	if( m_HP <= 0 ){
 		// スコア追加
 		ScoreRecorder::GetInstance()->ScoreEvent( ScoreRecorder::ENEMY_AAA_DEATH );
 
 		// 爆破エフェクトを出す
-		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_pos.x), static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_pos.y) );
+		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.x), static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.y) );
 
 		// 爆発SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Bomb");

@@ -23,6 +23,9 @@ const bool IsSameBelongArea( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 // 描画位置が重なっているかどうか(当たり判定)
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB );
 
+// 画像の中心位置を求める
+math::Vector2 GetCenterPos( const TEX_DRAW_INFO &drawInfo );
+
 // マップ上での所属空間を求める
 const void GetBelongAreaInMap( TEX_DRAW_INFO &tex );
 

@@ -84,8 +84,8 @@ Title2D::Title2D()
 	// 描画クラスセットアップ
 	m_textureTitle.m_pTex2D = NEW Game2DBase("title.json");
 	m_textureTitle.m_texInfo.Init();
-	m_textureTitle.m_texInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
-	m_textureTitle.m_texInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
+	m_textureTitle.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	m_textureTitle.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureTitle.m_texInfo.m_usePlayerOffset = false;
 	m_textureTitle.m_pTex2D->SetDrawInfo(m_textureTitle.m_texInfo);
 
@@ -163,19 +163,19 @@ void Title2D::DrawUpdate()
 		default:
 			DEBUG_ASSERT( 0, "想定外の値" );
 			m_pTexChoiceArray[i]->SetAnim("start");
-			m_texInfo.m_pos = math::Vector2( 100.0f, 40.0f );
+			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;
 		case SELECT_START:
 			m_pTexChoiceArray[i]->SetAnim("start");
-			m_texInfo.m_pos = math::Vector2( 100.0f, 40.0f );
+			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;
 		case SELECT_SCORE:
 			m_pTexChoiceArray[i]->SetAnim("score");
-			m_texInfo.m_pos = math::Vector2( 400.0f, 40.0f );
+			m_texInfo.m_posOrigin = math::Vector2( 400.0f, 40.0f );
 			break;
 		case SELECT_EXIT:
 			m_pTexChoiceArray[i]->SetAnim("exit");
-			m_texInfo.m_pos = math::Vector2( 700.0f, 40.0f );
+			m_texInfo.m_posOrigin = math::Vector2( 700.0f, 40.0f );
 			break;
 		}
 

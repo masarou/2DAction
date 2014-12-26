@@ -133,7 +133,7 @@ void Draw2DManager::DrawTexture( const uint32_t &drawIndex )
 	SetDrawBlendMode( DX_BLENDMODE_ALPHA, drawInfo.m_info.m_alpha );
 
 	// ‰æ‘œ‚Ì•`‰æˆÊ’uŽæ“¾
-	math::Vector2 pos = math::Vector2( drawInfo.m_info.m_pos.x, drawInfo.m_info.m_pos.y );
+	math::Vector2 pos = math::Vector2( drawInfo.m_info.m_posOrigin.x, drawInfo.m_info.m_posOrigin.y );
 	if( drawInfo.m_info.m_usePlayerOffset ){
 		pos -= GetPlayerOffsetPos();
 	}

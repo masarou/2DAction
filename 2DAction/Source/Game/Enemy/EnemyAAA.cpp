@@ -32,7 +32,7 @@ bool EnemyAAA::InitMain()
 	for(;;){
 		math::Vector2 pos = math::Vector2( GetRandamValueFloat( 3000, 0 ), GetRandamValueFloat( 3000, 0 ));
 		if( GetMapHeight(pos) == 0){
-			m_textureEnemy.m_texInfo.m_pos = pos;
+			m_textureEnemy.m_texInfo.m_posOrigin = pos;
 			DEBUG_PRINT( "ìGê∂ê¨ x = %f, y = %f\n", pos.x, pos.y );
 			break;
 		}

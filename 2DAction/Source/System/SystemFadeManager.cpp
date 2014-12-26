@@ -36,7 +36,7 @@ FadeManager::FadeManager()
 	const TEX_INIT_INFO &info		= TextureResourceManager::GetInstance()->GetLoadTextureInfo( "whiteFade.json" );
 	m_PlateInfo.m_scale				= math::Vector2( (WINDOW_WIDTH / info.m_sizeWidth) + 1.0f, (WINDOW_HEIGHT / info.m_sizeHeight) + 1.0f );
 	m_PlateInfo.m_arrangeOrigin		= math::Vector2( 0.0f, 0.0f );
-	m_PlateInfo.m_pos				= math::Vector2( 0.0f, 0.0f );
+	m_PlateInfo.m_posOrigin				= math::Vector2( 0.0f, 0.0f );
 	m_PlateInfo.m_usePlayerOffset	= false;
 	m_fadePlate2D->SetDrawInfo(m_PlateInfo);
 }

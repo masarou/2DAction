@@ -39,17 +39,17 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo )
 	vec.Normalize();
 	vec *= static_cast<float>(m_circleRadius);
 
-	vec += enemyInfo.m_pos;
+	vec += enemyInfo.m_posOrigin;
 	if( m_enemyMine ){
 		const math::Vector2 &eye = m_enemyMine->GetEnemyEyeSight();
 		vec += eye * static_cast<float>(m_circleDistance);
 	}
-	vec -= enemyInfo.m_pos;
+	vec -= enemyInfo.m_posOrigin;
 	vec.Normalize();
 
-	math::Vector2 nextPos = enemyInfo.m_pos + (vec * 2.0f);
+	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
 	if( GetMapHeight( nextPos ) == 0 ){
-		enemyInfo.m_pos += vec * 2.0f;
+		enemyInfo.m_posOrigin += vec * 2.0f;
 	}
 
 	m_enemyMine->SetEnemyEyeSight( vec );

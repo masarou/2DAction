@@ -22,7 +22,7 @@ ItemObject::ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, const m
 
 	//!初期位置セット
 	m_textureItem.m_texInfo.m_fileName = GetItemFilePath().c_str();
-	m_textureItem.m_texInfo.m_pos = pos;
+	m_textureItem.m_texInfo.m_posOrigin = pos;
 	m_textureItem.m_pTex2D->SetDrawInfo( m_textureItem.m_texInfo );
 }
 

@@ -25,7 +25,7 @@ public:
 		EFFECT_DAMAGE,		// É_ÉÅÅ[ÉW
 	};
 
-	GameEffect( const EFFECT_KIND &kind, const uint32_t &posX, const uint32_t &posY );
+	GameEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );
 	virtual ~GameEffect(void);
 
 protected:
@@ -52,7 +52,7 @@ public:
 
 	static GameEffectDamage *GetInstance();
 
-	void CreateEffectDamage( const uint32_t &value, const uint32_t &posX, const uint32_t &posY );
+	void CreateEffectDamage( const uint32_t &value, const int32_t &posX, const int32_t &posY );
 	virtual ~GameEffectDamage(void);
 
 protected:

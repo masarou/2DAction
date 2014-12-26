@@ -63,6 +63,17 @@ const bool IsSameBelongArea( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	return retVal;
 }
 
+// 画像の中心位置を求める
+math::Vector2 GetCenterPos( const TEX_DRAW_INFO &drawInfo )
+{
+	math::Vector2 centerPos;
+	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( drawInfo.m_fileName.c_str() );
+	centerPos.y = drawInfo.m_posOrigin.y + (texInfo.m_sizeHeight/2.0f);
+	centerPos.x = drawInfo.m_posOrigin.x + (texInfo.m_sizeWidth/2.0f);
+
+	return centerPos;
+}
+
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
 {
 	if( !IsSameBelongArea( texA, texB ) ){
@@ -95,19 +106,20 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	if( !pMap ){ return; }
 
 	// 画像の左上と右下の位置を求める
-	float offsetX = tex.m_pos.x;
-	float offsetY = tex.m_pos.y;
+	math::Vector2 centerPos = GetCenterPos(tex);
+	float offsetX = centerPos.x;
+	float offsetY = centerPos.y;
 
 	// オフセットを使用していない
 	// 常に画面上に固定で表示されている描画物の当たり判定の場合
 	// プレイヤーの初期位置を考慮して値を変更してやる必要がある
 	if( !tex.m_usePlayerOffset ){
 		//!プレイヤー情報取得
-		float offsetx = 0.0f;
-		float offsety = 0.0f;
-		GameAccesser::GetInstance()->GetPlayerOffSet(offsetx, offsety);
-		offsetX = WINDOW_WIDTH/2.0f + offsetx;
-		offsetY = WINDOW_HEIGHT/2.0f + offsety;
+		float offsetPlx = 0.0f;
+		float offsetPly = 0.0f;
+		GameAccesser::GetInstance()->GetPlayerOffSet(offsetPlx, offsetPly);
+		offsetX = WINDOW_WIDTH/2.0f + offsetPlx;
+		offsetY = WINDOW_HEIGHT/2.0f + offsetPly;
 	}
 
 	math::Vector2 upperLeft		= math::Vector2( offsetX - (texInfo.m_sizeWidth/2.0f), offsetY - (texInfo.m_sizeHeight/2.0f) );
@@ -152,7 +164,7 @@ bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
 	if( !texInfo.m_usePlayerOffset ){
 		return true;
 	}
-	return IsPositionInWindowArea( static_cast<int32_t>(texInfo.m_pos.x), static_cast<int32_t>(texInfo.m_pos.y) );
+	return IsPositionInWindowArea( static_cast<int32_t>(texInfo.m_posOrigin.x), static_cast<int32_t>(texInfo.m_posOrigin.y) );
 }
 bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
 {

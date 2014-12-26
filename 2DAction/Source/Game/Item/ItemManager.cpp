@@ -131,7 +131,7 @@ bool ItemManager::CheckCollisionToPlayer( GamePlayer *player ) const
 	for( uint32_t i = 0; i < m_itemArray.size() ; ++i){
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		TEX_DRAW_INFO tmp = player->GetDrawInfo();
-		tmp.m_pos += GetPlayerOffsetPos();
+		tmp.m_posOrigin += GetPlayerOffsetPos();
 		if( IsInRangeTexture( tmp, m_itemArray.at(i)->GetDrawInfo() ) ){
 			m_itemArray.at(i)->SetPlayerGetFlag();
 			isHit = true;

@@ -93,8 +93,8 @@ Retry2D::Retry2D()
 	// 描画クラスセットアップ
 	m_textureRetry.m_pTex2D = NEW Game2DBase("title.json");
 	m_textureRetry.m_texInfo.Init();
-	m_textureRetry.m_texInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
-	m_textureRetry.m_texInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
+	m_textureRetry.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	m_textureRetry.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureRetry.m_texInfo.m_usePlayerOffset = false;
 	m_textureRetry.m_pTex2D->SetDrawInfo(m_textureRetry.m_texInfo);
 
@@ -172,15 +172,15 @@ void Retry2D::DrawUpdate()
 		default:
 			DEBUG_ASSERT( 0, "想定外の値" );
 			m_pTexChoiceArray[i]->SetAnim("title");
-			m_texInfo.m_pos = math::Vector2( 100.0f, 40.0f );
+			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;
 		case SELECT_RETRY:
 			m_pTexChoiceArray[i]->SetAnim("retry");
-			m_texInfo.m_pos = math::Vector2( 100.0f, 40.0f );
+			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;
 		case SELECT_TITLE:
 			m_pTexChoiceArray[i]->SetAnim("title");
-			m_texInfo.m_pos = math::Vector2( 400.0f, 40.0f );
+			m_texInfo.m_posOrigin = math::Vector2( 400.0f, 40.0f );
 			break;
 		}
 

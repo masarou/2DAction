@@ -123,8 +123,8 @@ bool Result2D::Init()
 	m_textureResult.Init();
 	m_textureResult.m_pTex2D = NEW Game2DBase("title.json");
 	m_textureResult.m_texInfo.Init();
-	m_textureResult.m_texInfo.m_pos.x = WINDOW_WIDTH / 2.0f;
-	m_textureResult.m_texInfo.m_pos.y = WINDOW_HEIGHT / 2.0f;
+	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
 
@@ -135,16 +135,16 @@ bool Result2D::Init()
 
 	// 数字表示用画像情報
 	m_numberInfo.Init();
-	m_numberInfo.m_pos.x = WINDOW_WIDTH / 2.0f + 500.0f;
-	m_numberInfo.m_pos.y = 150.0f;
+	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f + 500.0f;
+	m_numberInfo.m_posOrigin.y = 150.0f;
 	m_numberInfo.m_scale = math::Vector2(2.0f,2.0f);
 	m_numberInfo.m_usePlayerOffset = false;
 
 	// 数字表示用画像情報セット
 	m_pNumCounterResult->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_pos.y += 120.0f;
+	m_numberInfo.m_posOrigin.y += 120.0f;
 	m_pNumCounterBonus->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_pos.y += 200.0f;
+	m_numberInfo.m_posOrigin.y += 200.0f;
 	m_pNumCounterTotal->SetDrawInfo( m_numberInfo );
 
 	// 敵を倒して得た得点をセット
