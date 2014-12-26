@@ -22,7 +22,7 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_uniqueIdOfEnemyAll( uniqueId )
 , m_enemyKind( kind )
 , m_HP(10)
-, m_eye(math::Vector2())
+, m_eye(math::Vector2( 1.0f, 0.0f ))
 , m_pEnemyAI( NULL )
 , m_nextAI( Common::AI_NONE )
 , m_prevAI( Common::AI_NONE )
@@ -42,12 +42,7 @@ EnemyBase::~EnemyBase()
 {
 	m_textureEnemy.DeleteAndInit();
 	m_textureLife.DeleteAndInit();
-}
-
-void EnemyBase::ChangeAIState( const Common::ENEMY_AI &nextAI )
-{
-
-
+	SAFE_DELETE( m_pEnemyAI );
 }
 
 bool EnemyBase::Init()
@@ -58,6 +53,10 @@ bool EnemyBase::Init()
 	m_prevAI	= Common::AI_SEARCHING;
 	m_nextAI	= Common::AI_SEARCHING;
 
+	if( !m_pEnemyAI ){
+		m_pEnemyAI = ChangeEnemyAI( m_nextAI );
+	}
+
 	return InitMain();
 }
 
@@ -65,6 +64,7 @@ void EnemyBase::UpdateEnemy()
 {
 	if( m_pEnemyAI && m_nextAI != Common::AI_MAX )
 	{
+		// AI変更
 		m_prevAI = m_pEnemyAI->GetAIKind();
 		SAFE_DELETE( m_pEnemyAI );
 		m_pEnemyAI = ChangeEnemyAI( m_nextAI );
@@ -76,13 +76,13 @@ void EnemyBase::UpdateEnemy()
 		m_pEnemyAI->Exec( m_textureEnemy.m_texInfo );
 	}
 
-	// AIによって更新された値を反映
-	math::Vector2 moveVec;
-	math::Vector2 plPos = GetPlayerPos();
-	moveVec = plPos - m_textureEnemy.m_texInfo.m_pos;
-	moveVec.Normalize();
+	//// AIによって更新された値を反映
+	//math::Vector2 moveVec;
+	//math::Vector2 plPos = GetPlayerPos();
+	//moveVec = plPos - m_textureEnemy.m_texInfo.m_pos;
+	//moveVec.Normalize();
 
-	m_textureEnemy.m_texInfo.m_pos += moveVec*3.0f;
+	//m_textureEnemy.m_texInfo.m_pos += moveVec*3.0f;
 	m_textureEnemy.m_pTex2D->SetDrawInfo( m_textureEnemy.m_texInfo );
 
 	// HP描画準備

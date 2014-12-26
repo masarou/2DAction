@@ -38,7 +38,11 @@ SystemMessageManager::~SystemMessageManager(void)
 {
 }
 
-
+/* ================================================ */
+/**
+ * @brief	特定のMessageタスクにメッセージをPush
+ */
+/* ================================================ */
 bool SystemMessageManager::PushMessage( const uint32_t &uniqueId, const Common::CMN_EVENT &kind )
 {
 	auto it = m_messageUnitMap.find( uniqueId );
@@ -49,6 +53,11 @@ bool SystemMessageManager::PushMessage( const uint32_t &uniqueId, const Common::
 	return false;
 }
 
+/* ================================================ */
+/**
+ * @brief	MessageTaskの登録と削除
+ */
+/* ================================================ */
 void SystemMessageManager::AddMessagTask( SystemMessageUnit *unit )
 {
 	if( unit ){
@@ -62,6 +71,11 @@ void SystemMessageManager::RemoveMessagTask( SystemMessageUnit *unit )
 	m_messageUnitMap.erase( uniqueId );
 }
 
+/* ================================================ */
+/**
+ * @brief	登録する際にIDの重複判定関数
+ */
+/* ================================================ */
 bool SystemMessageManager::IsNumberOverlapID( const uint32_t &checkID ) const
 {
 	// IDの重複チェック
@@ -71,8 +85,11 @@ bool SystemMessageManager::IsNumberOverlapID( const uint32_t &checkID ) const
 	return true;
 }
 
-
-// IDイベント処理スタート
+/* ================================================ */
+/**
+ * @brief	IDイベント処理スタート
+ */
+/* ================================================ */
 void SystemMessageManager::StartMessageEvent()
 {
 	auto it = m_messageUnitMap.begin();
@@ -94,7 +111,11 @@ void SystemMessageManager::StartMessageEvent()
 }
 
 
-// 子のクラスの解放
+/* ================================================ */
+/**
+ * @brief	子のクラスの削除
+ */
+/* ================================================ */
 void SystemMessageManager::DeleteMessageManager()
 {
 	DEBUG_PRINT("/_/_/SystemMessageManager 削除/_/_/\n");

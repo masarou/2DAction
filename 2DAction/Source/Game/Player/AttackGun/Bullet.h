@@ -15,7 +15,7 @@
 #include "Game/Game2DBase.h"
 
 // ŒÅ’è’l
-static const uint32_t BULLET_LIVE_TIME	= 150;
+static const uint32_t BULLET_LIVE_TIME	= 300;
 
 class Bullet
 {

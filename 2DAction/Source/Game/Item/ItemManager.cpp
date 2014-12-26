@@ -65,6 +65,7 @@ void ItemManager::CollisionUpdate()
 		for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
 			if( m_itemArray.at( i )->GetPlayerGetFlag() ){
 				Common::CMN_EVENT hitEvent;
+				hitEvent.Init();
 				hitEvent.m_event		= Common::EVENT_GET_ITEM;
 				hitEvent.m_eventValue	= static_cast<ItemObject::ITEM_KIND>( m_itemArray.at( i )->GetItemKind() );
 				pPlayer->AddEvent( hitEvent );

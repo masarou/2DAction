@@ -70,6 +70,7 @@ struct TEX_INIT_INFO{
 struct TEX_DRAW_INFO{
 	std::string		m_fileName;
 	math::Vector2	m_scale;			//!<拡大率
+	math::Vector2	m_posOrigin;		//!<位置情報(左上座標)
 	math::Vector2	m_pos;				//!<位置情報
 	math::Vector2	m_arrangeOrigin;	//!<拡大、回転時の原点
 	bool			m_usePlayerOffset;	//!<位置補正の使用有無
@@ -81,6 +82,7 @@ struct TEX_DRAW_INFO{
 	void Init(){
 		m_fileName = "";
 		m_scale = math::Vector2( 1.0f, 1.0f );
+		m_posOrigin = math::Vector2();
 		m_pos = math::Vector2();
 		m_arrangeOrigin = math::Vector2( INVALID_FVALUE, INVALID_FVALUE );
 		m_usePlayerOffset = true;

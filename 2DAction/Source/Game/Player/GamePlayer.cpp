@@ -1,4 +1,11 @@
-
+/* ====================================================================== */
+/**
+ * @brief  プレイヤークラス
+ *
+ * @note
+ *		
+ */
+/* ====================================================================== */
 
 #include "GamePlayer.h"
 #include "Game/Effect/GameEffect.h"
@@ -12,6 +19,12 @@
 
 static uint32_t DAMAGE_INVISIBLE_TIME = 120;
 static uint32_t LIFE_POINT_MAX = 100;
+
+// アニメタグ
+static char *ANIM_TAG_UP	= "up";
+static char *ANIM_TAG_DOWN	= "down";
+static char *ANIM_TAG_RIGHT	= "right";
+static char *ANIM_TAG_LEFT	= "left";
 
 GamePlayer *GamePlayer::CreatePlayer()
 {
@@ -98,7 +111,11 @@ void GamePlayer::Update()
 		}
 	}
 
+	// パッドに対応した挙動を設定
 	CallPadEvent();
+
+	// 再生アニメタグセット
+	m_texturePlayer.m_pTex2D->SetAnim(GetAnimTag());
 
 	// 攻撃判定
 	if( GetStickInfoRight().m_vec != math::Vector2() ){
@@ -166,20 +183,9 @@ void GamePlayer::PadEventUp()
 
 	// 移動先が歩けないならば移動しない
 	if( !CanMoveThisPos( moveVal ) ){
-		if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
-		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
-		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
-			// ほかに方向キーが押されていなければアニメだけ変えておく
-			m_texturePlayer.m_pTex2D->SetAnim("up");
-		}
 		return;
 	}
-
 	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
-
-	if(IsButtonPush(InputWatcher::BUTTON_UP)){
-		m_texturePlayer.m_pTex2D->SetAnim("up");
-	}
 }
 
 void GamePlayer::PadEventDown()
@@ -188,20 +194,9 @@ void GamePlayer::PadEventDown()
 
 	// 移動先が歩けないならば移動しない
 	if( !CanMoveThisPos( moveVal ) ){
-		if(!IsButtonPress(InputWatcher::BUTTON_UP)
-		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
-		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
-			// ほかに方向キーが押されていなければアニメだけ変えておく
-			m_texturePlayer.m_pTex2D->SetAnim("down");
-		}
 		return;
 	}
-
 	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
-
-	if(IsButtonPush(InputWatcher::BUTTON_DOWN)){
-		m_texturePlayer.m_pTex2D->SetAnim("down");
-	}
 }
 
 void GamePlayer::PadEventRight()
@@ -210,20 +205,9 @@ void GamePlayer::PadEventRight()
 
 	// 移動先が歩けないならば移動しない
 	if( !CanMoveThisPos( moveVal ) ){
-		if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
-		&& !IsButtonPress(InputWatcher::BUTTON_UP)
-		&& !IsButtonPress(InputWatcher::BUTTON_LEFT)){
-			// ほかに方向キーが押されていなければアニメだけ変えておく
-			m_texturePlayer.m_pTex2D->SetAnim("right");
-		}
 		return;
 	}
-
 	GameAccesser::GetInstance()->AddPlayerOffSet(1.0f*m_speedMove, 0.0f);
-
-	if(IsButtonPush(InputWatcher::BUTTON_RIGHT)){
-		m_texturePlayer.m_pTex2D->SetAnim("right");
-	}
 }
 
 void GamePlayer::PadEventLeft()
@@ -232,20 +216,10 @@ void GamePlayer::PadEventLeft()
 
 	// 移動先が歩けないならば移動しない
 	if( !CanMoveThisPos( moveVal ) ){
-		if(!IsButtonPress(InputWatcher::BUTTON_DOWN)
-		&& !IsButtonPress(InputWatcher::BUTTON_RIGHT)
-		&& !IsButtonPress(InputWatcher::BUTTON_UP)){
-			// ほかに方向キーが押されていなければアニメだけ変えておく
-			m_texturePlayer.m_pTex2D->SetAnim("left");
-		}
 		return;
 	}
 
 	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
-
-	if(IsButtonPush(InputWatcher::BUTTON_LEFT)){
-		m_texturePlayer.m_pTex2D->SetAnim("left");
-	}
 }
 
 void GamePlayer::PadEventDecide()
@@ -298,6 +272,42 @@ void GamePlayer::AddEvent( const Common::CMN_EVENT &cmnEvent )
 
 /* ================================================ */
 /**
+ * @brief	現在のプレイヤーの状況から再生するアニメタグ取得
+ */
+/* ================================================ */
+std::string GamePlayer::GetAnimTag()
+{
+	// どの方向をむいているか
+	const STICK_INFO &stickInfo = GetStickInfoLeft();
+	std::string retAnim = "";
+
+	int32_t xx = static_cast<int32_t>(stickInfo.m_vec.x);
+	int32_t yy = static_cast<int32_t>(stickInfo.m_vec.y);
+	if( math::Abs(yy) >= math::Abs(xx) ){
+		if( yy > 0 ){
+			retAnim = ANIM_TAG_DOWN;
+		}
+		else if( yy < 0 ){
+			retAnim = ANIM_TAG_UP;
+		}
+	}
+	else{
+		if( xx > 0 ){
+			retAnim = ANIM_TAG_RIGHT;
+		}
+		else if( xx < 0 ){
+			retAnim = ANIM_TAG_LEFT;
+		}
+	}
+
+	if( retAnim.compare("") == 0 ){
+		retAnim = m_texturePlayer.m_pTex2D->GetPlayAnim();
+	}
+	return retAnim;
+}
+
+/* ================================================ */
+/**
  * @brief	現在のステータスでプレイヤーが引数のベクター分移動ができるかどうかチェック
  */
 /* ================================================ */
@@ -317,8 +327,7 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
 	nextFlamePos.y = static_cast<float>(WINDOW_HEIGHT / 2.0f) + nextFlamePos.y + (playerTexInfo.m_sizeHeight / 2.0f);
 
 	// 移動先が歩けないならば移動しない
-	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
-	if( pMap && pMap->GetTileHeight( nextFlamePos ) == 0 ){
+	if( GetMapHeight( nextFlamePos ) == 0 ){
 		ret = true;
 	}
 	return ret;

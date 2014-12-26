@@ -54,6 +54,9 @@ private:
 
 	GamePlayer(void);
 
+	// 現在のプレイヤーの状況から再生するアニメタグ取得
+	std::string GetAnimTag();
+
 	// 引数のベクター分移動ができるかどうかチェック
 	bool CanMoveThisPos( const math::Vector2 &nextFlameAddValue );
 

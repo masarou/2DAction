@@ -27,9 +27,7 @@ public:
 	virtual void Update();
 	virtual void DrawUpdate();
 
-	const uint32_t GetTileHeight( const math::Vector2 &pos ) const;
-	const uint32_t GetTileHeight( const uint32_t &posX, const uint32_t &posY ) const;
-	
+	const uint32_t GetTileHeight( const math::Vector2 &pos ) const;		// 指定位置の床の高さを取得
 	const uint32_t Get2DMortonNumber( const math::Vector2 &pos ) const;	// 引数が当たり判定を行う空間の何番にいるかを求める
 	const uint32_t GetBelongArea( const math::Vector2 &pos ) const;		// 位置情報から当たり判定空間を求める
 

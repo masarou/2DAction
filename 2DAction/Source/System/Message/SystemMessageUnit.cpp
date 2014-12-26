@@ -29,6 +29,12 @@ SystemMessageUnit::~SystemMessageUnit(void)
 	SystemMessageManager::GetInstance()->RemoveMessagTask( this );
 }
 
+
+/* ================================================ */
+/**
+ * @brief	MessageTaskのPush
+ */
+/* ================================================ */
 void SystemMessageUnit::PushEvent( const Common::CMN_EVENT &eventInfo )
 {
 	if( eventInfo.m_event != Common::EVENT_MESSAGE_MAX ){
@@ -36,12 +42,22 @@ void SystemMessageUnit::PushEvent( const Common::CMN_EVENT &eventInfo )
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	Messageイベントの開始
+ */
+/* ================================================ */
 void SystemMessageUnit::StartEventAction()
 {
-	for( uint32_t i = 0; i < m_eventVec.size() ; ++i ){
-		EventUpdate( m_eventVec.at(i) );
+	auto it = m_eventVec.begin();
+	for( uint32_t i = 0; it != m_eventVec.end() ; ++i ){
+		if( (*it).m_delayTime == 0 ){
+			EventUpdate( (*it) );
+			it = m_eventVec.erase(it);
+		}
+		else{
+			--(*it).m_delayTime;
+			++it;
+		}
 	}
-
-	// イベント処理終了
-	m_eventVec.clear();
 }

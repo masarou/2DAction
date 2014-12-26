@@ -44,7 +44,9 @@ public:
 	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
 	const math::Vector2 &GetEnemyEyeSight() const{ return m_eye; }
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }
-	void ChangeAIState( const Common::ENEMY_AI &nextAI );
+
+	// メンバ変数セット関数
+	void SetEnemyEyeSight( math::Vector2 &eye ){ eye.Normalize(); m_eye = eye; }
 
 protected:
 

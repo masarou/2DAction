@@ -120,6 +120,7 @@ bool EnemyManager::CheckCollisionToBullet( const Bullet *bullet )
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		if( IsInRangeTexture( bullet->GetDrawInfo(), m_enemyArray.at(i)->GetDrawInfo() ) ){
 			Common::CMN_EVENT eventInfo;
+			eventInfo.Init();
 			eventInfo.m_event = Common::EVENT_HIT_BULLET;
 			eventInfo.m_eventValue = m_enemyArray.at(i)->GetUniqueNumber();
 			SystemMessageManager::GetInstance()->PushMessage( m_enemyArray.at(i)->GetUniqueId(), eventInfo );
@@ -195,8 +196,8 @@ void EnemyManager::CollisionUpdate()
 	bool isHit = CheckCollisionToPlayer( pPlayer );
 	if( isHit ){
 		Common::CMN_EVENT hitEvent;
+		hitEvent.Init();
 		hitEvent.m_event		= Common::EVENT_HIT_ENEMY;
-		hitEvent.m_eventValue	= INVALID_VALUE;
 		pPlayer->AddEvent( hitEvent );
 	}
 }

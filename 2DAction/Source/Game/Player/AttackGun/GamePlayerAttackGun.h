@@ -32,7 +32,7 @@ public:
 		void Init(){
 			m_shootInterval	= SHOOT_INTERBAL_DEFAULT;
 			m_speed			= 10.0f;
-			m_damage		= 1;
+			m_damage		= 30;
 		}
 	};
 

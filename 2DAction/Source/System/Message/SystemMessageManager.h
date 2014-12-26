@@ -3,7 +3,9 @@
  * @brief  メッセージイベントを管理するクラス
  *
  * @note
- *		
+ *		SystemMessageUnitを継承したクラスが登録されるManagerクラス
+ *		他のクラスからのイベントを積んで、特定のタイミングで
+ *		SystemMessageUnitのEventUpdateを呼んで各クラスに知らせてあげる
  */
 /* ====================================================================== */
 
@@ -26,7 +28,7 @@ public:
 	// 特定のタスクにメッセージイベントをPush
 	bool PushMessage( const uint32_t &uniqueId, const Common::CMN_EVENT &kind );
 
-	// 特定のタスクを削除
+	// 特定のタスクの登録と削除
 	void AddMessagTask( SystemMessageUnit *unit );
 	void RemoveMessagTask( SystemMessageUnit *unit );
 

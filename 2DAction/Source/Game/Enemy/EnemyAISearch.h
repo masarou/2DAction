@@ -23,13 +23,16 @@ public:
 
 protected:
 	
-	virtual bool InitAI() override{ return true; }					// AI‰Šú‰»
-	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo ) override{};	// ”h¶æ‚Å‚ÌAIÀ‘•
+	virtual bool InitAI() override;								// AI‰Šú‰»
+	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo ) override;	// ”h¶æ‚Å‚ÌAIÀ‘•
 
 private:
 
 	EnemyAISearch(void);
 	~EnemyAISearch(void);
+
+	uint32_t	m_circleRadius;		// œpœj—p‚Ì‰~‚Ì‘å‚«‚³(”¼Œa)
+	uint32_t	m_circleDistance;	// ©g‚Ì’n“_‚©‚çœpœj‰~‚Ü‚Å‚Ì‹——£
 
 };
 

@@ -65,11 +65,6 @@ void GameMap::DrawUpdate()
 	}
 }
 
-const uint32_t GameMap::GetTileHeight( const uint32_t &posX, const uint32_t &posY ) const
-{
-	return GetTileHeight( math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
-}
-
 const uint32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
 {
 	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){

@@ -132,6 +132,20 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	//DEBUG_PRINT( " m_belongLv = %d, m_belongIndex = %d\n", tex.m_belongLv, tex.m_belongIndex );
 }
 
+const uint32_t GetMapHeight( const uint32_t &posX, const uint32_t &posY )
+{
+	return GetMapHeight( math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
+}
+
+const uint32_t GetMapHeight( const math::Vector2 &pos )
+{
+	uint32_t retVal = 0;
+	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
+	if( pMap ){
+		retVal = pMap->GetTileHeight( pos );
+	}
+	return retVal;
+}
 
 bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
 {
@@ -197,11 +211,12 @@ math::Vector2 GetPlayerPos()
 
 int32_t GetRandamValue( const int32_t &max, const int32_t &min)
 {
-	//std::mt19937 rand;
-	//std::uniform_int_distribution<int> distribution( min, max );
-	//return distribution(rand);
-
 	return min + (int)(rand()*(max-min+1.0)/(1.0+RAND_MAX));
+}
+
+float GetRandamValueFloat( const int32_t &max, const int32_t &min)
+{
+	return static_cast<float>(GetRandamValue( max, min ));
 }
 
 bool GetSaveRanking( Common::SAVE_SCORE &saveData )

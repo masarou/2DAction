@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "EnemyAISearch.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 EnemyAISearch *EnemyAISearch::Create()
 {
@@ -16,6 +17,8 @@ EnemyAISearch *EnemyAISearch::Create()
 }
 
 EnemyAISearch::EnemyAISearch(void)
+: m_circleRadius( 30 )
+, m_circleDistance( 100 )
 {
 }
 
@@ -23,3 +26,33 @@ EnemyAISearch::EnemyAISearch(void)
 EnemyAISearch::~EnemyAISearch(void)
 {
 }
+
+bool EnemyAISearch::InitAI()
+{
+	return true;
+}
+
+void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo )
+{
+	// ñ⁄ïWÇ∆Ç»ÇÈínì_Çê›íË
+	math::Vector2 vec = math::Vector2( GetRandamValueFloat( 100, -100 ), GetRandamValueFloat( 100, -100 ) );
+	vec.Normalize();
+	vec *= static_cast<float>(m_circleRadius);
+
+	vec += enemyInfo.m_pos;
+	if( m_enemyMine ){
+		const math::Vector2 &eye = m_enemyMine->GetEnemyEyeSight();
+		vec += eye * static_cast<float>(m_circleDistance);
+	}
+	vec -= enemyInfo.m_pos;
+	vec.Normalize();
+
+	math::Vector2 nextPos = enemyInfo.m_pos + (vec * 2.0f);
+	if( GetMapHeight( nextPos ) == 0 ){
+		enemyInfo.m_pos += vec * 2.0f;
+	}
+
+	m_enemyMine->SetEnemyEyeSight( vec );
+
+}
+

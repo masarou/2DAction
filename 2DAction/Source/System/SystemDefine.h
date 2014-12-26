@@ -45,9 +45,6 @@ static const char *TEXTURE_PATH				= "Data/Texture/";
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 
-//データパス
-#define TEXTURE "Data/texture/"
-
 #if defined _DEBUG	// デバッグビルド
 
 //アサート
