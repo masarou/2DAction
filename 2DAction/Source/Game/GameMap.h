@@ -15,7 +15,7 @@
 #include "Game2DBase.h"
 
 // 当たり判定を行う際のマップの分割数
-static const uint32_t HIT_AREA_SPLIT_MAX = 6;
+static const uint32_t HIT_AREA_SPLIT_MAX = 5;
 
 class GameMap : public TaskUnit
 {

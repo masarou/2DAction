@@ -73,7 +73,7 @@ void EnemyBase::UpdateEnemy()
 	}
 
 	if( m_pEnemyAI ){
-		m_pEnemyAI->Exec( m_textureEnemy.m_texInfo );
+		//m_pEnemyAI->Exec( m_textureEnemy.m_texInfo );
 	}
 
 	//// AI‚É‚æ‚Á‚ÄXV‚³‚ê‚½’l‚ğ”½‰f

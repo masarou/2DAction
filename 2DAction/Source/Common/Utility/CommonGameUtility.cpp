@@ -63,17 +63,6 @@ const bool IsSameBelongArea( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	return retVal;
 }
 
-// 画像の中心位置を求める
-math::Vector2 GetCenterPos( const TEX_DRAW_INFO &drawInfo )
-{
-	math::Vector2 centerPos;
-	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( drawInfo.m_fileName.c_str() );
-	centerPos.y = drawInfo.m_posOrigin.y + (texInfo.m_sizeHeight/2.0f);
-	centerPos.x = drawInfo.m_posOrigin.x + (texInfo.m_sizeWidth/2.0f);
-
-	return centerPos;
-}
-
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
 {
 	if( !IsSameBelongArea( texA, texB ) ){
@@ -83,7 +72,7 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	const TEX_INIT_INFO &texInfoA = TextureResourceManager::GetInstance()->GetLoadTextureInfo( texA.m_fileName.c_str() );
 	const TEX_INIT_INFO &texInfoB = TextureResourceManager::GetInstance()->GetLoadTextureInfo( texB.m_fileName.c_str() );
 
-	math::Vector2 diff = texA.m_pos - texB.m_pos;
+	math::Vector2 diff = texA.m_posOrigin - texB.m_posOrigin;
 
 	float inRangeX = math::Absf(texInfoA.m_sizeWidth/2.0f) + math::Absf(texInfoB.m_sizeWidth/2.0f);
 	float inRangeY = math::Absf(texInfoA.m_sizeHeight/2.0f) + math::Absf(texInfoB.m_sizeHeight/2.0f);
@@ -106,9 +95,8 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	if( !pMap ){ return; }
 
 	// 画像の左上と右下の位置を求める
-	math::Vector2 centerPos = GetCenterPos(tex);
-	float offsetX = centerPos.x;
-	float offsetY = centerPos.y;
+	float offsetX = tex.m_posOrigin.x;
+	float offsetY = tex.m_posOrigin.y;
 
 	// オフセットを使用していない
 	// 常に画面上に固定で表示されている描画物の当たり判定の場合
@@ -131,14 +119,12 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	uint32_t areaNum = upper^under;
 	uint32_t belongLv = 0;		// rootがLv0, 大きくになるにつれて親、子、孫となる
 	uint32_t belongIndex = 0;
-	for( int32_t i = (HIT_AREA_SPLIT_MAX-1) ; i >= 0; --i ){
-		if( (areaNum >> 2) == 0 ){
+	for( int32_t i = HIT_AREA_SPLIT_MAX ; i >= 0; --i ){
+		uint32_t slideNum = HIT_AREA_SPLIT_MAX - (HIT_AREA_SPLIT_MAX-i);
+		if( (areaNum >> (2*slideNum)) == 0 ){
 			tex.m_belongLv = i;
-			tex.m_belongIndex = under >> ((HIT_AREA_SPLIT_MAX-1)-i)*2;
+			tex.m_belongIndex = under >> (HIT_AREA_SPLIT_MAX-1)*2;
 			break;
-		}
-		else{
-			areaNum = areaNum >> 2;
 		}
 	}
 	//DEBUG_PRINT( " m_belongLv = %d, m_belongIndex = %d\n", tex.m_belongLv, tex.m_belongIndex );
