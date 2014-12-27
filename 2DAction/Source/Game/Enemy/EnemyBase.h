@@ -21,7 +21,8 @@
 
 class EnemyBase : public SystemMessageUnit
 {
-
+	
+	friend EnemyAIBase;
 	friend EnemyManager;
 
 public:
@@ -42,11 +43,7 @@ public:
 	const ENEMY_STATE &GetState() const{ return m_enemyState; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
-	const math::Vector2 &GetEnemyEyeSight() const{ return m_eye; }
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }
-
-	// ƒƒ“ƒo•Ï”ƒZƒbƒgŠÖ”
-	void SetEnemyEyeSight( math::Vector2 &eye ){ eye.Normalize(); m_eye = eye; }
 
 protected:
 
@@ -71,7 +68,6 @@ private:
 	Common::ENEMY_KIND	m_enemyKind;					// “G‚Ìí—Ş
 	uint32_t			m_HP;							// “G‘Ì—Í
 	math::Vector2		m_eye;							// “G‚Ì‹ü
-	Game2DBase			*m_pEnemy2D;					// “G‚Ì‰æ‘œ“™ŠÇ—
 	TEX_DRAW_INFO		m_enemyInfo;					// •`‰æŠÖŒWî•ñ
 
 	Texture2D			m_textureLife;					// “Gƒ‰ƒCƒt‰æ‘œ

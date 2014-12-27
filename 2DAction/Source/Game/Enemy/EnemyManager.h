@@ -35,6 +35,8 @@ public:
 	bool CheckCollisionToBullet( const Bullet *bullet );		// プレイヤーの弾との当たり判定
 	bool CheckCollisionToPlayer( const GamePlayer *player ) const;	// プレイヤーとの当たり判定
 
+	uint32_t CountEnemy(){ return m_enemyArray.size(); }
+
 protected:
 	
 	virtual void Update() override;

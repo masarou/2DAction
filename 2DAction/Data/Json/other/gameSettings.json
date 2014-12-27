@@ -1,0 +1,9 @@
+{
+	"gameTime":[
+		{"TimeS": 120}
+	],
+	"gameCondition":[
+		{"EnemyMax": 300, "frequency":3},
+		{"ItemMax": 7, "frequency":3}
+	]
+}

@@ -30,6 +30,13 @@ public:
 	// AIの種類を派生先でセットしておく
 	virtual const Common::ENEMY_AI GetAIKind() const = 0 ;
 
+	// 敵キャラそのものに関するget,set関数
+	void SetEnemyAnim( const std::string &animTag );
+	std::string GetEnemyAnim();
+
+	void SetEnemyEyeSight( math::Vector2 &eye );
+	const math::Vector2 &GetEnemyEyeSight() const;
+
 protected:
 	
 	EnemyAIBase();
@@ -37,12 +44,11 @@ protected:
 	virtual bool InitAI(){ return true; }					// AI初期化
 	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo ){};	// 派生先でのAI実装
 		
-	// 現在の自分の状態を知るために保持しておく
-	EnemyBase	*m_enemyMine;
 
 private:
 	
 	EnemyAIBase( EnemyBase *enemyMine );
 	bool		m_isReady;		// 思考準備が終了したかどうか
+	EnemyBase	*m_enemyMine;	// 現在の自分の状態を知るために保持しておく
 };
 #endif

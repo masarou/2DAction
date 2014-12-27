@@ -11,7 +11,7 @@
 #include "System/Input/SystemInputWatcher.h"
 
 //! スティックの無効範囲
-#define STICK_INVALID_RANGE 250
+#define STICK_INVALID_RANGE 0
 
 InputWatcher::InputWatcher( const uint32_t &padIndex )
 : m_buttonState(0)

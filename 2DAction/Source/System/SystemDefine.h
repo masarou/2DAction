@@ -28,11 +28,13 @@
 #define NUMBEROF(Array)		( sizeof( Array ) / sizeof( Array[ 0 ] ) )
 #define INVALID_VALUE UINT_MAX
 #define INVALID_FVALUE static_cast<float>(UINT_MAX)
+#define INVALID_VECTOR2 math::Vector2()
 
 //各データフォルダのパス
 static const char *JSON_FLOW_PATH			= "Data/Json/Flow/";
 static const char *JSON_GAME2D_PATH			= "Data/Json/Game2D/";
 static const char *JSON_SOUND_PATH			= "Data/Json/Sound/";
+static const char *JSON_OTHER_PATH			= "Data/Json/Other/";
 static const char *BGM_PATH					= "Data/Sound/BGM/";
 static const char *SE_PATH					= "Data/Sound/SE/";
 static const char *TEXTURE_PATH				= "Data/Texture/";

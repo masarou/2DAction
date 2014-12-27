@@ -41,3 +41,38 @@ void EnemyAIBase::Exec( TEX_DRAW_INFO &enemyInfo )
 		ExecMain( enemyInfo );
 	}
 }
+
+
+// “GƒLƒƒƒ‰‚»‚Ì‚à‚Ì‚ÉŠÖ‚·‚éget,setŠÖ”
+void EnemyAIBase::SetEnemyAnim( const std::string &animTag )
+{
+	if( m_enemyMine && m_enemyMine->m_textureEnemy.m_pTex2D ){
+		m_enemyMine->m_textureEnemy.m_pTex2D->SetAnim( animTag );
+	}
+}
+
+std::string EnemyAIBase::GetEnemyAnim()
+{
+	std::string animTag = "";
+	if( m_enemyMine && m_enemyMine->m_textureEnemy.m_pTex2D ){
+		animTag = m_enemyMine->m_textureEnemy.m_pTex2D->GetPlayAnim();
+	}
+	return animTag;
+}
+
+
+void EnemyAIBase::SetEnemyEyeSight( math::Vector2 &eye )
+{
+	if( m_enemyMine ){
+		eye.Normalize();
+		m_enemyMine->m_eye = eye;
+	}
+}
+
+const math::Vector2 &EnemyAIBase::GetEnemyEyeSight() const
+{
+	if( m_enemyMine ){
+		return m_enemyMine->m_eye;
+	}
+	return INVALID_VECTOR2;
+}

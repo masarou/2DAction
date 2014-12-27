@@ -30,7 +30,7 @@ bool EnemyAAA::InitMain()
 	// 初期位置セット
 	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
 	for(;;){
-		math::Vector2 pos = math::Vector2( GetRandamValueFloat( 3000, 0 ), GetRandamValueFloat( 3000, 0 ));
+		math::Vector2 pos = math::Vector2( GetRandamValueFloat( pMap->GetMapWidth(), 0 ), GetRandamValueFloat( pMap->GetMapHeight(), 0 ));
 		if( GetMapHeight(pos) == 0){
 			m_textureEnemy.m_texInfo.m_posOrigin = pos;
 			DEBUG_PRINT( "敵生成 x = %f, y = %f\n", pos.x, pos.y );

@@ -40,19 +40,40 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo )
 	vec *= static_cast<float>(m_circleRadius);
 
 	vec += enemyInfo.m_posOrigin;
-	if( m_enemyMine ){
-		const math::Vector2 &eye = m_enemyMine->GetEnemyEyeSight();
+
+	const math::Vector2 &eye = GetEnemyEyeSight();
+	if( eye != INVALID_VECTOR2 ){
 		vec += eye * static_cast<float>(m_circleDistance);
 	}
+
 	vec -= enemyInfo.m_posOrigin;
 	vec.Normalize();
 
 	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
 	if( GetMapHeight( nextPos ) == 0 ){
 		enemyInfo.m_posOrigin += vec * 2.0f;
+
+		//// アニメ更新
+		std::string animTag = "";
+		switch( GetDirection( vec.x, vec.y ) ){
+		default:
+			break;
+		case InputWatcher::BUTTON_UP:
+			animTag = "up";
+			break;
+		case InputWatcher::BUTTON_DOWN:
+			animTag = "down";
+			break;
+		case InputWatcher::BUTTON_LEFT:
+			animTag = "left";
+			break;
+		case InputWatcher::BUTTON_RIGHT:
+			animTag = "right";
+			break;
+		}
+		SetEnemyAnim( animTag );
 	}
 
-	m_enemyMine->SetEnemyEyeSight( vec );
-
+	SetEnemyEyeSight( vec );
 }
 

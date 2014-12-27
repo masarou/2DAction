@@ -207,6 +207,29 @@ math::Vector2 GetPlayerPos()
 	return defaultPos + offset;
 }
 
+
+InputWatcher::BUTTON_KIND GetDirection( const float dirX, const float dirY )
+{
+	InputWatcher::BUTTON_KIND kind = InputWatcher::BUTTON_INVALID;
+	if( math::Absf(dirY) >= math::Absf(dirX) ){
+		if( dirY > 0 ){
+			kind = InputWatcher::BUTTON_DOWN;
+		}
+		else if( dirY < 0 ){
+			kind = InputWatcher::BUTTON_UP;
+		}
+	}
+	else{
+		if( dirX > 0 ){
+			kind = InputWatcher::BUTTON_RIGHT;
+		}
+		else if( dirX < 0 ){
+			kind = InputWatcher::BUTTON_LEFT;
+		}
+	}
+	return kind;
+}
+
 int32_t GetRandamValue( const int32_t &max, const int32_t &min)
 {
 	return min + (int)(rand()*(max-min+1.0)/(1.0+RAND_MAX));

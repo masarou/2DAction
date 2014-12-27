@@ -1,6 +1,7 @@
 
 
 #include "GameMap.h"
+#include "GameRegister.h"
 #include "System/picojson.h"
 #include "System/Sound/SystemSoundManager.h"
 #include "Common/Utility/CommonGameUtility.h"
@@ -29,7 +30,14 @@ GameMap::~GameMap(void)
 
 void GameMap::Update()
 {
+	EnemyManager *pManagerEnemy	= GameRegister::GetInstance()->UpdateManagerEnemy();
+	ItemManager *pManagerItem	= GameRegister::GetInstance()->UpdateManagerItem();
 
+	if( GetRandamValue( 1000, 0 ) <= 10 ){
+		if( GameRegister::GetInstance()->GetManagerEnemy() ){
+			GameRegister::GetInstance()->UpdateManagerEnemy()->CreateEnemy( Common::KIND_AAA );
+		}
+	}
 }
 
 void GameMap::DrawUpdate()
@@ -124,6 +132,23 @@ const uint32_t GameMap::GetBelongArea( const math::Vector2 &pos ) const
 	retValue = Get2DMortonNumber( math::Vector2(static_cast<float>(numberC), static_cast<float>(numberR)) );
 	return retValue;
 }
+
+// マップサイズ取得(横幅)
+const uint32_t GameMap::GetMapWidth() const
+{
+	uint32_t retVal = 0;
+	retVal = m_mapInfo.m_width * MAP_TIP_SIZE;
+	return retVal;
+}
+
+// マップサイズ取得(縦幅)
+const uint32_t GameMap::GetMapHeight() const
+{
+	uint32_t retVal = 0;
+	retVal = m_mapInfo.m_height * MAP_TIP_SIZE;
+	return retVal;
+}
+
 
 void GameMap::LoadTextureInfo(const char *jsonFile)
 {

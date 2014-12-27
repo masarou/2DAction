@@ -281,23 +281,21 @@ std::string GamePlayer::GetAnimTag()
 	const STICK_INFO &stickInfo = GetStickInfoLeft();
 	std::string retAnim = "";
 
-	int32_t xx = static_cast<int32_t>(stickInfo.m_vec.x);
-	int32_t yy = static_cast<int32_t>(stickInfo.m_vec.y);
-	if( math::Abs(yy) >= math::Abs(xx) ){
-		if( yy > 0 ){
-			retAnim = ANIM_TAG_DOWN;
-		}
-		else if( yy < 0 ){
-			retAnim = ANIM_TAG_UP;
-		}
-	}
-	else{
-		if( xx > 0 ){
-			retAnim = ANIM_TAG_RIGHT;
-		}
-		else if( xx < 0 ){
-			retAnim = ANIM_TAG_LEFT;
-		}
+	switch( GetDirection( stickInfo.m_vec.x, stickInfo.m_vec.y ) ){
+	default:
+		break;
+	case InputWatcher::BUTTON_UP:
+		retAnim = "up";
+		break;
+	case InputWatcher::BUTTON_DOWN:
+		retAnim = "down";
+		break;
+	case InputWatcher::BUTTON_LEFT:
+		retAnim = "left";
+		break;
+	case InputWatcher::BUTTON_RIGHT:
+		retAnim = "right";
+		break;
 	}
 
 	if( retAnim.compare("") == 0 ){
