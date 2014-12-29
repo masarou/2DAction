@@ -118,7 +118,7 @@ void GamePlayer::Update()
 	m_texturePlayer.m_pTex2D->SetAnim(GetAnimTag());
 
 	// UŒ‚”»’è
-	if( GetStickInfoRight().m_vec != math::Vector2() ){
+	if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
 		math::Vector2 pos = math::Vector2( m_texturePlayer.m_texInfo.m_posOrigin.x, m_texturePlayer.m_texInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
 		math::Vector2 vec = GetStickInfoRight().m_vec;
 		vec.Normalize();
@@ -134,9 +134,6 @@ void GamePlayer::CollisionUpdate()
 
 void GamePlayer::DrawUpdate()
 {
-	//EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
-	//pEnemyMan->CreateEnemy( Common::KIND_AAA );
-
 	if( m_invisibleTime % 3 == 1 ){
 		// ƒ_ƒ[ƒW‚ðŽó‚¯‚È‚¢ŽžŠÔ‘Ñ‚È‚ç‚Î3ƒtƒŒ‚Éˆê‰ñ•`‰æ‚¹‚¸“_–Å‚³‚¹‚é
 	}
@@ -224,17 +221,10 @@ void GamePlayer::PadEventLeft()
 
 void GamePlayer::PadEventDecide()
 {
-	GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, 50,50 );
-	ItemManager *pItemMan = GameRegister::GetInstance()->UpdateManagerItem();
-	pItemMan->CreateItem( ItemObject::ITEM_RAPID_BULLET );
 }
 
 void GamePlayer::PadEventCancel()
 {
-	for( uint32_t i = 0; i < 100 ;++i ){
-		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
-		pEnemyMan->CreateEnemy( Common::KIND_AAA );
-	}
 }
 
 void GamePlayer::PadEventR1()
@@ -384,7 +374,7 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
 {
 	switch( itemKind ){
 	default:
-	case ItemObject::ITEM_RAPID_BULLET:
+	case ItemObject::ITEM_KIND_RAPID_BULLET:
 		{
 			// e‚Ì”­ŽËŠÔŠu‚ð‹·‚ß‚é
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();

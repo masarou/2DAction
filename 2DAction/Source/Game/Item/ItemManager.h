@@ -27,10 +27,13 @@ public:
 	virtual void DrawUpdate() override;
 	virtual bool DieMain() override;
 
-	// 弾の発射
-	void CreateItem( const ItemObject::ITEM_KIND &kind, math::Vector2 pos = math::Vector2() );
-	// 弾の削除(画面外に出た、敵に当たった等々)
+	// アイテム生成
+	void CreateItem( const ItemObject::ITEM_KIND &kind );
+	void CreateItem( const ItemObject::ITEM_KIND &kind, math::Vector2 pos );
+	// アイテムの削除
 	void DeleteItem( uint32_t uniqueNumber );
+	// 生成しているアイテムをカウント
+	uint32_t CountItem();
 
 private:
 

@@ -36,6 +36,7 @@ SystemMessageManager::SystemMessageManager(void)
 
 SystemMessageManager::~SystemMessageManager(void)
 {
+	s_pInstance = NULL;
 }
 
 /* ================================================ */
@@ -102,12 +103,6 @@ void SystemMessageManager::StartMessageEvent()
 			break;
 		}
 	}
-
-	//for( auto it = m_messageUnitMap.begin() ;it != m_messageUnitMap.end(); ++it ){
-	//	if( it != m_messageUnitMap.end() ){
-	//		(*it).second->StartEventAction();
-	//	}
-	//}
 }
 
 

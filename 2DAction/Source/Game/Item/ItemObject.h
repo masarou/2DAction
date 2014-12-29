@@ -20,16 +20,16 @@ public:
 	static const uint32_t ITEM_LIVE_TIME = 900;	// アイテム存在時間
 
 	enum ITEM_KIND{
-		ITEM_RAPID_BULLET,	// 連射速度UP
-		ITEM_LIFE_UP,		// ライフ回復
-		ITEM_DAMAGE_UP,		// 弾の威力UP
+		ITEM_KIND_RAPID_BULLET,	// 連射速度UP
+		ITEM_KIND_LIFE_UP,		// ライフ回復
+		ITEM_KIND_DAMAGE_UP,	// 弾の威力UP
 
-		ITEM_MAX,
+		ITEM_KIND_MAX,
 	};
+	
+	static ItemObject *Create( const ITEM_KIND &kind, const uint32_t &uniqueID );
+	static ItemObject *Create( const ITEM_KIND &kind, const uint32_t &uniqueID, math::Vector2 pos );
 
-public:
-
-	ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, const math::Vector2 &pos );
 	virtual ~ItemObject(void);
 	
 	void	Update();
@@ -44,7 +44,8 @@ public:
 	const bool		&GetPlayerGetFlag() const{ return m_isPlayerGet; }
 
 private:
-
+	
+	ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, math::Vector2 pos = DEFAULT_VECTOR2 );
 	std::string		GetItemFilePath();
 
 	bool			m_isPlayerGet;	// 

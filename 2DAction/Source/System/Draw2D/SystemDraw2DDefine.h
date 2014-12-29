@@ -81,7 +81,7 @@ struct TEX_DRAW_INFO{
 	void Init(){
 		m_fileName = "";
 		m_scale = math::Vector2( 1.0f, 1.0f );
-		m_posOrigin = math::Vector2();
+		m_posOrigin = DEFAULT_VECTOR2;
 		m_arrangeOrigin = math::Vector2( INVALID_FVALUE, INVALID_FVALUE );
 		m_usePlayerOffset = true;
 		m_rot = math::Angle();

@@ -44,6 +44,13 @@ void EnemyAIBase::Exec( TEX_DRAW_INFO &enemyInfo )
 
 
 // “GƒLƒƒƒ‰‚»‚Ì‚à‚Ì‚ÉŠÖ‚·‚éget,setŠÖ”
+void EnemyAIBase::ChangeEnemyAI( Common::ENEMY_AI nextAI )
+{
+	if( m_enemyMine ){
+		m_enemyMine->m_nextAI = nextAI;
+	}
+}
+
 void EnemyAIBase::SetEnemyAnim( const std::string &animTag )
 {
 	if( m_enemyMine && m_enemyMine->m_textureEnemy.m_pTex2D ){
@@ -74,5 +81,5 @@ const math::Vector2 &EnemyAIBase::GetEnemyEyeSight() const
 	if( m_enemyMine ){
 		return m_enemyMine->m_eye;
 	}
-	return INVALID_VECTOR2;
+	return DEFAULT_VECTOR2;
 }

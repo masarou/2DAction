@@ -32,6 +32,7 @@
     <ClCompile Include="Source\Game\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Game\Game2DBase.cpp" />
+    <ClCompile Include="Source\Game\GameManager.cpp" />
     <ClCompile Include="Source\Game\GameMap.cpp" />
     <ClCompile Include="Source\Game\GameRegister.cpp" />
     <ClCompile Include="Source\Game\GameScoreRecorder.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="Source\Game\Enemy\EnemyBase.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Game\Game2DBase.h" />
+    <ClInclude Include="Source\Game\GameManager.h" />
     <ClInclude Include="Source\Game\GameMap.h" />
     <ClInclude Include="Source\Game\GameRegister.h" />
     <ClInclude Include="Source\Game\GameScoreRecorder.h" />

@@ -31,7 +31,7 @@ public:
 
 		void Init(){
 			m_shootInterval	= SHOOT_INTERBAL_DEFAULT;
-			m_speed			= 10.0f;
+			m_speed			= 15.0f;
 			m_damage		= 30;
 		}
 	};
@@ -44,7 +44,7 @@ public:
 	virtual bool DieMain() override;
 
 	// 弾の発射
-	void ShootBullet( math::Vector2 pos = math::Vector2(), math::Vector2 vec = math::Vector2( 0.0f, 1.0f ) );
+	void ShootBullet( math::Vector2 pos = DEFAULT_VECTOR2, math::Vector2 vec = math::Vector2( 0.0f, 1.0f ) );
 	// 弾の削除(画面外に出た、敵に当たった等々)
 	std::vector<Bullet*>::iterator DeleteBullet( uint32_t uniqueNumber );
 	// 銃のステート更新

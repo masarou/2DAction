@@ -145,6 +145,31 @@ const uint32_t GetMapHeight( const math::Vector2 &pos )
 	return retVal;
 }
 
+math::Vector2 GetMapRandamPos( bool allowInWindow, uint32_t mapHeight )
+{
+	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
+	math::Vector2 retVec = DEFAULT_VECTOR2;
+	for(;;){
+		math::Vector2 pos = math::Vector2( GetRandamValueFloat( pMap->GetMapWidth(), 0 ), GetRandamValueFloat( pMap->GetMapHeight(), 0 ));
+
+		// マップの高さが指定よりも高かったらやり直し
+		if( mapHeight < GetMapHeight(pos) ){
+			continue;
+		}
+		if( !allowInWindow ){
+			// 画面外かどうかチェック
+			if( IsPositionInWindowArea( static_cast<uint32_t>(pos.x), static_cast<uint32_t>(pos.y) ) ){
+				continue;
+			}
+		}
+
+		// 位置決定
+		retVec = pos;
+		break;
+	}
+	return retVec;
+}
+
 bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
 {
 	if( !texInfo.m_usePlayerOffset ){
@@ -178,7 +203,7 @@ bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
 	return retVal;
 }
 
-EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI )
+EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 {
 	EnemyAIBase *pRetAI = NULL;
 	switch( nextAI ){
@@ -198,13 +223,13 @@ EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI )
 // プレイヤーの位置情報を取得
 math::Vector2 GetPlayerPos()
 {
-	math::Vector2 offset;
-	math::Vector2 defaultPos;
-	GameAccesser::GetInstance()->GetPlayerOffSet( offset.x, offset.y );
-	defaultPos.x = WINDOW_WIDTH/2.0f;
-	defaultPos.y = WINDOW_HEIGHT/2.0f;
+	math::Vector2 plPos;
+	const GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
 
-	return defaultPos + offset;
+	plPos = pPlayer->GetDrawInfo().m_posOrigin;
+	plPos += GetPlayerOffsetPos();
+
+	return plPos;
 }
 
 

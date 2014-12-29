@@ -8,19 +8,32 @@
 /* ====================================================================== */
 
 #include "ItemObject.h"
+#include "Common/Utility/CommonGameUtility.h"
 #include "System/Sound/SystemSoundManager.h"
 
-ItemObject::ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, const math::Vector2 &pos )
+ItemObject *ItemObject::Create( const ITEM_KIND &kind, const uint32_t &uniqueID )
+{
+	return NEW ItemObject( kind, uniqueID );
+}
+
+ItemObject *ItemObject::Create( const ITEM_KIND &kind, const uint32_t &uniqueID, math::Vector2 pos )
+{
+	return NEW ItemObject( kind, uniqueID, pos );
+}
+
+ItemObject::ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, math::Vector2 pos )
 : m_isPlayerGet(false)
 , m_kindItem(kind)
 , m_uniqueNumber(uniqueId)
 , m_liveTime(0)
 {
 	m_textureItem.Init();
-
 	m_textureItem.m_pTex2D = NEW Game2DBase( GetItemFilePath().c_str() );
 
 	//!初期位置セット
+	if( pos == DEFAULT_VECTOR2 ){
+		pos = GetMapRandamPos( /*allowInWindow=*/false );
+	}
 	m_textureItem.m_texInfo.m_fileName = GetItemFilePath().c_str();
 	m_textureItem.m_texInfo.m_posOrigin = pos;
 	m_textureItem.m_pTex2D->SetDrawInfo( m_textureItem.m_texInfo );
@@ -75,9 +88,9 @@ std::string ItemObject::GetItemFilePath()
 	std::string fileName = "";
 	switch( m_kindItem ){
 	default:
-	case ITEM_RAPID_BULLET:
-	case ITEM_LIFE_UP:
-	case ITEM_DAMAGE_UP:
+	case ITEM_KIND_RAPID_BULLET:
+	case ITEM_KIND_LIFE_UP:
+	case ITEM_KIND_DAMAGE_UP:
 		fileName = "bullet.json";
 		break;
 	};

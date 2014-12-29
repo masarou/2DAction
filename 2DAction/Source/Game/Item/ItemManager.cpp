@@ -84,7 +84,12 @@ void ItemManager::DrawUpdate()
 	for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
 		if( m_itemArray.at( i )->GetLiveTime() >= ItemObject::ITEM_LIVE_TIME ){
 			DeleteItem( m_itemArray.at( i )->GetUniqueNumber() );
+
+			// indexがずれるので最初から
+			i = 0;
+			break;
 		}
+		++i;
 	}
 }
 
@@ -94,10 +99,16 @@ void ItemManager::DrawUpdate()
  * @brief	アイテム生成
  */
 /* ================================================ */
+void ItemManager::CreateItem( const ItemObject::ITEM_KIND &kind )
+{
+	static uint32_t uniqueNum = 0;
+	ItemObject *item = ItemObject::Create( ItemObject::ITEM_KIND_RAPID_BULLET ,uniqueNum );
+	m_itemArray.push_back( item );
+}
 void ItemManager::CreateItem( const ItemObject::ITEM_KIND &kind, math::Vector2 pos )
 {
 	static uint32_t uniqueNum = 0;
-	ItemObject *item = NEW ItemObject( ItemObject::ITEM_RAPID_BULLET ,uniqueNum, pos );
+	ItemObject *item = ItemObject::Create( ItemObject::ITEM_KIND_RAPID_BULLET, uniqueNum, pos );
 	m_itemArray.push_back( item );
 }
 
@@ -122,6 +133,16 @@ void ItemManager::DeleteItem( uint32_t uniqueNumber )
 
 /* ================================================ */
 /**
+ * @brief	アイテムのカウント
+ */
+/* ================================================ */
+uint32_t ItemManager::CountItem()
+{
+	return m_itemArray.size();
+}
+
+/* ================================================ */
+/**
  * @brief	指定プレイヤーとの当たり判定チェック
  */
 /* ================================================ */
@@ -131,7 +152,7 @@ bool ItemManager::CheckCollisionToPlayer( GamePlayer *player ) const
 	for( uint32_t i = 0; i < m_itemArray.size() ; ++i){
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		TEX_DRAW_INFO tmp = player->GetDrawInfo();
-		tmp.m_posOrigin += GetPlayerOffsetPos();
+		tmp.m_posOrigin = GetPlayerPos();
 		if( IsInRangeTexture( tmp, m_itemArray.at(i)->GetDrawInfo() ) ){
 			m_itemArray.at(i)->SetPlayerGetFlag();
 			isHit = true;

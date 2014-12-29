@@ -28,6 +28,8 @@ protected:
 
 private:
 
+	bool SearchPlayer( TEX_DRAW_INFO &enemyInfo );				// ƒvƒŒƒCƒ„[’Tõ
+
 	EnemyAISearch(void);
 	~EnemyAISearch(void);
 

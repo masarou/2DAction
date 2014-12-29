@@ -205,6 +205,9 @@
     <ClInclude Include="Source\System\Message\SystemMessageManager.h">
       <Filter>System\Message</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\GameManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -342,6 +345,9 @@
     </ClCompile>
     <ClCompile Include="Source\System\Message\SystemMessageManager.cpp">
       <Filter>System\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameManager.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

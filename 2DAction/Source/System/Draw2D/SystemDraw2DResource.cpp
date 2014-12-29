@@ -19,6 +19,7 @@ TextureResourceManager::TextureResourceManager(void)
 
 TextureResourceManager::~TextureResourceManager(void)
 {
+	s_pInstance = NULL;
 }
 
 void TextureResourceManager::DeleteResourceManager()

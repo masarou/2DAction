@@ -32,12 +32,12 @@ namespace Common{
 	};
 
 	enum ENEMY_KIND{
-		KIND_AAA,
-		KIND_BBB,
-		KIND_CCC,
-		KIND_DDD,
+		ENEMY_KIND_AAA,
+		ENEMY_KIND_BBB,
+		ENEMY_KIND_CCC,
+		ENEMY_KIND_DDD,
 
-		KIND_MAX,
+		ENEMY_KIND_MAX,
 	};
 
 

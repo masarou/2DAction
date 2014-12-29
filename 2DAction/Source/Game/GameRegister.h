@@ -16,6 +16,7 @@
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/Item/ItemManager.h"
 #include "Game/GameMap.h"
+#include "Game/GameManager.h"
 
 class GameRegister
 {
@@ -32,10 +33,11 @@ public:
 	GameMap				*UpdateGameMap();
 	ItemManager			*UpdateManagerItem();
 
-	const GamePlayer			*GetPlayer() const;
-	const EnemyManager			*GetManagerEnemy() const;
-	const GameMap				*GetGameMap() const;
-	const ItemManager			*GetManagerItem() const;
+	const GamePlayer		*GetPlayer() const;
+	const EnemyManager		*GetManagerEnemy() const;
+	const GameMap			*GetGameMap() const;
+	const ItemManager		*GetManagerItem() const;
+	const GameManager		*GetManagerGame() const;
 
 	void DeleteRegister();	// ƒŒƒWƒXƒ^‰ğ•ú
 
@@ -52,6 +54,7 @@ private:
 	EnemyManager		*m_pEnemyManager;
 	GameMap				*m_pMap;
 	ItemManager			*m_pItemManager;
+	GameManager			*m_pGameManager;
 
 };
 

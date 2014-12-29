@@ -45,16 +45,16 @@ void EnemyManager::CreateEnemy( const Common::ENEMY_KIND &kind )
 	static uint32_t currUniqueNo = 0;
 	EnemyBase *pEnemy = NULL;
 	switch( kind ){
-	case Common::KIND_AAA:
+	case Common::ENEMY_KIND_AAA:
 		pEnemy = EnemyAAA::Create( currUniqueNo );
 		break;
-	case Common::KIND_BBB:
+	case Common::ENEMY_KIND_BBB:
 		pEnemy = EnemyAAA::Create( currUniqueNo );
 		break;
-	case Common::KIND_CCC:
+	case Common::ENEMY_KIND_CCC:
 		pEnemy = EnemyAAA::Create( currUniqueNo );
 		break;
-	case Common::KIND_DDD:
+	case Common::ENEMY_KIND_DDD:
 		pEnemy = EnemyAAA::Create( currUniqueNo );
 		break;
 
@@ -143,7 +143,7 @@ bool EnemyManager::CheckCollisionToPlayer( const GamePlayer *player ) const
 
 		// 位置情報とテクスチャサイズを含めて当たっているかどうか
 		TEX_DRAW_INFO tmp = player->GetDrawInfo();
-		tmp.m_posOrigin += GetPlayerOffsetPos();
+		tmp.m_posOrigin = GetPlayerPos();
 		if( IsInRangeTexture( tmp, m_enemyArray.at(i)->GetDrawInfo() ) ){
 			isHit = true;
 		}

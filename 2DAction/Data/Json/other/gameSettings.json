@@ -3,7 +3,7 @@
 		{"TimeS": 120}
 	],
 	"gameCondition":[
-		{"EnemyMax": 300, "frequency":3},
-		{"ItemMax": 7, "frequency":3}
+		{"EnemyMax": 200, "frequency":3},
+		{"ItemMax": 70, "frequency":3}
 	]
 }

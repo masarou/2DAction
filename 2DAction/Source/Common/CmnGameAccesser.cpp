@@ -37,6 +37,7 @@ GameAccesser::GameAccesser()
 
 GameAccesser::~GameAccesser()
 {
+	s_pInstance = NULL;
 }
 
 void GameAccesser::DeleteGameAccesser()

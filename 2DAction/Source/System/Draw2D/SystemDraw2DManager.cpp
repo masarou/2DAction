@@ -20,6 +20,7 @@ Draw2DManager::Draw2DManager(void)
 
 Draw2DManager::~Draw2DManager(void)
 {
+	s_pInstance = NULL;
 }
 
 void Draw2DManager::DeleteDraw2DManager()

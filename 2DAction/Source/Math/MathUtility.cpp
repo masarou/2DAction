@@ -14,7 +14,7 @@ namespace math{
 // “ñ“_‚Ì‹——£‚Ì—İæ‚ğ•Ô‚·
 float GetDistance( const Vector2 &vecA, const Vector2 &vecB )
 {
-	float ret = vecA.x*vecA.x + vecB.y*vecB.y;
+	float ret = pow( (vecA.x-vecB.x), 2 ) + pow( (vecA.y-vecB.y), 2 );
 	return ret;
 }
 

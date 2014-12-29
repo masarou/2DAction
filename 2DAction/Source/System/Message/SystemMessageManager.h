@@ -38,7 +38,7 @@ public:
 	// 登録してあるMessageTaskのイベント処理開始
 	void StartMessageEvent();
 	
-	// 子のクラスの解放
+	// このクラスの解放
 	static void DeleteMessageManager();
 
 private:

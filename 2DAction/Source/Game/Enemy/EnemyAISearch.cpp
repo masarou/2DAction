@@ -34,6 +34,13 @@ bool EnemyAISearch::InitAI()
 
 void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo )
 {
+	if( SearchPlayer( enemyInfo ) ){
+		// プレイヤー発見!!!
+		DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
+		ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+		return;
+	}
+
 	// 目標となる地点を設定
 	math::Vector2 vec = math::Vector2( GetRandamValueFloat( 100, -100 ), GetRandamValueFloat( 100, -100 ) );
 	vec.Normalize();
@@ -42,7 +49,7 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo )
 	vec += enemyInfo.m_posOrigin;
 
 	const math::Vector2 &eye = GetEnemyEyeSight();
-	if( eye != INVALID_VECTOR2 ){
+	if( eye != DEFAULT_VECTOR2 ){
 		vec += eye * static_cast<float>(m_circleDistance);
 	}
 
@@ -73,7 +80,15 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo )
 		}
 		SetEnemyAnim( animTag );
 	}
-
 	SetEnemyEyeSight( vec );
 }
 
+
+bool EnemyAISearch::SearchPlayer( TEX_DRAW_INFO &enemyInfo )
+{
+	bool retVal = false;
+	if( math::IsInRange( GetPlayerPos(), enemyInfo.m_posOrigin, 200.0f ) ){
+		retVal = true;
+	}
+	return retVal;
+}

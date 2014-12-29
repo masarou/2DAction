@@ -30,11 +30,13 @@ GameRegister::GameRegister(void)
 , m_pEnemyManager( NULL )
 , m_pMap( NULL )
 , m_pItemManager( NULL )
+, m_pGameManager( NULL )
 {
-	m_pPlayer = GamePlayer::CreatePlayer();
+	m_pPlayer		= GamePlayer::CreatePlayer();
 	m_pEnemyManager = EnemyManager::CreateEnemyManager();
-	m_pMap = GameMap::CreateGameMap();
-	m_pItemManager = ItemManager::CreateItemManager();
+	m_pMap			= GameMap::CreateGameMap();
+	m_pItemManager	= ItemManager::CreateItemManager();
+	m_pGameManager	= GameManager::CreateGameManager();
 }
 
 void GameRegister::DeleteRegister()
@@ -44,6 +46,7 @@ void GameRegister::DeleteRegister()
 
 GameRegister::~GameRegister(void)
 {
+	s_pInstance = NULL;
 }
 
 /* ================================================ */
@@ -89,4 +92,9 @@ const GameMap *GameRegister::GetGameMap() const
 const ItemManager *GameRegister::GetManagerItem() const
 {
 	return m_pItemManager;
+}
+
+const GameManager *GameRegister::GetManagerGame() const
+{
+	return m_pGameManager;
 }

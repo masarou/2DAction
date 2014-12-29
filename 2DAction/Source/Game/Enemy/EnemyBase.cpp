@@ -54,7 +54,7 @@ bool EnemyBase::Init()
 	m_nextAI	= Common::AI_SEARCHING;
 
 	if( !m_pEnemyAI ){
-		m_pEnemyAI = ChangeEnemyAI( m_nextAI );
+		m_pEnemyAI = CreateEnemyAI( m_nextAI );
 	}
 
 	return InitMain();
@@ -67,7 +67,7 @@ void EnemyBase::UpdateEnemy()
 		// AI•ÏX
 		m_prevAI = m_pEnemyAI->GetAIKind();
 		SAFE_DELETE( m_pEnemyAI );
-		m_pEnemyAI = ChangeEnemyAI( m_nextAI );
+		m_pEnemyAI = CreateEnemyAI( m_nextAI );
 		m_pEnemyAI->SetThingingEnemy(this);
 		m_nextAI = Common::AI_MAX;
 	}
@@ -88,11 +88,8 @@ void EnemyBase::UpdateEnemy()
 
 void EnemyBase::DrawEnemy()
 {
-	// AI‚ª‚ ‚é‚È‚çXV
-	//if( m_pEnemyAI ){
-		m_textureEnemy.m_pTex2D->DrawUpdate2D();
-		m_textureLife.m_pTex2D->DrawUpdate2D();
-	//}
+	m_textureEnemy.m_pTex2D->DrawUpdate2D();
+	m_textureLife.m_pTex2D->DrawUpdate2D();
 }
 
 /* ================================================ */

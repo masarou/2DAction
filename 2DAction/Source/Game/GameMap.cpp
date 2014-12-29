@@ -32,12 +32,6 @@ void GameMap::Update()
 {
 	EnemyManager *pManagerEnemy	= GameRegister::GetInstance()->UpdateManagerEnemy();
 	ItemManager *pManagerItem	= GameRegister::GetInstance()->UpdateManagerItem();
-
-	if( GetRandamValue( 1000, 0 ) <= 10 ){
-		if( GameRegister::GetInstance()->GetManagerEnemy() ){
-			GameRegister::GetInstance()->UpdateManagerEnemy()->CreateEnemy( Common::KIND_AAA );
-		}
-	}
 }
 
 void GameMap::DrawUpdate()

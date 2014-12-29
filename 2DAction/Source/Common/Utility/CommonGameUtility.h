@@ -31,12 +31,15 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex );
 const uint32_t GetMapHeight( const uint32_t &posX, const uint32_t &posY );
 const uint32_t GetMapHeight( const math::Vector2 &pos );
 
+// マップ上で適当な数値を返す
+math::Vector2 GetMapRandamPos( bool allowInWindow = true, uint32_t mapHeight = 0 );
+
 // 画面上に表示しているオブジェクトかどうか
 bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo );
 bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy );
 
 // 指定のAIクラスの生成
-EnemyAIBase *ChangeEnemyAI( Common::ENEMY_AI nextAI );
+EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI );
 
 // プレイヤーの位置情報を取得
 math::Vector2 GetPlayerPos();

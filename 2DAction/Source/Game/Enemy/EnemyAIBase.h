@@ -33,9 +33,9 @@ public:
 	// “GƒLƒƒƒ‰‚»‚Ì‚à‚Ì‚ÉŠÖ‚·‚éget,setŠÖ”
 	void SetEnemyAnim( const std::string &animTag );
 	std::string GetEnemyAnim();
-
 	void SetEnemyEyeSight( math::Vector2 &eye );
 	const math::Vector2 &GetEnemyEyeSight() const;
+	void ChangeEnemyAI( Common::ENEMY_AI nextAI );
 
 protected:
 	
@@ -44,7 +44,6 @@ protected:
 	virtual bool InitAI(){ return true; }					// AI‰Šú‰»
 	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo ){};	// ”h¶æ‚Å‚ÌAIÀ‘•
 		
-
 private:
 	
 	EnemyAIBase( EnemyBase *enemyMine );

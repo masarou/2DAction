@@ -28,7 +28,8 @@
 #define NUMBEROF(Array)		( sizeof( Array ) / sizeof( Array[ 0 ] ) )
 #define INVALID_VALUE UINT_MAX
 #define INVALID_FVALUE static_cast<float>(UINT_MAX)
-#define INVALID_VECTOR2 math::Vector2()
+#define DEFAULT_VECTOR2 math::Vector2()
+#define DEFAULT_VECTOR3 math::Vector3()
 
 //各データフォルダのパス
 static const char *JSON_FLOW_PATH			= "Data/Json/Flow/";
