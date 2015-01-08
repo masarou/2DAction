@@ -12,12 +12,14 @@
 
 #include "Common/CommonDefine.h"
 #include "Common/Utility/CommonGameUtility.h"
+#include "EnemyAIDefine.h"
+#include "EnemyAIBase.h"
+#include "EnemyManager.h"
 #include "Game/Game2DBase.h"
-#include "Game/Enemy/EnemyAIBase.h"
-#include "Game/Enemy/EnemyManager.h"
 #include "System/SystemDefine.h"
 #include "System/Message/SystemMessageUnit.h"
 
+class AttackGun;
 
 class EnemyBase : public SystemMessageUnit
 {
@@ -41,9 +43,11 @@ public:
 
 	// 情報取得関数
 	const ENEMY_STATE &GetState() const{ return m_enemyState; }
+	const Common::ENEMY_KIND &GetKind() const{ return m_enemyKind; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }
+	const math::Vector2 &GetEnemyEyeSight() const{ return m_eye; }
 
 protected:
 
@@ -63,6 +67,9 @@ protected:
 
 private:
 
+	// AIの行動を反映
+	void RefrectAIAction();
+
 	ENEMY_STATE			m_enemyState;					// このクラスの状態
 	uint32_t			m_uniqueIdOfEnemyAll;			// 敵全体の中での識別ID
 	Common::ENEMY_KIND	m_enemyKind;					// 敵の種類
@@ -72,8 +79,15 @@ private:
 
 	Texture2D			m_textureLife;					// 敵ライフ画像
 
+	ACTION_INFO			m_actionInfoAI;					// AIの思考結果格納変数
 	Common::ENEMY_AI	m_nextAI;						// 次に思考するAIステート
 	Common::ENEMY_AI	m_prevAI;						// ひとつ前のAIステート
+
+protected:
+
+	// すべての敵クラスで共有
+	static AttackGun	*s_pAttackGun;		// マシンガンクラス
+
 };
 
 #endif

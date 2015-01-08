@@ -13,6 +13,7 @@
 #ifndef SYSTEM_ATTACK_GUN
 #define SYSTEM_ATTACK_GUN
 
+#include "Common/CommonDefine.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "Bullet.h"
 
@@ -36,12 +37,8 @@ public:
 		}
 	};
 
-	AttackGun(void);
+	static AttackGun *CreateGun( const Common::OWNER_TYPE &ownerType ); 
 	~AttackGun(void);
-	
-	virtual void Update() override;
-	virtual void DrawUpdate() override;
-	virtual bool DieMain() override;
 
 	// 弾の発射
 	void ShootBullet( math::Vector2 pos = DEFAULT_VECTOR2, math::Vector2 vec = math::Vector2( 0.0f, 1.0f ) );
@@ -50,8 +47,17 @@ public:
 	// 銃のステート更新
 	GunState &UpdateGunState(){ return m_currState; }
 
-private:
+protected:
 
+	virtual void Update() override;
+	virtual void DrawUpdate() override;
+	virtual bool DieMain() override;
+
+private:
+	
+	AttackGun( const Common::OWNER_TYPE &ownerType );
+
+	Common::OWNER_TYPE		m_owner;
 	GunState				m_currState;	// 銃のステータス
 	uint32_t				m_intervalTime; // 発射の間隔
 	std::vector<Bullet*>	m_magazine;		// 弾の管理ベクタ

@@ -79,8 +79,7 @@ bool GamePlayer::Init()
 	m_textureLifeFrame.m_pTex2D->SetDrawInfo(m_textureLifeFrame.m_texInfo);
 
 	// 攻撃マシンガンクラスセット
-	m_attackGun = NEW AttackGun();
-	SetChildUnit( m_attackGun );
+	m_attackGun = AttackGun::CreateGun( Common::OWNER_PLAYER );
 
 	// 画像の真ん中がオフセット位置になるように調整しておく
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_texturePlayer.m_texInfo.m_fileName.c_str() );

@@ -1,14 +1,16 @@
 
+/* ====================================================================== */
+/**
+ * @brief  “GAI‚ÌBaseƒNƒ‰ƒX
+ *
+ * @note
+ *		
+ */
+/* ====================================================================== */
+
 #include "EnemyAIBase.h"
 #include "Game/Enemy/EnemyBase.h"
-
-//EnemyAIBase *EnemyAIBase::Create( EnemyBase *enemyMine = NULL )
-//{
-//
-//	if( enemyMine ){
-//		return 
-//	}
-//}
+#include "Game/Player/AttackGun/GamePlayerAttackGun.h"
 
 EnemyAIBase::EnemyAIBase(void)
 : m_enemyMine( NULL )
@@ -32,25 +34,18 @@ void EnemyAIBase::SetThingingEnemy( EnemyBase *enemyMine )
 
 
 
-void EnemyAIBase::Exec( TEX_DRAW_INFO &enemyInfo )
+void EnemyAIBase::Exec( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
 {
 	if( !m_isReady ){
 		m_isReady = InitAI();
 	}
 	else{
-		ExecMain( enemyInfo );
+		ExecMain( enemyInfo, actionInfo );
 	}
 }
 
 
 // “GƒLƒƒƒ‰‚»‚Ì‚à‚Ì‚ÉŠÖ‚·‚éget,setŠÖ”
-void EnemyAIBase::ChangeEnemyAI( Common::ENEMY_AI nextAI )
-{
-	if( m_enemyMine ){
-		m_enemyMine->m_nextAI = nextAI;
-	}
-}
-
 void EnemyAIBase::SetEnemyAnim( const std::string &animTag )
 {
 	if( m_enemyMine && m_enemyMine->m_textureEnemy.m_pTex2D ){
@@ -76,10 +71,25 @@ void EnemyAIBase::SetEnemyEyeSight( math::Vector2 &eye )
 	}
 }
 
-const math::Vector2 &EnemyAIBase::GetEnemyEyeSight() const
+math::Vector2 EnemyAIBase::GetEnemyEyeSight() const
 {
 	if( m_enemyMine ){
-		return m_enemyMine->m_eye;
+		return m_enemyMine->GetEnemyEyeSight();
 	}
 	return DEFAULT_VECTOR2;
+}
+
+void EnemyAIBase::ChangeEnemyAI( Common::ENEMY_AI nextAI )
+{
+	if( m_enemyMine ){
+		m_enemyMine->m_nextAI = nextAI;
+	}
+}
+
+Common::ENEMY_KIND EnemyAIBase::GetEnemyKind() const
+{
+	if( m_enemyMine ){
+		return m_enemyMine->GetKind();
+	}
+	return Common::ENEMY_KIND_MAX;
 }

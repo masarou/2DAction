@@ -10,9 +10,14 @@
 #include "GamePlayerAttackGun.h"
 #include "System/Sound/SystemSoundManager.h"
 
+AttackGun *AttackGun::CreateGun( const Common::OWNER_TYPE &ownerType )
+{
+	return NEW AttackGun( ownerType );
+}
 
-AttackGun::AttackGun(void)
-	: m_intervalTime( 0 )
+AttackGun::AttackGun( const Common::OWNER_TYPE &ownerType )
+: m_intervalTime( 0 )
+, m_owner( ownerType )
 {
 	m_currState.Init();
 }
@@ -82,7 +87,7 @@ void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 {
 	if( m_intervalTime == 0 ){
 		static uint32_t uniqueNum = 0;
-		Bullet *bul = NEW Bullet( uniqueNum, pos, vec, m_currState.m_speed );
+		Bullet *bul = NEW Bullet( m_owner, uniqueNum, pos, vec, m_currState.m_speed );
 		m_magazine.push_back( bul );
 		
 		// ”­ŽË‰¹‚ð–Â‚ç‚·

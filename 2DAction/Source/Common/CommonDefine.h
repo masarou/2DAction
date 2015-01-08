@@ -12,6 +12,7 @@ namespace Common{
 		EVENT_GET_ITEM,		// アイテム取得
 
 		// 敵キャラクター
+		EVENT_SHOOT_BULLET,	// 攻撃弾を発射
 		EVENT_HIT_BULLET,	// 攻撃弾に当たった
 
 		// その他
@@ -50,6 +51,14 @@ namespace Common{
 		AI_MAX,
 	};
 
+	
+	// 所有者
+	enum OWNER_TYPE{
+		OWNER_PLAYER,
+		OWNER_ENEMY,
+
+		OWNER_MAX,
+	};
 
 	const uint32_t RANKING_RECORD_MAX = 5;
 	struct SAVE_SCORE{

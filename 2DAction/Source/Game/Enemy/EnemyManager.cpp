@@ -9,6 +9,7 @@
 
 #include "EnemyManager.h"
 #include "EnemyAAA.h"
+#include "EnemyBBB.h"
 #include "Game/Player/AttackGun/Bullet.h"
 #include "Game/Player/GamePlayer.h"
 #include "Game/GameRegister.h"
@@ -37,6 +38,16 @@ bool EnemyManager::DieMain()
 		SAFE_DELETE(enemy);
 	}
 	m_enemyArray.clear();
+
+	// íœƒŠƒXƒg‚É‚¢‚é“G‚ğíœ
+	auto itDel = m_delEnemyArray.begin();
+	while(m_enemyArray.empty() == 0){
+		EnemyBase *pTmp = ( *itDel );
+		itDel = m_delEnemyArray.erase( itDel );
+		SAFE_DELETE( pTmp );
+	}
+	m_delEnemyArray.clear();
+
 	return true;
 }
 
@@ -49,7 +60,7 @@ void EnemyManager::CreateEnemy( const Common::ENEMY_KIND &kind )
 		pEnemy = EnemyAAA::Create( currUniqueNo );
 		break;
 	case Common::ENEMY_KIND_BBB:
-		pEnemy = EnemyAAA::Create( currUniqueNo );
+		pEnemy = EnemyBBB::Create( currUniqueNo );
 		break;
 	case Common::ENEMY_KIND_CCC:
 		pEnemy = EnemyAAA::Create( currUniqueNo );

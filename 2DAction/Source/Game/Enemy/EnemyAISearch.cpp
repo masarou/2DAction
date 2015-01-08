@@ -32,12 +32,18 @@ bool EnemyAISearch::InitAI()
 	return true;
 }
 
-void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo )
+void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
 {
 	if( SearchPlayer( enemyInfo ) ){
 		// プレイヤー発見!!!
-		DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
-		ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+		if( GetEnemyKind() == Common::ENEMY_KIND_AAA ){
+			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
+			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+		}
+		else if( GetEnemyKind() == Common::ENEMY_KIND_BBB ){			
+			DEBUG_PRINT("【プレイヤー発見! ステータスをShootに変更】\n");
+			ChangeEnemyAI( Common::AI_SHOOTING );
+		}
 		return;
 	}
 

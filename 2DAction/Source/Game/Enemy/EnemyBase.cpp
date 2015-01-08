@@ -17,6 +17,8 @@
 #include "Game/GameScoreRecorder.h"
 #include "System/Sound/SystemSoundManager.h"
 
+AttackGun *EnemyBase::s_pAttackGun = NULL;
+
 EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind )
 : m_enemyState( ENEMY_INIT )
 , m_uniqueIdOfEnemyAll( uniqueId )
@@ -27,6 +29,8 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_nextAI( Common::AI_NONE )
 , m_prevAI( Common::AI_NONE )
 {
+	m_actionInfoAI.Init();
+
 	m_textureEnemy.Init();
 	m_textureEnemy.m_pTex2D = NEW Game2DBase( jsonName.c_str() );
 	m_textureEnemy.m_texInfo.m_fileName = jsonName;
@@ -57,6 +61,13 @@ bool EnemyBase::Init()
 		m_pEnemyAI = CreateEnemyAI( m_nextAI );
 	}
 
+	if( !s_pAttackGun ){
+		// 攻撃銃作成。共有+ランダムで発射なので発射のインターバルはなし
+		s_pAttackGun = AttackGun::CreateGun( Common::OWNER_ENEMY );
+		AttackGun::GunState &gunStatus = s_pAttackGun->UpdateGunState();
+		gunStatus.m_shootInterval = 0;
+	}
+
 	return InitMain();
 }
 
@@ -73,11 +84,14 @@ void EnemyBase::UpdateEnemy()
 	}
 
 	if( m_pEnemyAI ){
-		m_pEnemyAI->Exec( m_textureEnemy.m_texInfo );
+		m_pEnemyAI->Exec( m_textureEnemy.m_texInfo, m_actionInfoAI );
 	}
 
-	//// AIによって更新された値を反映
+	// AIによって更新された値を反映
 	m_textureEnemy.m_pTex2D->SetDrawInfo( m_textureEnemy.m_texInfo );
+
+	// AIによって設定された行動を設定
+	RefrectAIAction();
 
 	// HP描画準備
 	m_textureLife.m_texInfo.m_posOrigin.x = m_textureEnemy.m_texInfo.m_posOrigin.x;
@@ -154,5 +168,33 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 		// managerに管理から外すように伝える
 		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
 		pEnemyMan->DeleteEnemy( GetUniqueNumber() );
+	}
+}
+
+/* ================================================ */
+/**
+ * @brief	イベントに対応した関数群
+ */
+/* ================================================ */
+void EnemyBase::RefrectAIAction()
+{
+
+	// 格納されたイベントメッセージをセット
+	for( uint32_t i = 0; i < m_actionInfoAI.m_pushEventArray.size(); ++i){
+		Common::CMN_EVENT eventInfo;
+		eventInfo.Init();
+		eventInfo.m_event = m_actionInfoAI.m_pushEventArray.at(i);
+		SystemMessageManager::GetInstance()->PushMessage( GetUniqueId(), eventInfo );
+	}
+	m_actionInfoAI.m_pushEventArray.clear();
+
+	switch( m_actionInfoAI.m_AItype ){
+	default:
+
+		break;
+	case AI_SHOOT_BULLET:
+		// m_actionInfoAI.m_AIInfoから情報を取り出していろいろ行う
+
+		break;
 	}
 }

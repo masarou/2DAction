@@ -23,3 +23,11 @@ EnemyAIShoot::EnemyAIShoot(void)
 EnemyAIShoot::~EnemyAIShoot(void)
 {
 }
+
+void EnemyAIShoot::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
+{
+	if( GetRandamValue( 120, 0 ) == 0 ){
+		// ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e‚ğ”­Ë
+		actionInfo.m_pushEventArray.push_back( Common::EVENT_SHOOT_BULLET );
+	}
+}

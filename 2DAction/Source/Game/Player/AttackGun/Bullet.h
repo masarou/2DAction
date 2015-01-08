@@ -12,6 +12,7 @@
 #ifndef ATTACK_BULLET
 #define ATTACK_BULLET
 
+#include "Common/CommonDefine.h"
 #include "Game/Game2DBase.h"
 
 // 固定値
@@ -21,7 +22,8 @@ class Bullet
 {
 
 public:
-	Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed );
+
+	Bullet( const Common::OWNER_TYPE ownerType, const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed );
 	~Bullet(void);
 
 	// 情報セット
@@ -39,13 +41,14 @@ public:
 
 private:
 	
-	uint32_t		m_uniqueNumber;	// ほかの弾と区別するためにユニーク番号
-	uint32_t		m_liveTime;		// 生成されてからの時間
-	Texture2D		m_textureBullet;// プレイヤー画像
+	Common::OWNER_TYPE	m_ownerType;
+	uint32_t			m_uniqueNumber;	// ほかの弾と区別するためにユニーク番号
+	uint32_t			m_liveTime;		// 生成されてからの時間
+	Texture2D			m_textureBullet;// 弾画像
 
-	uint32_t		m_bulletDamage;		// 弾の威力
-	math::Vector2	m_bulletVec;	// 発射方向
-	float			m_speed;		// 発射スピード
+	uint32_t			m_bulletDamage;		// 弾の威力
+	math::Vector2		m_bulletVec;	// 発射方向
+	float				m_speed;		// 発射スピード
 
 };
 

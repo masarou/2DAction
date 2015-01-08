@@ -208,6 +208,12 @@
     <ClInclude Include="Source\Game\GameManager.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyBBB.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAIDefine.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -348,6 +354,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameManager.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyBBB.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

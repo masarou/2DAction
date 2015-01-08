@@ -14,12 +14,13 @@
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/GameRegister.h"
 
-Bullet::Bullet( const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed )
-	: m_uniqueNumber( uniqueNum )
-	, m_liveTime( 0 )
-	, m_bulletDamage( 10 )
-	, m_bulletVec( vec )
-	, m_speed( speed )
+Bullet::Bullet( const Common::OWNER_TYPE ownerType, const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed )
+: m_ownerType( ownerType )
+, m_uniqueNumber( uniqueNum )
+, m_liveTime( 0 )
+, m_bulletDamage( 10 )
+, m_bulletVec( vec )
+, m_speed( speed )
 {
 	m_textureBullet.Init();
 	m_textureBullet.m_pTex2D = NEW Game2DBase("bullet.json");
@@ -40,14 +41,20 @@ void Bullet::Update()
 	m_textureBullet.m_texInfo.m_posOrigin += m_bulletVec * m_speed;
 	m_textureBullet.m_pTex2D->SetDrawInfo(m_textureBullet.m_texInfo);
 
-	// 敵に当たったかチェック
-	EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
-	bool isHit = pEnemyMan->CheckCollisionToBullet( this );
-	if( isHit ){
-		m_liveTime = BULLET_LIVE_TIME;
+	if( m_ownerType == Common::OWNER_PLAYER ){
+		// 敵に当たったかチェック
+		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
+		bool isHit = pEnemyMan->CheckCollisionToBullet( this );
+		if( isHit ){
+			m_liveTime = BULLET_LIVE_TIME;
+		}
+		else{
+			++m_liveTime;
+		}
 	}
 	else{
-		++m_liveTime;
+		// プレイヤーに当たったかチェック
+
 	}
 }
 

@@ -29,7 +29,7 @@ bool EnemyAITackle::InitAI()
 	return true;
 }
 
-void EnemyAITackle::ExecMain( TEX_DRAW_INFO &enemyInfo )
+void EnemyAITackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
 {
 	math::Vector2 targetVec = DEFAULT_VECTOR2;
 	math::Vector2 plPos = GetPlayerPos();

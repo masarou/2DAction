@@ -77,7 +77,12 @@ void GameManager::Update()
 
 	// “G‚Ì¶¬
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
-		pEnemyManager->CreateEnemy( Common::ENEMY_KIND_AAA );
+		if( GetRandamValue( 1, 0 ) == 0){
+			pEnemyManager->CreateEnemy( Common::ENEMY_KIND_AAA );
+		}
+		else{
+			pEnemyManager->CreateEnemy( Common::ENEMY_KIND_BBB );
+		}
 	}
 	// ƒAƒCƒeƒ€‚Ì¶¬
 	if( IsCreateItem( m_itemMax, m_itemFrequency ) ){
