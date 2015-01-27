@@ -2,6 +2,7 @@
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskManager.h"
 #include "System/Message/SystemMessageManager.h"
+#include "System/Collision/SystemCollisionManager.h"
 #include "System/Sound/SystemSoundManager.h"
 #include "System/SystemFPSManager.h"
 #include "System/Draw2D/SystemDraw2DManager.h"
@@ -39,6 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	Draw2DManager::Create();
 	TextureResourceManager::Create();
 	SystemMessageManager::Create();
+	CollisionManager::Create();
 
 	//! TaskUnitŒp³í’“•¨
 	FlowManager::Create();
@@ -74,6 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	RemoveFontResourceEx("Data/Font/misaki_gothic.ttf", FR_PRIVATE, NULL);
 
 	//! í’“•¨íœ
+	CollisionManager::GetInstance()->DeleteCollisionManager();
 	SystemMessageManager::GetInstance()->DeleteMessageManager();
 	TextureResourceManager::GetInstance()->DeleteResourceManager();
 	Draw2DManager::GetInstance()->DeleteDraw2DManager();

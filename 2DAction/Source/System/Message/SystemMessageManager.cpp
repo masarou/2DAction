@@ -108,7 +108,7 @@ void SystemMessageManager::StartMessageEvent()
 
 /* ================================================ */
 /**
- * @brief	子のクラスの削除
+ * @brief	このクラスの削除
  */
 /* ================================================ */
 void SystemMessageManager::DeleteMessageManager()

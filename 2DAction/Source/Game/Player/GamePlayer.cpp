@@ -33,6 +33,7 @@ GamePlayer *GamePlayer::CreatePlayer()
 
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
+, Collision2DUnit( "player.json" )
 , m_speedMove( 0 )
 , m_speedMoveBase( 3 )
 , m_speedMultiply( 0.0f )
@@ -49,14 +50,12 @@ GamePlayer::~GamePlayer(void)
 bool GamePlayer::Init()
 {
 	// 描画クラスセットアップ
-	m_texturePlayer.Init();
-	m_texturePlayer.m_pTex2D = NEW Game2DBase("player.json");
-	m_texturePlayer.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_texturePlayer.m_texInfo.m_usePlayerOffset = false;
-	m_texturePlayer.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
-	m_texturePlayer.m_texInfo.m_fileName = "player.json";
-	GetBelongAreaInMap( m_texturePlayer.m_texInfo );
-	m_texturePlayer.m_pTex2D->SetDrawInfo(m_texturePlayer.m_texInfo);
+	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_drawTexture.m_texInfo.m_usePlayerOffset = false;
+	m_drawTexture.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	m_drawTexture.m_texInfo.m_fileName = "player.json";
+	GetBelongAreaInMap( m_drawTexture.m_texInfo );
+	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 
 	// 描画クラスセットアップ
 	m_textureLife.Init();
@@ -82,7 +81,7 @@ bool GamePlayer::Init()
 	m_attackGun = AttackGun::CreateGun( Common::OWNER_PLAYER );
 
 	// 画像の真ん中がオフセット位置になるように調整しておく
-	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_texturePlayer.m_texInfo.m_fileName.c_str() );
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
 
 	return true;
@@ -114,11 +113,11 @@ void GamePlayer::Update()
 	CallPadEvent();
 
 	// 再生アニメタグセット
-	m_texturePlayer.m_pTex2D->SetAnim(GetAnimTag());
+	m_drawTexture.m_pTex2D->SetAnim(GetAnimTag());
 
 	// 攻撃判定
 	if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
-		math::Vector2 pos = math::Vector2( m_texturePlayer.m_texInfo.m_posOrigin.x, m_texturePlayer.m_texInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
+		math::Vector2 pos = math::Vector2( m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
 		math::Vector2 vec = GetStickInfoRight().m_vec;
 		vec.Normalize();
 		m_attackGun->ShootBullet( pos, vec );
@@ -129,6 +128,7 @@ void GamePlayer::CollisionUpdate()
 {
 	// アイテム、敵との当たり判定は各マネージャクラスが行い、
 	// イベントをpushしてくれるのでここでは何もしない
+
 }
 
 void GamePlayer::DrawUpdate()
@@ -138,8 +138,8 @@ void GamePlayer::DrawUpdate()
 	}
 	else{
 		// プレイヤー描画	
-		m_texturePlayer.m_pTex2D->SetDrawInfo(m_texturePlayer.m_texInfo);
-		m_texturePlayer.m_pTex2D->DrawUpdate2D();
+		m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+		m_drawTexture.m_pTex2D->DrawUpdate2D();
 	}
 
 	// ライフゲージ描画
@@ -162,7 +162,6 @@ void GamePlayer::DrawUpdate()
 }
 
 bool GamePlayer::DieMain(){
-	m_texturePlayer.DeleteAndInit();
 	m_textureLife.DeleteAndInit();
 	m_textureLifeFrame.DeleteAndInit();
 	return true;
@@ -243,10 +242,10 @@ void GamePlayer::PadEventL1()
 /* ================================================ */
 const TEX_DRAW_INFO &GamePlayer::GetDrawInfo() const
 {
-	if( m_texturePlayer.m_pTex2D == NULL ){
+	if( m_drawTexture.m_pTex2D == NULL ){
 		DEBUG_ASSERT( 0, "プレイヤーの描画クラスがNULL");
 	}
-	return m_texturePlayer.m_pTex2D->GetDrawInfo();
+	return m_drawTexture.m_pTex2D->GetDrawInfo();
 }
 
 /* ================================================ */
@@ -288,7 +287,7 @@ std::string GamePlayer::GetAnimTag()
 	}
 
 	if( retAnim.compare("") == 0 ){
-		retAnim = m_texturePlayer.m_pTex2D->GetPlayAnim();
+		retAnim = m_drawTexture.m_pTex2D->GetPlayAnim();
 	}
 	return retAnim;
 }
@@ -302,7 +301,7 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
 {
 	bool ret = false;
 
-	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_texturePlayer.m_texInfo.m_fileName.c_str() );
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
 
 	math::Vector2 nextFlamePos;
 	GameAccesser::GetInstance()->GetPlayerOffSet( nextFlamePos.x, nextFlamePos.y );
@@ -329,7 +328,9 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
 void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
-	case Common::EVENT_HIT_ENEMY:
+	case Common::EVENT_HIT_ENEMY_AAA:
+	case Common::EVENT_HIT_ENEMY_BBB:
+	case Common::EVENT_HIT_ENEMY_CCC:
 		if( m_invisibleTime == 0 ){
 			EventDamage();
 		}

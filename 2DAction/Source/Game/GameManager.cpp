@@ -23,7 +23,8 @@ GameManager *GameManager::CreateGameManager()
 }
 
 GameManager::GameManager(void)
-: m_gameTimer( 0 )
+: TaskUnit("GameManager")
+, m_gameTimer( 0 )
 , m_gameTimeMax( 0 )
 , m_enemyMax( 0 )	
 , m_enemyFrequency( 0 )
@@ -78,10 +79,10 @@ void GameManager::Update()
 	// “G‚Ì¶¬
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
 		if( GetRandamValue( 1, 0 ) == 0){
-			pEnemyManager->CreateEnemy( Common::ENEMY_KIND_AAA );
+			pEnemyManager->AddEnemy( Common::ENEMY_KIND_AAA );
 		}
 		else{
-			pEnemyManager->CreateEnemy( Common::ENEMY_KIND_BBB );
+			pEnemyManager->AddEnemy( Common::ENEMY_KIND_BBB );
 		}
 	}
 	// ƒAƒCƒeƒ€‚Ì¶¬

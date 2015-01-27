@@ -44,6 +44,9 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI );
 // プレイヤーの位置情報を取得
 math::Vector2 GetPlayerPos();
 
+// Window上の特定の位置に常にいる実体の位置をゲーム上の位置に変換
+math::Vector2 ConvertWindowPosToGamePos( const math::Vector2 &windowPos );
+
 // 向く方向を上下左右から選択
 InputWatcher::BUTTON_KIND GetDirection( const float dirX, const float dirY );
 

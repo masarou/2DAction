@@ -53,6 +53,9 @@
     <Filter Include="System\Message">
       <UniqueIdentifier>{e91735cd-0e47-4f7e-b235-7345a3a2d238}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Collision">
+      <UniqueIdentifier>{980b874e-1d44-4099-8701-b069423d929e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -214,6 +217,12 @@
     <ClInclude Include="Source\Game\Enemy\EnemyAIDefine.h">
       <Filter>Game\Enemy\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\Collision\SystemCollisionManager.h">
+      <Filter>System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Collision\SystemCollisionUnit.h">
+      <Filter>System\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -357,6 +366,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\EnemyBBB.cpp">
       <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Collision\SystemCollisionManager.cpp">
+      <Filter>System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Collision\SystemCollisionUnit.cpp">
+      <Filter>System\Collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

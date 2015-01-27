@@ -48,16 +48,16 @@ void EnemyAIBase::Exec( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
 // “GƒLƒƒƒ‰‚»‚Ì‚à‚Ì‚ÉŠÖ‚·‚éget,setŠÖ”
 void EnemyAIBase::SetEnemyAnim( const std::string &animTag )
 {
-	if( m_enemyMine && m_enemyMine->m_textureEnemy.m_pTex2D ){
-		m_enemyMine->m_textureEnemy.m_pTex2D->SetAnim( animTag );
+	if( m_enemyMine && m_enemyMine->m_drawTexture.m_pTex2D ){
+		m_enemyMine->m_drawTexture.m_pTex2D->SetAnim( animTag );
 	}
 }
 
 std::string EnemyAIBase::GetEnemyAnim()
 {
 	std::string animTag = "";
-	if( m_enemyMine && m_enemyMine->m_textureEnemy.m_pTex2D ){
-		animTag = m_enemyMine->m_textureEnemy.m_pTex2D->GetPlayAnim();
+	if( m_enemyMine && m_enemyMine->m_drawTexture.m_pTex2D ){
+		animTag = m_enemyMine->m_drawTexture.m_pTex2D->GetPlayAnim();
 	}
 	return animTag;
 }

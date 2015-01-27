@@ -16,7 +16,8 @@ AttackGun *AttackGun::CreateGun( const Common::OWNER_TYPE &ownerType )
 }
 
 AttackGun::AttackGun( const Common::OWNER_TYPE &ownerType )
-: m_intervalTime( 0 )
+: TaskUnit("AttackGun")
+, m_intervalTime( 0 )
 , m_owner( ownerType )
 {
 	m_currState.Init();
@@ -29,13 +30,6 @@ AttackGun::~AttackGun(void)
 
 bool AttackGun::DieMain()
 {
-	// •Û‚µ‚Ä‚¢‚éƒNƒ‰ƒX‚ğ‚·‚×‚Ä‰ğ•ú
-	std::vector<Bullet*>::iterator it = m_magazine.begin();
-	while(m_magazine.empty() == 0){
-		Bullet *bullet = (*it);
-		it = m_magazine.erase(it);
-		SAFE_DELETE(bullet);
-	}
 	m_magazine.clear();
 	return true;
 }
@@ -47,36 +41,20 @@ bool AttackGun::DieMain()
 /* ================================================ */
 void AttackGun::Update()
 {
-	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
-		m_magazine.at( i )->Update();
-	}
-
 	// ¶¬‚³‚ê‚Äˆê’èŠÔ‚ğ’´‚¦‚½‚à‚Ì‚Ííœ
 	for( auto it = m_magazine.begin(); it != m_magazine.end() ;){
 		if( (*it)->GetLiveTime() >= BULLET_LIVE_TIME ){
-			Bullet *pTmp = ( *it );
-			it = m_magazine.erase( it );
-			SAFE_DELETE( pTmp );
+			it = m_magazine.erase(it);
 		}
 		else{
 			++it;
 		}
 	}
-}
-
-void AttackGun::DrawUpdate()
-{
-	// ’e•`‰æ
-	for( uint32_t i = 0; i < m_magazine.size() ; ++i ){
-		m_magazine.at( i )->Draw();
-	}
-
 	// Ÿ‚Ì’e”­Ë‚Ü‚Å‚ÌŠÔ‚ğŒ¸Z
 	if( m_intervalTime > 0){
 		--m_intervalTime;
 	}
 }
-
 
 /* ================================================ */
 /**
@@ -85,8 +63,8 @@ void AttackGun::DrawUpdate()
 /* ================================================ */
 void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 {
+	static uint32_t uniqueNum = 0;
 	if( m_intervalTime == 0 ){
-		static uint32_t uniqueNum = 0;
 		Bullet *bul = NEW Bullet( m_owner, uniqueNum, pos, vec, m_currState.m_speed );
 		m_magazine.push_back( bul );
 		
@@ -96,6 +74,7 @@ void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 		// ˆê’èŠÔŠu‚ÌŠÔ‚ğİ‚¯‚é
 		m_intervalTime += m_currState.m_shootInterval;
 	}
+	++uniqueNum;
 }
 
 /* ================================================ */

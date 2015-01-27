@@ -16,12 +16,13 @@
 #include "EnemyAIBase.h"
 #include "EnemyManager.h"
 #include "Game/Game2DBase.h"
+#include "System/Task/SystemTaskUnit.h"
 #include "System/SystemDefine.h"
-#include "System/Message/SystemMessageUnit.h"
+#include "System/Collision/SystemCollisionUnit.h"
 
 class AttackGun;
 
-class EnemyBase : public SystemMessageUnit
+class EnemyBase : public TaskUnit, public Collision2DUnit
 {
 	
 	friend EnemyAIBase;
@@ -29,20 +30,9 @@ class EnemyBase : public SystemMessageUnit
 
 public:
 
-	enum ENEMY_STATE{
-		ENEMY_INIT,
-		ENEMY_ACTION,
-
-		ENEMY_MAX
-	};
-
 	virtual ~EnemyBase(void);
 
-	// ほかのクラスからのイベント処理
-	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
-
 	// 情報取得関数
-	const ENEMY_STATE &GetState() const{ return m_enemyState; }
 	const Common::ENEMY_KIND &GetKind() const{ return m_enemyKind; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
@@ -53,24 +43,30 @@ protected:
 
 	EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind );
 
-	bool Init();										// 初期化
+	virtual bool Init() override;						// 初期化
 	virtual bool InitMain(){ return true; }				// 派生先での初期化
-	virtual void UpdateEnemy();							// 位置やAIによる数値周りの更新
-	virtual void DrawEnemy();							// 描画更新
+	virtual bool DieMain() override;					// 派生先での初期化
+	virtual void Update() override;						// 位置やAIによる数値周りの更新
+	virtual void CollisionUpdate() override{};			// 内部数値の更新を受けての他クラスとの当たり判定処理
+	virtual void DrawUpdate() override;					// 描画更新
+
+	// ほかのクラスからのイベント処理
+	virtual void EventUpdate( const Common::CMN_EVENT &eventId ) override;
 	virtual void HitPlayreBullet( uint32_t damageValue );// 弾が当たった時の処理
 
 	// 派生先でセットする関数
 	virtual uint32_t GetEnemyDefaultHP() const{return 10;}	// 敵クラスのデフォルトHP取得
 
+	// このクラスの種類セット
+	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_EVENMY_AAA; }
+
 	EnemyAIBase			*m_pEnemyAI;					// 思考クラス
-	Texture2D			m_textureEnemy;					// 敵画像
 
 private:
 
 	// AIの行動を反映
 	void RefrectAIAction();
 
-	ENEMY_STATE			m_enemyState;					// このクラスの状態
 	uint32_t			m_uniqueIdOfEnemyAll;			// 敵全体の中での識別ID
 	Common::ENEMY_KIND	m_enemyKind;					// 敵の種類
 	uint32_t			m_HP;							// 敵体力

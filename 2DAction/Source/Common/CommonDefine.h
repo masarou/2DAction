@@ -6,14 +6,30 @@
 
 namespace Common{
 
-	enum EVENT_MESSAGE{
-		// プレイヤーキャラクタ
-		EVENT_HIT_ENEMY,	// 敵との接触
-		EVENT_GET_ITEM,		// アイテム取得
+	// 当たり判定が絡んでくる表示物
+	enum TYPE_OBJECT{
+		TYPE_PLAYER,
+		TYPE_EVENMY_AAA,
+		TYPE_EVENMY_BBB,
+		TYPE_EVENMY_CCC,
 
-		// 敵キャラクター
-		EVENT_SHOOT_BULLET,	// 攻撃弾を発射
-		EVENT_HIT_BULLET,	// 攻撃弾に当たった
+		TYPE_ITEM,
+		TYPE_BULLET_PLAYER,
+		TYPE_BULLET_ENEMY,
+
+		TYPE_MAX,
+	};
+
+	enum EVENT_MESSAGE{
+		EVENT_HIT_PLAYER,		// プレイヤーキャラクタ
+		EVENT_HIT_ENEMY_AAA,	// 敵との接触
+		EVENT_HIT_ENEMY_BBB,	// 敵との接触
+		EVENT_HIT_ENEMY_CCC,	// 敵との接触
+
+		EVENT_GET_ITEM,			// アイテム取得
+		EVENT_HIT_BULLET_PLAYER,// プレイヤーの攻撃弾に当たった
+		EVENT_HIT_BULLET_ENEMY,	// 敵の攻撃弾に当たった
+		EVENT_SHOOT_BULLET,		// 攻撃弾を発射
 
 		// その他
 
@@ -50,7 +66,6 @@ namespace Common{
 
 		AI_MAX,
 	};
-
 	
 	// 所有者
 	enum OWNER_TYPE{

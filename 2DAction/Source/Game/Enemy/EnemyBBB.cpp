@@ -28,8 +28,8 @@ EnemyBBB::~EnemyBBB(void)
 bool EnemyBBB::InitMain()
 {
 	// 初期位置セット
-	m_textureEnemy.m_texInfo.m_posOrigin = GetMapRandamPos( /*allowInWindow=*/false );
-	DEBUG_PRINT( "敵生成 x = %f, y = %f\n", m_textureEnemy.m_texInfo.m_posOrigin.x, m_textureEnemy.m_texInfo.m_posOrigin.y );
+	m_drawTexture.m_texInfo.m_posOrigin = GetMapRandamPos( /*allowInWindow=*/false );
+	DEBUG_PRINT( "敵生成 x = %f, y = %f\n", m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y );
 
 	return true;
 }

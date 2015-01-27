@@ -11,6 +11,7 @@
 #include "FlowBase.h"
 #include "FlowManager.h"
 #include "System/Message/SystemMessageManager.h"
+#include "System/Collision/SystemCollisionManager.h"
 
 FlowBase::FlowBase(std::string fileName)
 	: m_filePath(fileName)
@@ -59,7 +60,7 @@ void FlowBase::UpdateFlow()
 void FlowBase::ChildUpdate()
 {
 	Exec();				//! 位置等の更新
-	CollisionUpdate();	//! 衝突判定更新+各クラスにイベント発行	
+	CollisionManager::GetInstance()->CollisionUpdate();			// 衝突判定更新+各クラスにイベント発行	
 	SystemMessageManager::GetInstance()->StartMessageEvent();	// 各クラスの相互イベント処理を行う
 	DrawUpdate();		//! 描画等の更新
 }

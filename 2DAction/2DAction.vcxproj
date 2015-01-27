@@ -47,6 +47,8 @@
     <ClCompile Include="Source\Math\MathCommon.cpp" />
     <ClCompile Include="Source\Math\MathUtility.cpp" />
     <ClCompile Include="Source\Math\MathVector.cpp" />
+    <ClCompile Include="Source\System\Collision\SystemCollisionManager.cpp" />
+    <ClCompile Include="Source\System\Collision\SystemCollisionUnit.cpp" />
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DManager.cpp" />
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DResource.cpp" />
     <ClCompile Include="Source\System\Input\SystemInputWatcher.cpp" />
@@ -100,6 +102,8 @@
     <ClInclude Include="Source\Math\MathQuaternion.h" />
     <ClInclude Include="Source\Math\MathUtility.h" />
     <ClInclude Include="Source\Math\MathVector.h" />
+    <ClInclude Include="Source\System\Collision\SystemCollisionManager.h" />
+    <ClInclude Include="Source\System\Collision\SystemCollisionUnit.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DDefine.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DManager.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DResource.h" />

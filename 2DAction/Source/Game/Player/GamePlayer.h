@@ -10,14 +10,13 @@
 #ifndef SYSTEM_GAME_PLAYER
 #define SYSTEM_GAME_PLAYER
 
-#include "System/Task/SystemTaskUnit.h"
 #include "System/Input/SystemInputWatcher.h"
-#include "System/Message/SystemMessageUnit.h"
+#include "System/Collision/SystemCollisionUnit.h"
 #include "AttackGun/GamePlayerAttackGun.h"
 #include "Game/Game2DBase.h"
 #include "Game/Item/ItemObject.h"
 
-class GamePlayer : public TaskUnit, public InputWatcher, public SystemMessageUnit
+class GamePlayer : public TaskUnit, public Collision2DUnit, public InputWatcher
 {
 public:
 
@@ -48,6 +47,7 @@ public:
 
 protected:
 
+	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_PLAYER; }
 	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
 
 private:
@@ -72,7 +72,6 @@ private:
 	AttackGun			*m_attackGun;	// マシンガンクラス
 
 	// 描画
-	Texture2D			m_texturePlayer;	// プレイヤー画像
 	Texture2D			m_textureLife;		// ライフ画像
 	Texture2D			m_textureLifeFrame;	// ライフ外枠画像
 };

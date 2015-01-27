@@ -20,7 +20,8 @@
 AttackGun *EnemyBase::s_pAttackGun = NULL;
 
 EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind )
-: m_enemyState( ENEMY_INIT )
+: TaskUnit("Enemy")
+, Collision2DUnit( jsonName.c_str() )
 , m_uniqueIdOfEnemyAll( uniqueId )
 , m_enemyKind( kind )
 , m_HP(10)
@@ -31,10 +32,8 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 {
 	m_actionInfoAI.Init();
 
-	m_textureEnemy.Init();
-	m_textureEnemy.m_pTex2D = NEW Game2DBase( jsonName.c_str() );
-	m_textureEnemy.m_texInfo.m_fileName = jsonName;
-	m_textureEnemy.m_pTex2D->SetDrawInfo( m_textureEnemy.m_texInfo );
+	m_drawTexture.m_texInfo.m_fileName = jsonName;
+	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
 
 	m_textureLife.Init();
 	m_textureLife.m_pTex2D = NEW Game2DBase( "enemyGauge.json" );
@@ -44,9 +43,6 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 
 EnemyBase::~EnemyBase()
 {
-	m_textureEnemy.DeleteAndInit();
-	m_textureLife.DeleteAndInit();
-	SAFE_DELETE( m_pEnemyAI );
 }
 
 bool EnemyBase::Init()
@@ -71,7 +67,24 @@ bool EnemyBase::Init()
 	return InitMain();
 }
 
-void EnemyBase::UpdateEnemy()
+bool EnemyBase::DieMain()
+{
+	if( GameRegister::GetInstance()->GetManagerEnemy() ){
+		GameRegister::GetInstance()->UpdateManagerEnemy()->RemoveEnemy( this );
+	}
+	
+	m_textureLife.DeleteAndInit();
+	SAFE_DELETE( m_pEnemyAI );
+
+	return true;
+};
+
+/* ================================================ */
+/**
+ * @brief	各フェーズの更新関数
+ */
+/* ================================================ */
+void EnemyBase::Update()
 {
 	if( m_pEnemyAI && m_nextAI != Common::AI_MAX )
 	{
@@ -84,25 +97,25 @@ void EnemyBase::UpdateEnemy()
 	}
 
 	if( m_pEnemyAI ){
-		m_pEnemyAI->Exec( m_textureEnemy.m_texInfo, m_actionInfoAI );
+		m_pEnemyAI->Exec( m_drawTexture.m_texInfo, m_actionInfoAI );
 	}
 
 	// AIによって更新された値を反映
-	m_textureEnemy.m_pTex2D->SetDrawInfo( m_textureEnemy.m_texInfo );
+	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
 
 	// AIによって設定された行動を設定
 	RefrectAIAction();
 
 	// HP描画準備
-	m_textureLife.m_texInfo.m_posOrigin.x = m_textureEnemy.m_texInfo.m_posOrigin.x;
-	m_textureLife.m_texInfo.m_posOrigin.y = m_textureEnemy.m_texInfo.m_posOrigin.y + 30.0f;
+	m_textureLife.m_texInfo.m_posOrigin.x = m_drawTexture.m_texInfo.m_posOrigin.x;
+	m_textureLife.m_texInfo.m_posOrigin.y = m_drawTexture.m_texInfo.m_posOrigin.y + 30.0f;
 	m_textureLife.m_texInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
 	m_textureLife.m_pTex2D->SetDrawInfo( m_textureLife.m_texInfo );
 }
 
-void EnemyBase::DrawEnemy()
+void EnemyBase::DrawUpdate()
 {
-	m_textureEnemy.m_pTex2D->DrawUpdate2D();
+	m_drawTexture.m_pTex2D->DrawUpdate2D();
 	m_textureLife.m_pTex2D->DrawUpdate2D();
 }
 
@@ -118,7 +131,7 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 
 		break;
 
-	case Common::EVENT_HIT_BULLET:	// Playerの弾に当たった
+	case Common::EVENT_HIT_BULLET_PLAYER:	// Playerの弾に当たった
 		HitPlayreBullet( 30 ); // 仮
 		break;
 
@@ -132,7 +145,7 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 /* ================================================ */
 const TEX_DRAW_INFO &EnemyBase::GetDrawInfo() const
 {
-	return m_textureEnemy.m_texInfo;
+	return m_drawTexture.m_texInfo;
 }
 
 /* ================================================ */
@@ -152,28 +165,27 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 	}
 
 	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
-		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.x)
-		, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.y));
+		, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x)
+		, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y));
 
 	if( m_HP <= 0 ){
 		// スコア追加
 		ScoreRecorder::GetInstance()->ScoreEvent( ScoreRecorder::ENEMY_AAA_DEATH );
 
 		// 爆破エフェクトを出す
-		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.x), static_cast<uint32_t>(m_textureEnemy.m_texInfo.m_posOrigin.y) );
+		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x), static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y) );
 
 		// 爆発SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Bomb");
 
-		// managerに管理から外すように伝える
-		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
-		pEnemyMan->DeleteEnemy( GetUniqueNumber() );
+		// 死亡
+		TaskStartDie();
 	}
 }
 
 /* ================================================ */
 /**
- * @brief	イベントに対応した関数群
+ * @brief	AI結果を反映
  */
 /* ================================================ */
 void EnemyBase::RefrectAIAction()

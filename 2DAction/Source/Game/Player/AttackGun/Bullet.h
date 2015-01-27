@@ -14,11 +14,13 @@
 
 #include "Common/CommonDefine.h"
 #include "Game/Game2DBase.h"
+#include "System/Task/SystemTaskUnit.h"
+#include "System/Collision/SystemCollisionUnit.h"
 
 // 固定値
 static const uint32_t BULLET_LIVE_TIME	= 180;
 
-class Bullet
+class Bullet : public TaskUnit, public Collision2DUnit
 {
 
 public:
@@ -30,23 +32,33 @@ public:
 	void	SetBulletVec( math::Vector2 &vec ){ m_bulletVec = vec; }
 	void	SetBulletSpeed( float &spd ){ m_speed = spd; }
 
-	void	Update();
-	void	Draw();
-
 	// 情報取得
 	const uint32_t &GetBulletDamage() const{ return m_bulletDamage;}
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueNumber; }
 	const uint32_t &GetLiveTime() const{ return m_liveTime; }
 
+protected:
+
+	virtual bool Init() override;
+	virtual bool DieMain() override;
+	virtual void Update() override;			// 移動等の内部数値の更新
+	virtual void CollisionUpdate() override;// 内部数値の更新を受けての他クラスとの当たり判定処理
+	virtual void DrawUpdate() override;		// 描画更新
+
+	// ほかのクラスからのイベント処理
+	virtual void EventUpdate( const Common::CMN_EVENT &eventId ) override;
+
+	// このクラスの種類セット
+	virtual const Common::TYPE_OBJECT GetTypeObject() const override;
+
 private:
 	
 	Common::OWNER_TYPE	m_ownerType;
 	uint32_t			m_uniqueNumber;	// ほかの弾と区別するためにユニーク番号
 	uint32_t			m_liveTime;		// 生成されてからの時間
-	Texture2D			m_textureBullet;// 弾画像
 
-	uint32_t			m_bulletDamage;		// 弾の威力
+	uint32_t			m_bulletDamage;	// 弾の威力
 	math::Vector2		m_bulletVec;	// 発射方向
 	float				m_speed;		// 発射スピード
 

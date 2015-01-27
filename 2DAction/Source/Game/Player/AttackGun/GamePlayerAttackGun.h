@@ -50,7 +50,6 @@ public:
 protected:
 
 	virtual void Update() override;
-	virtual void DrawUpdate() override;
 	virtual bool DieMain() override;
 
 private:

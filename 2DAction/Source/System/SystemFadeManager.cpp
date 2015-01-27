@@ -27,7 +27,8 @@ FadeManager *FadeManager::GetInstance()
 }
 
 FadeManager::FadeManager()
-: m_currState( STATE_IDLE )
+: TaskUnit("FadeManager")
+, m_currState( STATE_IDLE )
 {
 	// 描画クラスセットアップ
 	m_fadePlate2D = NEW Game2DBase("whiteFade.json");

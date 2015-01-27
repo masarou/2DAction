@@ -54,6 +54,11 @@ Draw2DManager *Draw2DManager::GetInstance()
 /* ================================================ */
 void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )
 {
+	if( texInfo.m_fileName.compare("") == 0 ){
+		DEBUG_ASSERT( 0,"jsonファイル名がNULL");
+		return;
+	}
+
 	// 画面内に表示するものであれば描画
 	if( IsPositionInWindowArea(texInfo) ){
 		PushDrawInfoMain( texInfo, handle, priority );

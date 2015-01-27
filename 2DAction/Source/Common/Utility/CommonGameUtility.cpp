@@ -72,7 +72,18 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	const TEX_INIT_INFO &texInfoA = TextureResourceManager::GetInstance()->GetLoadTextureInfo( texA.m_fileName.c_str() );
 	const TEX_INIT_INFO &texInfoB = TextureResourceManager::GetInstance()->GetLoadTextureInfo( texB.m_fileName.c_str() );
 
-	math::Vector2 diff = texA.m_posOrigin - texB.m_posOrigin;
+	math::Vector2 calcPosA = texA.m_posOrigin;
+	math::Vector2 calcPosB = texB.m_posOrigin;
+
+	// offsetを使用しない = Window上の特定位置に常にいる場合
+	if( !texA.m_usePlayerOffset ){
+		calcPosA = ConvertWindowPosToGamePos( calcPosA );
+	}
+	if( !texB.m_usePlayerOffset ){
+		calcPosB = ConvertWindowPosToGamePos( calcPosB );
+	}
+
+	math::Vector2 diff = calcPosA - calcPosB;
 
 	float inRangeX = math::Absf(texInfoA.m_sizeWidth/2.0f) + math::Absf(texInfoB.m_sizeWidth/2.0f);
 	float inRangeY = math::Absf(texInfoA.m_sizeHeight/2.0f) + math::Absf(texInfoB.m_sizeHeight/2.0f);
@@ -95,23 +106,17 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	if( !pMap ){ return; }
 
 	// 画像の左上と右下の位置を求める
-	float offsetX = tex.m_posOrigin.x;
-	float offsetY = tex.m_posOrigin.y;
+	math::Vector2 offsetPos = tex.m_posOrigin;
 
 	// オフセットを使用していない
 	// 常に画面上に固定で表示されている描画物の当たり判定の場合
 	// プレイヤーの初期位置を考慮して値を変更してやる必要がある
 	if( !tex.m_usePlayerOffset ){
-		//!プレイヤー情報取得
-		float offsetPlx = 0.0f;
-		float offsetPly = 0.0f;
-		GameAccesser::GetInstance()->GetPlayerOffSet(offsetPlx, offsetPly);
-		offsetX = WINDOW_WIDTH/2.0f + offsetPlx;
-		offsetY = WINDOW_HEIGHT/2.0f + offsetPly;
+		offsetPos = ConvertWindowPosToGamePos( math::Vector2( WINDOW_WIDTH/2.0f, WINDOW_HEIGHT/2.0f) );
 	}
 
-	math::Vector2 upperLeft		= math::Vector2( offsetX - (texInfo.m_sizeWidth/2.0f), offsetY - (texInfo.m_sizeHeight/2.0f) );
-	math::Vector2 underRight	= math::Vector2( offsetX + (texInfo.m_sizeWidth/2.0f), offsetY + (texInfo.m_sizeHeight/2.0f) );
+	math::Vector2 upperLeft		= math::Vector2( offsetPos.x - (texInfo.m_sizeWidth/2.0f), offsetPos.y - (texInfo.m_sizeHeight/2.0f) );
+	math::Vector2 underRight	= math::Vector2( offsetPos.x + (texInfo.m_sizeWidth/2.0f), offsetPos.y + (texInfo.m_sizeHeight/2.0f) );
 
 	const uint32_t upper = pMap->GetBelongArea( upperLeft );
 	const uint32_t under = pMap->GetBelongArea( underRight );
@@ -232,6 +237,26 @@ math::Vector2 GetPlayerPos()
 	return plPos;
 }
 
+// Window上の特定の位置に常にいる実体の位置をゲーム上の位置に変換
+math::Vector2 ConvertWindowPosToGamePos( const math::Vector2 &windowPos )
+{
+	if( windowPos.x < 0.0f || windowPos.x > WINDOW_WIDTH
+		|| windowPos.y < 0.0f || windowPos.y > WINDOW_HEIGHT){
+			DEBUG_ASSERT( 0, "数値がおかしい" );
+			return math::Vector2();
+	}
+
+	math::Vector2 retPos = windowPos;
+
+	//!プレイヤーの位置分ずらす
+	float offsetPlx = 0.0f;
+	float offsetPly = 0.0f;
+	GameAccesser::GetInstance()->GetPlayerOffSet(offsetPlx, offsetPly);
+	retPos.x +=  offsetPlx;
+	retPos.y +=  offsetPly;
+			 
+	return retPos;
+}
 
 InputWatcher::BUTTON_KIND GetDirection( const float dirX, const float dirY )
 {

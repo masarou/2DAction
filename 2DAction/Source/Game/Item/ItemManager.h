@@ -20,24 +20,22 @@ class ItemManager : public TaskUnit
 public:
 
 	static ItemManager *CreateItemManager();
-	~ItemManager(void);
+	
+	void CreateItem( const ItemObject::ITEM_KIND &kind, math::Vector2 pos = DEFAULT_VECTOR2 );	// アイテム生成
+	void RemoveItem( ItemObject *removeItem );	// アイテムの削除
+		
+	uint32_t CountItem() const{ return m_itemArray.size(); }
 
-	virtual void Update() override;
+protected:
+
 	virtual void CollisionUpdate() override;
-	virtual void DrawUpdate() override;
 	virtual bool DieMain() override;
-
-	// アイテム生成
-	void CreateItem( const ItemObject::ITEM_KIND &kind );
-	void CreateItem( const ItemObject::ITEM_KIND &kind, math::Vector2 pos );
-	// アイテムの削除
-	void DeleteItem( uint32_t uniqueNumber );
-	// 生成しているアイテムをカウント
-	uint32_t CountItem();
 
 private:
 
 	ItemManager(void);
+	~ItemManager(void);
+	
 	bool CheckCollisionToPlayer( GamePlayer *player ) const;	// 当たり判定関数
 	
 	std::vector<ItemObject*>	m_itemArray;		// アイテムの管理ベクタ

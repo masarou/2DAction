@@ -19,6 +19,7 @@ ItemManager *ItemManager::CreateItemManager()
 }
 
 ItemManager::ItemManager(void)
+: TaskUnit("ItemManager")
 {
 }
 
@@ -29,13 +30,7 @@ ItemManager::~ItemManager(void)
 
 bool ItemManager::DieMain()
 {
-	// 保持しているクラスをすべて解放
-	std::vector<ItemObject*>::iterator it = m_itemArray.begin();
-	while(m_itemArray.empty() == 0){
-		ItemObject *Item = (*it);
-		it = m_itemArray.erase(it);
-		SAFE_DELETE(Item);
-	}
+	// 保持しているクラスをすべて除外
 	m_itemArray.clear();
 	return true;
 }
@@ -45,13 +40,6 @@ bool ItemManager::DieMain()
  * @brief	位置、描画更新関数
  */
 /* ================================================ */
-void ItemManager::Update()
-{
-	for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
-		m_itemArray.at( i )->Update();
-	}
-}
-
 void ItemManager::CollisionUpdate()
 {
 	GamePlayer *pPlayer = GameRegister::GetInstance()->UpdatePlayer();
@@ -74,71 +62,27 @@ void ItemManager::CollisionUpdate()
 	}
 }
 
-void ItemManager::DrawUpdate()
-{
-	for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
-		m_itemArray.at( i )->Draw();
-	}
-
-	// 生成されて一定時間を超えたものは削除
-	for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
-		if( m_itemArray.at( i )->GetLiveTime() >= ItemObject::ITEM_LIVE_TIME ){
-			DeleteItem( m_itemArray.at( i )->GetUniqueNumber() );
-
-			// indexがずれるので最初から
-			i = 0;
-			break;
-		}
-		++i;
-	}
-}
-
-
 /* ================================================ */
 /**
  * @brief	アイテム生成
  */
 /* ================================================ */
-void ItemManager::CreateItem( const ItemObject::ITEM_KIND &kind )
-{
-	static uint32_t uniqueNum = 0;
-	ItemObject *item = ItemObject::Create( ItemObject::ITEM_KIND_RAPID_BULLET ,uniqueNum );
-	m_itemArray.push_back( item );
-}
 void ItemManager::CreateItem( const ItemObject::ITEM_KIND &kind, math::Vector2 pos )
 {
 	static uint32_t uniqueNum = 0;
 	ItemObject *item = ItemObject::Create( ItemObject::ITEM_KIND_RAPID_BULLET, uniqueNum, pos );
 	m_itemArray.push_back( item );
+	++uniqueNum;
 }
 
-/* ================================================ */
-/**
- * @brief	アイテムの削除(プレイヤーがとった、一定時間たった等々)
- */
-/* ================================================ */
-void ItemManager::DeleteItem( uint32_t uniqueNumber )
+void ItemManager::RemoveItem( ItemObject *removeItem )
 {
-	std::vector<ItemObject*>::iterator it = m_itemArray.begin();
-	for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
-		if( (*it)->GetUniqueNumber() == uniqueNumber ){
-			ItemObject *pTmp = ( *it );
-			m_itemArray.erase( it );
-			SAFE_DELETE( pTmp );
+	for( auto it = m_itemArray.begin(); it != m_itemArray.end() ; ++it ){
+		if( (*it) == removeItem ){
+			m_itemArray.erase(it);
 			break;
 		}
-		++it;
 	}
-}
-
-/* ================================================ */
-/**
- * @brief	アイテムのカウント
- */
-/* ================================================ */
-uint32_t ItemManager::CountItem()
-{
-	return m_itemArray.size();
 }
 
 /* ================================================ */
