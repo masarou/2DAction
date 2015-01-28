@@ -34,6 +34,9 @@ bool EnemyManager::DieMain()
 	// 保持しているクラスをすべて除外
 	m_enemyArray.clear();
 
+	// 共有物にNULL設定(解放はTaskManagerが勝手にやる)
+	EnemyBase::s_pAttackGun = NULL;
+
 	return true;
 }
 
@@ -80,97 +83,20 @@ void EnemyManager::RemoveEnemy( EnemyBase *removeEnemy )
 	}
 }
 
-/* ================================================ */
-/**
- * @brief	位置、描画更新関数
- */
-/* ================================================ */
-void EnemyManager::CollisionUpdate()
+uint32_t EnemyManager::CountEnemy( const Common::ENEMY_KIND &kind ) const
 {
-	//GamePlayer *pPlayer = GameRegister::GetInstance()->UpdatePlayer();
-	//if( !pPlayer ){
-	//	return ;
-	//}
-
-	//bool isHit = CheckCollisionToPlayer( pPlayer );
-	//if( isHit ){
-	//	// 取得したアイテムの数だけイベントpush
-	//	for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
-	//		if( m_itemArray.at( i )->GetPlayerGetFlag() ){
-	//			Common::CMN_EVENT hitEvent;
-	//			hitEvent.Init();
-	//			hitEvent.m_event		= Common::EVENT_GET_ITEM;
-	//			hitEvent.m_eventValue	= static_cast<ItemObject::ITEM_KIND>( m_itemArray.at( i )->GetItemKind() );
-	//			pPlayer->AddEvent( hitEvent );
-	//		}
-	//	}
-	//}
-}
-
-/* ================================================ */
-/**
- * @brief	敵クラスとの当たり判定関数
- */
-/* ================================================ */
-bool EnemyManager::CheckCollision( const TEX_DRAW_INFO &texInfo ) const
-{
-	bool isHit = false;
-	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
-		
-		// 初期化中だったら無視
-		if( m_enemyArray.at(i)->GetStatus() == TaskUnit::TASK_INIT ){
-			continue;
-		}
-
-		// 位置情報とテクスチャサイズを含めて当たっているかどうか
-		if( IsInRangeTexture( texInfo, m_enemyArray.at(i)->GetDrawInfo() ) ){
-			isHit = true;
-			break;
-		}
+	uint32_t retVal = 0;
+	if( kind == Common::ENEMY_KIND_MAX ){
+		retVal = m_enemyArray.size();
 	}
-	return isHit;
-}
+	else{
+		for( uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+			if( kind == m_enemyArray.at(i)->GetKind() ){
+				++retVal;
+			}
+		}
 
-//bool EnemyManager::CheckCollisionToBullet( const Bullet *bullet )
-//{
-//	bool isHit = false;
-//	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
-//
-//		// 初期化中だったら無視
-//		if( m_enemyArray.at(i)->GetStatus() == TaskUnit::TASK_INIT ){
-//			continue;
-//		}
-//
-//		// 位置情報とテクスチャサイズを含めて当たっているかどうか
-//		if( IsInRangeTexture( bullet->GetDrawInfo(), m_enemyArray.at(i)->GetDrawInfo() ) ){
-//			Common::CMN_EVENT eventInfo;
-//			eventInfo.Init();
-//			eventInfo.m_event = Common::EVENT_HIT_BULLET;
-//			eventInfo.m_eventValue = m_enemyArray.at(i)->GetUniqueNumber();
-//			SystemMessageManager::GetInstance()->PushMessage( m_enemyArray.at(i)->GetUniqueId(), eventInfo );
-//			isHit = true;
-//			break;
-//		}
-//	}
-//	return isHit;
-//}
-//
-//bool EnemyManager::CheckCollisionToPlayer( const GamePlayer *player ) const
-//{
-//	bool isHit = false;
-//	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i){
-//
-//		// 初期化中だったら無視
-//		if( m_enemyArray.at(i)->GetStatus() == TaskUnit::TASK_INIT ){
-//			continue;
-//		}
-//
-//		// 位置情報とテクスチャサイズを含めて当たっているかどうか
-//		TEX_DRAW_INFO tmp = player->GetDrawInfo();
-//		tmp.m_posOrigin = GetPlayerPos();
-//		if( IsInRangeTexture( tmp, m_enemyArray.at(i)->GetDrawInfo() ) ){
-//			isHit = true;
-//		}
-//	}
-//	return isHit;
-//}
+	}
+
+	return retVal;
+}

@@ -32,6 +32,9 @@ public:
 
 private:
 
+	// そもそも衝突通知をする必要があるかどうかチェック
+	bool NeedEvent( const Common::TYPE_OBJECT typeA, const Common::TYPE_OBJECT typeB ) const;
+
 	CollisionManager(void);
 	~CollisionManager(void);
 

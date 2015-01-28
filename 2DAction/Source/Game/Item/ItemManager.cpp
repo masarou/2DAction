@@ -37,33 +37,6 @@ bool ItemManager::DieMain()
 
 /* ================================================ */
 /**
- * @brief	位置、描画更新関数
- */
-/* ================================================ */
-void ItemManager::CollisionUpdate()
-{
-	GamePlayer *pPlayer = GameRegister::GetInstance()->UpdatePlayer();
-	if( !pPlayer ){
-		return ;
-	}
-
-	bool isHit = CheckCollisionToPlayer( pPlayer );
-	if( isHit ){
-		// 取得したアイテムの数だけイベントpush
-		for( uint32_t i = 0; i < m_itemArray.size() ; ++i ){
-			if( m_itemArray.at( i )->GetPlayerGetFlag() ){
-				Common::CMN_EVENT hitEvent;
-				hitEvent.Init();
-				hitEvent.m_event		= Common::EVENT_GET_ITEM;
-				hitEvent.m_eventValue	= static_cast<ItemObject::ITEM_KIND>( m_itemArray.at( i )->GetItemKind() );
-				pPlayer->AddEvent( hitEvent );
-			}
-		}
-	}
-}
-
-/* ================================================ */
-/**
  * @brief	アイテム生成
  */
 /* ================================================ */
@@ -84,24 +57,3 @@ void ItemManager::RemoveItem( ItemObject *removeItem )
 		}
 	}
 }
-
-/* ================================================ */
-/**
- * @brief	指定プレイヤーとの当たり判定チェック
- */
-/* ================================================ */
-bool ItemManager::CheckCollisionToPlayer( GamePlayer *player ) const
-{
-	bool isHit = false;
-	for( uint32_t i = 0; i < m_itemArray.size() ; ++i){
-		// 位置情報とテクスチャサイズを含めて当たっているかどうか
-		TEX_DRAW_INFO tmp = player->GetDrawInfo();
-		tmp.m_posOrigin = GetPlayerPos();
-		if( IsInRangeTexture( tmp, m_itemArray.at(i)->GetDrawInfo() ) ){
-			m_itemArray.at(i)->SetPlayerGetFlag();
-			isHit = true;
-		}
-	}
-	return true;
-}
-

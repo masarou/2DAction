@@ -84,13 +84,9 @@ void CollisionManager::CollisionUpdate()
 
 			Common::TYPE_OBJECT typeA = m_vCollisionUnit.at(i)->GetTypeObject();
 			Common::TYPE_OBJECT typeB = m_vCollisionUnit.at(j)->GetTypeObject();
-			if( typeA == Common::TYPE_PLAYER && typeB == Common::TYPE_BULLET_PLAYER ){
+			if( !NeedEvent( typeA, typeB ) ){
 				continue;
 			}
-			if( typeA == Common::TYPE_BULLET_PLAYER && typeB == Common::TYPE_PLAYER ){
-				continue;
-			}
-
 			const TEX_DRAW_INFO &texA = m_vCollisionUnit.at(i)->GetDrawInfo();
 			const TEX_DRAW_INFO &texB = m_vCollisionUnit.at(j)->GetDrawInfo();
 			if( IsInRangeTexture( texA, texB ) ){
@@ -145,4 +141,53 @@ void CollisionManager::DeleteCollisionManager()
 	SAFE_DELETE( s_pInstance );
 	
 	DEBUG_PRINT("/_/_/SystemMessageManager 完了/_/_/\n");
+}
+
+/* ================================================ */
+/**
+ * @brief	そもそも衝突通知をする必要があるかどうかチェック
+ */
+/* ================================================ */
+bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common::TYPE_OBJECT typeB ) const
+{
+	// 同じ種類なら通知不要
+	if( typeA == typeB ){
+		return false;
+	}
+
+	bool retVal = true;
+
+	switch( typeA ){
+	default:
+		DEBUG_ASSERT( 0, "オブジェクトのタイプが想定外" );
+		break;
+	case Common::TYPE_PLAYER:
+		if( typeB == Common::TYPE_BULLET_PLAYER ){
+			retVal = false;
+		}
+		break;
+	case Common::TYPE_EVENMY_AAA:
+	case Common::TYPE_EVENMY_BBB:
+	case Common::TYPE_EVENMY_CCC:
+		if( typeB != Common::TYPE_PLAYER
+			&& typeB != Common::TYPE_BULLET_PLAYER ){
+			retVal = false;
+		}
+		break;
+	case Common::TYPE_ITEM:
+	case Common::TYPE_BULLET_ENEMY:
+		if( typeB != Common::TYPE_PLAYER ){
+			retVal = false;
+		}
+		break;
+	case Common::TYPE_BULLET_PLAYER:
+		if( typeB == Common::TYPE_PLAYER
+			|| typeB == Common::TYPE_ITEM
+			|| typeB == Common::TYPE_BULLET_PLAYER){
+			retVal = false;
+		}
+		break;
+	}
+
+	return retVal;
 }

@@ -77,23 +77,3 @@ void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 	++uniqueNum;
 }
 
-/* ================================================ */
-/**
- * @brief	弾の削除(画面外に出た、敵に当たった等々)
- */
-/* ================================================ */
-std::vector<Bullet*>::iterator AttackGun::DeleteBullet( uint32_t uniqueNumber )
-{
-	auto it = m_magazine.begin();
-	for(; it != m_magazine.end() ; ++it ){
-		if( (*it)->GetUniqueNumber() == uniqueNumber ){
-			Bullet *pTmp = ( *it );
-			it = m_magazine.erase( it );
-			SAFE_DELETE( pTmp );
-			break;
-		}
-	}
-	return it;
-}
-
-

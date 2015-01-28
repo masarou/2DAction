@@ -62,7 +62,6 @@ protected:
 
 	virtual bool Init(){return true;}
 	virtual void Update(){};			// 移動等の内部数値の更新
-	virtual void CollisionUpdate(){};	// 内部数値の更新を受けての他クラスとの当たり判定処理
 	virtual void DrawUpdate(){};		// 描画更新
 	virtual bool DieMain(){return true;}
 

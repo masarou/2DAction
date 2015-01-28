@@ -28,7 +28,6 @@ public:
 
 protected:
 
-	virtual void CollisionUpdate() override;
 	virtual bool DieMain() override;
 
 private:
@@ -36,10 +35,7 @@ private:
 	ItemManager(void);
 	~ItemManager(void);
 	
-	bool CheckCollisionToPlayer( GamePlayer *player ) const;	// 当たり判定関数
-	
 	std::vector<ItemObject*>	m_itemArray;		// アイテムの管理ベクタ
-
 };
 
 #endif

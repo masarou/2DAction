@@ -25,7 +25,6 @@ public:
 
 	virtual bool Init() override;
 	virtual void Update() override;
-	virtual void CollisionUpdate() override;
 	virtual void DrawUpdate() override;
 	virtual bool DieMain() override;
 

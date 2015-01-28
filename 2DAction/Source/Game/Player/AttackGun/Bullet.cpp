@@ -65,25 +65,6 @@ void Bullet::Update()
 	++m_liveTime;
 }
 
-void Bullet::CollisionUpdate()
-{
-	if( m_ownerType == Common::OWNER_PLAYER ){
-		// 敵に当たったかチェック
-		EnemyManager *pEnemyMan = GameRegister::GetInstance()->UpdateManagerEnemy();
-		//bool isHit = pEnemyMan->CheckCollisionToBullet( this );
-		//if( isHit ){
-			m_liveTime = BULLET_LIVE_TIME;
-		//}
-		//else{
-			
-		//}
-	}
-	else{
-		// プレイヤーに当たったかチェック
-
-	}
-}
-
 void Bullet::DrawUpdate()
 {
 	// 弾描画

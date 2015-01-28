@@ -16,11 +16,10 @@
 #include "EnemyAIBase.h"
 #include "EnemyManager.h"
 #include "Game/Game2DBase.h"
+#include "Game/Player/AttackGun/GamePlayerAttackGun.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/SystemDefine.h"
 #include "System/Collision/SystemCollisionUnit.h"
-
-class AttackGun;
 
 class EnemyBase : public TaskUnit, public Collision2DUnit
 {
@@ -47,7 +46,6 @@ protected:
 	virtual bool InitMain(){ return true; }				// 派生先での初期化
 	virtual bool DieMain() override;					// 派生先での初期化
 	virtual void Update() override;						// 位置やAIによる数値周りの更新
-	virtual void CollisionUpdate() override{};			// 内部数値の更新を受けての他クラスとの当たり判定処理
 	virtual void DrawUpdate() override;					// 描画更新
 
 	// ほかのクラスからのイベント処理
@@ -59,6 +57,9 @@ protected:
 
 	// このクラスの種類セット
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_EVENMY_AAA; }
+
+	// このクラスで定義する仮想関数
+	virtual bool DieMainCustom(){ return true; }
 
 	EnemyAIBase			*m_pEnemyAI;					// 思考クラス
 

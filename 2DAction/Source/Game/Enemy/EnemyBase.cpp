@@ -69,6 +69,10 @@ bool EnemyBase::Init()
 
 bool EnemyBase::DieMain()
 {
+	if( !DieMainCustom() ){
+		return false;
+	}
+
 	if( GameRegister::GetInstance()->GetManagerEnemy() ){
 		GameRegister::GetInstance()->UpdateManagerEnemy()->RemoveEnemy( this );
 	}

@@ -87,6 +87,17 @@ bool GamePlayer::Init()
 	return true;
 }
 
+bool GamePlayer::DieMain(){
+	m_textureLife.DeleteAndInit();
+	m_textureLifeFrame.DeleteAndInit();
+	return true;
+}
+
+/* ================================================ */
+/**
+ * @brief	更新関連関数
+ */
+/* ================================================ */
 void GamePlayer::Update()
 {
 	if( m_playerLife == 0 ){
@@ -123,14 +134,6 @@ void GamePlayer::Update()
 		m_attackGun->ShootBullet( pos, vec );
 	}
 }
-
-void GamePlayer::CollisionUpdate()
-{
-	// アイテム、敵との当たり判定は各マネージャクラスが行い、
-	// イベントをpushしてくれるのでここでは何もしない
-
-}
-
 void GamePlayer::DrawUpdate()
 {
 	if( m_invisibleTime % 3 == 1 ){
@@ -159,12 +162,6 @@ void GamePlayer::DrawUpdate()
 		m_textureLife.m_pTex2D->DrawUpdate2D();
 		m_textureLifeFrame.m_pTex2D->DrawUpdate2D();
 	}
-}
-
-bool GamePlayer::DieMain(){
-	m_textureLife.DeleteAndInit();
-	m_textureLifeFrame.DeleteAndInit();
-	return true;
 }
 
 /* ================================================ */
@@ -331,6 +328,7 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_AAA:
 	case Common::EVENT_HIT_ENEMY_BBB:
 	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_BULLET_ENEMY:
 		if( m_invisibleTime == 0 ){
 			EventDamage();
 		}

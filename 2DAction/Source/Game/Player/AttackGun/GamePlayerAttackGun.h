@@ -42,8 +42,7 @@ public:
 
 	// 弾の発射
 	void ShootBullet( math::Vector2 pos = DEFAULT_VECTOR2, math::Vector2 vec = math::Vector2( 0.0f, 1.0f ) );
-	// 弾の削除(画面外に出た、敵に当たった等々)
-	std::vector<Bullet*>::iterator DeleteBullet( uint32_t uniqueNumber );
+
 	// 銃のステート更新
 	GunState &UpdateGunState(){ return m_currState; }
 

@@ -43,7 +43,6 @@ protected:
 	virtual bool Init() override;
 	virtual bool DieMain() override;
 	virtual void Update() override;			// 移動等の内部数値の更新
-	virtual void CollisionUpdate() override;// 内部数値の更新を受けての他クラスとの当たり判定処理
 	virtual void DrawUpdate() override;		// 描画更新
 
 	// ほかのクラスからのイベント処理

@@ -25,7 +25,7 @@ public:
 
 protected:
 	
-	Collision2DUnit( const char *readFile );
+	Collision2DUnit( const char *readFile = NULL );
 	virtual ~Collision2DUnit(void);
 	Texture2D			m_drawTexture;	// 表示画像データ
 
