@@ -136,7 +136,7 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_BULLET_PLAYER:	// Player‚Ì’e‚É“–‚½‚Á‚½
-		HitPlayreBullet( 30 ); // ‰¼
+		HitPlayreBullet( eventId.m_eventValue );
 		break;
 
 	}

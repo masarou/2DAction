@@ -10,17 +10,17 @@
 /* ====================================================================== */
 
 #include "Bullet.h"
+#include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/Enemy/EnemyManager.h"
-#include "Game/GameRegister.h"
+#include "Game/Player/AttackGun/GamePlayerAttackGun.h"
 
-Bullet::Bullet( const Common::OWNER_TYPE ownerType, const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed )
+Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage, float speed )
 : TaskUnit( "Bullet" )
 , Collision2DUnit( "bullet.json" )
 , m_ownerType( ownerType )
-, m_uniqueNumber( uniqueNum )
 , m_liveTime( 0 )
-, m_bulletDamage( 10 )
+, m_bulletDamage( damage )
 , m_bulletVec( vec )
 , m_speed( speed )
 {
@@ -63,6 +63,11 @@ void Bullet::Update()
 	m_drawTexture.m_texInfo.m_posOrigin += m_bulletVec * m_speed;
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 	++m_liveTime;
+
+	if( m_liveTime >= BULLET_LIVE_TIME ){
+		// ¶¬‚©‚çˆê’èŠÔ‚½‚Á‚½‚È‚ç©E
+		TaskStartDie();
+	}
 }
 
 void Bullet::DrawUpdate()

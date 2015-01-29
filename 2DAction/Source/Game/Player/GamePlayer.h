@@ -60,7 +60,7 @@ private:
 	bool CanMoveThisPos( const math::Vector2 &nextFlameAddValue );
 
 	// 基底からコールされるCommon::CMN_EVENTに対応した関数
-	void EventDamage();
+	void EventDamage( uint32_t damageValue );
 	void PlayerGetItem( const ItemObject::ITEM_KIND &itemKind );
 
 	uint32_t			m_playerLife;	// ユーザーライフ

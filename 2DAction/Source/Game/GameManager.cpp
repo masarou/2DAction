@@ -87,7 +87,8 @@ void GameManager::Update()
 	}
 	// ƒAƒCƒeƒ€‚Ì¶¬
 	if( IsCreateItem( m_itemMax, m_itemFrequency ) ){
-		pItemManager->CreateItem( ItemObject::ITEM_KIND_RAPID_BULLET );
+		uint32_t kind = GetRandamValue( ItemObject::ITEM_KIND_MAX-1, 0 );
+		pItemManager->CreateItem( static_cast<ItemObject::ITEM_KIND>(kind) );
 	}
 }
 

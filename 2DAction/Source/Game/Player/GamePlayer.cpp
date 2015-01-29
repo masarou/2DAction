@@ -330,11 +330,17 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_CCC:
 	case Common::EVENT_HIT_BULLET_ENEMY:
 		if( m_invisibleTime == 0 ){
-			EventDamage();
+			EventDamage( eventId.m_eventValue );
 		}
 		break;
-	case Common::EVENT_GET_ITEM:
-		PlayerGetItem( static_cast<ItemObject::ITEM_KIND>(eventId.m_eventValue) );
+	case Common::EVENT_GET_ITEM_BULLET:
+		PlayerGetItem( ItemObject::ITEM_KIND_RAPID_BULLET );
+		break;
+	case Common::EVENT_GET_ITEM_LIFE:
+		PlayerGetItem( ItemObject::ITEM_KIND_LIFE_UP );
+		break;
+	case Common::EVENT_GET_ITEM_DAMAGE:
+		PlayerGetItem( ItemObject::ITEM_KIND_DAMAGE_UP );
 		break;
 	default:
 
@@ -350,7 +356,7 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 /* ================================================ */
 
 // 敵と接触した
-void GamePlayer::EventDamage()
+void GamePlayer::EventDamage( uint32_t damageValue )
 {
 	// ダメージ音
 	SoundManager::GetInstance()->PlaySE("Damage");
@@ -359,8 +365,8 @@ void GamePlayer::EventDamage()
 	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
 
 	// ライフを減らす
-	if( m_playerLife > 50 ){
-		m_playerLife -= 50;
+	if( m_playerLife > damageValue ){
+		m_playerLife -= damageValue;
 	}
 	else{
 		m_playerLife = 0;
@@ -376,7 +382,23 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
 		{
 			// 銃の発射間隔を狭める
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
-			gunState.m_shootInterval = ( gunState.m_shootInterval < 2 ) ? 0 : gunState.m_shootInterval - 2;
+			gunState.m_shootInterval -= ( gunState.m_shootInterval <= 2 ) ? 0 : 2;
+		}
+		break;
+	case ItemObject::ITEM_KIND_LIFE_UP:
+		{
+			// ライフ回復
+			m_playerLife += 30;
+			if( m_playerLife > LIFE_POINT_MAX ){
+				m_playerLife = LIFE_POINT_MAX;
+			}
+		}
+		break;
+	case ItemObject::ITEM_KIND_DAMAGE_UP:
+		{
+			// ダメージ量UP
+			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
+			gunState.m_damage += 20;
 		}
 		break;
 	}

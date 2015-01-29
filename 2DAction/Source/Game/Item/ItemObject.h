@@ -29,12 +29,11 @@ public:
 		ITEM_KIND_MAX,
 	};
 	
-	static ItemObject *Create( const ITEM_KIND &kind, const uint32_t &uniqueID, math::Vector2 pos = DEFAULT_VECTOR2 );
+	static ItemObject *Create( const ITEM_KIND &kind, math::Vector2 pos = DEFAULT_VECTOR2 );
 	virtual ~ItemObject(void);
 
 	// 情報取得
 	const TEX_DRAW_INFO &GetDrawInfo() const;
-	const uint32_t	&GetUniqueNumber() const{ return m_uniqueNumber; }
 	const uint32_t	&GetLiveTime() const{ return m_liveTime; }
 	const ITEM_KIND	&GetItemKind() const{ return m_kindItem; }
 
@@ -49,11 +48,10 @@ protected:
 
 private:
 	
-	ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, math::Vector2 pos );
+	ItemObject( const ITEM_KIND &kind, math::Vector2 pos );
 	std::string		GetItemFilePath();
  
 	ITEM_KIND		m_kindItem;		// アイテムの種類
-	uint32_t		m_uniqueNumber;	// ほかのアイテムと区別するためにユニーク番号
 	uint32_t		m_liveTime;		// 生成されてからの時間
 };
 

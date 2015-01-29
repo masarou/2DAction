@@ -13,7 +13,9 @@ namespace Common{
 		TYPE_EVENMY_BBB,
 		TYPE_EVENMY_CCC,
 
-		TYPE_ITEM,
+		TYPE_ITEM_BULLET,
+		TYPE_ITEM_LIFE,
+		TYPE_ITEM_DAMAGE,
 		TYPE_BULLET_PLAYER,
 		TYPE_BULLET_ENEMY,
 
@@ -26,7 +28,9 @@ namespace Common{
 		EVENT_HIT_ENEMY_BBB,	// 敵との接触
 		EVENT_HIT_ENEMY_CCC,	// 敵との接触
 
-		EVENT_GET_ITEM,			// アイテム取得
+		EVENT_GET_ITEM_BULLET,	// アイテム取得
+		EVENT_GET_ITEM_LIFE,	// アイテム取得
+		EVENT_GET_ITEM_DAMAGE,	// アイテム取得
 		EVENT_HIT_BULLET_PLAYER,// プレイヤーの攻撃弾に当たった
 		EVENT_HIT_BULLET_ENEMY,	// 敵の攻撃弾に当たった
 		EVENT_SHOOT_BULLET,		// 攻撃弾を発射

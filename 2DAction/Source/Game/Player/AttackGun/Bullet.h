@@ -25,7 +25,7 @@ class Bullet : public TaskUnit, public Collision2DUnit
 
 public:
 
-	Bullet( const Common::OWNER_TYPE ownerType, const uint32_t &uniqueNum, const math::Vector2 &pos, const math::Vector2 &vec, float speed );
+	Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage, float speed );
 	~Bullet(void);
 
 	// 情報セット
@@ -35,7 +35,6 @@ public:
 	// 情報取得
 	const uint32_t &GetBulletDamage() const{ return m_bulletDamage;}
 	const TEX_DRAW_INFO &GetDrawInfo() const;
-	const uint32_t &GetUniqueNumber() const{ return m_uniqueNumber; }
 	const uint32_t &GetLiveTime() const{ return m_liveTime; }
 
 protected:
@@ -54,7 +53,6 @@ protected:
 private:
 	
 	Common::OWNER_TYPE	m_ownerType;
-	uint32_t			m_uniqueNumber;	// ほかの弾と区別するためにユニーク番号
 	uint32_t			m_liveTime;		// 生成されてからの時間
 
 	uint32_t			m_bulletDamage;	// 弾の威力

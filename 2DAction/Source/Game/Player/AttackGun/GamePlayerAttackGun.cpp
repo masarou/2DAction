@@ -41,15 +41,6 @@ bool AttackGun::DieMain()
 /* ================================================ */
 void AttackGun::Update()
 {
-	// ¶¬‚³‚ê‚Äˆê’èŠÔ‚ğ’´‚¦‚½‚à‚Ì‚Ííœ
-	for( auto it = m_magazine.begin(); it != m_magazine.end() ;){
-		if( (*it)->GetLiveTime() >= BULLET_LIVE_TIME ){
-			it = m_magazine.erase(it);
-		}
-		else{
-			++it;
-		}
-	}
 	// Ÿ‚Ì’e”­Ë‚Ü‚Å‚ÌŠÔ‚ğŒ¸Z
 	if( m_intervalTime > 0){
 		--m_intervalTime;
@@ -63,9 +54,8 @@ void AttackGun::Update()
 /* ================================================ */
 void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 {
-	static uint32_t uniqueNum = 0;
 	if( m_intervalTime == 0 ){
-		Bullet *bul = NEW Bullet( m_owner, uniqueNum, pos, vec, m_currState.m_speed );
+		Bullet *bul = NEW Bullet( m_owner, pos, vec, m_currState.m_damage, m_currState.m_speed );
 		m_magazine.push_back( bul );
 		
 		// ”­Ë‰¹‚ğ–Â‚ç‚·
@@ -74,6 +64,4 @@ void AttackGun::ShootBullet( math::Vector2 pos, math::Vector2 vec )
 		// ˆê’èŠÔŠu‚ÌŠÔ‚ğİ‚¯‚é
 		m_intervalTime += m_currState.m_shootInterval;
 	}
-	++uniqueNum;
 }
-

@@ -9,6 +9,7 @@
 
 #include "SystemCollisionManager.h"
 #include "System/Message/SystemMessageManager.h"
+#include "Game/Player/AttackGun/Bullet.h"
 #include "Common/Utility/CommonGameUtility.h"
 
 CollisionManager *CollisionManager::s_pInstance	= NULL;
@@ -103,21 +104,37 @@ void CollisionManager::CollisionUpdate()
 					break;
 				case Common::TYPE_EVENMY_AAA:
 					messageKind = Common::EVENT_HIT_ENEMY_AAA;
+					eventInfo.m_eventValue = 20;
 					break;
 				case Common::TYPE_EVENMY_BBB:
 					messageKind = Common::EVENT_HIT_ENEMY_BBB;
+					eventInfo.m_eventValue = 20;
 					break;
 				case Common::TYPE_EVENMY_CCC:
 					messageKind = Common::EVENT_HIT_ENEMY_CCC;
 					break;
-				case Common::TYPE_ITEM:
-					messageKind = Common::EVENT_GET_ITEM;
+				case Common::TYPE_ITEM_BULLET:
+					messageKind = Common::EVENT_GET_ITEM_BULLET;
+					break;
+				case Common::TYPE_ITEM_LIFE:
+					messageKind = Common::EVENT_GET_ITEM_LIFE;
+					break;
+				case Common::TYPE_ITEM_DAMAGE:
+					messageKind = Common::EVENT_GET_ITEM_DAMAGE;
 					break;
 				case Common::TYPE_BULLET_PLAYER:
-					messageKind = Common::EVENT_HIT_BULLET_PLAYER;
+					{
+						messageKind = Common::EVENT_HIT_BULLET_PLAYER;
+						Bullet *pBullet = static_cast<Bullet*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pBullet->GetBulletDamage();
+					}
 					break;
 				case Common::TYPE_BULLET_ENEMY:
-					messageKind = Common::EVENT_HIT_BULLET_ENEMY;
+					{
+						messageKind = Common::EVENT_HIT_BULLET_ENEMY;
+						Bullet *pBullet = static_cast<Bullet*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pBullet->GetBulletDamage();
+					}
 					break;
 				}
 				eventInfo.m_event = messageKind;
@@ -174,7 +191,9 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 			retVal = false;
 		}
 		break;
-	case Common::TYPE_ITEM:
+	case Common::EVENT_GET_ITEM_BULLET:
+	case Common::EVENT_GET_ITEM_LIFE:
+	case Common::EVENT_GET_ITEM_DAMAGE:
 	case Common::TYPE_BULLET_ENEMY:
 		if( typeB != Common::TYPE_PLAYER ){
 			retVal = false;
@@ -182,7 +201,9 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 		break;
 	case Common::TYPE_BULLET_PLAYER:
 		if( typeB == Common::TYPE_PLAYER
-			|| typeB == Common::TYPE_ITEM
+			|| typeB == Common::EVENT_GET_ITEM_BULLET
+			|| typeB == Common::EVENT_GET_ITEM_LIFE
+			|| typeB == Common::EVENT_GET_ITEM_DAMAGE
 			|| typeB == Common::TYPE_BULLET_PLAYER){
 			retVal = false;
 		}

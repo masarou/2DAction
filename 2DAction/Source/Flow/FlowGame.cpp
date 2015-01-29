@@ -47,7 +47,7 @@ void FlowGame::UpdateFlow()
 
 	const GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
 	const GameManager *pGameMan = GameRegister::GetInstance()->GetManagerGame();
-	if( pPlayer->GetCurrentLife() == 0 || pGameMan->IsGameOver() ){
+	if( pPlayer->GetCurrentLife() == 0 /*|| pGameMan->IsGameOver()*/ ){
 		StartFade("gameend");
 	}
 }

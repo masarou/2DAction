@@ -12,15 +12,14 @@
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Sound/SystemSoundManager.h"
 
-ItemObject *ItemObject::Create( const ITEM_KIND &kind, const uint32_t &uniqueID, math::Vector2 pos )
+ItemObject *ItemObject::Create( const ITEM_KIND &kind, math::Vector2 pos )
 {
-	return NEW ItemObject( kind, uniqueID, pos );
+	return NEW ItemObject( kind, pos );
 }
 
-ItemObject::ItemObject( const ITEM_KIND &kind, const uint32_t &uniqueId, math::Vector2 pos )
+ItemObject::ItemObject( const ITEM_KIND &kind, math::Vector2 pos )
 : TaskUnit("ItemObject")
 , m_kindItem(kind)
-, m_uniqueNumber(uniqueId)
 , m_liveTime(0)
 {
 	m_drawTexture.m_texInfo.m_posOrigin = pos;
@@ -62,12 +61,13 @@ void ItemObject::Update()
 void ItemObject::DrawUpdate()
 {
 	// 消える三秒前ぐらいから点滅させる
-	if( m_liveTime > ITEM_LIVE_TIME - 180 ){
+	if( m_liveTime > ITEM_LIVE_TIME - 180
+		&& m_liveTime < ITEM_LIVE_TIME ){
 		if( m_liveTime%3 != 1 ){
 			m_drawTexture.m_pTex2D->DrawUpdate2D();
 		}
 	}
-	else if( m_liveTime == ITEM_LIVE_TIME ){
+	else if( m_liveTime >= ITEM_LIVE_TIME ){
 		// 死亡
 		TaskStartDie();
 	}
@@ -100,10 +100,16 @@ const Common::TYPE_OBJECT ItemObject::GetTypeObject() const
 	Common::TYPE_OBJECT type = Common::TYPE_MAX;
 	switch( m_kindItem ){
 	default:
+		DEBUG_ASSERT( 0, "アイテムの種類が想定外" );
+		/* fall-through */
 	case ITEM_KIND_RAPID_BULLET:
+		type = Common::TYPE_ITEM_BULLET;
+		break;
 	case ITEM_KIND_LIFE_UP:
+		type = Common::TYPE_ITEM_LIFE;
+		break;
 	case ITEM_KIND_DAMAGE_UP:
-		type = Common::TYPE_ITEM;
+		type = Common::TYPE_ITEM_DAMAGE;
 		break;
 	};
 	return type;
@@ -138,9 +144,13 @@ std::string ItemObject::GetItemFilePath()
 	switch( m_kindItem ){
 	default:
 	case ITEM_KIND_RAPID_BULLET:
+		fileName = "itemBullet.json";
+		break;
 	case ITEM_KIND_LIFE_UP:
+		fileName = "itemLife.json";
+		break;
 	case ITEM_KIND_DAMAGE_UP:
-		fileName = "bullet.json";
+		fileName = "itemDamage.json";
 		break;
 	};
 
