@@ -26,6 +26,7 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_enemyKind( kind )
 , m_HP(10)
 , m_eye(math::Vector2( 1.0f, 0.0f ))
+, m_walkHeight( 0 )
 , m_pEnemyAI( NULL )
 , m_nextAI( Common::AI_NONE )
 , m_prevAI( Common::AI_NONE )

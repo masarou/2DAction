@@ -19,6 +19,8 @@
 
 static uint32_t DAMAGE_INVISIBLE_TIME = 120;
 static uint32_t LIFE_POINT_MAX = 100;
+static uint32_t DEFAULT_POS_X = 1000;
+static uint32_t DEFAULT_POS_Y = 1000;
 
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
@@ -70,19 +72,21 @@ bool GamePlayer::Init()
 	m_textureLife.m_pTex2D->SetDrawInfo(m_textureLife.m_texInfo);
 
 	m_textureLifeFrame.Init();
-	m_textureLifeFrame.m_pTex2D = NEW Game2DBase("lifeFrame.json");
+	m_textureLifeFrame.m_pTex2D = NEW Game2DBase("lifeGauge2.json");
 	m_textureLifeFrame.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureLifeFrame.m_texInfo.m_usePlayerOffset = false;
-	m_textureLifeFrame.m_texInfo.m_posOrigin = m_textureLife.m_texInfo.m_posOrigin;
-	m_textureLifeFrame.m_texInfo.m_arrangeOrigin = m_textureLife.m_texInfo.m_arrangeOrigin;
+	m_textureLifeFrame.m_texInfo.m_posOrigin = math::Vector2(128,128);
+	//m_textureLifeFrame.m_texInfo.m_arrangeOrigin = m_textureLife.m_texInfo.m_arrangeOrigin;
 	m_textureLifeFrame.m_pTex2D->SetDrawInfo(m_textureLifeFrame.m_texInfo);
 
 	// 攻撃マシンガンクラスセット
 	m_attackGun = AttackGun::CreateGun( Common::OWNER_PLAYER );
 
-	// 画像の真ん中がオフセット位置になるように調整しておく
+	// 画像の真ん中がオフセット位置になるように調整しておく(プレイヤーの初期位置セット)
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
+
+	GameAccesser::GetInstance()->AddPlayerOffSet( DEFAULT_POS_X, DEFAULT_POS_Y );
 
 	return true;
 }

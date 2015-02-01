@@ -20,7 +20,7 @@ GameMap::GameMap(void)
 	m_mapInfo.Init();
 	m_vTileInfo.clear();
 
-	LoadMapInfo("mapInfo.json");
+	LoadMapInfo("MapStage02.json");
 }
 
 
@@ -143,6 +143,67 @@ const uint32_t GameMap::GetMapHeight() const
 	return retVal;
 }
 
+void GameMap::LoadMapInfo(const char *jsonFile)
+{
+	std::string path = JSON_GAME2D_PATH;
+	path += jsonFile;
+	std::ifstream ifs(path.c_str());
+
+	picojson::value root;
+	picojson::parse( root, ifs);
+	
+	//!基本となる情報取得
+	picojson::value mapData = root.get("layers");
+
+	// マップの縦横のチップ数
+	m_mapInfo.m_height	= static_cast<uint32_t>(mapData.get(0).get("height").get<double>());
+	m_mapInfo.m_width	= static_cast<uint32_t>(mapData.get(0).get("width").get<double>());
+
+	// マップのチップ配列データ取得
+	picojson::value null;
+	for( uint32_t i = 0;;++i ){
+		if( mapData.get(0).get("data").get(i) == null ){
+			break;
+		}
+		MAP_INFO mapsTile;
+		uint32_t tileKind = static_cast<uint32_t>(mapData.get(0).get("data").get(i).get<double>());
+		m_mapInfo.m_vTileKind.push_back(tileKind);
+	}
+
+	// MapTipテクスチャの基本情報取得
+	// 名前と紐付いたjsonファイルを取得(m_texInfoに情報格納)
+	picojson::value tileData = root.get("tilesets");
+	std::string texName	= tileData.get(0).get("image").get<std::string>();		
+	std::string extentionPNG = ".png";
+	std::string extentionJSON = ".json";
+	uint32_t extentionIndex = texName.find( extentionPNG, 0 );
+	texName.replace( extentionIndex, extentionJSON.length(), extentionJSON );
+	LoadTextureInfo( texName.c_str() );
+
+	// マップチップ一枚毎の情報を取得
+	int32_t	texHandle[SPLIT_MAX];
+	path = TEXTURE_PATH;
+	path += m_texInfo.m_fileName;
+	LoadDivGraph( path.c_str(), m_texInfo.m_splitNum
+	, m_texInfo.m_splitWidth, m_texInfo.m_splitHeight
+	, m_texInfo.m_sizeWidth, m_texInfo.m_sizeHeight, texHandle);
+
+	picojson::value tileproperties = tileData.get(0).get("tileproperties");
+	for(uint32_t i = 0;; ++i){
+		DEBUG_PRINT("【sss】%d\n", i);
+		std::string indexStr = std::to_string( static_cast<long double>(i) );
+		picojson::value null;
+		if(tileproperties.get(indexStr) == null){
+			break;
+		}
+		TILE_INFO tileInfo; 
+		tileInfo.Init();
+		tileInfo.m_tileTileKind = i;
+		tileInfo.m_tileHandle = texHandle[i];
+		tileInfo.m_tileHeight = atoi( tileproperties.get(indexStr).get("height").get<std::string>().c_str() );
+		m_vTileInfo.push_back(tileInfo);
+	}
+}
 
 void GameMap::LoadTextureInfo(const char *jsonFile)
 {
@@ -161,67 +222,4 @@ void GameMap::LoadTextureInfo(const char *jsonFile)
 	m_texInfo.m_splitHeight	= static_cast<uint32_t>(sceneData.get(0).get("splitH").get<double>());
 	m_texInfo.m_sizeWidth	= static_cast<uint32_t>(sceneData.get(0).get("sizeW").get<double>());
 	m_texInfo.m_sizeHeight	= static_cast<uint32_t>(sceneData.get(0).get("sizeH").get<double>());
-
-	//!テクスチャ読み込み
-	int32_t	texHandle[SPLIT_MAX];
-	path = TEXTURE_PATH;
-	path += m_texInfo.m_fileName;
-	LoadDivGraph( path.c_str(), m_texInfo.m_splitNum
-	, m_texInfo.m_splitWidth, m_texInfo.m_splitHeight
-	, m_texInfo.m_sizeWidth, m_texInfo.m_sizeHeight, texHandle);
-
-	//!タイル情報格納
-	picojson::value mapData = root.get("mapinfo");
-	for(uint32_t i = 0;; ++i){
-		picojson::value null;
-		if(mapData.get(i) == null){
-			break;
-		}
-		TILE_INFO tileInfo;
-		tileInfo.Init();
-
-		tileInfo.m_tileTileKind = static_cast<uint32_t>(mapData.get(i).get("kind").get<double>());
-		tileInfo.m_tileHandle = texHandle[i];
-		tileInfo.m_tileHeight = static_cast<uint32_t>(mapData.get(i).get("height").get<double>());
-		m_vTileInfo.push_back(tileInfo);
-	}
-}
-
-
-void GameMap::LoadMapInfo(const char *jsonFile)
-{
-	std::string path = JSON_GAME2D_PATH;
-	path += jsonFile;
-	std::ifstream ifs(path.c_str());
-
-	picojson::value root;
-	picojson::parse( root, ifs);
-	
-	//!基本となる情報取得
-	picojson::value mapData = root.get("layers");
-
-	// マップの縦横
-	m_mapInfo.m_height	= static_cast<uint32_t>(mapData.get(0).get("height").get<double>());
-	m_mapInfo.m_width	= static_cast<uint32_t>(mapData.get(0).get("width").get<double>());
-
-	// マップのチップデータ取得
-	picojson::value null;
-	for( uint32_t i = 0;;++i ){
-		if( mapData.get(0).get("data").get(i) == null ){
-			break;
-		}
-		MAP_INFO mapsTile;
-		uint32_t tileKind = static_cast<uint32_t>(mapData.get(0).get("data").get(i).get<double>());
-		m_mapInfo.m_vTileKind.push_back(tileKind);
-	}
-
-	// 使用しているマップテクスチャ名取得
-	picojson::value tileData = root.get("tilesets");
-	std::string texName	= tileData.get(0).get("image").get<std::string>();
-	// 名前と紐付いたjsonファイルを取得
-	std::string extentionPNG = ".png";
-	std::string extentionJSON = ".json";
-	uint32_t extentionIndex = texName.find( extentionPNG, 0 );
-	texName.replace( extentionIndex, extentionJSON.length(), extentionJSON );
-	LoadTextureInfo( texName.c_str() );
 }

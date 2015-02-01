@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"itemLife.png"
+		, "animDefault":"idle"
+		, "sizeW": 32
+		, "sizeH": 32
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"idle",	"frameSpeed":1,	"animIndex":[0],	"nextAnim":"idle"}
+	]	
+}

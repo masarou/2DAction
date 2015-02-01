@@ -28,7 +28,14 @@ EnemyAAA::~EnemyAAA(void)
 bool EnemyAAA::InitMain()
 {
 	// 初期位置セット
-	m_drawTexture.m_texInfo.m_posOrigin = GetMapRandamPos( /*allowInWindow=*/false );
-	DEBUG_PRINT( "敵生成 x = %f, y = %f\n", m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y );
+	for(;;){
+		math::Vector2 candidatePos = GetMapRandamPos( /*allowInWindow=*/false );
+		// マップ上の動ける高さなら生成
+		if( GetMapHeight( candidatePos ) <= GetWalkHeight() ){
+			m_drawTexture.m_texInfo.m_posOrigin = candidatePos;
+			DEBUG_PRINT( "敵生成 x = %f, y = %f\n", m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y );
+			break;
+		}
+	}
 	return true;
 }
