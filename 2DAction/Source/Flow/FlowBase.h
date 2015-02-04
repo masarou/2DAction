@@ -27,29 +27,38 @@ protected:
 	//! 初期化処理記入
 	virtual bool Init(){return true;}
 
-	//!	終了処理記入
-	virtual bool Finish();
+	//! 派生先での更新関数
+	virtual void UpdateFlowPreChildTask(){}
+	virtual void UpdateFlowAfterChildTask(){}
 
-	//! 毎フレーム呼ばれる
-	virtual void UpdateFlow();
-
-	//! ぶら下がっている子の更新
-	void ChildUpdate();
-
-	//! タスク追加
-	void AddChildTask(TaskUnit *pTask);
-
-	//! json読み込み
-	void LoadFlowFile();
+	//! 派生先終了処理記入
+	virtual bool FinishFlow(){ return true; }
 
 	//! 現在のフロー名取得
 	const std::string &GetFlowFilePath() const{ return m_filePath; }
 
 protected:
-
-	void StartFade(const char *eventStr);
+	
+	// 次の画面に遷移
+	void StartFade( const char *eventStr );
 
 private:
+
+	//!	終了処理記入
+	bool Finish();
+
+	//! json読み込み
+	void LoadFlowFile();
+	
+	//! 毎フレーム呼ばれる
+	void UpdateFlow();
+
+	//! タスク追加
+	void AddChildTask(TaskUnit *pTask);
+
+	//! ぶら下がっている子の更新
+	void ChildUpdate();
+
 
 	struct FLOW_DATA{
 		std::string eventStr;	//!< イベント名

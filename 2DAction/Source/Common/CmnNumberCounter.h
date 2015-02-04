@@ -23,8 +23,9 @@ public:
 
 	// 初期化
 	void Reset();
-	// スコア追加
-	void AddValue( int32_t addValue );
+	// スコア追加,セット
+	void AddValue( const int32_t &addValue );
+	void SetValue( const uint32_t &setValue );
 	// スコア取得
 	const int32_t &GetValue() const{ return m_value; }
 	// 描画情報セット

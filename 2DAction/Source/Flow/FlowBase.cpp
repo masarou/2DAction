@@ -23,6 +23,22 @@ FlowBase::~FlowBase(void)
 {
 }
 
+/* ================================================ */
+/**
+ * @brief	次の画面へ
+ */
+/* ================================================ */
+void FlowBase::StartFade(const char* eventStr)
+{
+	for(uint32_t i = 0; i < m_vEventName.size(); ++i){
+		if(m_vEventName.at(i).eventStr.compare(eventStr) == 0){
+			FlowManager::GetInstance()->ChangeFlow(m_vEventName.at(i).filePath.c_str());
+			return;
+		}
+	}
+	DEBUG_ASSERT( 0, "event名がない");
+}
+
 /* ============================================== */
 /**
  * @brief	終了処理
@@ -30,51 +46,11 @@ FlowBase::~FlowBase(void)
 /* ================================================ */
 bool FlowBase::Finish()
 {
-	if(ReleaseAllEnd()){
-		return true;
+	if( !ReleaseAllEnd() ){
+		return false;
 	}
 	//! まだ子タスクの終了待ち
-	return false;
-}
-
-
-/* ============================================== */
-/**
- * @brief	子タスク更新処理
- */
-/* ================================================ */
-void FlowBase::UpdateFlow()
-{
-	// パッド入力取得
-	CallPadEvent();
-
-	// 子の更新
-	ChildUpdate();
-}
-
-/* ============================================== */
-/**
- * @brief	子タスク更新処理
- */
-/* ================================================ */
-void FlowBase::ChildUpdate()
-{
-	Exec();				//! 位置等の更新
-	CollisionManager::GetInstance()->CollisionUpdate();			// 衝突判定更新+各クラスにイベント発行	
-	SystemMessageManager::GetInstance()->StartMessageEvent();	// 各クラスの相互イベント処理を行う
-	DrawUpdate();		//! 描画等の更新
-}
-
-/* ============================================== */
-/**
- * @brief	子タスク追加
- */
-/* ================================================ */
-void FlowBase::AddChildTask(TaskUnit *pTask)
-{
-	if(pTask){
-		m_vTaskUnit.push_back(pTask);
-	}
+	return FinishFlow();
 }
 
 /* ============================================== */
@@ -107,18 +83,47 @@ void FlowBase::LoadFlowFile()
 
 }
 
-/* ================================================ */
+/* ============================================== */
 /**
- * @brief	次の画面へ
+ * @brief	子タスク更新処理
  */
 /* ================================================ */
-void FlowBase::StartFade(const char* eventStr)
+void FlowBase::UpdateFlow()
 {
-	for(uint32_t i = 0; i < m_vEventName.size(); ++i){
-		if(m_vEventName.at(i).eventStr.compare(eventStr) == 0){
-			FlowManager::GetInstance()->ChangeFlow(m_vEventName.at(i).filePath.c_str());
-			return;
-		}
+	// 派生先の子タスク更新前Update
+	UpdateFlowPreChildTask();
+
+	// パッド入力取得
+	CallPadEvent();
+
+	// 子の更新
+	ChildUpdate();
+
+	// 派生先の子タスク更新後Update
+	UpdateFlowAfterChildTask();
+}
+
+/* ============================================== */
+/**
+ * @brief	子タスク追加
+ */
+/* ================================================ */
+void FlowBase::AddChildTask(TaskUnit *pTask)
+{
+	if(pTask){
+		m_vTaskUnit.push_back(pTask);
 	}
-	DEBUG_ASSERT( 0, "event名がない");
+}
+
+/* ============================================== */
+/**
+ * @brief	子タスク更新処理
+ */
+/* ================================================ */
+void FlowBase::ChildUpdate()
+{
+	Exec();				//! 位置等の更新
+	CollisionManager::GetInstance()->CollisionUpdate();			// 衝突判定更新+各クラスにイベント発行	
+	SystemMessageManager::GetInstance()->StartMessageEvent();	// 各クラスの相互イベント処理を行う
+	DrawUpdate();		//! 描画等の更新
 }

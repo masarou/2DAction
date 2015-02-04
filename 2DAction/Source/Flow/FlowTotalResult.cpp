@@ -38,12 +38,10 @@ bool FlowTotalResult::Init()
 	return true;
 }
 
-bool FlowTotalResult::Finish()
+bool FlowTotalResult::FinishFlow()
 {
 	// 常駐物で初期化が必要なものリセット
 	Utility::GameInitALL();
-
-	FlowBase::Finish();
 
 	return true;
 }

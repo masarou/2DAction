@@ -25,7 +25,7 @@ public:
 private:
 
 	virtual bool Init() override;
-	virtual bool Finish() override;
+	virtual bool FinishFlow() override;
 	virtual void PadEventDecide() override;
 
 	// 引数に今回のプレイデータを反映したランキングをセット

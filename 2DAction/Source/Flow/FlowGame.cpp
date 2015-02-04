@@ -10,6 +10,7 @@
 
 #include "FlowGame.h"
 #include "Game/GameRegister.h"
+#include "Game/GameRecorder.h"
 
 FlowBase *FlowGame::Create( const std::string &fileName )
 {
@@ -18,6 +19,7 @@ FlowBase *FlowGame::Create( const std::string &fileName )
 
 FlowGame::FlowGame( const std::string &fileName )
 : FlowBase(fileName)
+, m_pNumCounter( NULL )
 {
 	DEBUG_PRINT("FlowGame生成！！\n");
 }
@@ -33,17 +35,22 @@ FlowGame::~FlowGame(void)
 
 bool FlowGame::Init()
 {
+	// ゲーム中に表示するスコア準備
+	m_pNumCounter = NumberCounter::Create("number.json");
+
 	// ゲームをするのに必要なインスタンス作成
 	GameRegister::CreateInstance();
 
 	return true;
 }
 
-void FlowGame::UpdateFlow()
+void FlowGame::UpdateFlowAfterChildTask()
 {
-
-	// 画面全体の更新
-	FlowBase::UpdateFlow();
+	// 画面内スコア表示の更新
+	if( m_pNumCounter ){
+		uint32_t currScore = GameRecorder::GetInstance()->GetScore();
+		m_pNumCounter->SetValue( currScore );
+	}
 
 	const GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
 	const GameManager *pGameMan = GameRegister::GetInstance()->GetManagerGame();

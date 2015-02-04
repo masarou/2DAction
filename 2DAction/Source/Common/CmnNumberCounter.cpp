@@ -56,12 +56,17 @@ void NumberCounter::Reset()
 	m_numberInfo.m_usePlayerOffset = false;
 }
 
-void NumberCounter::AddValue( int32_t addValue )
+void NumberCounter::AddValue( const int32_t &addValue )
 {
 	// 表示スコアを保持しておく
 	m_value += addValue;
 
 	m_counter = 0;
+}
+
+void NumberCounter::SetValue( const uint32_t &setValue )
+{
+	m_value = setValue;
 }
 
 void NumberCounter::SetDrawInfo( const TEX_DRAW_INFO &drawInfo )
