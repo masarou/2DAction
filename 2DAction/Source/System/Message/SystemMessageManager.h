@@ -9,8 +9,8 @@
  */
 /* ====================================================================== */
 
-#ifndef MESSAGE_MANAGER
-#define MESSAGE_MANAGER
+#ifndef __MESSAGE_MANAGER__
+#define __MESSAGE_MANAGER__
 
 #include <map>
 #include "Common/CommonDefine.h"

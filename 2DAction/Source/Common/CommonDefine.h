@@ -1,6 +1,6 @@
 
-#ifndef _COMMON_DEFINE_
-#define _COMMON_DEFINE_
+#ifndef __COMMON_DEFINE__
+#define __COMMON_DEFINE__
 
 #include "System/SystemDefine.h"
 
@@ -39,6 +39,22 @@ namespace Common{
 
 		EVENT_MESSAGE_MAX,
 	};
+
+	// ゲームがなに状態かを示す
+	enum GAME_FLOW{
+		FLOW_TITLE,			// タイトル
+		FLOW_SCORE,			// スコア
+		FLOW_STAGE01,		// ステージ01
+		FLOW_STAGE02,		// ステージ02
+		FLOW_STAGE03,		// ステージ03
+		FLOW_RESULT,		// リザルト
+		FLOW_INTERVAL,		// 休憩
+		FLOW_RESULT_TOTAL,	// すべてのステージを終えてのリザルト
+		FLOW_EXIT,			// ゲーム終了
+
+		FLOW_MAX
+	};
+
 	struct CMN_EVENT{
 		EVENT_MESSAGE	m_event;		// 何が起こったか？
 		uint32_t		m_eventValue;	// 汎用番号

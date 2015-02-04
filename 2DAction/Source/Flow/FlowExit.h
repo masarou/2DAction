@@ -6,8 +6,8 @@
  *		ƒQ[ƒ€Œ‹‰Ê‰æ–ÊƒNƒ‰ƒX
  */
 /* ====================================================================== */
-#ifndef FLOW_EXIT
-#define FLOW_EXIT
+#ifndef __FLOW_EXIT__
+#define __FLOW_EXIT__
 
 #include "FlowBase.h"
 

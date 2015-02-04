@@ -160,9 +160,6 @@
     <ClInclude Include="Source\Math\MathUtility.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Flow\FlowResult.h">
-      <Filter>Flow</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Item\ItemManager.h">
       <Filter>Game\Item</Filter>
     </ClInclude>
@@ -174,12 +171,6 @@
     </ClInclude>
     <ClInclude Include="Source\System\SystemFadeManager.h">
       <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Flow\FlowRetry.h">
-      <Filter>Flow</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameScoreRecorder.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Enemy\EnemyAIBase.h">
       <Filter>Game\Enemy\AI</Filter>
@@ -222,6 +213,18 @@
     </ClInclude>
     <ClInclude Include="Source\System\Collision\SystemCollisionUnit.h">
       <Filter>System\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowStageResult.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowTotalResult.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowInterval.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\GameRecorder.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -310,9 +313,6 @@
     <ClCompile Include="Source\Math\MathUtility.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Flow\FlowResult.cpp">
-      <Filter>Flow</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Item\ItemManager.cpp">
       <Filter>Game\Item</Filter>
     </ClCompile>
@@ -324,12 +324,6 @@
     </ClCompile>
     <ClCompile Include="Source\System\SystemFadeManager.cpp">
       <Filter>System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Flow\FlowRetry.cpp">
-      <Filter>Flow</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameScoreRecorder.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\EnemyAIBase.cpp">
       <Filter>Game\Enemy\AI</Filter>
@@ -372,6 +366,18 @@
     </ClCompile>
     <ClCompile Include="Source\System\Collision\SystemCollisionUnit.cpp">
       <Filter>System\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowStageResult.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowTotalResult.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowInterval.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\GameRecorder.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

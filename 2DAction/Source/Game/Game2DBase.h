@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_GAME_2D
-#define SYSTEM_GAME_2D
+#ifndef __SYSTEM_GAME_2D__
+#define __SYSTEM_GAME_2D__
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"

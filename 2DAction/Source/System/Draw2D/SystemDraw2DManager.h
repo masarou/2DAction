@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_DRAW2D_MASNAGER
-#define SYSTEM_DRAW2D_MASNAGER
+#ifndef __SYSTEM_DRAW2D_MASNAGER__
+#define __SYSTEM_DRAW2D_MASNAGER__
 
 #include "Math/MathCommon.h"
 #include "Math/MathVector.h"

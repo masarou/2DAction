@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_ITEM_MANAGER
-#define SYSTEM_ITEM_MANAGER
+#ifndef __SYSTEM_ITEM_MANAGER__
+#define __SYSTEM_ITEM_MANAGER__
 
 #include "System/Task/SystemTaskUnit.h"
 #include "Game/Player/GamePlayer.h"

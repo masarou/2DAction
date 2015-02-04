@@ -12,8 +12,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_TASK_MANAGER
-#define SYSTEM_TASK_MANAGER
+#ifndef __SYSTEM_TASK_MANAGER__
+#define __SYSTEM_TASK_MANAGER__
 
 #include <vector>
 #include "System/SystemDefine.h"

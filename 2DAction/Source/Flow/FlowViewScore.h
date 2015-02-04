@@ -6,8 +6,8 @@
  *		ゲーム履歴表示クラス
  */
 /* ====================================================================== */
-#ifndef FLOW_VIEW_SCORE
-#define FLOW_VIEW_SCORE
+#ifndef __FLOW_VIEW_SCORE__
+#define __FLOW_VIEW_SCORE__
 
 #include "FlowBase.h"
 #include "Game/Game2DBase.h"

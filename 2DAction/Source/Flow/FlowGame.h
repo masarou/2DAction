@@ -6,8 +6,8 @@
  *		ƒQ[ƒ€‰æ–ÊŠÇ—ƒNƒ‰ƒX
  */
 /* ====================================================================== */
-#ifndef FLOW_GAME
-#define FLOW_GAME
+#ifndef __FLOW_GAME__
+#define __FLOW_GAME__
 
 #include "FlowBase.h"
 

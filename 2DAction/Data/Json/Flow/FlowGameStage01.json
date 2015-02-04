@@ -1,6 +1,6 @@
 {
 	"eventdata":[
-		{"event":"gameend", "path":"FlowGameResult.json"},
+		{"event":"gameend", "path":"FlowStageResult.json"},
 		{"event":"return", "path":"FlowTitle.json"}
 	]
 }

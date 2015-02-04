@@ -7,8 +7,8 @@
  *		タイトル画面管理クラス
  */
 /* ====================================================================== */
-#ifndef FLOW_TITLE
-#define FLOW_TITLE
+#ifndef __FLOW_TITLE__
+#define __FLOW_TITLE__
 
 #include "FlowBase.h"
 #include "Game/Game2DBase.h"
@@ -25,7 +25,6 @@ public:
 protected:
 
 	virtual bool Init() override;
-	virtual bool Finish() override;
 	virtual void PadEventDecide() override;
 
 private:

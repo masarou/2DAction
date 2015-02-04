@@ -37,7 +37,7 @@ bool ItemObject::Init()
 	//!初期位置セット
 	m_drawTexture.m_texInfo.m_fileName = GetItemFilePath().c_str();
 	if( m_drawTexture.m_texInfo.m_posOrigin == DEFAULT_VECTOR2 ){
-		m_drawTexture.m_texInfo.m_posOrigin = GetMapRandamPos( /*allowInWindow=*/false );
+		m_drawTexture.m_texInfo.m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
 	}
 	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
 

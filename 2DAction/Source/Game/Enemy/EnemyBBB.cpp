@@ -28,7 +28,7 @@ EnemyBBB::~EnemyBBB(void)
 bool EnemyBBB::InitMain()
 {
 	// 初期位置セット
-	m_drawTexture.m_texInfo.m_posOrigin = GetMapRandamPos( /*allowInWindow=*/false );
+	m_drawTexture.m_texInfo.m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
 	DEBUG_PRINT( "敵生成 x = %f, y = %f\n", m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y );
 
 	return true;
@@ -46,7 +46,7 @@ void EnemyBBB::EventUpdate( const Common::CMN_EVENT &eventId )
 	switch( eventId.m_event ){
 	case Common::EVENT_SHOOT_BULLET:
 		if( s_pAttackGun ){
-			math::Vector2 direction = GetPlayerPos() - GetDrawInfo().m_posOrigin;
+			math::Vector2 direction = Utility::GetPlayerPos() - GetDrawInfo().m_posOrigin;
 			direction.Normalize();
 			s_pAttackGun->ShootBullet( GetDrawInfo().m_posOrigin, direction );
 		}

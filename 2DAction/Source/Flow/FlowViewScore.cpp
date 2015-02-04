@@ -88,7 +88,7 @@ bool ViewScore2D::Init()
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
 
 	// ランキング取得
-	GetSaveRanking( m_scoreData );
+	Utility::GetSaveRanking( m_scoreData );
 
 	// ランキング描画
 	for( uint32_t i = 0; i < Common::RANKING_RECORD_MAX; ++i ){

@@ -8,19 +8,32 @@
 
 #define MAP_TIP_SIZE	32		// マップチップ一つのドットサイズ
 
-GameMap *GameMap::CreateGameMap()
+GameMap *GameMap::CreateGameMap( const Common::GAME_FLOW &currentKind )
 {
-	return NEW GameMap();
+	return NEW GameMap( currentKind );
 }
 
-GameMap::GameMap(void)
+GameMap::GameMap( const Common::GAME_FLOW &currentKind )
 : TaskUnit("GameMap")
 {
 	m_texInfo.Init();
 	m_mapInfo.Init();
 	m_vTileInfo.clear();
 
-	LoadMapInfo("MapStage02.json");
+	switch( currentKind ){
+	default:
+		DEBUG_ASSERT( 0, "Mapが存在しないはずの想定外の種類" );
+		break;
+	case Common::FLOW_STAGE01:
+		LoadMapInfo("MapStage01.json");
+		break;
+	case Common::FLOW_STAGE02:
+		LoadMapInfo("MapStage02.json");
+		break;
+	case Common::FLOW_STAGE03:
+		LoadMapInfo("MapStage03.json");
+		break;
+	}
 }
 
 
@@ -44,7 +57,7 @@ void GameMap::DrawUpdate()
 			int32_t posX = j*m_texInfo.m_sizeWidth;
 
 			//!画面内かどうか判定
-			if( IsPositionInWindowArea( posX, posY ) ){
+			if( Utility::IsPositionInWindowArea( posX, posY ) ){
 
 				//!プレイヤー情報取得
 				float offsetx = 0.0f;
@@ -190,7 +203,6 @@ void GameMap::LoadMapInfo(const char *jsonFile)
 
 	picojson::value tileproperties = tileData.get(0).get("tileproperties");
 	for(uint32_t i = 0;; ++i){
-		DEBUG_PRINT("【sss】%d\n", i);
 		std::string indexStr = std::to_string( static_cast<long double>(i) );
 		picojson::value null;
 		if(tileproperties.get(indexStr) == null){

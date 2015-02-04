@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef ENEMY_AAA
-#define ENEMY_AAA
+#ifndef __ENEMY_AAA__
+#define __ENEMY_AAA__
 
 #include "EnemyBase.h"
 

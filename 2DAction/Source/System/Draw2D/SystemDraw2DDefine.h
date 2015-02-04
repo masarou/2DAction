@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_DRAW2D_DEFINE
-#define SYSTEM_DRAW2D_DEFINE
+#ifndef __SYSTEM_DRAW2D_DEFINE__
+#define __SYSTEM_DRAW2D_DEFINE__
 
 #include "Math/MathCommon.h"
 #include "Math/MathVector.h"

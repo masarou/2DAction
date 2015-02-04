@@ -7,8 +7,8 @@
  *	
  */
 /* ====================================================================== */
-#ifndef MATH_COMMON
-#define MATH_COMMON
+#ifndef __MATH_COMMON__
+#define __MATH_COMMON__
 
 #include "System/SystemDefine.h"
 

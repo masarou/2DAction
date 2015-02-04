@@ -10,8 +10,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_ATTACK_GUN
-#define SYSTEM_ATTACK_GUN
+#ifndef __SYSTEM_ATTACK_GUN__
+#define __SYSTEM_ATTACK_GUN__
 
 #include "Common/CommonDefine.h"
 #include "System/Task/SystemTaskUnit.h"

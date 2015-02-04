@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_GAME_REGISTER
-#define SYSTEM_GAME_REGISTER
+#ifndef __SYSTEM_GAME_REGISTER__
+#define __SYSTEM_GAME_REGISTER__
 
 #include "Common/CommonDefine.h"
 #include "Common/CmnGameAccesser.h"

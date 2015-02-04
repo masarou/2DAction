@@ -10,6 +10,7 @@
 #include "FlowManager.h"
 #include "Flow/FlowTitle.h"
 #include "Flow/FlowTable.h"
+#include "Game/GameRecorder.h"
 #include "System/SystemFadeManager.h"
 
 FlowManager* FlowManager::m_pInstance = NULL;
@@ -21,6 +22,8 @@ FlowManager::FlowManager()
 	, m_step(FLOW_CHANGE_WAIT)
 	, m_fadeNext(FLOW_MAX)
 	, m_nextFilePath("")
+	, m_currFlow( Common::FLOW_TITLE )
+	, m_preFlow( Common::FLOW_MAX )
 {
 };
 
@@ -110,7 +113,28 @@ void FlowManager::Update()
 		if(m_pFlow->Finish()){
 			SAFE_DELETE(m_pFlow);
 			m_step = FLOW_INIT;
-			m_pFlow = FlowTable::CreateFlow(m_nextFilePath.c_str());
+			m_pFlow = FlowTable::CreateFlow( m_nextFilePath.c_str() );
+
+			// 現在のフローを更新
+			m_preFlow = m_currFlow;
+			m_currFlow = FlowTable::GetGameFlowKind(  m_nextFilePath.c_str() );
+			GameRecorder *pRecorder = GameRecorder::GetInstance();
+			if( pRecorder ){
+				switch( m_currFlow ){
+				case Common::FLOW_TITLE:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_TITLE );
+					break;
+				case Common::FLOW_STAGE01:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE01 );
+					break;
+				case Common::FLOW_STAGE02:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE02 );
+					break;
+				case Common::FLOW_STAGE03:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE03 );
+					break;
+				}
+			}
 			m_nextFilePath = "";
 		}
 		break;

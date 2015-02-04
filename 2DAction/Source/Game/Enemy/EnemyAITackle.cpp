@@ -32,18 +32,18 @@ bool EnemyAITackle::InitAI()
 void EnemyAITackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
 {
 	math::Vector2 targetVec = DEFAULT_VECTOR2;
-	math::Vector2 plPos = GetPlayerPos();
+	math::Vector2 plPos = Utility::GetPlayerPos();
 
 	targetVec = plPos - enemyInfo.m_posOrigin;
 	targetVec.Normalize();
 
 	math::Vector2 nextPos = enemyInfo.m_posOrigin + (targetVec * 2.0f);
-	if( GetMapHeight( nextPos ) == 0 ){
+	if( Utility::GetMapHeight( nextPos ) == 0 ){
 		enemyInfo.m_posOrigin += targetVec * 2.0f;
 
 		//// アニメ更新
 		std::string animTag = "";
-		switch( GetDirection( targetVec.x, targetVec.y ) ){
+		switch( Utility::GetDirection( targetVec.x, targetVec.y ) ){
 		default:
 			break;
 		case InputWatcher::BUTTON_UP:

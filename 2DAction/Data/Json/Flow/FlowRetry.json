@@ -1,6 +1,0 @@
-{
-	"eventdata":[
-		{"event":"title", "path":"FlowTitle.json"},
-		{"event":"retrygame", "path":"FlowGameMain.json"}
-	]
-}

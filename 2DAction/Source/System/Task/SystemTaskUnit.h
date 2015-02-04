@@ -17,8 +17,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_TASK_UNIT
-#define SYSTEM_TASK_UNIT
+#ifndef __SYSTEM_TASK_UNIT__
+#define __SYSTEM_TASK_UNIT__
 
 #include <string>
 #include <vector>

@@ -9,8 +9,8 @@
 /* ====================================================================== */
 
 
-#ifndef SYSTEM_SOUND_MANAGER
-#define SYSTEM_SOUND_MANAGER
+#ifndef __SYSTEM_SOUND_MANAGER__
+#define __SYSTEM_SOUND_MANAGER__
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"

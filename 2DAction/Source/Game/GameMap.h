@@ -7,9 +7,10 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_GAME_MAP
-#define SYSTEM_GAME_MAP
+#ifndef __SYSTEM_GAME_MAP__
+#define __SYSTEM_GAME_MAP__
 
+#include "Common/CommonDefine.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/Draw2D/SystemDraw2DDefine.h"
 #include "Game2DBase.h"
@@ -21,7 +22,7 @@ class GameMap : public TaskUnit
 {
 public:
 	
-	static GameMap *GameMap::CreateGameMap();
+	static GameMap *GameMap::CreateGameMap( const Common::GAME_FLOW &currentKind );
 	~GameMap(void);
 
 	virtual void Update();
@@ -46,7 +47,7 @@ private:
 		}
 	};
 
-	GameMap(void);
+	GameMap( const Common::GAME_FLOW &currentKind );
 
 	//!É}ÉbÉvèÓïÒì«Ç›çûÇ›
 	void LoadTextureInfo( const char *jsonFile );

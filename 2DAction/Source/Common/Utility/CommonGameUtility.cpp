@@ -9,6 +9,18 @@
 #include "Game/Enemy/EnemyAIShoot.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
+#include "Game/GameRecorder.h"
+
+namespace Utility
+{
+
+void GameInitALL()
+{
+	// スコア等初期化
+	GameRecorder::GetInstance()->InitRecord();
+	// プレイヤーオフセットリセット
+	GameAccesser::GetInstance()->InitAll();
+}
 
 void AddPlayerOffsetPos( math::Vector2 &pos )
 {
@@ -325,4 +337,6 @@ bool GetSaveRanking( Common::SAVE_SCORE &saveData )
 	fclose( fpRead );
 
 	return true;
+}
+
 }

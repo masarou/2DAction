@@ -6,31 +6,34 @@
  *		ゲーム終了後リトライ確認画面クラス
  */
 /* ====================================================================== */
-#ifndef FLOW_RETRY
-#define FLOW_RETRY
+#ifndef __FLOW_RETRY__
+#define __FLOW_RETRY__
 
 #include "FlowBase.h"
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"
 
-class Retry2D;
+class Interval2D;
 
-class FlowRetry : public FlowBase 
+class FlowInterval : public FlowBase 
 {
 public:
 
 	static FlowBase *Create( const std::string &fileName);
 
-private:
-
+protected:
+	
 	virtual bool Init() override;
-	virtual bool Finish() override;
 	virtual void PadEventDecide() override;
 
-	FlowRetry( const std::string &fileName );
-	~FlowRetry(void);
+private:
+
+	std::string GetNextFadeStr();
+
+	FlowInterval( const std::string &fileName );
+	~FlowInterval(void);
 	
-	Retry2D	*m_pRetryTex;
+	Interval2D	*m_pRetryTex;
 };
 
 /* ====================================================================== */
@@ -41,18 +44,18 @@ private:
  *		リトライ選択肢クラス
  */
 /* ====================================================================== */
-class Retry2D : public TaskUnit, InputWatcher
+class Interval2D : public TaskUnit, InputWatcher
 {
 public:
 	
 	enum{
-		SELECT_RETRY,
+		SELECT_NEXT,
 		SELECT_TITLE,
 
 		SELECT_RETRY_MAX,
 	};
 
-	static Retry2D *CreateRetry2D();
+	static Interval2D *CreateRetry2D();
 
 	const uint32_t &GetSelectedNo() const{ return m_selectNo; }
 
@@ -69,8 +72,8 @@ protected:
 
 private:
 
-	Retry2D();
-	virtual ~Retry2D(void);
+	Interval2D();
+	virtual ~Interval2D(void);
 	
 	Texture2D			m_textureRetry;	// タイトル一枚絵
 	

@@ -6,15 +6,16 @@
  *		フローのすべてを管理するManager
  */
 /* ====================================================================== */
-#ifndef FLOW_MANAGER
-#define FLOW_MANAGER
+#ifndef __FLOW_MANAGER__
+#define __FLOW_MANAGER__
 
+#include "Common/CommonDefine.h"
 #include "System/Task/SystemTaskUnit.h"
-#include "Flow/FlowBase.h"
+#include "FlowBase.h"
 
 class FlowManager : public TaskUnit
 {
-	friend FlowBase;
+	friend class FlowBase;
 
 public:
 
@@ -26,6 +27,10 @@ public:
 
 	//! 現在のフロー名取得
 	const char *GetCurrentFlow() const;
+
+	//! 現在のゲームフローの種類取得
+	const Common::GAME_FLOW &GetCurrentFlowKind() const{ return m_currFlow; }
+	const Common::GAME_FLOW &GetPreFlowKind() const{ return m_preFlow; }
 
 private:
 
@@ -58,6 +63,8 @@ private:
 	FLOW_STATUS			m_step;			//!<フェードアニメの現在のステップ
 	FLOW_STATUS			m_fadeNext;		//!<フェードアニメの次のステップ
 
+	Common::GAME_FLOW	m_currFlow;
+	Common::GAME_FLOW	m_preFlow;
 };
 #endif
 // FLOW_MANAGER

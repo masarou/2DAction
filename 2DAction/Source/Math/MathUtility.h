@@ -6,8 +6,8 @@
  *		
  */
 /* ====================================================================== */
-#ifndef MATH_UTILITY
-#define MATH_UTILITY
+#ifndef __MATH_UTILITY__
+#define __MATH_UTILITY__
 
 #include "System/SystemDefine.h"
 #include "Math/MathVector.h"

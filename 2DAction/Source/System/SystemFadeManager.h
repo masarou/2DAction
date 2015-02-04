@@ -6,8 +6,8 @@
  *		
  */
 /* ====================================================================== */
-#ifndef FLOW_FADE_MANAGER
-#define FLOW_FADE_MANAGER
+#ifndef __FLOW_FADE_MANAGER__
+#define __FLOW_FADE_MANAGER__
 
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"

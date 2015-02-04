@@ -40,7 +40,7 @@ GamePlayer::GamePlayer(void)
 , m_speedMoveBase( 3 )
 , m_speedMultiply( 0.0f )
 , m_invisibleTime(0)
-, m_playerLife(LIFE_POINT_MAX)
+, m_playerLife(10)
 {
 }
 
@@ -56,7 +56,7 @@ bool GamePlayer::Init()
 	m_drawTexture.m_texInfo.m_usePlayerOffset = false;
 	m_drawTexture.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
 	m_drawTexture.m_texInfo.m_fileName = "player.json";
-	GetBelongAreaInMap( m_drawTexture.m_texInfo );
+	Utility::GetBelongAreaInMap( m_drawTexture.m_texInfo );
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 
 	// 描画クラスセットアップ
@@ -86,7 +86,8 @@ bool GamePlayer::Init()
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
 
-	GameAccesser::GetInstance()->AddPlayerOffSet( DEFAULT_POS_X, DEFAULT_POS_Y );
+	math::Vector2 vec = math::Vector2( DEFAULT_POS_X, DEFAULT_POS_Y );
+	GameAccesser::GetInstance()->AddPlayerOffSet( vec );
 
 	return true;
 }
@@ -270,7 +271,7 @@ std::string GamePlayer::GetAnimTag()
 	const STICK_INFO &stickInfo = GetStickInfoLeft();
 	std::string retAnim = "";
 
-	switch( GetDirection( stickInfo.m_vec.x, stickInfo.m_vec.y ) ){
+	switch( Utility::GetDirection( stickInfo.m_vec.x, stickInfo.m_vec.y ) ){
 	default:
 		break;
 	case InputWatcher::BUTTON_UP:
@@ -314,7 +315,7 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
 	nextFlamePos.y += static_cast<float>(WINDOW_HEIGHT / 2.0f) + (playerTexInfo.m_sizeHeight / 2.0f);
 
 	// 移動先が歩けないならば移動しない
-	if( GetMapHeight( nextFlamePos ) == 0 ){
+	if( Utility::GetMapHeight( nextFlamePos ) == 0 ){
 		ret = true;
 	}
 	return ret;

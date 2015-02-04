@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef ITEM_OBJECT
-#define ITEM_OBJECT
+#ifndef __ITEM_OBJECT__
+#define __ITEM_OBJECT__
 
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"

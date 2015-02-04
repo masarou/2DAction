@@ -156,8 +156,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 	math::Vector2 basePos = math::Vector2( static_cast<float>(posX), static_cast<float>(posY) );
 	// Ç¢Ç¢ä¥Ç∂Ç…à íuí≤êÆ
 	basePos.x += (digitNum/2) * 15.0f + 8.0f;
-	basePos.x += GetRandamValueFloat( 20, -20 );
-	basePos.y += GetRandamValueFloat( 20, -20 );
+	basePos.x += Utility::GetRandamValueFloat( 20, -20 );
+	basePos.y += Utility::GetRandamValueFloat( 20, -20 );
 
 	for(;damageInfo.m_array2D.size() < digitNum;){
 		Texture2D tex;

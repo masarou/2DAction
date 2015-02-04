@@ -14,7 +14,7 @@
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/GameRegister.h"
 #include "Game/Effect/GameEffect.h"
-#include "Game/GameScoreRecorder.h"
+#include "Game/GameRecorder.h"
 #include "System/Sound/SystemSoundManager.h"
 
 AttackGun *EnemyBase::s_pAttackGun = NULL;
@@ -55,7 +55,7 @@ bool EnemyBase::Init()
 	m_nextAI	= Common::AI_SEARCHING;
 
 	if( !m_pEnemyAI ){
-		m_pEnemyAI = CreateEnemyAI( m_nextAI );
+		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
 	}
 
 	if( !s_pAttackGun ){
@@ -96,7 +96,7 @@ void EnemyBase::Update()
 		// AI変更
 		m_prevAI = m_pEnemyAI->GetAIKind();
 		SAFE_DELETE( m_pEnemyAI );
-		m_pEnemyAI = CreateEnemyAI( m_nextAI );
+		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
 		m_pEnemyAI->SetThingingEnemy(this);
 		m_nextAI = Common::AI_MAX;
 	}
@@ -175,7 +175,7 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 
 	if( m_HP <= 0 ){
 		// スコア追加
-		ScoreRecorder::GetInstance()->ScoreEvent( ScoreRecorder::ENEMY_AAA_DEATH );
+		GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AAA_DEATH );
 
 		// 爆破エフェクトを出す
 		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x), static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y) );

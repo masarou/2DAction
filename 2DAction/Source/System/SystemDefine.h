@@ -1,6 +1,6 @@
 
-#ifndef _MENU_SYS_DEFINE_
-#define _MENU_SYS_DEFINE_
+#ifndef __MENU_SYS_DEFINE__
+#define __MENU_SYS_DEFINE__
 
 //必要なヘッダーインクルード
 

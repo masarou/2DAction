@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef ENEMY_MANAGER
-#define ENEMY_MANAGER
+#ifndef __ENEMY_MANAGER__
+#define __ENEMY_MANAGER__
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"

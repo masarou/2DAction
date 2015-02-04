@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "FlowTitle.h"
+#include "Common/Utility/CommonGameUtility.h"
 #include "System/Sound/SystemSoundManager.h"
 
 FlowBase *FlowTitle::Create( const std::string &fileName )
@@ -28,13 +29,11 @@ FlowTitle::~FlowTitle(void)
 	DEBUG_PRINT("FlowTitle削除！！\n");
 }
 
-bool FlowTitle::Finish()
-{
-	return true;
-}
-
 bool FlowTitle::Init()
 {
+	// ゲームスコア等初期化
+	Utility::GameInitALL();
+
 	// 一枚絵作成
 	m_pTitleTex = Title2D::CreateTitle2D();
 	return true;

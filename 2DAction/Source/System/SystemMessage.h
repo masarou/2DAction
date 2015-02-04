@@ -6,8 +6,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_MESSAGE
-#define SYSTEM_MESSAGE
+#ifndef __SYSTEM_MESSAGE__
+#define __SYSTEM_MESSAGE__
 
 #include "SystemDefine.h"
 

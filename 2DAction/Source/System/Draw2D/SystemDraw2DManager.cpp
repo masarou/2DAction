@@ -60,7 +60,7 @@ void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &h
 	}
 
 	// ‰æ–Ê“à‚É•\Ž¦‚·‚é‚à‚Ì‚Å‚ ‚ê‚Î•`‰æ
-	if( IsPositionInWindowArea(texInfo) ){
+	if( Utility::IsPositionInWindowArea(texInfo) ){
 		PushDrawInfoMain( texInfo, handle, priority );
 	}
 }
@@ -151,7 +151,7 @@ void Draw2DManager::DrawTexture( const uint32_t &drawIndex )
 	// ‰æ‘œ‚Ì•`‰æˆÊ’uŽæ“¾
 	math::Vector2 pos = math::Vector2( drawInfo.m_info.m_posOrigin.x, drawInfo.m_info.m_posOrigin.y );
 	if( drawInfo.m_info.m_usePlayerOffset ){
-		pos -= GetPlayerOffsetPos();
+		pos -= Utility::GetPlayerOffsetPos();
 	}
 
 	// •`‰æ‰æ‘œ‚ÌƒTƒCƒYŽæ“¾

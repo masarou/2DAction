@@ -78,7 +78,7 @@ void GameManager::Update()
 
 	// 敵の生成
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
-		if( GetRandamValue( 1, 0 ) == 0){
+		if( Utility::GetRandamValue( 1, 0 ) == 0){
 			pEnemyManager->AddEnemy( Common::ENEMY_KIND_AAA );
 		}
 		else{
@@ -87,7 +87,7 @@ void GameManager::Update()
 	}
 	// アイテムの生成
 	if( IsCreateItem( m_itemMax, m_itemFrequency ) ){
-		uint32_t kind = GetRandamValue( ItemObject::ITEM_KIND_MAX-1, 0 );
+		uint32_t kind = Utility::GetRandamValue( ItemObject::ITEM_KIND_MAX-1, 0 );
 		pItemManager->CreateItem( static_cast<ItemObject::ITEM_KIND>(kind) );
 	}
 }
@@ -139,7 +139,7 @@ bool GameManager::IsCreateEnemy( uint32_t enemyLimit, uint32_t frequency )
 		}
 		else if( currEnemy < enemyLimit ){
 			// 出現頻度によって生成
-			uint32_t rand = static_cast<uint32_t>( GetRandamValue( 1000, 0 ) );
+			uint32_t rand = static_cast<uint32_t>( Utility::GetRandamValue( 1000, 0 ) );
 			if( rand < ( 5 + (5*frequency) )){
 				isCreate = true;	
 			}
@@ -157,7 +157,7 @@ bool GameManager::IsCreateItem( uint32_t itemLimit, uint32_t frequency )
 		uint32_t currItem = pEnemyManager->CountItem();
 		if( currItem <= itemLimit ){
 			// 出現頻度によって生成
-			uint32_t rand = static_cast<uint32_t>( GetRandamValue( 1000, 0 ) );
+			uint32_t rand = static_cast<uint32_t>( Utility::GetRandamValue( 1000, 0 ) );
 			if( rand < ( 5 + (5*frequency) )){
 				isCreate = true;	
 			}

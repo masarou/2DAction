@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_COLLISION_MANAGER
-#define SYSTEM_COLLISION_MANAGER
+#ifndef __SYSTEM_COLLISION_MANAGER__
+#define __SYSTEM_COLLISION_MANAGER__
 
 #include "System/SystemDefine.h"
 #include "SystemCollisionUnit.h"

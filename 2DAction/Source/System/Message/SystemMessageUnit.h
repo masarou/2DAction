@@ -8,8 +8,8 @@
  */
 /* ====================================================================== */
 
-#ifndef MESSAGE_UNIT
-#define MESSAGE_UNIT
+#ifndef __MESSAGE_UNIT__
+#define __MESSAGE_UNIT__
 
 #include "Common/CommonDefine.h"
 #include "System/Message/SystemMessageManager.h"

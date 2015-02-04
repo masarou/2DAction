@@ -24,8 +24,8 @@
 */
 /* ====================================================================== */
 
-#ifndef _SYSTEM_INPUT_WATCHER_
-#define _SYSTEM_INPUT_WATCHER_
+#ifndef __SYSTEM_INPUT_WATCHER__
+#define __SYSTEM_INPUT_WATCHER__
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"

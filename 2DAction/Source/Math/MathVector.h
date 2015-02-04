@@ -7,8 +7,8 @@
  *		
  */
 /* ====================================================================== */
-#ifndef MATH_VECTOR
-#define MATH_VECTOR
+#ifndef __MATH_VECTOR__
+#define __MATH_VECTOR__
 
 namespace math{
 

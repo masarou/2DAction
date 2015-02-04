@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_DRAW_RESOURCE_MANAGER
-#define SYSTEM_DRAW_RESOURCE_MANAGER
+#ifndef __SYSTEM_DRAW_RESOURCE_MANAGER__
+#define __SYSTEM_DRAW_RESOURCE_MANAGER__
 
 #include "System/SystemDefine.h"
 #include "System/Draw2D/SystemDraw2DDefine.h"

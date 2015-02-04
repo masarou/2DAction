@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef GAME_MANAGER
-#define GAME_MANAGER
+#ifndef __GAME_MANAGER__
+#define __GAME_MANAGER__
 
 #include "System/Task/SystemTaskUnit.h"
 

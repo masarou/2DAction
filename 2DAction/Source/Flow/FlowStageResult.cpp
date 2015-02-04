@@ -9,29 +9,30 @@
 
 #include <fstream>
 #include <algorithm>
-#include "FlowResult.h"
-#include "Game/GameScoreRecorder.h"
+#include "FlowStageResult.h"
+#include "FlowManager.h"
+#include "Game/GameRecorder.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-FlowBase *FlowResult::Create( const std::string &fileName )
+FlowBase *FlowStageResult::Create( const std::string &fileName )
 {
-	return NEW FlowResult(fileName);
+	return NEW FlowStageResult(fileName);
 }
 
-FlowResult::FlowResult( const std::string &fileName )
+FlowStageResult::FlowStageResult( const std::string &fileName )
 : FlowBase(fileName)
 , m_pResultTex(NULL)
 {
-	DEBUG_PRINT("FlowResult生成！！\n");
+	DEBUG_PRINT("FlowStageResult生成！！\n");
 }
 
 
-FlowResult::~FlowResult(void)
+FlowStageResult::~FlowStageResult(void)
 {
-	DEBUG_PRINT("FlowResult削除！！\n");
+	DEBUG_PRINT("FlowStageResult削除！！\n");
 }
 
-bool FlowResult::Init()
+bool FlowStageResult::Init()
 {
 	// 背景一枚絵作成
 	m_pResultTex = Result2D::CreateResult2D();
@@ -43,50 +44,30 @@ bool FlowResult::Init()
  * @brief	パッド操作関数
  */
 /* ================================================ */
-void FlowResult::PadEventDecide()
+void FlowStageResult::PadEventDecide()
 {
 	if( m_pResultTex && m_pResultTex->ProceedNext() ){
-		StartFade("proceed");
-
-		// 今回のプレイを反映させたランキング作成
-		Common::SAVE_SCORE scoreLog;
-		bool retVal = GetSaveRanking( scoreLog );
-		if( retVal ){
-			UpdateSortRanking( scoreLog );
-		}
-	
-		// プレイログ書き出し
-		FILE *fpWrite = fopen( "playLog.dat", "wb" );
-		if( fpWrite == NULL ){
+		// 次に進む
+		GameRecorder *pRecorder = GameRecorder::GetInstance();
+		if( !pRecorder ){
+			DEBUG_ASSERT( 0, "GameRecorder is NULL");
 			return;
 		}
-		fwrite( &scoreLog, sizeof(scoreLog), 1, fpWrite );
-		fclose( fpWrite );
-	}
-}
-
-bool sortScore(const uint32_t &left, const uint32_t &rRight)
-{
-	return left > rRight;
-}
-
-void FlowResult::UpdateSortRanking( Common::SAVE_SCORE &scoreData )
-{
-	// 今までのスコアをpush
-	std::vector<uint32_t> ranking;
-	for( uint32_t i = 0; i < NUMBEROF(scoreData.m_scoreTimeAttack) ; ++i ){
-		ranking.push_back(scoreData.m_scoreTimeAttack[i]);
-	}
-
-	// 今回のスコアをpush
-	uint32_t scoreCurr = ScoreRecorder::GetInstance()->GetScore();
-	ranking.push_back(scoreCurr);
-
-	// 並び替え
-	std::sort( ranking.begin(), ranking.end(), sortScore);
-	
-	for( uint32_t i = 0; i < NUMBEROF(scoreData.m_scoreTimeAttack) ; ++i ){
-		scoreData.m_scoreTimeAttack[i] = ranking.at(i);
+		switch( pRecorder->GetGameStateOfProgress() ){
+		case GameRecorder::STATE_TITLE:
+		default:
+			DEBUG_ASSERT( 0, "想定外のフロー" );
+			// とりあえずタイトルへ
+			StartFade( "title" );
+			break;
+		case GameRecorder::STATE_STAGE01:
+		case GameRecorder::STATE_STAGE02:
+			StartFade( "interval" );
+			break;
+		case GameRecorder::STATE_STAGE03:
+			StartFade( "totalresult" );	// すべてのステージ終了
+			break;
+		}
 	}
 }
 
@@ -148,7 +129,7 @@ bool Result2D::Init()
 	m_pNumCounterTotal->SetDrawInfo( m_numberInfo );
 
 	// 敵を倒して得た得点をセット
-	m_pNumCounterResult->AddValue( ScoreRecorder::GetInstance()->GetScore() );
+	m_pNumCounterResult->AddValue( GameRecorder::GetInstance()->GetScore() );
 
 	return true;
 }
@@ -162,7 +143,7 @@ void Result2D::Update()
 	case DISP_RESULT:
 		if( !m_pNumCounterResult->IsPlayCountAnim() ){
 			m_dispState = DISP_BONUS;
-			m_pNumCounterBonus->AddValue( ScoreRecorder::GetInstance()->GetScore() );
+			m_pNumCounterBonus->AddValue( GameRecorder::GetInstance()->GetScore() );
 		}
 		break;
 	case DISP_BONUS:
@@ -200,14 +181,14 @@ void Result2D::PadEventDecide()
 		m_pNumCounterResult->CountAnimEnd();
 		m_dispState = DISP_BONUS;
 
-		m_pNumCounterBonus->AddValue( ScoreRecorder::GetInstance()->GetScore() );
+		m_pNumCounterBonus->AddValue( GameRecorder::GetInstance()->GetScore() );
 		break;
 	case DISP_BONUS:
 		// カウントアニメ終了
 		m_pNumCounterBonus->CountAnimEnd();
 		m_dispState = DISP_TOTAL;
 
-		m_pNumCounterTotal->AddValue( ScoreRecorder::GetInstance()->GetScore() );
+		m_pNumCounterTotal->AddValue( GameRecorder::GetInstance()->GetScore() );
 		break;
 	case DISP_TOTAL:
 		// カウントアニメ終了

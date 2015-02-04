@@ -7,8 +7,8 @@
  *		çsóÒ
  */
 /* ====================================================================== */
-#ifndef MATH_MATRIX
-#define MATH_MATRIX
+#ifndef __MATH_MATRIX__
+#define __MATH_MATRIX__
 
 namespace math{
 

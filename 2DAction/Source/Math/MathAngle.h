@@ -6,8 +6,8 @@
  *		
  */
 /* ====================================================================== */
-#ifndef MATH_ANGLE
-#define MATH_ANGLE
+#ifndef __MATH_ANGLE__
+#define __MATH_ANGLE__
 
 #include "Math/MathCommon.h"
 

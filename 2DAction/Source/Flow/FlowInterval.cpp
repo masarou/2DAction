@@ -6,44 +6,32 @@
  *		ゲーム終了後リトライ確認画面クラス
  */
 /* ====================================================================== */
-#include "FlowRetry.h"
-#include "Game/GameScoreRecorder.h"
+#include "FlowInterval.h"
+#include "Game/GameRecorder.h"
 #include "System/Sound/SystemSoundManager.h"
 
-FlowBase *FlowRetry::Create( const std::string &fileName )
+FlowBase *FlowInterval::Create( const std::string &fileName )
 {
-	return NEW FlowRetry(fileName);
+	return NEW FlowInterval(fileName);
 }
 
-FlowRetry::FlowRetry( const std::string &fileName )
+FlowInterval::FlowInterval( const std::string &fileName )
 : FlowBase(fileName)
 , m_pRetryTex( NULL )
 {
-	DEBUG_PRINT("FlowRetry生成！！\n");
+	DEBUG_PRINT("FlowInterval生成！！\n");
 }
 
 
-FlowRetry::~FlowRetry(void)
+FlowInterval::~FlowInterval(void)
 {
-	DEBUG_PRINT("FlowRetry削除！！\n");
+	DEBUG_PRINT("FlowInterval削除！！\n");
 }
 
-bool FlowRetry::Init()
+bool FlowInterval::Init()
 {
 	// 一枚絵作成
-	m_pRetryTex = Retry2D::CreateRetry2D();
-	return true;
-}
-
-bool FlowRetry::Finish()
-{
-	// 常駐物で初期化が必要なものリセット
-
-	// スコア初期化
-	ScoreRecorder::GetInstance()->ScoreReset();
-	// プレイヤーオフセットリセット
-	GameAccesser::GetInstance()->InitAll();
-
+	m_pRetryTex = Interval2D::CreateRetry2D();
 	return true;
 }
 
@@ -52,22 +40,50 @@ bool FlowRetry::Finish()
  * @brief	パッド操作関数
  */
 /* ================================================ */
-void FlowRetry::PadEventDecide()
+void FlowInterval::PadEventDecide()
 {
 	// 決定SE鳴らす
 	SoundManager::GetInstance()->PlaySE("Decide");
 
 	switch( m_pRetryTex->GetSelectedNo() ){
 	default:
-		
 		break;
-	case Retry2D::SELECT_RETRY:
-	StartFade("retrygame");
+	case Interval2D::SELECT_NEXT:
+		StartFade( GetNextFadeStr().c_str() );
 		break;
-	case Retry2D::SELECT_TITLE:
-	StartFade("title");
+	case Interval2D::SELECT_TITLE:
+		StartFade("title");
 		break;
 	}
+}
+
+/* ================================================ */
+/**
+ * @brief	次に進むべきラベル取得関数
+ */
+/* ================================================ */
+std::string FlowInterval::GetNextFadeStr()
+{
+	std::string retStr = "";
+	GameRecorder *pRecorder = GameRecorder::GetInstance();
+	if( pRecorder ){
+		switch( pRecorder->GetGameStateOfProgress() ){
+		case GameRecorder::STATE_TITLE:
+		case GameRecorder::STATE_STAGE03:
+		default:
+			DEBUG_ASSERT( 0, "想定外のフロー" );
+			// とりあえずタイトルへ
+			retStr = "title";
+			break;
+		case GameRecorder::STATE_STAGE01:
+			retStr = "nextgame02";
+			break;
+		case GameRecorder::STATE_STAGE02:
+			retStr = "nextgame03";
+			break;
+		}
+	}
+	return retStr;
 }
 
 
@@ -79,13 +95,13 @@ void FlowRetry::PadEventDecide()
  *		タイトル一枚絵クラス
  */
 /* ====================================================================== */
-Retry2D *Retry2D::CreateRetry2D()
+Interval2D *Interval2D::CreateRetry2D()
 {
-	return NEW Retry2D();
+	return NEW Interval2D();
 }
 
-Retry2D::Retry2D()
-: TaskUnit("Retry2D")
+Interval2D::Interval2D()
+: TaskUnit("Interval2D")
 , m_selectNo( 0 )
 {
 	m_textureRetry.Init();
@@ -111,7 +127,7 @@ Retry2D::Retry2D()
 	}
 }
 
-Retry2D::~Retry2D(void)
+Interval2D::~Interval2D(void)
 {
 	m_textureRetry.DeleteAndInit();
 	
@@ -122,7 +138,7 @@ Retry2D::~Retry2D(void)
 }
 
 
-bool Retry2D::Init()
+bool Interval2D::Init()
 {
 	// 方向キーのパッドイベントはPUSHで呼ぶように設定
 	SetPadButtonState( InputWatcher::BUTTON_UP,		InputWatcher::EVENT_PUSH );
@@ -133,32 +149,32 @@ bool Retry2D::Init()
 	return true;
 }
 
-void Retry2D::PadEventUp()
+void Interval2D::PadEventUp()
 {
 }
 
-void Retry2D::PadEventDown()
+void Interval2D::PadEventDown()
 {
 }
-void Retry2D::PadEventRight()
+void Interval2D::PadEventRight()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
 	m_selectNo = (m_selectNo+1) % SELECT_RETRY_MAX;
 }
-void Retry2D::PadEventLeft()
+void Interval2D::PadEventLeft()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
 	m_selectNo = (m_selectNo+(SELECT_RETRY_MAX - 1)) % SELECT_RETRY_MAX;
 }
 
-void Retry2D::Update()
+void Interval2D::Update()
 {
 	CallPadEvent();
 }
 
-void Retry2D::DrawUpdate()
+void Interval2D::DrawUpdate()
 {
 	if( m_textureRetry.m_pTex2D ){
 		m_textureRetry.m_pTex2D->DrawUpdate2D();
@@ -174,7 +190,7 @@ void Retry2D::DrawUpdate()
 			m_pTexChoiceArray[i]->SetAnim("title");
 			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;
-		case SELECT_RETRY:
+		case SELECT_NEXT:
 			m_pTexChoiceArray[i]->SetAnim("retry");
 			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;

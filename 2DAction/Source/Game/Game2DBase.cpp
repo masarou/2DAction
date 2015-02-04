@@ -100,7 +100,7 @@ void Game2DBase::SetDrawInfo( TEX_DRAW_INFO &info)
 	}
 	
 	// 位置情報から空間当たり判定をセットしておく
-	GetBelongAreaInMap( info );
+	Utility::GetBelongAreaInMap( info );
 
 	m_drawInfo = info;
 }

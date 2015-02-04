@@ -8,8 +8,8 @@
  */
 /* ====================================================================== */
 
-#ifndef _ENEMY_AI_DEFINE_
-#define _ENEMY_AI_DEFINE_
+#ifndef __ENEMY_AI_DEFINE__
+#define __ENEMY_AI_DEFINE__
 
 #include "Common/CommonDefine.h"
 

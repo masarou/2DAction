@@ -9,8 +9,8 @@
  */
 /* ====================================================================== */
 
-#ifndef ATTACK_BULLET
-#define ATTACK_BULLET
+#ifndef __ATTACK_BULLET__
+#define __ATTACK_BULLET__
 
 #include "Common/CommonDefine.h"
 #include "Game/Game2DBase.h"

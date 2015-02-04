@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef ENEMY_AI_SEARCH
-#define ENEMY_AI_SEARCH
+#ifndef __ENEMY_AI_SEARCH__
+#define __ENEMY_AI_SEARCH__
 
 #include "EnemyAIBase.h"
 

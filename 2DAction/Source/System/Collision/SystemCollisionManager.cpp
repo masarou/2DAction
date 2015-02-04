@@ -90,7 +90,7 @@ void CollisionManager::CollisionUpdate()
 			}
 			const TEX_DRAW_INFO &texA = m_vCollisionUnit.at(i)->GetDrawInfo();
 			const TEX_DRAW_INFO &texB = m_vCollisionUnit.at(j)->GetDrawInfo();
-			if( IsInRangeTexture( texA, texB ) ){
+			if( Utility::IsInRangeTexture( texA, texB ) ){
 				Common::CMN_EVENT eventInfo;
 				eventInfo.Init();
 

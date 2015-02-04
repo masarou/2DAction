@@ -12,8 +12,8 @@
 #include "Game/Game2DBase.h"
 
 
-#ifndef GAME_EFFECT
-#define GAME_EFFECT
+#ifndef __GAME_EFFECT__
+#define __GAME_EFFECT__
 
 class GameEffect : public TaskUnit
 {

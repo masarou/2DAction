@@ -48,7 +48,7 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 	}
 
 	// 目標となる地点を設定
-	math::Vector2 vec = math::Vector2( GetRandamValueFloat( 100, -100 ), GetRandamValueFloat( 100, -100 ) );
+	math::Vector2 vec = math::Vector2( Utility::GetRandamValueFloat( 100, -100 ), Utility::GetRandamValueFloat( 100, -100 ) );
 	vec.Normalize();
 	vec *= static_cast<float>(m_circleRadius);
 
@@ -63,12 +63,12 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 	vec.Normalize();
 
 	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
-	if( GetMapHeight( nextPos ) == 0 ){
+	if( Utility::GetMapHeight( nextPos ) == 0 ){
 		enemyInfo.m_posOrigin += vec * 2.0f;
 
 		//// アニメ更新
 		std::string animTag = "";
-		switch( GetDirection( vec.x, vec.y ) ){
+		switch( Utility::GetDirection( vec.x, vec.y ) ){
 		default:
 			break;
 		case InputWatcher::BUTTON_UP:
@@ -93,7 +93,7 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 bool EnemyAISearch::SearchPlayer( TEX_DRAW_INFO &enemyInfo )
 {
 	bool retVal = false;
-	if( math::IsInRange( GetPlayerPos(), enemyInfo.m_posOrigin, 200.0f ) ){
+	if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, 200.0f ) ){
 		retVal = true;
 	}
 	return retVal;

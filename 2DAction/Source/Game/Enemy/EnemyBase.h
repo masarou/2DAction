@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef ENEMY_BASE
-#define ENEMY_BASE
+#ifndef __ENEMY_BASE__
+#define __ENEMY_BASE__
 
 #include "Common/CommonDefine.h"
 #include "Common/Utility/CommonGameUtility.h"

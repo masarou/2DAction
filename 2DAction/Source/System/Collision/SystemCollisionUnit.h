@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_COLLISIONUNIT
-#define SYSTEM_COLLISIONUNIT
+#ifndef __SYSTEM_COLLISIONUNIT__
+#define __SYSTEM_COLLISIONUNIT__
 
 #include "System/Message/SystemMessageUnit.h"
 #include "Game/Game2DBase.h"

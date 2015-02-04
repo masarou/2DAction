@@ -10,12 +10,14 @@
 
 #include <map>
 #include "System/SystemDefine.h"
+#include "Common/CommonDefine.h"
 #include "FlowTable.h"
 #include "FlowTitle.h"
-#include "FlowGame.h"
-#include "FlowResult.h"
-#include "FlowRetry.h"
 #include "FlowViewScore.h"
+#include "FlowGame.h"
+#include "FlowStageResult.h"
+#include "FlowInterval.h"
+#include "FlowTotalResult.h"
 #include "FlowExit.h"
 
 typedef FlowBase *(*pFunkRetFlowBase)( const std::string &fileName );
@@ -23,17 +25,21 @@ typedef FlowBase *(*pFunkRetFlowBase)( const std::string &fileName );
 struct FLOW_DATA{
 	pFunkRetFlowBase	pCallFunktion;
 	std::string			jsonKeyPath;
+	Common::GAME_FLOW	flowKind;
 };
 
 //! 各フローとjson名のテーブル
 static FLOW_DATA s_flowTablse[] = 
 {
-	{FlowTitle::Create,		"FlowTitle.json",		},
-	{FlowGame::Create,		"FlowGameMain.json"},
-	{FlowResult::Create,	"FlowGameResult.json"},
-	{FlowRetry::Create,		"FlowRetry.json"},
-	{FlowViewScore::Create,	"FlowScore.json"},
-	{FlowExit::Create,		"FlowExit.json"},
+	{FlowTitle::Create,			"FlowTitle.json",		Common::FLOW_TITLE},
+	{FlowViewScore::Create,		"FlowScore.json",		Common::FLOW_SCORE},
+	{FlowGame::Create,			"FlowGameStage01.json",	Common::FLOW_STAGE01},
+	{FlowGame::Create,			"FlowGameStage02.json",	Common::FLOW_STAGE02},
+	{FlowGame::Create,			"FlowGameStage03.json",	Common::FLOW_STAGE03},
+	{FlowStageResult::Create,	"FlowStageResult.json",	Common::FLOW_RESULT},
+	{FlowInterval::Create,		"FlowInterval.json",	Common::FLOW_INTERVAL},
+	{FlowTotalResult::Create,	"FlowTotalResult.json",	Common::FLOW_RESULT_TOTAL},
+	{FlowExit::Create,			"FlowExit.json",		Common::FLOW_EXIT},
 
 };
 
@@ -67,5 +73,20 @@ FlowBase *FlowTable::CreateFlow(const char* filePath)
 		}
 	}
 
+	DEBUG_ASSERT( 0, "次のフローが見つからない" );
 	return NULL;
 }
+
+Common::GAME_FLOW FlowTable::GetGameFlowKind( std::string fileName )
+{
+	Common::GAME_FLOW retKind = Common::FLOW_MAX;
+	for(uint32_t i = 0; i < NUMBEROF(s_flowTablse); ++i){
+		std::string tmp = s_flowTablse[i].jsonKeyPath;
+		if(strcmp(fileName.c_str(), tmp.c_str()) == 0){
+			retKind = s_flowTablse[i].flowKind;
+			break;
+		}
+	}
+	return retKind;
+}
+

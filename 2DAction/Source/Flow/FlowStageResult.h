@@ -6,8 +6,8 @@
  *		ゲーム結果画面クラス
  */
 /* ====================================================================== */
-#ifndef FLOW_RESULT
-#define FLOW_RESULT
+#ifndef __FLOW_STAGE_RESULT__
+#define __FLOW_STAGE_RESULT__
 
 #include "FlowBase.h"
 #include "Game/Game2DBase.h"
@@ -16,7 +16,7 @@
 
 class Result2D;
 
-class FlowResult : public FlowBase
+class FlowStageResult : public FlowBase
 {
 public:
 
@@ -26,12 +26,9 @@ private:
 
 	virtual bool Init() override;
 	virtual void PadEventDecide() override;
-
-	// 引数に今回のプレイデータを反映したランキングをセット
-	void UpdateSortRanking( Common::SAVE_SCORE &scoreData );
 	
-	FlowResult( const std::string &fileName );
-	~FlowResult(void);
+	FlowStageResult( const std::string &fileName );
+	~FlowStageResult(void);
 
 	Result2D	*m_pResultTex;
 };

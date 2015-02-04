@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_GAME_PLAYER
-#define SYSTEM_GAME_PLAYER
+#ifndef __SYSTEM_GAME_PLAYER__
+#define __SYSTEM_GAME_PLAYER__
 
 #include "System/Input/SystemInputWatcher.h"
 #include "System/Collision/SystemCollisionUnit.h"

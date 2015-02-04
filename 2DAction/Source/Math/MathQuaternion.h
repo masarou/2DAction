@@ -7,8 +7,8 @@
  *		クォータニオン
  */
 /* ====================================================================== */
-#ifndef MATH_QUATERNION
-#define MATH_QUATERNION
+#ifndef __MATH_QUATERNION__
+#define __MATH_QUATERNION__
 
 namespace math{
 

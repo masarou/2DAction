@@ -6,8 +6,8 @@
  *		
  */
 /* ====================================================================== */
-#ifndef SCORE_COUNTER
-#define SCORE_COUNTER
+#ifndef __SCORE_COUNTER__
+#define __SCORE_COUNTER__
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"

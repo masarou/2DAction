@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "GameRegister.h"
+#include "Flow/FlowManager.h"
 
 GameRegister *GameRegister::s_pInstance = NULL;
 
@@ -34,7 +35,7 @@ GameRegister::GameRegister(void)
 {
 	m_pPlayer		= GamePlayer::CreatePlayer();
 	m_pEnemyManager = EnemyManager::CreateEnemyManager();
-	m_pMap			= GameMap::CreateGameMap();
+	m_pMap			= GameMap::CreateGameMap( FlowManager::GetInstance()->GetCurrentFlowKind() );
 	m_pItemManager	= ItemManager::CreateItemManager();
 	m_pGameManager	= GameManager::CreateGameManager();
 }

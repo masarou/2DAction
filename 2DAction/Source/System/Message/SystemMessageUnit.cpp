@@ -10,7 +10,7 @@ SystemMessageUnit::SystemMessageUnit(void)
 
 	// ほかのメッセージユニットとかぶらないIDを生成する
 	for(;;){
-		m_uniqueUnitId = GetRandamValue( INT_MAX, 0 );
+		m_uniqueUnitId = Utility::GetRandamValue( INT_MAX, 0 );
 		if( !SystemMessageManager::GetInstance()->IsNumberOverlapID(m_uniqueUnitId) ){
 			// ユニークなID決定
 			break;

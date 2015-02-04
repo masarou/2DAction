@@ -1,6 +1,6 @@
 
-#ifndef CMN_GAME_UTILITY
-#define CMN_GAME_UTILITY
+#ifndef __CMN_GAME_UTILITY__
+#define __CMN_GAME_UTILITY__
 
 #include "Common/CommonDefine.h"
 #include "Math/MathCommon.h"
@@ -11,8 +11,13 @@
 #include "System/Draw2D/SystemDraw2DDefine.h"
 #include "System/Input/SystemInputWatcher.h"
 
-
 class EnemyAIBase;
+
+namespace Utility
+{
+
+// ゲームが一周して終わるとき、タイトルに戻るときなどにプレイ記録リセット
+void GameInitALL();
 
 void AddPlayerOffsetPos( math::Vector2 &pos );
 
@@ -56,5 +61,7 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min);
 
 // セーブデータの情報を取得
 bool GetSaveRanking( Common::SAVE_SCORE &saveData );
+
+} // Utility
 
 #endif

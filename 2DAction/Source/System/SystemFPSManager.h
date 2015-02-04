@@ -7,8 +7,8 @@
  */
 /* ====================================================================== */
 
-#ifndef SYSTEM_FPS_MANAGER
-#define SYSTEM_FADE_MANAGER
+#ifndef __SYSTEM_FPS_MANAGER__
+#define __SYSTEM_FADE_MANAGER__
 
 #include "SystemDefine.h"
 
