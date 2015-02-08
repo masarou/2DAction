@@ -13,6 +13,7 @@
 
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"
+#include "Item/ItemObject.h"
 
 class GameRecorder : public TaskUnit
 {
@@ -49,6 +50,10 @@ public:
 	void ScoreEvent( const SCORE_KIND &kind );
 	const int32_t GetScore() const;
 
+	// アイテム取得数の加算
+	const void AddItem( ItemObject::ITEM_KIND kind );
+	const uint32_t GetItemCount( ItemObject::ITEM_KIND kind );
+
 	// ゲーム進行状況の更新と取得
 	void SetGameStateOfProgress( STATE_OF_PROGRESS nextState );
 	const STATE_OF_PROGRESS &GetGameStateOfProgress() const;
@@ -63,5 +68,6 @@ private:
 
 	uint32_t			m_userScore;				// ユーザースコア
 	uint32_t			m_scoreDetail[POINT_MAX];	// スコア詳細
+	uint32_t			m_getItem[ItemObject::ITEM_KIND_MAX];	// ユーザーの取得アイテム
 };
 #endif

@@ -74,7 +74,6 @@ private:
 	uint32_t			m_HP;							// “G‘Ì—Í
 	math::Vector2		m_eye;							// “G‚Ì‹ü
 	uint32_t			m_walkHeight;					// “G‚Ì•à‚¯‚é‚‚³
-	TEX_DRAW_INFO		m_enemyInfo;					// •`‰æŠÖŒWî•ñ
 
 	Texture2D			m_textureLife;					// “Gƒ‰ƒCƒt‰æ‘œ
 

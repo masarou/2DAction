@@ -14,7 +14,8 @@
 #include "System/Collision/SystemCollisionManager.h"
 
 FlowBase::FlowBase(std::string fileName)
-	: m_filePath(fileName)
+: m_filePath(fileName)
+, m_isInvalidPadCtrl( false )
 {
 	LoadFlowFile();
 }
@@ -28,15 +29,19 @@ FlowBase::~FlowBase(void)
  * @brief	次の画面へ
  */
 /* ================================================ */
-void FlowBase::StartFade(const char* eventStr)
+bool FlowBase::StartFade(const char* eventStr)
 {
 	for(uint32_t i = 0; i < m_vEventName.size(); ++i){
 		if(m_vEventName.at(i).eventStr.compare(eventStr) == 0){
-			FlowManager::GetInstance()->ChangeFlow(m_vEventName.at(i).filePath.c_str());
-			return;
+			bool changeResult = FlowManager::GetInstance()->ChangeFlow(m_vEventName.at(i).filePath.c_str());
+			if( changeResult ){
+				m_isInvalidPadCtrl = true;
+			}
+			return changeResult;
 		}
 	}
 	DEBUG_ASSERT( 0, "event名がない");
+	return false;
 }
 
 /* ============================================== */
@@ -93,8 +98,9 @@ void FlowBase::UpdateFlow()
 	// 派生先の子タスク更新前Update
 	UpdateFlowPreChildTask();
 
-	// パッド入力取得
-	CallPadEvent();
+	if( !m_isInvalidPadCtrl ){
+		CallPadEvent();	// パッド入力取得
+	}
 
 	// 子の更新
 	ChildUpdate();

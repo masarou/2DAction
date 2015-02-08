@@ -128,7 +128,11 @@ void Draw2DManager::Action()
 	float yy = 0.0f;
 	GameAccesser::GetInstance()->GetPlayerOffSet(xx, yy);
 	DrawFormatString( 0, 10, Color, "PlayerX = %.1f, PlayerY = %.1f\n", xx + WINDOW_WIDTH/2, yy + WINDOW_HEIGHT/2);
-	DrawCircle( - xx, - yy, 2, Color, false);
+	for( uint32_t i = 0; i < m_drawCircle.size() ; ++i ){
+		math::Vector2 tmp = m_drawCircle.at(i) - Utility::GetPlayerOffsetPos();
+		DrawCircle( tmp.x, tmp.y, 3, Color, false);
+	}
+	m_drawCircle.clear();
 #endif
 
 	m_vDrawTask.clear();

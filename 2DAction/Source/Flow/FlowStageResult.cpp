@@ -67,7 +67,9 @@ void FlowStageResult::PadEventDecide()
 		case GameRecorder::STATE_STAGE03:
 			StartFade( "totalresult" );	// すべてのステージ終了
 			break;
-		}
+		}	
+		// 決定SE鳴らす
+		SoundManager::GetInstance()->PlaySE("Decide");
 	}
 }
 

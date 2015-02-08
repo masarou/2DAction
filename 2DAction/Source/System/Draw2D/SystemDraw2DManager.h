@@ -39,6 +39,10 @@ public:
 	//! ƒNƒ‰ƒX‚Ì‰ð•ú
 	void DeleteDraw2DManager();
 
+#ifdef _DEBUG
+	std::vector<math::Vector2> m_drawCircle;
+#endif
+
 private:
 
 	struct DRAW2D{

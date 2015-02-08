@@ -339,4 +339,11 @@ bool GetSaveRanking( Common::SAVE_SCORE &saveData )
 	return true;
 }
 
+#ifdef _DEBUG
+void DrawDebugCircle( math::Vector2 drawPos )
+{
+	Draw2DManager::GetInstance()->m_drawCircle.push_back( drawPos );
+}
+#endif
+
 }

@@ -55,7 +55,7 @@ private:
 	virtual bool DieMain();
 
 	//! フロー変更
-	void ChangeFlow(const char* filePath);
+	bool ChangeFlow(const char* filePath);
 
 	static FlowManager	*m_pInstance;
 	std::string			m_nextFilePath;	//!<遷移先の画面のファイル名

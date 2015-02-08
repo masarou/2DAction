@@ -8,7 +8,6 @@
 /* ====================================================================== */
 #include "FlowInterval.h"
 #include "Game/GameRecorder.h"
-#include "System/Sound/SystemSoundManager.h"
 
 FlowBase *FlowInterval::Create( const std::string &fileName )
 {
@@ -45,15 +44,9 @@ void FlowInterval::PadEventDecide()
 	// 決定SE鳴らす
 	SoundManager::GetInstance()->PlaySE("Decide");
 
-	switch( m_pRetryTex->GetSelectedNo() ){
-	default:
-		break;
-	case Interval2D::SELECT_NEXT:
-		StartFade( GetNextFadeStr().c_str() );
-		break;
-	case Interval2D::SELECT_TITLE:
-		StartFade("title");
-		break;
+	std::string eventStr = GetNextFadeStr().c_str();
+	if( eventStr.compare("") != 0){
+		StartFade( eventStr.c_str() );
 	}
 }
 
@@ -65,22 +58,28 @@ void FlowInterval::PadEventDecide()
 std::string FlowInterval::GetNextFadeStr()
 {
 	std::string retStr = "";
-	GameRecorder *pRecorder = GameRecorder::GetInstance();
-	if( pRecorder ){
-		switch( pRecorder->GetGameStateOfProgress() ){
-		case GameRecorder::STATE_TITLE:
-		case GameRecorder::STATE_STAGE03:
-		default:
-			DEBUG_ASSERT( 0, "想定外のフロー" );
-			// とりあえずタイトルへ
-			retStr = "title";
-			break;
-		case GameRecorder::STATE_STAGE01:
-			retStr = "nextgame02";
-			break;
-		case GameRecorder::STATE_STAGE02:
-			retStr = "nextgame03";
-			break;
+
+	if( m_pRetryTex->GetSelectedNo() == Interval2D::SELECT_TITLE ){
+		retStr = "title";
+	}
+	else{
+		GameRecorder *pRecorder = GameRecorder::GetInstance();
+		if( pRecorder ){
+			switch( pRecorder->GetGameStateOfProgress() ){
+			case GameRecorder::STATE_TITLE:
+			case GameRecorder::STATE_STAGE03:
+			default:
+				DEBUG_ASSERT( 0, "想定外のフロー" );
+				// とりあえずタイトルへ
+				retStr = "title";
+				break;
+			case GameRecorder::STATE_STAGE01:
+				retStr = "nextgame02";
+				break;
+			case GameRecorder::STATE_STAGE02:
+				retStr = "nextgame03";
+				break;
+			}
 		}
 	}
 	return retStr;

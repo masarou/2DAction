@@ -14,7 +14,9 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "System/Message/SystemMessageManager.h"
 #include "Game/Enemy/EnemyManager.h"
+#include "Game/Item/ItemObject.h"
 #include "Game/GameRegister.h"
+#include "Game/GameRecorder.h"
 #include "Common/Utility/CommonGameUtility.h"
 
 static uint32_t DAMAGE_INVISIBLE_TIME = 120;
@@ -82,11 +84,18 @@ bool GamePlayer::Init()
 	// 攻撃マシンガンクラスセット
 	m_attackGun = AttackGun::CreateGun( Common::OWNER_PLAYER );
 
+	// アイテム取得数を反映
+	for( uint32_t i = 0; i < ItemObject::ITEM_KIND_MAX ; ++i ){
+		uint32_t itemNum = GameRecorder::GetInstance()->GetItemCount( static_cast<ItemObject::ITEM_KIND>(i) );
+		for( uint32_t j = 0; j < itemNum ; ++j ){
+			PlayerGetItem( static_cast<ItemObject::ITEM_KIND>(i), /*isCountUp=*/false );
+		}
+	}
+
 	// 画像の真ん中がオフセット位置になるように調整しておく(プレイヤーの初期位置セット)
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
-
-	math::Vector2 vec = math::Vector2( DEFAULT_POS_X, DEFAULT_POS_Y );
+	math::Vector2 vec = math::Vector2( static_cast<float>(DEFAULT_POS_X), static_cast<float>(DEFAULT_POS_Y) );
 	GameAccesser::GetInstance()->AddPlayerOffSet( vec );
 
 	return true;
@@ -110,7 +119,7 @@ void GamePlayer::Update()
 	}
 
 	{
-		// マイフレーム値が変わるような項目はここで
+		// 毎フレーム値が変わるような項目はここで
 		m_speedMove = m_speedMoveBase * static_cast<uint32_t>(m_speedMultiply + 0.5f);
 		if( m_speedMultiply > 1.0f ){
 			m_speedMultiply *= 0.95f;
@@ -311,11 +320,23 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
 	// offsetの数値分位置を引いて描画しているので実際に調べるときは足してやる
 	// さらにプレイヤー画像の画像中心位置になるように足してやる
 	nextFlamePos += nextFlameAddValue;
-	nextFlamePos.x += static_cast<float>(WINDOW_WIDTH / 2.0f) + (playerTexInfo.m_sizeWidth / 2.0f);
-	nextFlamePos.y += static_cast<float>(WINDOW_HEIGHT / 2.0f) + (playerTexInfo.m_sizeHeight / 2.0f);
+	nextFlamePos.x += static_cast<float>(WINDOW_WIDTH / 2.0f);
+	nextFlamePos.y += static_cast<float>(WINDOW_HEIGHT / 2.0f);
+
+	math::Vector2 up = nextFlamePos;
+	up.y -= playerTexInfo.m_sizeHeight/2.0f;
+	math::Vector2 down = nextFlamePos;
+	down.y += playerTexInfo.m_sizeHeight/2.0f;
+	math::Vector2 left = nextFlamePos;
+	left.x -= playerTexInfo.m_sizeWidth/2.0f;
+	math::Vector2 right = nextFlamePos;
+	right.x += playerTexInfo.m_sizeWidth/2.0f;
 
 	// 移動先が歩けないならば移動しない
-	if( Utility::GetMapHeight( nextFlamePos ) == 0 ){
+	if( Utility::GetMapHeight( up ) == 0
+		&& Utility::GetMapHeight( down ) == 0
+		&& Utility::GetMapHeight( left ) == 0
+		&& Utility::GetMapHeight( right ) == 0){
 		ret = true;
 	}
 	return ret;
@@ -379,7 +400,7 @@ void GamePlayer::EventDamage( uint32_t damageValue )
 }
 
 // アイテム取得
-void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
+void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCountUp )
 {
 	switch( itemKind ){
 	default:
@@ -388,6 +409,11 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
 			// 銃の発射間隔を狭める
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
 			gunState.m_shootInterval -= ( gunState.m_shootInterval <= 2 ) ? 0 : 2;
+
+			if( isCountUp ){
+				// 取得アイテム数をカウント
+				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_RAPID_BULLET );
+			}
 		}
 		break;
 	case ItemObject::ITEM_KIND_LIFE_UP:
@@ -397,6 +423,11 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
 			if( m_playerLife > LIFE_POINT_MAX ){
 				m_playerLife = LIFE_POINT_MAX;
 			}
+
+			if( isCountUp ){
+				// 取得アイテム数をカウント
+				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_LIFE_UP );
+			}
 		}
 		break;
 	case ItemObject::ITEM_KIND_DAMAGE_UP:
@@ -404,6 +435,11 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind )
 			// ダメージ量UP
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
 			gunState.m_damage += 20;
+
+			if( isCountUp ){
+				// 取得アイテム数をカウント
+				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_DAMAGE_UP );
+			}
 		}
 		break;
 	}

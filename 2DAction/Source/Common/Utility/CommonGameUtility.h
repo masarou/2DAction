@@ -62,6 +62,10 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min);
 // セーブデータの情報を取得
 bool GetSaveRanking( Common::SAVE_SCORE &saveData );
 
+#ifdef _DEBUG
+void DrawDebugCircle( math::Vector2 drawPos );
+#endif
+
 } // Utility
 
 #endif

@@ -188,9 +188,11 @@ void FlowManager::Update()
  * @brief	ŽŸ‚Ì‰æ–Ê‚Ö
  */
 /* ================================================ */
-void FlowManager::ChangeFlow(const char* filePath){
+bool FlowManager::ChangeFlow(const char* filePath){
 	if(m_pFlow && m_step == FLOW_ACTION ){
 		m_step = FLOW_FADEIN_CHECK;
 		m_nextFilePath = filePath;
+		return true;
 	}
+	return false;
 }

@@ -9,6 +9,7 @@
 /* ====================================================================== */
 
 #include "System/Input/SystemInputWatcher.h"
+#include "System/SystemFadeManager.h"
 
 //! スティックの無効範囲
 #define STICK_INVALID_RANGE 0
@@ -131,6 +132,11 @@ bool InputWatcher::IsButtonEvent( const BUTTON_KIND &kind )
 /* ================================================ */
 void InputWatcher::CallPadEvent()
 {
+	// フェードが明けていないなら操作無効
+	if( FadeManager::GetInstance()->GetCurrentState() != FadeManager::STATE_IDLE ){
+		return;
+	}
+
 	//! 保持しているボタン更新
 	m_preButtonState = m_buttonState;
 	m_buttonState = GetJoypadInputState( m_watchPadIndex );

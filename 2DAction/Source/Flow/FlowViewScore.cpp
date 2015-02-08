@@ -9,7 +9,6 @@
 
 #include "FlowViewScore.h"
 #include "Common/Utility/CommonGameUtility.h"
-#include "System/Sound/SystemSoundManager.h"
 
 FlowBase *FlowViewScore::Create( const std::string &fileName )
 {

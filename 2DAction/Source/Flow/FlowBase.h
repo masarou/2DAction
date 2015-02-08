@@ -13,6 +13,7 @@
 #include "System/Task/SystemTaskManager.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/Input/SystemInputWatcher.h"
+#include "System/Sound/SystemSoundManager.h"
 #include "FlowManager.h"
 
 class FlowBase : public TaskManagerBase, public InputWatcher 
@@ -40,7 +41,7 @@ protected:
 protected:
 	
 	// 次の画面に遷移
-	void StartFade( const char *eventStr );
+	bool StartFade( const char *eventStr );
 
 private:
 
@@ -65,6 +66,7 @@ private:
 		std::string filePath;	//!< イベントに対するファイル名
 	};
 
+	bool m_isInvalidPadCtrl;	//!< パッド操作無効フラグ
 	std::string m_filePath;		//!< 読み込んでいるjsonファイルパス
 	std::vector<FLOW_DATA> m_vEventName;
 };

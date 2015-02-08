@@ -58,7 +58,9 @@ void GameMap::DrawUpdate()
 
 			//!画面内かどうか判定
 			if( Utility::IsPositionInWindowArea( posX, posY ) ){
-
+				
+				uint32_t index = m_mapInfo.m_vTileKind[i*m_mapInfo.m_width + j];
+				TILE_INFO tmpInfo = m_vTileInfo.at(index-1);
 				//!プレイヤー情報取得
 				float offsetx = 0.0f;
 				float offsety = 0.0f;
@@ -66,8 +68,6 @@ void GameMap::DrawUpdate()
 				posY += - static_cast<int32_t>(offsety);
 				posX += - static_cast<int32_t>(offsetx);
 
-				uint32_t index = m_mapInfo.m_vTileKind[i*m_mapInfo.m_width + j];
-				TILE_INFO tmpInfo = m_vTileInfo.at(index-1);
 				DrawRotaGraph(
 				posX
 				, posY
@@ -90,9 +90,9 @@ const uint32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
 	}
 
 	uint32_t retValue = INVALID_VALUE;
-	uint32_t row	= ( static_cast<uint32_t>(pos.y) / m_texInfo.m_sizeHeight);	// マップ全体で縦何番目か
-	uint32_t column	= ( static_cast<uint32_t>(pos.x) / m_texInfo.m_sizeWidth);	// 横何番目か
-	uint32_t index	= row*m_mapInfo.m_width + column;
+	uint32_t row	= ( static_cast<uint32_t>(pos.y+m_texInfo.m_sizeHeight/2) / m_texInfo.m_sizeHeight);// マップ全体で縦何番目か
+	uint32_t column	= ( static_cast<uint32_t>(pos.x+m_texInfo.m_sizeWidth/2) / m_texInfo.m_sizeWidth);	// 横何番目か
+	uint32_t index	= row*m_mapInfo.m_width + column;	// map上での配列番号を求める
 
 	if( m_mapInfo.m_vTileKind.size() > index ){
 		uint32_t tileKind = m_mapInfo.m_vTileKind.at(index);

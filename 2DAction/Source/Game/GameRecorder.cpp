@@ -50,6 +50,9 @@ void GameRecorder::InitRecord()
 	for( uint32_t i = 0; i < NUMBEROF(m_scoreDetail) ; ++i ){
 		m_scoreDetail[i] = 0;
 	}
+	for( uint32_t i = 0; i < NUMBEROF(m_getItem) ; ++i ){
+		m_getItem[i] = 0;
+	}
 }
 
 void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
@@ -79,6 +82,18 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
 const int32_t GameRecorder::GetScore() const
 {
 	return m_userScore;
+}
+
+const void GameRecorder::AddItem( ItemObject::ITEM_KIND kind )
+{
+	uint32_t index = static_cast<uint32_t>(kind);
+	++m_getItem[index];
+}
+
+const uint32_t GameRecorder::GetItemCount( ItemObject::ITEM_KIND kind )
+{
+	uint32_t index = static_cast<uint32_t>(kind);
+	return m_getItem[index];
 }
 
 // ƒQ[ƒ€isó‹µ

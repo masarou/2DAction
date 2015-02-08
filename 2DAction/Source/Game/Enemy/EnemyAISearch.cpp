@@ -9,6 +9,7 @@
 
 #include "EnemyAISearch.h"
 #include "Common/Utility/CommonGameUtility.h"
+#include "System/Draw2D/SystemDraw2DResource.h"
 
 EnemyAISearch *EnemyAISearch::Create()
 {
@@ -62,8 +63,28 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 	vec -= enemyInfo.m_posOrigin;
 	vec.Normalize();
 
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( "player.json" );
 	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
-	if( Utility::GetMapHeight( nextPos ) == 0 ){
+	math::Vector2 up = nextPos;
+	up.y += playerTexInfo.m_sizeHeight/2.0f;
+	math::Vector2 down = nextPos;
+	down.y -= playerTexInfo.m_sizeHeight/2.0f;
+	math::Vector2 left = nextPos;
+	left.x -= playerTexInfo.m_sizeWidth/2.0f;
+	math::Vector2 right = nextPos;
+	right.x += playerTexInfo.m_sizeWidth/2.0f;
+
+#ifdef _DEBUG
+	Utility::DrawDebugCircle( up );
+	Utility::DrawDebugCircle( down );
+	Utility::DrawDebugCircle( right );
+	Utility::DrawDebugCircle( left );
+#endif
+
+	if( Utility::GetMapHeight( up ) == 0
+		&& Utility::GetMapHeight( down ) == 0
+		&& Utility::GetMapHeight( left ) == 0
+		&& Utility::GetMapHeight( right ) == 0){
 		enemyInfo.m_posOrigin += vec * 2.0f;
 
 		//// アニメ更新
