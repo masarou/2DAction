@@ -162,13 +162,13 @@ void Draw2DManager::DrawTexture( const uint32_t &drawIndex )
 	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( drawInfo.m_info.m_fileName.c_str() );
 
 	DrawRotaGraph3(
-		pos.x
-		, pos.y
+		static_cast<int32_t>(pos.x)
+		, static_cast<int32_t>(pos.y)
 		, ( drawInfo.m_info.m_arrangeOrigin.x == INVALID_FVALUE ) ? texInfo.m_sizeWidth / 2 : drawInfo.m_info.m_arrangeOrigin.x
 		, ( drawInfo.m_info.m_arrangeOrigin.y == INVALID_FVALUE ) ? texInfo.m_sizeHeight / 2 : drawInfo.m_info.m_arrangeOrigin.y
-		, static_cast<uint32_t>(drawInfo.m_info.m_scale.x)
-		, static_cast<uint32_t>(drawInfo.m_info.m_scale.y)
-		, static_cast<uint32_t>(drawInfo.m_info.m_rot.GetRadian())
+		, static_cast<double>(drawInfo.m_info.m_scale.x)
+		, static_cast<double>(drawInfo.m_info.m_scale.y)
+		, static_cast<double>(drawInfo.m_info.m_rot.GetRadian())
 		, drawInfo.m_handle
 		, true
 		, false
