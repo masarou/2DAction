@@ -1,6 +1,8 @@
 {
-	"gameTime":[
-		{"TimeS": 120}
+	"stageKind":[
+		{"type": "DESTROY"},
+		{"TimeS": 0},
+		{"destroyMax": 100}
 	],
 	"gameCondition":[
 		{"EnemyMax": 200, "frequency":3},

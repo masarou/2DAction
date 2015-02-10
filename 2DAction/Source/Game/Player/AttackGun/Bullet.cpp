@@ -17,18 +17,21 @@
 
 Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage, float speed )
 : TaskUnit( "Bullet" )
-, Collision2DUnit( "bullet.json" )
 , m_ownerType( ownerType )
 , m_liveTime( 0 )
 , m_bulletDamage( damage )
 , m_bulletVec( vec )
 , m_speed( speed )
 {
+	std::string jsonStr = ( m_ownerType == Common::OWNER_PLAYER ) ? "bullet.json" : "bulletEnemy.json" ;
+	m_drawTexture.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
+
 	//!初期位置セット
 	m_drawTexture.m_texInfo.Init();
-	m_drawTexture.m_texInfo.m_fileName = "bullet.json";
+	m_drawTexture.m_texInfo.m_fileName = jsonStr;
 	m_drawTexture.m_texInfo.m_posOrigin = pos;
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+
 }
 
 Bullet::~Bullet(void)

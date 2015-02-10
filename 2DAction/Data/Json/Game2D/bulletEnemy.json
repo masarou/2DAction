@@ -1,6 +1,6 @@
 {
 	"basicInfo":[
-		{"fileName":"bullet.png"
+		{"fileName":"bulletEnemy.png"
 		, "animDefault":"shoot"
 		, "sizeW": 30
 		, "sizeH": 30

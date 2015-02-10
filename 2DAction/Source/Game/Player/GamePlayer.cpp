@@ -20,7 +20,7 @@
 #include "Common/Utility/CommonGameUtility.h"
 
 static uint32_t DAMAGE_INVISIBLE_TIME = 120;
-static uint32_t LIFE_POINT_MAX = 100;
+static uint32_t LIFE_POINT_MAX = 200;
 static uint32_t DEFAULT_POS_X = 1000;
 static uint32_t DEFAULT_POS_Y = 1000;
 
@@ -42,8 +42,10 @@ GamePlayer::GamePlayer(void)
 , m_speedMoveBase( 3 )
 , m_speedMultiply( 0.0f )
 , m_invisibleTime(0)
-, m_playerLife(10)
+, m_playerLife(LIFE_POINT_MAX)
+, m_pStatusMenu(NULL)
 {
+	m_pStatusMenu = NEW PlayerStatusMenu();
 }
 
 
@@ -61,25 +63,6 @@ bool GamePlayer::Init()
 	Utility::GetBelongAreaInMap( m_drawTexture.m_texInfo );
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 
-	// 描画クラスセットアップ
-	m_textureLife.Init();
-	m_textureLife.m_pTex2D = NEW Game2DBase("lifeGauge.json");
-	m_textureLife.m_texInfo.Init();
-	m_textureLife.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_textureLife.m_texInfo.m_usePlayerOffset = false;
-	m_textureLife.m_texInfo.m_posOrigin.x = 0.0f;
-	const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( "lifeGauge.json" );
-	m_textureLife.m_texInfo.m_posOrigin.y = static_cast<float>(WINDOW_HEIGHT - lifeTexInfo.m_sizeHeight);
-	m_textureLife.m_texInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );
-	m_textureLife.m_pTex2D->SetDrawInfo(m_textureLife.m_texInfo);
-
-	m_textureLifeFrame.Init();
-	m_textureLifeFrame.m_pTex2D = NEW Game2DBase("lifeGauge2.json");
-	m_textureLifeFrame.m_texInfo.m_prioity = PRIORITY_HIGH;
-	m_textureLifeFrame.m_texInfo.m_usePlayerOffset = false;
-	m_textureLifeFrame.m_texInfo.m_posOrigin = math::Vector2(128,128);
-	//m_textureLifeFrame.m_texInfo.m_arrangeOrigin = m_textureLife.m_texInfo.m_arrangeOrigin;
-	m_textureLifeFrame.m_pTex2D->SetDrawInfo(m_textureLifeFrame.m_texInfo);
 
 	// 攻撃マシンガンクラスセット
 	m_attackGun = AttackGun::CreateGun( Common::OWNER_PLAYER );
@@ -102,8 +85,6 @@ bool GamePlayer::Init()
 }
 
 bool GamePlayer::DieMain(){
-	m_textureLife.DeleteAndInit();
-	m_textureLifeFrame.DeleteAndInit();
 	return true;
 }
 
@@ -134,6 +115,11 @@ void GamePlayer::Update()
 		}
 	}
 
+	// 現在のライフセット
+	if( m_pStatusMenu ){
+		m_pStatusMenu->SetPlayerHP( m_playerLife, LIFE_POINT_MAX );
+	}
+
 	// パッドに対応した挙動を設定
 	CallPadEvent();
 
@@ -157,24 +143,6 @@ void GamePlayer::DrawUpdate()
 		// プレイヤー描画	
 		m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 		m_drawTexture.m_pTex2D->DrawUpdate2D();
-	}
-
-	// ライフゲージ描画
-	{
-		const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureLife.m_texInfo.m_fileName.c_str() );
-		float ratio = static_cast<float>(m_playerLife)/static_cast<float>(LIFE_POINT_MAX);
-		float lifeValue = (WINDOW_WIDTH / lifeTexInfo.m_sizeWidth) * ratio;
-		
-		if( math::Absf( m_textureLife.m_texInfo.m_scale.x - lifeValue ) > 0.2f ){
-			m_textureLife.m_texInfo.m_scale.x *= (m_textureLife.m_texInfo.m_scale.x - lifeValue < 0.0f) ? 1.02f : 0.98f ;
-		}
-		else{
-			m_textureLife.m_texInfo.m_scale.x = lifeValue;
-		}
-
-		m_textureLife.m_pTex2D->SetDrawInfo(m_textureLife.m_texInfo);
-		m_textureLife.m_pTex2D->DrawUpdate2D();
-		m_textureLifeFrame.m_pTex2D->DrawUpdate2D();
 	}
 }
 
@@ -408,7 +376,7 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCo
 		{
 			// 銃の発射間隔を狭める
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
-			gunState.m_shootInterval -= ( gunState.m_shootInterval <= 2 ) ? 0 : 2;
+			gunState.m_shootInterval -= ( gunState.m_shootInterval <= 4 ) ? 0 : 2;
 
 			if( isCountUp ){
 				// 取得アイテム数をカウント

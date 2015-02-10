@@ -81,7 +81,11 @@ math::Vector2 EnemyAIBase::GetEnemyEyeSight() const
 
 void EnemyAIBase::ChangeEnemyAI( Common::ENEMY_AI nextAI )
 {
-	if( m_enemyMine ){
+	if( !m_enemyMine ){
+		return;
+	}
+
+	if( m_enemyMine->m_nextAI != nextAI ){
 		m_enemyMine->m_nextAI = nextAI;
 	}
 }

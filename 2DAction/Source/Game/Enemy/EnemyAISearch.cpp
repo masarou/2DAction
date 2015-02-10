@@ -74,47 +74,40 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 	math::Vector2 right = nextPos;
 	right.x += playerTexInfo.m_sizeWidth/2.0f;
 
-#ifdef _DEBUG
-	Utility::DrawDebugCircle( up );
-	Utility::DrawDebugCircle( down );
-	Utility::DrawDebugCircle( right );
-	Utility::DrawDebugCircle( left );
-#endif
-
 	if( Utility::GetMapHeight( up ) == 0
 		&& Utility::GetMapHeight( down ) == 0
 		&& Utility::GetMapHeight( left ) == 0
 		&& Utility::GetMapHeight( right ) == 0){
-		enemyInfo.m_posOrigin += vec * 2.0f;
+		enemyInfo.m_posOrigin += vec * 1.0f;
 
-		//// アニメ更新
-		std::string animTag = "";
-		switch( Utility::GetDirection( vec.x, vec.y ) ){
-		default:
-			break;
-		case InputWatcher::BUTTON_UP:
-			animTag = "up";
-			break;
-		case InputWatcher::BUTTON_DOWN:
-			animTag = "down";
-			break;
-		case InputWatcher::BUTTON_LEFT:
-			animTag = "left";
-			break;
-		case InputWatcher::BUTTON_RIGHT:
-			animTag = "right";
-			break;
-		}
-		SetEnemyAnim( animTag );
+		// アニメ更新
+		//std::string animTag = "";
+		//switch( Utility::GetDirection( vec.x, vec.y ) ){
+		//default:
+		//	break;
+		//case InputWatcher::BUTTON_UP:
+		//	animTag = "up";
+		//	break;
+		//case InputWatcher::BUTTON_DOWN:
+		//	animTag = "down";
+		//	break;
+		//case InputWatcher::BUTTON_LEFT:
+		//	animTag = "left";
+		//	break;
+		//case InputWatcher::BUTTON_RIGHT:
+		//	animTag = "right";
+		//	break;
+		//}
+		//SetEnemyAnim( animTag );
+		SetEnemyEyeSight( vec );
 	}
-	SetEnemyEyeSight( vec );
 }
 
 
 bool EnemyAISearch::SearchPlayer( TEX_DRAW_INFO &enemyInfo )
 {
 	bool retVal = false;
-	if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, 200.0f ) ){
+	if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, 300.0f ) ){
 		retVal = true;
 	}
 	return retVal;

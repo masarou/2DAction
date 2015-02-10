@@ -37,7 +37,7 @@ GameRegister::GameRegister(void)
 	m_pEnemyManager = EnemyManager::CreateEnemyManager();
 	m_pMap			= GameMap::CreateGameMap( FlowManager::GetInstance()->GetCurrentFlowKind() );
 	m_pItemManager	= ItemManager::CreateItemManager();
-	m_pGameManager	= GameManager::CreateGameManager();
+	m_pGameManager	= GameManager::CreateGameManager( FlowManager::GetInstance()->GetCurrentFlowKind() );
 }
 
 void GameRegister::DeleteRegister()
@@ -73,6 +73,11 @@ GameMap *GameRegister::UpdateGameMap()
 ItemManager *GameRegister::UpdateManagerItem()
 {
 	return m_pItemManager;
+}
+
+GameManager	*GameRegister::UpdateManagerGame()
+{
+	return m_pGameManager;
 }
 
 const GamePlayer *GameRegister::GetPlayer() const

@@ -17,7 +17,7 @@ EnemyAAA *EnemyAAA::Create( const uint32_t &uniqueID )
 }
 
 EnemyAAA::EnemyAAA( const uint32_t &uniqueID )
-	: EnemyBase( "player.json", uniqueID, Common::ENEMY_KIND_AAA )
+	: EnemyBase( "enemySlime.json", uniqueID, Common::ENEMY_KIND_AAA )
 {
 }
 

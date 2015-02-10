@@ -15,6 +15,7 @@
 #include "AttackGun/GamePlayerAttackGun.h"
 #include "Game/Game2DBase.h"
 #include "Game/Item/ItemObject.h"
+#include "GamePlayerStatusMenu.h"
 
 class GamePlayer : public TaskUnit, public Collision2DUnit, public InputWatcher
 {
@@ -70,9 +71,7 @@ private:
 	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
 	AttackGun			*m_attackGun;	// マシンガンクラス
 
-	// 描画
-	Texture2D			m_textureLife;		// ライフ画像
-	Texture2D			m_textureLifeFrame;	// ライフ外枠画像
+	PlayerStatusMenu	*m_pStatusMenu;	// ステータスメニュー
 };
 
 #endif

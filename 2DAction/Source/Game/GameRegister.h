@@ -32,6 +32,7 @@ public:
 	EnemyManager		*UpdateManagerEnemy();
 	GameMap				*UpdateGameMap();
 	ItemManager			*UpdateManagerItem();
+	GameManager			*UpdateManagerGame();
 
 	const GamePlayer		*GetPlayer() const;
 	const EnemyManager		*GetManagerEnemy() const;

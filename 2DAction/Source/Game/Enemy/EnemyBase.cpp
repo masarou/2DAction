@@ -81,6 +81,9 @@ bool EnemyBase::DieMain()
 	m_textureLife.DeleteAndInit();
 	SAFE_DELETE( m_pEnemyAI );
 
+	// “|‚³‚ê‚½“G‚ðƒJƒEƒ“ƒg‚µ‚Ä‚¨‚­
+	GameRegister::GetInstance()->UpdateManagerGame()->AddDestroyCount();
+
 	return true;
 };
 

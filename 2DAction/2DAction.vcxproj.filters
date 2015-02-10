@@ -136,9 +136,6 @@
     <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h">
       <Filter>Game\Player\AttackGun</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h">
-      <Filter>Game\Player\AttackGun</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Common\Utility\CommonGameUtility.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -226,6 +223,12 @@
     <ClInclude Include="Source\Game\GameRecorder.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Player\GamePlayerStatusMenu.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -293,9 +296,6 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp">
-      <Filter>Game\Player\AttackGun</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp">
       <Filter>Game\Player\AttackGun</Filter>
     </ClCompile>
     <ClCompile Include="Source\Common\Utility\CommonGameUtility.cpp">
@@ -378,6 +378,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\GameRecorder.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player\GamePlayerStatusMenu.cpp">
+      <Filter>Game\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

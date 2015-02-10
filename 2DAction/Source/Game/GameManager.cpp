@@ -17,20 +17,36 @@
 // アイテム、敵の出現頻度最大値
 #define OBJECT_FREQUECY_MAX 9
 
-GameManager *GameManager::CreateGameManager()
+GameManager *GameManager::CreateGameManager( const Common::GAME_FLOW &currentKind )
 {
-	return NEW GameManager();
+	return NEW GameManager( currentKind );
 }
 
-GameManager::GameManager(void)
+GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 : TaskUnit("GameManager")
 , m_gameTimer( 0 )
 , m_gameTimeMax( 0 )
+, m_destroyNum( 0 )
+, m_destroyMax( 0 )
 , m_enemyMax( 0 )	
 , m_enemyFrequency( 0 )
 , m_itemMax( 0 )
 , m_itemFrequency( 0 )
 {
+	switch( currentKind ){
+		default:
+			DEBUG_ASSERT( 0, "想定外の箇所でゲーム設定ファイルが読み込まれている");
+			/* fall-through */
+		case Common::FLOW_STAGE01:
+			m_settingFileStr = "gameSettings01.json";
+			break;
+		case Common::FLOW_STAGE02:
+			m_settingFileStr = "gameSettings02.json";
+			break;
+		case Common::FLOW_STAGE03:
+			m_settingFileStr = "gameSettings03.json";
+			break;
+	}
 }
 
 GameManager::~GameManager(void)
@@ -45,23 +61,40 @@ bool GameManager::DieMain()
 bool GameManager::Init()
 {
 	// マップの環境取得
-	LoadGameSettings("gameSettings.json");
+	LoadGameSettings( m_settingFileStr.c_str() );
 
 	return true;
 }
 
 /* ================================================ */
 /**
- * @brief	制限時間を過ぎたかどうか
+ * @brief	ステージクリア条件を満たしたかどうか
  */
 /* ================================================ */
 bool GameManager::IsGameOver() const
 {
 	bool retVal = false;
-	if( m_gameTimer > m_gameTimeMax ){
-		retVal = true;
+	if( m_type == TYPE_TIME ){
+		if( m_gameTimer > m_gameTimeMax ){
+			retVal = true;
+		}
+	}
+	else if( m_type == TYPE_DESTROY ){
+		if( m_destroyNum >= m_destroyMax ){
+			retVal = true;
+		}
 	}
 	return retVal;
+}
+
+/* ================================================ */
+/**
+ * @brief	倒した敵の数をカウント
+ */
+/* ================================================ */
+void GameManager::AddDestroyCount()
+{
+	++m_destroyNum;
 }
 
 /* ================================================ */
@@ -107,8 +140,11 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	picojson::parse( root, ifs);
 
 	//!基本となる情報取得
-	picojson::value timeData = root.get("gameTime");
-	m_gameTimeMax	= static_cast<uint32_t>(timeData.get(0).get("TimeS").get<double>());
+	picojson::value stageData = root.get("stageKind");
+	std::string typeStr = stageData.get(0).get("type").get<std::string>();
+	m_type	= ( typeStr == "DESTROY" ? TYPE_DESTROY : TYPE_TIME );
+	m_gameTimeMax	= static_cast<uint32_t>(stageData.get(1).get("TimeS").get<double>());
+	m_destroyMax	= static_cast<uint32_t>(stageData.get(2).get("destroyMax").get<double>());
 	m_gameTimeMax *= 60;
 	
 	picojson::value condData = root.get("gameCondition");

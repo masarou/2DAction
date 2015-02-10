@@ -1,0 +1,21 @@
+{
+	"basicInfo":[
+		{"fileName":"lifeFrame.png"
+		, "animDefault":"default"
+		, "sizeW": 480
+		, "sizeH": 70
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	],
+	
+	"partsInfo":[
+		{"partsName":"lifeBarPos",	"x": 22,	"y": 46},
+		{"partsName":"itemLevel01",	"x": 100,	"y": 10},
+		{"partsName":"itemLevel02",	"x": 250,	"y": 10}
+	]
+}
