@@ -223,5 +223,6 @@ const uint32_t &SoundManager::GetHandleId(const char *tag)
 	}
 
 	DEBUG_PRINT("ytag‚©‚çæ“¾‚µ‚æ‚¤‚Æ‚µ‚½handle‚ÍŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½z\n");
+	DEBUG_ASSERT( 0, "ytag is not foundz");
 	return m_vBGM.at(0).m_soundId;
 }

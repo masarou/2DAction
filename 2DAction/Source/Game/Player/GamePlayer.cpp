@@ -19,10 +19,14 @@
 #include "Game/GameRecorder.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-static uint32_t DAMAGE_INVISIBLE_TIME = 120;
-static uint32_t LIFE_POINT_MAX = 200;
-static uint32_t DEFAULT_POS_X = 1000;
-static uint32_t DEFAULT_POS_Y = 1000;
+static uint32_t DAMAGE_INVISIBLE_TIME	= 120;
+static uint32_t LIFE_POINT_MAX			= 200;
+static uint32_t WARNING_LIFE			= 50;
+static uint32_t EMERGENCY_LIFE			= 20;
+static uint32_t BULLET_INTERBAL_MIN		= 4;
+static uint32_t BULLET_DAMAGE_MAX		= 100;
+static uint32_t DEFAULT_POS_X			= 1000;
+static uint32_t DEFAULT_POS_Y			= 1000;
 
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
@@ -207,11 +211,17 @@ void GamePlayer::PadEventCancel()
 void GamePlayer::PadEventR1()
 {
 	m_speedMultiply = 7.0f;
+
+	// ダッシュ効果音
+	SoundManager::GetInstance()->PlaySE("Dash");
 }
 
 void GamePlayer::PadEventL1()
 {
 	m_speedMultiply = 7.0f;
+
+	// ダッシュ効果音
+	SoundManager::GetInstance()->PlaySE("Dash");
 }
 
 /* ================================================ */
@@ -324,7 +334,7 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_CCC:
 	case Common::EVENT_HIT_BULLET_ENEMY:
 		if( m_invisibleTime == 0 ){
-			EventDamage( eventId.m_eventValue );
+			EventDamage( eventId.m_event, eventId.m_eventValue );
 		}
 		break;
 	case Common::EVENT_GET_ITEM_BULLET:
@@ -350,10 +360,15 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 /* ================================================ */
 
 // 敵と接触した
-void GamePlayer::EventDamage( uint32_t damageValue )
+void GamePlayer::EventDamage( Common::EVENT_MESSAGE eventKind, uint32_t damageValue )
 {
 	// ダメージ音
-	SoundManager::GetInstance()->PlaySE("Damage");
+	if( eventKind != Common::EVENT_HIT_BULLET_ENEMY ){
+		SoundManager::GetInstance()->PlaySE("DamageDirect");
+	}
+	else{
+		SoundManager::GetInstance()->PlaySE("DamageBullet");
+	}
 
 	// ダメージを受けたら一定時間ダメージを受けない
 	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
@@ -365,22 +380,45 @@ void GamePlayer::EventDamage( uint32_t damageValue )
 	else{
 		m_playerLife = 0;
 	}
+
+	// ライフ残量によってSEを鳴らす
+	if( m_playerLife == 0 ){
+
+	}
+	else if( m_playerLife <= EMERGENCY_LIFE ){
+		// HPが少ない警告を鳴らす
+		SoundManager::GetInstance()->PlaySE("Emergency");
+	}
+	else if( m_playerLife <= WARNING_LIFE ){
+		// HPが少ない警告を鳴らす
+		SoundManager::GetInstance()->PlaySE("Warning");
+	}
 }
 
 // アイテム取得
 void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCountUp )
 {
+	// アイテムレベル描画クラスに取得を知らせるかどうか
+	bool reflectDisp = true;
+
 	switch( itemKind ){
 	default:
 	case ItemObject::ITEM_KIND_RAPID_BULLET:
 		{
 			// 銃の発射間隔を狭める
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
-			gunState.m_shootInterval -= ( gunState.m_shootInterval <= 4 ) ? 0 : 2;
+			if( gunState.m_shootInterval > BULLET_INTERBAL_MIN ){
+				gunState.m_shootInterval -= 2;
+			}
+			else{
+				reflectDisp = false;
+			}
 
 			if( isCountUp ){
 				// 取得アイテム数をカウント
 				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_RAPID_BULLET );
+				// アイテム取得音を鳴らす
+				SoundManager::GetInstance()->PlaySE("GetItem");
 			}
 		}
 		break;
@@ -395,6 +433,8 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCo
 			if( isCountUp ){
 				// 取得アイテム数をカウント
 				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_LIFE_UP );
+				// アイテム取得音を鳴らす
+				SoundManager::GetInstance()->PlaySE("GetItemHeal");
 			}
 		}
 		break;
@@ -402,13 +442,25 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCo
 		{
 			// ダメージ量UP
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
-			gunState.m_damage += 20;
+			if( gunState.m_damage < BULLET_DAMAGE_MAX ){
+				gunState.m_damage += 20;
+			}
+			else{
+				reflectDisp = false;
+			}
 
 			if( isCountUp ){
 				// 取得アイテム数をカウント
 				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_DAMAGE_UP );
+				// アイテム取得音を鳴らす
+				SoundManager::GetInstance()->PlaySE("GetItem");
 			}
 		}
 		break;
+	}
+
+	// 表示部分に伝える
+	if( m_pStatusMenu && reflectDisp ){
+		m_pStatusMenu->AddItemLevel( itemKind );
 	}
 }

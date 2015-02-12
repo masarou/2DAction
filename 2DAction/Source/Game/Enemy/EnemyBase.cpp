@@ -172,6 +172,7 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 		m_HP -= damageValue;
 	}
 
+	//ダメージエフェクト作成
 	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
 		, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x)
 		, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y));
@@ -184,10 +185,14 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x), static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y) );
 
 		// 爆発SE鳴らす
-		SoundManager::GetInstance()->PlaySE("Bomb");
+		SoundManager::GetInstance()->PlaySE("Death");
 
 		// 死亡
 		TaskStartDie();
+	}
+	else{
+		// Hit音
+		//SoundManager::GetInstance()->PlaySE("DamageBullet");
 	}
 }
 

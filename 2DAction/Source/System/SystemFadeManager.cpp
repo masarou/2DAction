@@ -10,6 +10,7 @@
 
 #include "SystemFadeManager.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
+#include "System/Sound/SystemSoundManager.h"
 
 FadeManager *FadeManager::s_pInstance = NULL;
 
@@ -66,6 +67,7 @@ void FadeManager::StartFadeIn()
 		m_fadePlate2D->SetAnim("fadein");
 	}
 	m_currState = STATE_FADEIN;
+	SoundManager::GetInstance()->PlaySE("FadeIn");
 }
 
 void FadeManager::StartFadeOut()
@@ -80,6 +82,7 @@ void FadeManager::StartFadeOut()
 		m_fadePlate2D->SetAnim("fadeout");
 	}
 	m_currState = STATE_FADEOUT;
+	SoundManager::GetInstance()->PlaySE("FadeOut");
 }
 
 void FadeManager::DrawUpdate()
