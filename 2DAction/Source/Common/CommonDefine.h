@@ -68,6 +68,14 @@ namespace Common{
 		}
 	};
 
+	// 画面クラスで使用するパーツの情報構造体
+	struct PARTS_INFO{
+		math::Vector2 m_pos;
+		void Init(){
+			m_pos = math::Vector2(0,0);
+		}
+	};
+
 	enum ENEMY_KIND{
 		ENEMY_KIND_AAA,
 		ENEMY_KIND_BBB,

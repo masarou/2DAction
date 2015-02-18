@@ -10,10 +10,10 @@
 	],
 	
 	"animeInfo":[
-		{"animTag":"start",	"frameSpeed":10,	"animIndex":[0],	"nextAnim":"start"},
-		{"animTag":"score",	"frameSpeed":10,	"animIndex":[1],	"nextAnim":"score"},
-		{"animTag":"exit",	"frameSpeed":10,	"animIndex":[2],	"nextAnim":"exit"},
-		{"animTag":"retry",	"frameSpeed":10,	"animIndex":[3],	"nextAnim":"retry"},
-		{"animTag":"title",	"frameSpeed":10,	"animIndex":[4],	"nextAnim":"title"}
+		{"animTag":"start",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"start"},
+		{"animTag":"score",	"frameSpeed":1000,	"animIndex":[1],	"nextAnim":"score"},
+		{"animTag":"exit",	"frameSpeed":1000,	"animIndex":[2],	"nextAnim":"exit"},
+		{"animTag":"next",	"frameSpeed":1000,	"animIndex":[3],	"nextAnim":"next"},
+		{"animTag":"title",	"frameSpeed":1000,	"animIndex":[4],	"nextAnim":"title"}
 	]	
 }

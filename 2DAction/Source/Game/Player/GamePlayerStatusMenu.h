@@ -21,14 +21,6 @@ class PlayerStatusMenu : public TaskUnit
 
 public:
 
-	struct PARTS_INFO{
-
-		math::Vector2 m_pos;
-		void Init(){
-			m_pos = math::Vector2(0,0);
-		}
-	};
-
 	PlayerStatusMenu();
 	~PlayerStatusMenu(void);
 
@@ -50,7 +42,7 @@ private:
 	void SetupPartsInfo();
 	// 指定パーツの情報取得
 	const math::Vector2 GetPartsPos( const std::string name ) const;
-	const PARTS_INFO &GetPartsInfo( const std::string name ) const;
+	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
 
 
 	// 描画
@@ -68,7 +60,7 @@ private:
 	uint32_t		m_itemLevelRapid;		// 連射レベル
 
 	// パーツマップ
-	std::map< std::string, PARTS_INFO >	m_partsMap;
+	std::map< std::string, Common::PARTS_INFO >	m_partsMap;
 };
 
 #endif

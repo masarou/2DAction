@@ -12,6 +12,7 @@
 #include "FlowTotalResult.h"
 #include "Game/GameRecorder.h"
 #include "Common/Utility/CommonGameUtility.h"
+#include "System/Draw2D/SystemDraw2DResource.h"
 
 FlowBase *FlowTotalResult::Create( const std::string &fileName )
 {
@@ -87,7 +88,7 @@ void FlowTotalResult::UpdateSortRanking( Common::SAVE_SCORE &scoreData )
 	}
 
 	// 今回のスコアをpush
-	uint32_t scoreCurr = GameRecorder::GetInstance()->GetScore();
+	uint32_t scoreCurr = GameRecorder::GetInstance()->GetTotalScore();
 	ranking.push_back(scoreCurr);
 
 	// 並び替え
@@ -113,50 +114,65 @@ TotalResult2D *TotalResult2D::CreateTotalResult2D()
 
 TotalResult2D::TotalResult2D()
 : TaskUnit("TotalResult2D")
-, m_dispState(DISP_RESULT)
-, m_pNumCounterResult( NULL )
-, m_pNumCounterBonus( NULL )
-, m_pNumCounterTotal( NULL )
+, m_dispState(DISP_STAGE01)
 {
+	for( uint32_t i = 0; i < DISP_MAX ; ++i ){
+		m_pNumCounter[i] = NULL;
+	}
 }
 
 TotalResult2D::~TotalResult2D(void)
 {
+	m_textureBG.DeleteAndInit();
 	m_textureResult.DeleteAndInit();
 }
 
 bool TotalResult2D::Init()
 {
 	// 背景セット
+	m_textureBG.Init();
+	m_textureBG.m_pTex2D = NEW Game2DBase("title.json");
+	m_textureBG.m_texInfo.Init();
+	m_textureBG.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	m_textureBG.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
+	m_textureBG.m_texInfo.m_usePlayerOffset = false;
+	m_textureBG.m_texInfo.m_prioity = PRIORITY_LOWEST;
+	m_textureBG.m_pTex2D->SetDrawInfo(m_textureBG.m_texInfo);
+
+	// ステータスメニューのパーツ情報取得
+	Utility::GetPartsInfoFromJson( "gameResult.json", m_partsMap );
+
+	// 画面フレームセット
 	m_textureResult.Init();
-	m_textureResult.m_pTex2D = NEW Game2DBase("title.json");
+	m_textureResult.m_pTex2D = NEW Game2DBase("gameResult.json");
 	m_textureResult.m_texInfo.Init();
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;
+	m_textureBG.m_texInfo.m_prioity = PRIORITY_LOW;
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
-
-	// 数字カウンタの初期化
-	m_pNumCounterResult = NumberCounter::Create("number.json");
-	m_pNumCounterBonus = NumberCounter::Create("number.json");
-	m_pNumCounterTotal = NumberCounter::Create("number.json");
 
 	// 数字表示用画像情報
 	m_numberInfo.Init();
-	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f + 500.0f;
-	m_numberInfo.m_posOrigin.y = 150.0f;
 	m_numberInfo.m_scale = math::Vector2(2.0f,2.0f);
 	m_numberInfo.m_usePlayerOffset = false;
 
+	// 数字カウンタの初期化
 	// 数字表示用画像情報セット
-	m_pNumCounterResult->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_posOrigin.y += 120.0f;
-	m_pNumCounterBonus->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_posOrigin.y += 200.0f;
-	m_pNumCounterTotal->SetDrawInfo( m_numberInfo );
+	static const std::string s_partsStr[DISP_MAX] = {
+		"strNumber01",
+		"strNumber02",
+		"strNumber03",
+		"strNumber04",
+	};
+	for( uint32_t i = 0; i < DISP_MAX ; ++i ){
+		m_pNumCounter[i] = NumberCounter::Create("number.json");
+		m_numberInfo.m_posOrigin = GetPartsPos( s_partsStr[i] );
+		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
+	}
 
 	// 敵を倒して得た得点をセット
-	m_pNumCounterResult->AddValue( GameRecorder::GetInstance()->GetScore() );
+	m_pNumCounter[static_cast<uint32_t>(DISP_STAGE01)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE01 ) );
 
 	return true;
 }
@@ -166,25 +182,32 @@ void TotalResult2D::Update()
 	CallPadEvent();
 
 	// アニメカウントが終わっているなら次のステップに進む
+	uint32_t index = static_cast<uint32_t>( m_dispState );
 	switch(m_dispState){
-	case DISP_RESULT:
-		if( !m_pNumCounterResult->IsPlayCountAnim() ){
-			m_dispState = DISP_BONUS;
-			m_pNumCounterBonus->AddValue( GameRecorder::GetInstance()->GetScore() );
+	case DISP_STAGE01:
+		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
+			m_dispState = DISP_STAGE02;
+			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE02 ) );
 		}
 		break;
-	case DISP_BONUS:
-		if( !m_pNumCounterBonus->IsPlayCountAnim() ){
+	case DISP_STAGE02:
+		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
+			m_dispState = DISP_STAGE03;
+			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE03 ) );
+		}
+		break;
+	case DISP_STAGE03:
+		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
 			m_dispState = DISP_TOTAL;
-			m_pNumCounterTotal->AddValue( m_pNumCounterResult->GetValue() + m_pNumCounterBonus->GetValue() );
+			m_pNumCounter[static_cast<uint32_t>(DISP_TOTAL)]->AddValue( GameRecorder::GetInstance()->GetTotalScore() );
 		}
 		break;
 	case DISP_TOTAL:
-		if( !m_pNumCounterTotal->IsPlayCountAnim() ){
-			m_dispState = DISP_ALL;
+		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
+			m_dispState = DISP_MAX;
 		}
 		break;
-	case DISP_ALL:
+	case DISP_MAX:
 
 		break;
 	}
@@ -194,6 +217,9 @@ void TotalResult2D::Update()
 void TotalResult2D::DrawUpdate()
 {
 	// 背景描画
+	if( m_textureBG.m_pTex2D ){
+		m_textureBG.m_pTex2D->DrawUpdate2D();
+	}
 	if( m_textureResult.m_pTex2D ){
 		m_textureResult.m_pTex2D->DrawUpdate2D();
 	}
@@ -201,29 +227,59 @@ void TotalResult2D::DrawUpdate()
 
 void TotalResult2D::PadEventDecide()
 {
-
+	uint32_t index = static_cast<uint32_t>( m_dispState );
 	switch(m_dispState){
-	case DISP_RESULT:
+	case DISP_STAGE01:
 		// カウントアニメ終了
-		m_pNumCounterResult->CountAnimEnd();
-		m_dispState = DISP_BONUS;
+		m_pNumCounter[index]->CountAnimEnd();
+		m_dispState = DISP_STAGE02;
 
-		m_pNumCounterBonus->AddValue( GameRecorder::GetInstance()->GetScore() );
+		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE02 ) );
 		break;
-	case DISP_BONUS:
+	case DISP_STAGE02:
 		// カウントアニメ終了
-		m_pNumCounterBonus->CountAnimEnd();
+		m_pNumCounter[index]->CountAnimEnd();
+		m_dispState = DISP_STAGE03;
+
+		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE03 ) );
+		break;
+	case DISP_STAGE03:
+		// カウントアニメ終了
+		m_pNumCounter[index]->CountAnimEnd();
 		m_dispState = DISP_TOTAL;
 
-		m_pNumCounterTotal->AddValue( GameRecorder::GetInstance()->GetScore() );
+		m_pNumCounter[static_cast<uint32_t>(DISP_TOTAL)]->AddValue( GameRecorder::GetInstance()->GetTotalScore() );
 		break;
 	case DISP_TOTAL:
 		// カウントアニメ終了
-		m_pNumCounterTotal->CountAnimEnd();
-		m_dispState = DISP_ALL;
+		m_pNumCounter[index]->CountAnimEnd();
+		m_dispState = DISP_MAX;
 		break;
-	case DISP_ALL:
+	case DISP_MAX:
 
 		break;
 	}
+}
+
+const math::Vector2 TotalResult2D::GetPartsPos( const std::string name ) const
+{
+	// ステータスメニューの左上座標取得
+	const TEX_INIT_INFO &resultMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureResult.m_texInfo.m_fileName.c_str() );
+	math::Vector2 retPos = m_textureResult.m_texInfo.m_posOrigin;
+	retPos -= math::Vector2( resultMenuInfo.m_sizeWidth / 2.0f, resultMenuInfo.m_sizeHeight / 2.0f );
+
+	// そこからパーツの位置を足し算
+	Common::PARTS_INFO info = GetPartsInfo(name);
+	retPos += info.m_pos;
+	return retPos;
+}
+
+const Common::PARTS_INFO &TotalResult2D::GetPartsInfo( const std::string name ) const
+{
+	auto it = m_partsMap.find( name.c_str() );
+	if( it != m_partsMap.end() ){
+		return (*it).second;
+	}
+	DEBUG_ASSERT( 0, "パーツが見つかりません\n" );
+	return (*m_partsMap.begin()).second;
 }

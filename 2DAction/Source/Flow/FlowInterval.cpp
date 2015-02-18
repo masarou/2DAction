@@ -190,7 +190,7 @@ void Interval2D::DrawUpdate()
 			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;
 		case SELECT_NEXT:
-			m_pTexChoiceArray[i]->SetAnim("retry");
+			m_pTexChoiceArray[i]->SetAnim("next");
 			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
 			break;
 		case SELECT_TITLE:

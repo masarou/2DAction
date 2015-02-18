@@ -62,6 +62,9 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min);
 // セーブデータの情報を取得
 bool GetSaveRanking( Common::SAVE_SCORE &saveData );
 
+// 画面のjsonからパーツ情報を取得("partsInfo")
+void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Common::PARTS_INFO > &vParts );
+
 #ifdef _DEBUG
 void DrawDebugCircle( math::Vector2 drawPos );
 #endif

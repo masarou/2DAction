@@ -46,9 +46,10 @@ public:
 	// 初期化
 	void InitRecord();
 
-	// スコアの加算と取得
+	// スコアの加算と取得 GetScoreは引数なしなら直近のステージスコアを返す
 	void ScoreEvent( const SCORE_KIND &kind );
-	const int32_t GetScore() const;
+	const int32_t GetScore( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
+	const int32_t GetTotalScore() const;
 
 	// アイテム取得数の加算
 	const void AddItem( ItemObject::ITEM_KIND kind );
@@ -66,7 +67,7 @@ private:
 
 	STATE_OF_PROGRESS	m_gameState;				// ゲーム進行度
 
-	uint32_t			m_userScore;				// ユーザースコア
+	uint32_t			m_userScore[STATE_MAX];		// ユーザースコア
 	uint32_t			m_scoreDetail[POINT_MAX];	// スコア詳細
 	uint32_t			m_getItem[ItemObject::ITEM_KIND_MAX];	// ユーザーの取得アイテム
 };

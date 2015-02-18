@@ -52,7 +52,7 @@ public:
 
 	static TotalResult2D *CreateTotalResult2D();
 
-	bool ProceedNext(){ return m_dispState == DISP_ALL ? true : false ;}		// 全て表示し終えて次に進んでいいかどうか
+	bool ProceedNext(){ return m_dispState == DISP_MAX ? true : false ;}		// 全て表示し終えて次に進んでいいかどうか
 
 protected:
 	
@@ -64,24 +64,27 @@ protected:
 private:
 
 	enum DISP_STATE{
-		DISP_RESULT,
-		DISP_BONUS,
+		DISP_STAGE01,
+		DISP_STAGE02,
+		DISP_STAGE03,
 		DISP_TOTAL,
-		DISP_ALL,
 
 		DISP_MAX,
 	};
 
 	TotalResult2D();
 	virtual ~TotalResult2D(void);
+	const math::Vector2 GetPartsPos( const std::string name ) const;
+	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
 
-	DISP_STATE			m_dispState;		// どこまで表示しているか
-	Texture2D			m_textureResult;	// 背景一枚絵
-	TEX_DRAW_INFO		m_numberInfo;		// 描画関係情報
+	DISP_STATE			m_dispState;						// どこまで表示しているか
+	Texture2D			m_textureBG;						// 背景一枚絵
+	Texture2D			m_textureResult;					// 背景フレーム
+	TEX_DRAW_INFO		m_numberInfo;						// 描画関係情報
 	
-	NumberCounter		*m_pNumCounterResult;		// スコア表示
-	NumberCounter		*m_pNumCounterBonus;		// スコア表示
-	NumberCounter		*m_pNumCounterTotal;		// スコア表示
+	NumberCounter		*m_pNumCounter[DISP_MAX];			// スコア表示
+
+	std::map< std::string, Common::PARTS_INFO >	m_partsMap;	// パーツマップ
 };
 
 

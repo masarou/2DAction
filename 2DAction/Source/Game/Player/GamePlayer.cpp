@@ -19,6 +19,7 @@
 #include "Game/GameRecorder.h"
 #include "Common/Utility/CommonGameUtility.h"
 
+// ŒÅ’è’l
 static uint32_t DAMAGE_INVISIBLE_TIME	= 120;
 static uint32_t LIFE_POINT_MAX			= 200;
 static uint32_t WARNING_LIFE			= 50;

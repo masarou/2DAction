@@ -1,5 +1,6 @@
 
 #include <random>
+#include "System/picojson.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "CommonGameUtility.h"
 #include "Math/MathUtility.h"
@@ -337,6 +338,36 @@ bool GetSaveRanking( Common::SAVE_SCORE &saveData )
 	fclose( fpRead );
 
 	return true;
+}
+
+
+// 画面のjsonからパーツ情報を取得("partsInfo")
+void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Common::PARTS_INFO > &vParts )
+{
+	std::string readJson = JSON_GAME2D_PATH;
+	readJson += jsonStr;
+	std::ifstream ifs(readJson.c_str());
+
+	picojson::value root;
+	picojson::parse( root, ifs);
+
+	// 各種パーツ情報を取得
+	picojson::value partsData = root.get("partsInfo");
+	for( uint32_t i = 0;;++i){
+		picojson::value null;
+		if( partsData.get(i) == null ){
+			break;
+		}
+		std::string name = "";
+		Common::PARTS_INFO info;
+		info.Init();
+
+		name			= partsData.get(i).get("partsName").get<std::string>();
+		info.m_pos.x	= static_cast<float>( partsData.get(i).get("x").get<double>() );
+		info.m_pos.y	= static_cast<float>( partsData.get(i).get("y").get<double>() );
+
+		vParts.insert( std::make_pair< std::string, Common::PARTS_INFO >( name, info ));
+	}
 }
 
 #ifdef _DEBUG

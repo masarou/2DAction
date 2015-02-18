@@ -8,6 +8,7 @@
 #include "DxLib.h"
 #include <string>
 #include <vector>
+#include <map>
 #include <assert.h>
 #include <time.h>
 #include <fstream>
@@ -41,8 +42,8 @@ static const char *SE_PATH					= "Data/Sound/SE/";
 static const char *TEXTURE_PATH				= "Data/Texture/";
 
 //定数
-#define WINDOW_WIDTH 1366
-#define WINDOW_HEIGHT 768
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
 
 //リークチェック用
 #define _CRTDBG_MAP_ALLOC

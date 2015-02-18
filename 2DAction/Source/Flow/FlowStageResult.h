@@ -37,9 +37,9 @@ private:
 /* ====================================================================== */
 /**
  * @brief  
- *
+ *			外枠+カウンタクラス
  * @note
- *		タイトル選択肢クラス
+ *		
  */
 /* ====================================================================== */
 class Result2D : public TaskUnit, InputWatcher
@@ -70,14 +70,19 @@ private:
 
 	Result2D();
 	virtual ~Result2D(void);
+	const math::Vector2 GetPartsPos( const std::string name ) const;
+	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
 
-	DISP_STATE			m_dispState;		// どこまで表示しているか
-	Texture2D			m_textureResult;	// 背景一枚絵
-	TEX_DRAW_INFO		m_numberInfo;		// 描画関係情報
+	DISP_STATE			m_dispState;						// どこまで表示しているか
+	Texture2D			m_textureResult;					// 画面フレーム
+	Texture2D			m_textureBG;						// 背景一枚絵
+	TEX_DRAW_INFO		m_numberInfo;						// 描画関係情報
 	
-	NumberCounter		*m_pNumCounterResult;		// スコア表示
-	NumberCounter		*m_pNumCounterBonus;		// スコア表示
-	NumberCounter		*m_pNumCounterTotal;		// スコア表示
+	NumberCounter		*m_pNumCounterResult;				// スコア表示
+	NumberCounter		*m_pNumCounterBonus;				// スコア表示
+	NumberCounter		*m_pNumCounterTotal;				// スコア表示
+
+	std::map< std::string, Common::PARTS_INFO >	m_partsMap;	// パーツマップ
 };
 
 

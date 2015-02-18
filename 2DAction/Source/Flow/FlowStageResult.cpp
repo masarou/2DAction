@@ -13,6 +13,7 @@
 #include "FlowManager.h"
 #include "Game/GameRecorder.h"
 #include "Common/Utility/CommonGameUtility.h"
+#include "System/Draw2D/SystemDraw2DResource.h"
 
 FlowBase *FlowStageResult::Create( const std::string &fileName )
 {
@@ -98,17 +99,32 @@ Result2D::Result2D()
 Result2D::~Result2D(void)
 {
 	m_textureResult.DeleteAndInit();
+	m_textureBG.DeleteAndInit();
 }
 
 bool Result2D::Init()
 {
 	// 背景セット
+	m_textureBG.Init();
+	m_textureBG.m_pTex2D = NEW Game2DBase("title.json");
+	m_textureBG.m_texInfo.Init();
+	m_textureBG.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	m_textureBG.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
+	m_textureBG.m_texInfo.m_usePlayerOffset = false;
+	m_textureBG.m_texInfo.m_prioity = PRIORITY_LOWEST;
+	m_textureBG.m_pTex2D->SetDrawInfo(m_textureBG.m_texInfo);
+
+	// ステータスメニューのパーツ情報取得
+	Utility::GetPartsInfoFromJson( "stageResult.json", m_partsMap );
+
+	// 画面フレームセット
 	m_textureResult.Init();
-	m_textureResult.m_pTex2D = NEW Game2DBase("title.json");
+	m_textureResult.m_pTex2D = NEW Game2DBase("stageResult.json");
 	m_textureResult.m_texInfo.Init();
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;
+	m_textureBG.m_texInfo.m_prioity = PRIORITY_LOW;
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
 
 	// 数字カウンタの初期化
@@ -118,16 +134,15 @@ bool Result2D::Init()
 
 	// 数字表示用画像情報
 	m_numberInfo.Init();
-	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f + 500.0f;
-	m_numberInfo.m_posOrigin.y = 150.0f;
 	m_numberInfo.m_scale = math::Vector2(2.0f,2.0f);
 	m_numberInfo.m_usePlayerOffset = false;
 
 	// 数字表示用画像情報セット
+	m_numberInfo.m_posOrigin = GetPartsPos( "strNumber01" );
 	m_pNumCounterResult->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_posOrigin.y += 120.0f;
+	m_numberInfo.m_posOrigin = GetPartsPos( "strNumber02" );
 	m_pNumCounterBonus->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_posOrigin.y += 200.0f;
+	m_numberInfo.m_posOrigin = GetPartsPos( "strNumber04" );
 	m_pNumCounterTotal->SetDrawInfo( m_numberInfo );
 
 	// 敵を倒して得た得点をセット
@@ -169,6 +184,9 @@ void Result2D::Update()
 void Result2D::DrawUpdate()
 {
 	// 背景描画
+	if( m_textureBG.m_pTex2D ){
+		m_textureBG.m_pTex2D->DrawUpdate2D();
+	}
 	if( m_textureResult.m_pTex2D ){
 		m_textureResult.m_pTex2D->DrawUpdate2D();
 	}
@@ -201,4 +219,27 @@ void Result2D::PadEventDecide()
 
 		break;
 	}
+}
+
+const math::Vector2 Result2D::GetPartsPos( const std::string name ) const
+{
+	// ステータスメニューの左上座標取得
+	const TEX_INIT_INFO &resultMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureResult.m_texInfo.m_fileName.c_str() );
+	math::Vector2 retPos = m_textureResult.m_texInfo.m_posOrigin;
+	retPos -= math::Vector2( resultMenuInfo.m_sizeWidth / 2.0f, resultMenuInfo.m_sizeHeight / 2.0f );
+
+	// そこからパーツの位置を足し算
+	Common::PARTS_INFO info = GetPartsInfo(name);
+	retPos += info.m_pos;
+	return retPos;
+}
+
+const Common::PARTS_INFO &Result2D::GetPartsInfo( const std::string name ) const
+{
+	auto it = m_partsMap.find( name.c_str() );
+	if( it != m_partsMap.end() ){
+		return (*it).second;
+	}
+	DEBUG_ASSERT( 0, "パーツが見つかりません\n" );
+	return (*m_partsMap.begin()).second;
 }

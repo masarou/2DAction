@@ -56,7 +56,7 @@ bool PlayerStatusMenu::DieMain()
 bool PlayerStatusMenu::Init()
 {
 	// ステータスメニューのパーツ情報取得
-	SetupPartsInfo();
+	Utility::GetPartsInfoFromJson( m_textureStatus.m_texInfo.m_fileName, m_partsMap );
 
 	// 各種パーツセット
 	m_lifeGauge.Init();
@@ -218,14 +218,14 @@ void PlayerStatusMenu::SetupPartsInfo()
 			break;
 		}
 		std::string name = "";
-		PARTS_INFO info;
+		Common::PARTS_INFO info;
 		info.Init();
 
 		name			= partsData.get(i).get("partsName").get<std::string>();
 		info.m_pos.x	= static_cast<float>( partsData.get(i).get("x").get<double>() );
 		info.m_pos.y	= static_cast<float>( partsData.get(i).get("y").get<double>() );
 
-		m_partsMap.insert( std::make_pair< std::string, PARTS_INFO >( name, info ));
+		m_partsMap.insert( std::make_pair< std::string, Common::PARTS_INFO >( name, info ));
 	}
 }
 
@@ -237,12 +237,12 @@ const math::Vector2 PlayerStatusMenu::GetPartsPos( const std::string name ) cons
 	retPos -= math::Vector2( statusMenuInfo.m_sizeWidth / 2.0f, statusMenuInfo.m_sizeHeight / 2.0f );
 
 	// そこからパーツの位置を足し算
-	PARTS_INFO info = GetPartsInfo(name);
+	Common::PARTS_INFO info = GetPartsInfo(name);
 	retPos += info.m_pos;
 	return retPos;
 }
 
-const PlayerStatusMenu::PARTS_INFO &PlayerStatusMenu::GetPartsInfo( const std::string name ) const
+const Common::PARTS_INFO &PlayerStatusMenu::GetPartsInfo( const std::string name ) const
 {
 	auto it = m_partsMap.find( name.c_str() );
 	if( it != m_partsMap.end() ){
