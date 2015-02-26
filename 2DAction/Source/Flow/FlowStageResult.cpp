@@ -1,9 +1,9 @@
 /* ====================================================================== */
 /**
  * @brief  
- *
+ *		ゲームステージ結果画面クラス
  * @note
- *		ゲーム結果画面クラス
+ *		
  */
 /* ====================================================================== */
 
@@ -77,9 +77,9 @@ void FlowStageResult::PadEventDecide()
 /* ====================================================================== */
 /**
  * @brief  
- *
+ *			ステージ結果の中身カウンタクラス
  * @note
- *		タイトル一枚絵クラス
+ *		
  */
 /* ====================================================================== */
 Result2D *Result2D::CreateResult2D()
@@ -128,13 +128,12 @@ bool Result2D::Init()
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
 
 	// 数字カウンタの初期化
-	m_pNumCounterResult = NumberCounter::Create("number.json");
-	m_pNumCounterBonus = NumberCounter::Create("number.json");
-	m_pNumCounterTotal = NumberCounter::Create("number.json");
+	m_pNumCounterResult = NumberCounter::Create("numberLarge.json");
+	m_pNumCounterBonus = NumberCounter::Create("numberLarge.json");
+	m_pNumCounterTotal = NumberCounter::Create("numberLarge.json");
 
 	// 数字表示用画像情報
 	m_numberInfo.Init();
-	m_numberInfo.m_scale = math::Vector2(2.0f,2.0f);
 	m_numberInfo.m_usePlayerOffset = false;
 
 	// 数字表示用画像情報セット
@@ -160,7 +159,7 @@ void Result2D::Update()
 	case DISP_RESULT:
 		if( !m_pNumCounterResult->IsPlayCountAnim() ){
 			m_dispState = DISP_BONUS;
-			m_pNumCounterBonus->AddValue( GameRecorder::GetInstance()->GetScore() );
+			m_pNumCounterBonus->AddValue( GetStageClearBonus() );
 		}
 		break;
 	case DISP_BONUS:
@@ -194,21 +193,20 @@ void Result2D::DrawUpdate()
 
 void Result2D::PadEventDecide()
 {
-
 	switch(m_dispState){
 	case DISP_RESULT:
 		// カウントアニメ終了
 		m_pNumCounterResult->CountAnimEnd();
 		m_dispState = DISP_BONUS;
 
-		m_pNumCounterBonus->AddValue( GameRecorder::GetInstance()->GetScore() );
+		m_pNumCounterBonus->AddValue( GetStageClearBonus() );
 		break;
 	case DISP_BONUS:
 		// カウントアニメ終了
 		m_pNumCounterBonus->CountAnimEnd();
 		m_dispState = DISP_TOTAL;
 
-		m_pNumCounterTotal->AddValue( GameRecorder::GetInstance()->GetScore() );
+		m_pNumCounterTotal->AddValue( m_pNumCounterResult->GetValue() + m_pNumCounterBonus->GetValue() );
 		break;
 	case DISP_TOTAL:
 		// カウントアニメ終了
@@ -219,6 +217,58 @@ void Result2D::PadEventDecide()
 
 		break;
 	}
+}
+
+uint32_t Result2D::GetStageClearBonus() const
+{
+	// ボーナス算出方法
+	// コンボ数×ユーザーの残りライフ = Bonus
+
+	uint32_t retVal = 0;
+	uint32_t stageComboMax = GameRecorder::GetInstance()->GetMaxComboNumOfStage();
+
+	enum SCORE_STAGE {
+		SCORE_01 = 100,
+		SCORE_02 = 200,
+		SCORE_03 = 300,
+		SCORE_04 = 400,
+		SCORE_05 = 500,
+	};
+	SCORE_STAGE scoreStage = SCORE_01;
+	for( uint32_t i = 0; i < stageComboMax ; ++i ){
+		switch( scoreStage ){
+		case SCORE_01:
+			retVal += SCORE_01;
+			if( i > 20 ){
+				scoreStage = SCORE_02;
+			}
+			break;
+		case SCORE_02:
+			retVal += SCORE_02;
+			if( i > 50 ){
+				scoreStage = SCORE_03;
+			}
+			break;
+		case SCORE_03:
+			retVal += SCORE_03;
+			if( i > 80 ){
+				scoreStage = SCORE_04;
+			}
+			break;
+		case SCORE_04:
+			retVal += SCORE_04;
+			if( i > 100 ){
+				scoreStage = SCORE_05;
+			}
+			break;
+		case SCORE_05:
+			retVal += SCORE_05;
+			break;
+		}
+	}
+	// 残スコアをかける
+	retVal = static_cast<uint32_t>( retVal*GameRecorder::GetInstance()->GetUserLifeRatio() );
+	return retVal;
 }
 
 const math::Vector2 Result2D::GetPartsPos( const std::string name ) const

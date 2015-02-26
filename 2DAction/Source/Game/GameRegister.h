@@ -13,6 +13,7 @@
 #include "Common/CommonDefine.h"
 #include "Common/CmnGameAccesser.h"
 #include "Game/Player/GamePlayer.h"
+#include "Game/Player/GamePlayerCombo.h"
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/Item/ItemManager.h"
 #include "Game/GameMap.h"
@@ -52,6 +53,7 @@ private:
 
 	// ˆÈ‰º‚ÌƒNƒ‰ƒX‚Ì‰ğ•ú‚ÍTaskUnit‚É”C‚¹‚é‚Ì‚Å¶¬‚Ì‚İ‚Å‚æ‚¢
 	GamePlayer			*m_pPlayer;
+	PlayerCombo			*m_pPlayerCombo;
 	EnemyManager		*m_pEnemyManager;
 	GameMap				*m_pMap;
 	ItemManager			*m_pItemManager;

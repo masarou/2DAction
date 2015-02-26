@@ -238,6 +238,11 @@ const TEX_DRAW_INFO &GamePlayer::GetDrawInfo() const
 	return m_drawTexture.m_pTex2D->GetDrawInfo();
 }
 
+const uint32_t	&GamePlayer::GetPlayerLifeMax() const
+{
+	return LIFE_POINT_MAX;
+}
+
 /* ================================================ */
 /**
  * @brief	タスクにイベント追加

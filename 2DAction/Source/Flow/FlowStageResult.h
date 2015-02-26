@@ -1,9 +1,9 @@
 /* ====================================================================== */
 /**
  * @brief  
- *
+ *		ゲームステージ結果画面クラス
  * @note
- *		ゲーム結果画面クラス
+ *		
  */
 /* ====================================================================== */
 #ifndef __FLOW_STAGE_RESULT__
@@ -37,7 +37,7 @@ private:
 /* ====================================================================== */
 /**
  * @brief  
- *			外枠+カウンタクラス
+ *			ステージ結果の中身カウンタクラス
  * @note
  *		
  */
@@ -70,6 +70,7 @@ private:
 
 	Result2D();
 	virtual ~Result2D(void);
+	uint32_t GetStageClearBonus() const;
 	const math::Vector2 GetPartsPos( const std::string name ) const;
 	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
 

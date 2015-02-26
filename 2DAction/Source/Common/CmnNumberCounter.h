@@ -3,7 +3,7 @@
  * @brief  スコア表示クラス
  *
  * @note
- *		
+ *		ゲーム中に左上に出すステージスコア
  */
 /* ====================================================================== */
 #ifndef __SCORE_COUNTER__
@@ -30,6 +30,7 @@ public:
 	const int32_t &GetValue() const{ return m_value; }
 	// 描画情報セット
 	void SetDrawInfo( const TEX_DRAW_INFO &drawInfo );
+	void SetDrawPos( const math::Vector2 &pos );
 	// カウントアニメをやめる
 	void CountAnimEnd();
 	// カウントアニメ中かどうか

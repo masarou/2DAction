@@ -1,9 +1,9 @@
 /* ====================================================================== */
 /**
  * @brief  
- *
- * @note
  *		ゲーム結果画面クラス
+ * @note
+ *		各ステージのスコアを表示して、合算を出す画面
  */
 /* ====================================================================== */
 
@@ -104,7 +104,7 @@ void FlowTotalResult::UpdateSortRanking( Common::SAVE_SCORE &scoreData )
  * @brief  
  *
  * @note
- *		タイトル一枚絵クラス
+ *		表示するスコアそのもの
  */
 /* ====================================================================== */
 TotalResult2D *TotalResult2D::CreateTotalResult2D()
@@ -154,7 +154,6 @@ bool TotalResult2D::Init()
 
 	// 数字表示用画像情報
 	m_numberInfo.Init();
-	m_numberInfo.m_scale = math::Vector2(2.0f,2.0f);
 	m_numberInfo.m_usePlayerOffset = false;
 
 	// 数字カウンタの初期化
@@ -166,7 +165,7 @@ bool TotalResult2D::Init()
 		"strNumber04",
 	};
 	for( uint32_t i = 0; i < DISP_MAX ; ++i ){
-		m_pNumCounter[i] = NumberCounter::Create("number.json");
+		m_pNumCounter[i] = NumberCounter::Create("numberLarge.json");
 		m_numberInfo.m_posOrigin = GetPartsPos( s_partsStr[i] );
 		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
 	}

@@ -192,43 +192,6 @@ void PlayerStatusMenu::DrawUpdate()
 	}
 }
 
-/* ================================================ */
-/**
- * @brief	パーツ情報セット
- */
-/* ================================================ */
-void PlayerStatusMenu::SetupPartsInfo()
-{
-	if( !m_textureStatus.m_pTex2D ){
-		return;
-	}
-
-	std::string readJson = JSON_GAME2D_PATH;
-	readJson += m_textureStatus.m_texInfo.m_fileName;
-	std::ifstream ifs(readJson.c_str());
-
-	picojson::value root;
-	picojson::parse( root, ifs);
-
-	// 各種パーツ情報を取得
-	picojson::value partsData = root.get("partsInfo");
-	for( uint32_t i = 0;;++i){
-		picojson::value null;
-		if( partsData.get(i) == null ){
-			break;
-		}
-		std::string name = "";
-		Common::PARTS_INFO info;
-		info.Init();
-
-		name			= partsData.get(i).get("partsName").get<std::string>();
-		info.m_pos.x	= static_cast<float>( partsData.get(i).get("x").get<double>() );
-		info.m_pos.y	= static_cast<float>( partsData.get(i).get("y").get<double>() );
-
-		m_partsMap.insert( std::make_pair< std::string, Common::PARTS_INFO >( name, info ));
-	}
-}
-
 const math::Vector2 PlayerStatusMenu::GetPartsPos( const std::string name ) const
 {
 	// ステータスメニューの左上座標取得

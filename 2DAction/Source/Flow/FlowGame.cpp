@@ -1,13 +1,11 @@
-
 /* ====================================================================== */
 /**
  * @brief  
- *
+ *		ゲーム画面総括クラス
  * @note
- *		ゲーム画面管理クラス
+ *		
  */
 /* ====================================================================== */
-
 #include "FlowGame.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
@@ -56,5 +54,11 @@ void FlowGame::UpdateFlowAfterChildTask()
 	const GameManager *pGameMan = GameRegister::GetInstance()->GetManagerGame();
 	if( pPlayer->GetCurrentLife() == 0 || pGameMan->IsGameOver() ){
 		StartFade("gameend");
+
+		// 終了時点でのユーザーライフを格納しておく
+		const GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
+		uint32_t leftLife = pPlayer->GetCurrentLife();
+		float ratio = static_cast<float>(leftLife) / static_cast<float>(pPlayer->GetPlayerLifeMax());
+		GameRecorder::GetInstance()->SetUserLifeRatio( ratio );
 	}
 }

@@ -3,7 +3,7 @@
  * @brief  スコア表示クラス
  *
  * @note
- *		
+ *		ゲーム中に左上に出すステージスコア
  */
 /* ====================================================================== */
 
@@ -51,8 +51,8 @@ void NumberCounter::Reset()
 
 	m_numberInfo.Init();
 	m_numberInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH;
-	m_numberInfo.m_posOrigin.y = 16;
+	//m_numberInfo.m_posOrigin.x = WINDOW_WIDTH;
+	//m_numberInfo.m_posOrigin.y = 16;
 	m_numberInfo.m_usePlayerOffset = false;
 }
 
@@ -72,6 +72,11 @@ void NumberCounter::SetValue( const uint32_t &setValue )
 void NumberCounter::SetDrawInfo( const TEX_DRAW_INFO &drawInfo )
 {
 	m_numberInfo = drawInfo;
+}
+
+void NumberCounter::SetDrawPos( const math::Vector2 &pos )
+{
+	m_numberInfo.m_posOrigin = pos;
 }
 
 void NumberCounter::CountAnimEnd()
@@ -102,7 +107,7 @@ bool NumberCounter::DieMain()
 
 void NumberCounter::Update()
 {
-	uint32_t diff = m_value-m_currDispValue;
+	int32_t diff = m_value-m_currDispValue;
 
 	if( m_currDispValue == m_value ){
 		// 更新がなければ何もしない
@@ -118,7 +123,7 @@ void NumberCounter::Update()
 		}
 		++m_counter;
 
-		m_currDispValue += static_cast<uint32_t>(diff*0.05);
+		m_currDispValue += static_cast<int32_t>(diff*0.05);
 	}
 
 	// 表示更新
@@ -129,7 +134,11 @@ void NumberCounter::DrawUpdate()
 {
 	// 数字の描画
 	for( uint32_t i = 0; i < m_pNumber2DArray.size() ; ++i ){
+		if( i != 0 && i > std::log10(static_cast<double>(m_currDispValue))){
+			break;
+		}
 		m_pNumber2DArray.at(i)->DrawUpdate2D();
+
 	}
 }
 
@@ -148,7 +157,7 @@ void NumberCounter::UpdateScore( const uint32_t &score )
 
 	for(;m_pNumber2DArray.size() < digitNum;){
 		Game2DBase *tmp = NEW Game2DBase( m_readFile.c_str() );
-		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("number.json");
+		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_readFile.c_str() );
 		m_numberInfo.m_posOrigin.x -= texInfo.m_sizeWidth*m_numberInfo.m_scale.x;
 		tmp->SetDrawInfo(m_numberInfo);
 		m_pNumber2DArray.push_back(tmp);

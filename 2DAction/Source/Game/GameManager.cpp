@@ -24,6 +24,7 @@ GameManager *GameManager::CreateGameManager( const Common::GAME_FLOW &currentKin
 
 GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 : TaskUnit("GameManager")
+, m_type( TYPE_MAX )
 , m_gameTimer( 0 )
 , m_gameTimeMax( 0 )
 , m_destroyNum( 0 )
@@ -123,6 +124,25 @@ void GameManager::Update()
 		uint32_t kind = Utility::GetRandamValue( ItemObject::ITEM_KIND_MAX-1, 0 );
 		pItemManager->CreateItem( static_cast<ItemObject::ITEM_KIND>(kind) );
 	}
+}
+
+/* ================================================ */
+/**
+ * @brief	クラス初期化
+ */
+/* ================================================ */
+void GameManager::ResetManageValue()
+{
+	m_type = TYPE_MAX;
+	m_gameTimer			= 0;	// ゲームのプレイ時間
+	m_gameTimeMax		= 0;	// ゲーム終了までの時間(/fps)
+	m_destroyNum		= 0;	// 現在までの敵殲滅数
+	m_destroyMax		= 0;	// ステージ終了までの敵殲滅数
+	m_enemyMax			= 0;	// 最大出現敵数
+	m_enemyFrequency	= 0;	// 敵の出現率(10段階0~9)
+	m_itemMax			= 0;	// 最大出現アイテム数
+	m_itemFrequency		= 0;	// アイテムの出現率(10段階0~9)
+	m_settingFileStr	= "";	// 読み込むステージ設定ファイル
 }
 
 /* ================================================ */

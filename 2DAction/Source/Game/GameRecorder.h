@@ -39,12 +39,32 @@ public:
 		STATE_MAX,
 	};
 
+	struct STAGE_CLEAR_INFO{
+		float		m_userLifeRatio;				// ユーザーライフの残り割合
+		uint32_t	m_userScore;					// クリア時のスコア
+		uint32_t	m_hitComboMaxOfStage;			// 各ステージの最大Hit数	
+		uint32_t	m_scoreDetail[POINT_MAX];		// スコア詳細
+
+		void Init(){
+			m_userLifeRatio			= 0.0f;
+			m_userScore				= 0;
+			m_hitComboMaxOfStage	= 0;
+			for( uint32_t i = 0; i < NUMBEROF(m_scoreDetail) ;++i ){
+				m_scoreDetail[i] = 0;
+			}
+		}
+	};
+
 	static GameRecorder *Create();
 	static GameRecorder *GetInstance();
 	~GameRecorder();
 
 	// 初期化
 	void InitRecord();
+
+	// ステージクリア時のユーザーライフの割合のセット&取得
+	const void SetUserLifeRatio( const float &lifeRatio, const STATE_OF_PROGRESS &stage = STATE_MAX );
+	const float GetUserLifeRatio( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
 
 	// スコアの加算と取得 GetScoreは引数なしなら直近のステージスコアを返す
 	void ScoreEvent( const SCORE_KIND &kind );
@@ -53,11 +73,23 @@ public:
 
 	// アイテム取得数の加算
 	const void AddItem( ItemObject::ITEM_KIND kind );
-	const uint32_t GetItemCount( ItemObject::ITEM_KIND kind );
+	const uint32_t GetItemCount( ItemObject::ITEM_KIND kind ) const;
+
+	// Hit数のIncと取得
+	void IncHitCounter();				// Hit数プラス
+	uint32_t GetCurrentHitCounter();	// 現在の連続Hit数取得
+	uint32_t GetRestHitTime();			// 連続Hitが有効になるまでの残時間
+
+	// 各ステージの最大コンボ数取得
+	uint32_t GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
 
 	// ゲーム進行状況の更新と取得
 	void SetGameStateOfProgress( STATE_OF_PROGRESS nextState );
 	const STATE_OF_PROGRESS &GetGameStateOfProgress() const;
+
+protected:
+	
+	virtual void Update() override;
 
 private:
 
@@ -65,10 +97,15 @@ private:
 
 	static GameRecorder *s_pInstance;
 
-	STATE_OF_PROGRESS	m_gameState;				// ゲーム進行度
+	STATE_OF_PROGRESS	m_gameState;					// ゲーム進行度
+	STAGE_CLEAR_INFO	m_clearStageInfo[STATE_MAX];	// 各ステージクリア時の情報
+	
+	// ユーザーの取得アイテム(ゲーム一周での成長率)
+	uint32_t			m_getItem[ItemObject::ITEM_KIND_MAX];
 
-	uint32_t			m_userScore[STATE_MAX];		// ユーザースコア
-	uint32_t			m_scoreDetail[POINT_MAX];	// スコア詳細
-	uint32_t			m_getItem[ItemObject::ITEM_KIND_MAX];	// ユーザーの取得アイテム
+	// 以下、ステージクリア毎にクリアされる
+	// 連続HIT数
+	uint32_t			m_hitComboNum;					// 現在の連続Hit数
+	uint32_t			m_hitFailTime_ms;				// 次の連続Hitが有効になる時間(100~30)
 };
 #endif

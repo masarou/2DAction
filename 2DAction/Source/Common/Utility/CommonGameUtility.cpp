@@ -1,4 +1,11 @@
-
+/* ====================================================================== */
+/**
+ * @brief  ゲーム全体utilityクラス
+ *
+ * @note
+ *
+ */
+/* ====================================================================== */
 #include <random>
 #include "System/picojson.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
@@ -15,6 +22,11 @@
 namespace Utility
 {
 
+/* ================================================ */
+/**
+ * @brief	ゲームが一周して終わるとき、タイトルに戻るときなどにプレイ記録リセット
+ */
+/* ================================================ */
 void GameInitALL()
 {
 	// スコア等初期化
@@ -23,17 +35,33 @@ void GameInitALL()
 	GameAccesser::GetInstance()->InitAll();
 }
 
+/* ================================================ */
+/**
+ * @brief	プレイヤーオフセットを足す
+ */
+/* ================================================ */
 void AddPlayerOffsetPos( math::Vector2 &pos )
 {
 	//!プレイヤー情報取得
 	pos += GameAccesser::GetInstance()->GetPlayerOffSet();
 }
+
+/* ================================================ */
+/**
+ * @brief	プレイヤーオフセット取得
+ */
+/* ================================================ */
 const math::Vector2 &GetPlayerOffsetPos()
 {
 	//!プレイヤー情報取得
 	return GameAccesser::GetInstance()->GetPlayerOffSet();
 }
 
+/* ================================================ */
+/**
+ * @brief	二つの所属空間が当たり判定が必要かどうか判定
+ */
+/* ================================================ */
 const bool IsSameBelongArea( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
 {
 	bool retVal = false;
@@ -76,6 +104,11 @@ const bool IsSameBelongArea( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	return retVal;
 }
 
+/* ================================================ */
+/**
+ * @brief	描画位置が重なっているかどうか(当たり判定)
+ */
+/* ================================================ */
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
 {
 	if( !IsSameBelongArea( texA, texB ) ){
@@ -108,7 +141,11 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 	return false;
 }
 
-// マップ上での所属空間を求める
+/* ================================================ */
+/**
+ * @brief	マップ上での所属空間を求める
+ */
+/* ================================================ */
 const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 {
 	uint32_t retVal = 0;
@@ -148,6 +185,11 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	//DEBUG_PRINT( " m_belongLv = %d, m_belongIndex = %d\n", tex.m_belongLv, tex.m_belongIndex );
 }
 
+/* ================================================ */
+/**
+ * @brief	マップ上での高さを取得
+ */
+/* ================================================ */
 const uint32_t GetMapHeight( const uint32_t &posX, const uint32_t &posY )
 {
 	return GetMapHeight( math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
@@ -163,6 +205,11 @@ const uint32_t GetMapHeight( const math::Vector2 &pos )
 	return retVal;
 }
 
+/* ================================================ */
+/**
+ * @brief	マップ上で適当な数値を返す
+ */
+/* ================================================ */
 math::Vector2 GetMapRandamPos( bool allowInWindow, uint32_t mapHeight )
 {
 	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
@@ -188,6 +235,11 @@ math::Vector2 GetMapRandamPos( bool allowInWindow, uint32_t mapHeight )
 	return retVec;
 }
 
+/* ================================================ */
+/**
+ * @brief	画面上に表示しているオブジェクトかどうか
+ */
+/* ================================================ */
 bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
 {
 	if( !texInfo.m_usePlayerOffset ){
@@ -195,6 +247,7 @@ bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
 	}
 	return IsPositionInWindowArea( static_cast<int32_t>(texInfo.m_posOrigin.x), static_cast<int32_t>(texInfo.m_posOrigin.y) );
 }
+
 bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
 {
 	bool retVal = false;
@@ -221,6 +274,11 @@ bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
 	return retVal;
 }
 
+/* ================================================ */
+/**
+ * @brief	指定のAIクラスの生成
+ */
+/* ================================================ */
 EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 {
 	EnemyAIBase *pRetAI = NULL;
@@ -238,7 +296,11 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 	return pRetAI;
 }
 
-// プレイヤーの位置情報を取得
+/* ================================================ */
+/**
+ * @brief	プレイヤーの位置情報を取得
+ */
+/* ================================================ */
 math::Vector2 GetPlayerPos()
 {
 	math::Vector2 plPos;
@@ -250,7 +312,11 @@ math::Vector2 GetPlayerPos()
 	return plPos;
 }
 
-// Window上の特定の位置に常にいる実体の位置をゲーム上の位置に変換
+/* ================================================ */
+/**
+ * @brief	Window上の特定の位置に常にいる実体の位置をゲーム上の位置に変換
+ */
+/* ================================================ */
 math::Vector2 ConvertWindowPosToGamePos( const math::Vector2 &windowPos )
 {
 	if( windowPos.x < 0.0f || windowPos.x > WINDOW_WIDTH
@@ -271,6 +337,11 @@ math::Vector2 ConvertWindowPosToGamePos( const math::Vector2 &windowPos )
 	return retPos;
 }
 
+/* ================================================ */
+/**
+ * @brief	向く方向を上下左右から選択
+ */
+/* ================================================ */
 InputWatcher::BUTTON_KIND GetDirection( const float dirX, const float dirY )
 {
 	InputWatcher::BUTTON_KIND kind = InputWatcher::BUTTON_INVALID;
@@ -293,6 +364,11 @@ InputWatcher::BUTTON_KIND GetDirection( const float dirX, const float dirY )
 	return kind;
 }
 
+/* ================================================ */
+/**
+ * @brief	指定の範囲内のランダムな数字を返す
+ */
+/* ================================================ */
 int32_t GetRandamValue( const int32_t &max, const int32_t &min)
 {
 	return min + (int)(rand()*(max-min+1.0)/(1.0+RAND_MAX));
@@ -303,6 +379,11 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min)
 	return static_cast<float>(GetRandamValue( max, min ));
 }
 
+/* ================================================ */
+/**
+ * @brief	セーブデータの情報を取得
+ */
+/* ================================================ */
 bool GetSaveRanking( Common::SAVE_SCORE &saveData )
 {
 	// ファイルがない場合もあるので一度開いて作成しておく
@@ -340,8 +421,11 @@ bool GetSaveRanking( Common::SAVE_SCORE &saveData )
 	return true;
 }
 
-
-// 画面のjsonからパーツ情報を取得("partsInfo")
+/* ================================================ */
+/**
+ * @brief	画面のjsonからパーツ情報を取得("partsInfo")
+ */
+/* ================================================ */
 void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Common::PARTS_INFO > &vParts )
 {
 	std::string readJson = JSON_GAME2D_PATH;

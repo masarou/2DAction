@@ -43,6 +43,7 @@
     <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp" />
     <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayer.cpp" />
+    <ClCompile Include="Source\Game\Player\GamePlayerCombo.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayerStatusMenu.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Math\MathAngle.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h" />
     <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h" />
     <ClInclude Include="Source\Game\Player\GamePlayer.h" />
+    <ClInclude Include="Source\Game\Player\GamePlayerCombo.h" />
     <ClInclude Include="Source\Game\Player\GamePlayerStatusMenu.h" />
     <ClInclude Include="Source\Math\MathAngle.h" />
     <ClInclude Include="Source\Math\MathCommon.h" />

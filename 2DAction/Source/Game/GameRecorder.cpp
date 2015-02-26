@@ -12,6 +12,7 @@
 #include "Flow/FlowManager.h"
 
 GameRecorder *GameRecorder::s_pInstance = NULL;
+uint32_t COMBO_COUNT_MAX = 10000;
 
 GameRecorder *GameRecorder::Create()
 {
@@ -46,15 +47,36 @@ GameRecorder::~GameRecorder()
 
 void GameRecorder::InitRecord()
 {
-	for( uint32_t i = 0; i < STATE_MAX ; ++i ){
-		m_userScore[i] = 0;
-	}
-	for( uint32_t i = 0; i < NUMBEROF(m_scoreDetail) ; ++i ){
-		m_scoreDetail[i] = 0;
+	for( uint32_t i = 0; i < NUMBEROF(m_clearStageInfo) ; ++i ){
+		m_clearStageInfo[i].Init();
 	}
 	for( uint32_t i = 0; i < NUMBEROF(m_getItem) ; ++i ){
 		m_getItem[i] = 0;
 	}
+	m_hitComboNum = 0;
+	m_hitFailTime_ms = 0;
+}
+
+const void GameRecorder::SetUserLifeRatio( const float &lifeRatio, const STATE_OF_PROGRESS &stage )
+{
+	if( stage == STATE_MAX ){
+		m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userLifeRatio = lifeRatio;
+	}
+	else{
+		m_clearStageInfo[static_cast<uint32_t>(stage)].m_userLifeRatio = lifeRatio;
+	}
+}
+
+const float GameRecorder::GetUserLifeRatio( const STATE_OF_PROGRESS &stage ) const
+{
+	float retVal = 0.0f;
+	if( stage == STATE_MAX ){
+		retVal = m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userLifeRatio;
+	}
+	else{
+		retVal = m_clearStageInfo[static_cast<uint32_t>(stage)].m_userLifeRatio;
+	}
+	return retVal;
 }
 
 void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
@@ -76,19 +98,19 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
 		addValue = 100;
 		break;
 	}
-	m_userScore[static_cast<uint32_t>(m_gameState)] += addValue;
+	m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userScore += addValue;
 
-	++m_scoreDetail[static_cast<uint32_t>(kind)];
+	++m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_scoreDetail[static_cast<uint32_t>(kind)];
 }
 
 const int32_t GameRecorder::GetScore( const STATE_OF_PROGRESS &stage ) const
 {
 	uint32_t score = 0;
 	if( stage == STATE_MAX ){
-		score = m_userScore[static_cast<uint32_t>(m_gameState)];
+		score = m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userScore;
 	}
 	else{
-		score = m_userScore[static_cast<uint32_t>(stage)];
+		score = m_clearStageInfo[static_cast<uint32_t>(stage)].m_userScore;
 	}
 	return score;
 }
@@ -97,7 +119,7 @@ const int32_t GameRecorder::GetTotalScore() const
 {
 	uint32_t score = 0;
 	for( uint32_t i = 0; i < STATE_MAX ; ++i ){
-		score += m_userScore[i];
+		score += m_clearStageInfo[i].m_userScore;
 	}
 	return score;
 }
@@ -108,7 +130,7 @@ const void GameRecorder::AddItem( ItemObject::ITEM_KIND kind )
 	++m_getItem[index];
 }
 
-const uint32_t GameRecorder::GetItemCount( ItemObject::ITEM_KIND kind )
+const uint32_t GameRecorder::GetItemCount( ItemObject::ITEM_KIND kind ) const
 {
 	uint32_t index = static_cast<uint32_t>(kind);
 	return m_getItem[index];
@@ -122,4 +144,82 @@ void GameRecorder::SetGameStateOfProgress( STATE_OF_PROGRESS nextState )
 const GameRecorder::STATE_OF_PROGRESS &GameRecorder::GetGameStateOfProgress() const
 {
 	return m_gameState;
+}
+
+// Hit数プラス
+void GameRecorder::IncHitCounter()
+{
+	++m_hitComboNum;
+	m_hitFailTime_ms = COMBO_COUNT_MAX;
+}
+
+// 現在の連続Hit数取得
+uint32_t GameRecorder::GetCurrentHitCounter()
+{
+	return m_hitComboNum;
+}
+
+// 連続Hitが有効になるまでの残時間
+uint32_t GameRecorder::GetRestHitTime()
+{
+	return m_hitFailTime_ms;
+}
+
+
+uint32_t GameRecorder::GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage ) const
+{
+	uint32_t comboNum = 0;
+	if( stage == STATE_MAX ){
+		comboNum = m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_hitComboMaxOfStage;
+	}
+	else{
+		comboNum = m_clearStageInfo[static_cast<uint32_t>(stage)].m_hitComboMaxOfStage;
+	}
+	return comboNum;
+}
+
+void GameRecorder::Update()
+{
+	// Hitカウンタ処理
+	if( m_hitFailTime_ms > 0 ){
+		uint32_t subtraction = 0;
+		if( m_hitComboNum > 70 ){
+			subtraction = COMBO_COUNT_MAX / 30;
+		}
+		else if( m_hitComboNum > 60 ){
+			subtraction = COMBO_COUNT_MAX / 40;
+		}
+		else if( m_hitComboNum > 50 ){
+			subtraction = COMBO_COUNT_MAX / 50;
+		}
+		else if( m_hitComboNum > 40 ){
+			subtraction = COMBO_COUNT_MAX / 60;
+		}
+		else if( m_hitComboNum > 30 ){
+			subtraction = COMBO_COUNT_MAX / 70;
+		}
+		else if( m_hitComboNum > 20 ){
+			subtraction = COMBO_COUNT_MAX / 80;
+		}
+		else if( m_hitComboNum > 10 ){
+			subtraction = COMBO_COUNT_MAX / 90;
+		}
+		else{
+			subtraction = 100;
+		}
+		if( subtraction < m_hitFailTime_ms ){
+			m_hitFailTime_ms -= subtraction;
+		}
+		else{
+			m_hitFailTime_ms = 0;
+		}
+	}
+	else{
+		if( m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_hitComboMaxOfStage < m_hitComboNum ){
+			// 最大コンボ数更新!!!
+			m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_hitComboMaxOfStage = m_hitComboNum;
+		}
+		m_hitFailTime_ms	= 0;
+		m_hitComboNum		= 0;
+	}
 }

@@ -1,9 +1,9 @@
 /* ====================================================================== */
 /**
  * @brief  
- *
- * @note
  *		ゲーム履歴表示クラス
+ * @note
+ *		
  */
 /* ====================================================================== */
 
@@ -50,9 +50,9 @@ void FlowViewScore::PadEventCancel()
 /* ====================================================================== */
 /**
  * @brief  
- *
+ *		表示する数字カウンタ
  * @note
- *		タイトル一枚絵クラス
+ *		
  */
 /* ====================================================================== */
 ViewScore2D *ViewScore2D::CreateViewScore2D()
@@ -91,9 +91,8 @@ bool ViewScore2D::Init()
 
 	// ランキング描画
 	for( uint32_t i = 0; i < Common::RANKING_RECORD_MAX; ++i ){
-		m_pNumCounter[i] = NumberCounter::Create("number.json");
+		m_pNumCounter[i] = NumberCounter::Create("numberLarge.json");
 		m_numberInfo.m_posOrigin.y += 100.0f;
-		m_numberInfo.m_scale = math::Vector2(2.0f,2.0f);
 		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
 		m_pNumCounter[i]->AddValue( m_scoreData.m_scoreTimeAttack[i] );
 	}

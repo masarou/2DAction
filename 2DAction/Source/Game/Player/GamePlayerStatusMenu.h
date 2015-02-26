@@ -37,13 +37,10 @@ protected:
 	virtual void DrawUpdate() override;		// 描画更新
 
 private:
-	
-	// パーツ情報セット
-	void SetupPartsInfo();
+
 	// 指定パーツの情報取得
 	const math::Vector2 GetPartsPos( const std::string name ) const;
 	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
-
 
 	// 描画
 	Texture2D		m_textureStatus;		// ステータス画像

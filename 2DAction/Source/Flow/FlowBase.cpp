@@ -6,7 +6,6 @@
  *		フローの共通項目、json読み取り等の機能を持たせたクラス
  */
 /* ====================================================================== */
-
 #include "System/picojson.h"
 #include "FlowBase.h"
 #include "FlowManager.h"

@@ -29,11 +29,13 @@ GameRegister *GameRegister::GetInstance()
 GameRegister::GameRegister(void)
 : m_pPlayer( NULL )
 , m_pEnemyManager( NULL )
+, m_pPlayerCombo( NULL )
 , m_pMap( NULL )
 , m_pItemManager( NULL )
 , m_pGameManager( NULL )
 {
 	m_pPlayer		= GamePlayer::CreatePlayer();
+	m_pPlayerCombo	= PlayerCombo::CreatePlayerCombo();
 	m_pEnemyManager = EnemyManager::CreateEnemyManager();
 	m_pMap			= GameMap::CreateGameMap( FlowManager::GetInstance()->GetCurrentFlowKind() );
 	m_pItemManager	= ItemManager::CreateItemManager();

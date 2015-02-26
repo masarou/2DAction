@@ -194,6 +194,9 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 		// Hit‰¹
 		//SoundManager::GetInstance()->PlaySE("DamageBullet");
 	}
+
+	// ˜A‘±Hit”‰ÁŽZ
+	GameRecorder::GetInstance()->IncHitCounter();
 }
 
 /* ================================================ */

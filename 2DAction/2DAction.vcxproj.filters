@@ -229,6 +229,9 @@
     <ClInclude Include="Source\Game\Player\GamePlayerStatusMenu.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Player\GamePlayerCombo.h">
+      <Filter>Game\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -383,6 +386,9 @@
       <Filter>Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Player\GamePlayerStatusMenu.cpp">
+      <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Player\GamePlayerCombo.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
   </ItemGroup>
