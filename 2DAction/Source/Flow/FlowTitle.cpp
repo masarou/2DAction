@@ -82,6 +82,7 @@ Title2D::Title2D()
 	// 描画クラスセットアップ
 	m_textureTitle.m_pTex2D = NEW Game2DBase("title.json");
 	m_textureTitle.m_texInfo.Init();
+	m_textureTitle.m_texInfo.m_fileName = "title.json";
 	m_textureTitle.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureTitle.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureTitle.m_texInfo.m_usePlayerOffset = false;

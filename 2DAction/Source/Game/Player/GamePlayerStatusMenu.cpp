@@ -62,6 +62,7 @@ bool PlayerStatusMenu::Init()
 	m_lifeGauge.Init();
 	m_lifeGauge.m_pTex2D = NEW Game2DBase("lifeGauge.json");
 	m_lifeGauge.m_texInfo.Init();
+	m_lifeGauge.m_texInfo.m_fileName = "lifeGauge.json";
 	m_lifeGauge.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_lifeGauge.m_texInfo.m_posOrigin = GetPartsPos("lifeBarPos");
 	m_lifeGauge.m_texInfo.m_usePlayerOffset = false;
@@ -72,6 +73,7 @@ bool PlayerStatusMenu::Init()
 	m_rapidLevel.Init();
 	m_rapidLevel.m_pTex2D = NEW Game2DBase("numberLv.json");
 	m_rapidLevel.m_texInfo.Init();
+	m_rapidLevel.m_texInfo.m_fileName = "numberLv.json";
 	m_rapidLevel.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_rapidLevel.m_texInfo.m_posOrigin = GetPartsPos("itemLevel01");
 	m_rapidLevel.m_texInfo.m_usePlayerOffset = false;
@@ -81,6 +83,7 @@ bool PlayerStatusMenu::Init()
 	m_danageLevel.Init();
 	m_danageLevel.m_pTex2D = NEW Game2DBase("numberLv.json");
 	m_danageLevel.m_texInfo.Init();
+	m_danageLevel.m_texInfo.m_fileName = "numberLv.json";
 	m_danageLevel.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_danageLevel.m_texInfo.m_posOrigin = GetPartsPos("itemLevel02");
 	m_danageLevel.m_texInfo.m_usePlayerOffset = false;
@@ -166,7 +169,7 @@ void PlayerStatusMenu::DrawUpdate()
 		if( m_lifeGauge.m_pTex2D ){
 			const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_lifeGauge.m_texInfo.m_fileName.c_str() );
 			float ratio = static_cast<float>(m_playerLife)/static_cast<float>(m_playerLifeMax);
-			float lifeValue = ( 450 / lifeTexInfo.m_sizeWidth) * ratio;
+			float lifeValue = ( 450 / lifeTexInfo.m_sizeWidth) * ratio; // 450はライフバーの長さ
 		
 			if( math::Absf( m_lifeGauge.m_texInfo.m_scale.x - lifeValue ) > 0.3f ){
 				m_lifeGauge.m_texInfo.m_scale.x *= (m_lifeGauge.m_texInfo.m_scale.x - lifeValue < 0.0f) ? 1.02f : 0.98f ;

@@ -133,6 +133,7 @@ bool TotalResult2D::Init()
 	m_textureBG.Init();
 	m_textureBG.m_pTex2D = NEW Game2DBase("title.json");
 	m_textureBG.m_texInfo.Init();
+	m_textureBG.m_texInfo.m_fileName = "title.json";
 	m_textureBG.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureBG.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureBG.m_texInfo.m_usePlayerOffset = false;
@@ -146,6 +147,7 @@ bool TotalResult2D::Init()
 	m_textureResult.Init();
 	m_textureResult.m_pTex2D = NEW Game2DBase("gameResult.json");
 	m_textureResult.m_texInfo.Init();
+	m_textureResult.m_texInfo.m_fileName = "gameResult.json";
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;

@@ -35,6 +35,8 @@ public:
 	void CountAnimEnd();
 	// カウントアニメ中かどうか
 	bool IsPlayCountAnim();
+	// 描画無効にするかフラグセット
+	void SetDrawInvalidFlag( bool flg ){ m_invalidDraw = flg; }
 
 protected:
 
@@ -49,6 +51,7 @@ private:
 
 	void UpdateScore( const uint32_t &score );
 
+	bool		m_invalidDraw;		// 数字の描画を行うかどうか
 	std::string	m_readFile;			// 読み込んでいるjson
 	uint32_t	m_counter;			// 数値が上がっているときにSEを定期的にならすカウンタ
 	int32_t		m_value;

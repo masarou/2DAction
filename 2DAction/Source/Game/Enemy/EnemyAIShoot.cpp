@@ -40,29 +40,31 @@ void EnemyAIShoot::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
 		math::Vector2 eyeSight = playerPos - enemyInfo.m_posOrigin;
 		eyeSight.Normalize();
 
-		enemyInfo.m_posOrigin += eyeSight * 2.0f;
-
-		// アニメ更新
-		std::string animTag = "";
-		switch( Utility::GetDirection( eyeSight.x, eyeSight.y ) ){
-		default:
-			break;
-		case InputWatcher::BUTTON_UP:
-			animTag = "up";
-			break;
-		case InputWatcher::BUTTON_DOWN:
-			animTag = "down";
-			break;
-		case InputWatcher::BUTTON_LEFT:
-			animTag = "left";
-			break;
-		case InputWatcher::BUTTON_RIGHT:
-			animTag = "right";
-			break;
+		math::Vector2 nextPos = enemyInfo.m_posOrigin + eyeSight * 2.0f;
+		if( Utility::GetMapHeight( nextPos ) == 0 ){
+			enemyInfo.m_posOrigin += eyeSight * 2.0f;
+	
+			// アニメ更新
+			std::string animTag = "";
+			switch( Utility::GetDirection( eyeSight.x, eyeSight.y ) ){
+			default:
+				break;
+			case InputWatcher::BUTTON_UP:
+				animTag = "up";
+				break;
+			case InputWatcher::BUTTON_DOWN:
+				animTag = "down";
+				break;
+			case InputWatcher::BUTTON_LEFT:
+				animTag = "left";
+				break;
+			case InputWatcher::BUTTON_RIGHT:
+				animTag = "right";
+				break;
+			}
+			SetEnemyAnim( animTag );
+			SetEnemyEyeSight( eyeSight );
 		}
-		SetEnemyAnim( animTag );
-		SetEnemyEyeSight( eyeSight );
-
 	}
 
 	// プレイヤーに向かって弾を発射

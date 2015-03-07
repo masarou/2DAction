@@ -18,6 +18,7 @@ NumberCounter *NumberCounter::Create( const char *readJson )
 
 NumberCounter::NumberCounter( const char *readJson )
 : TaskUnit("GameScoreRecorder")
+, m_invalidDraw( false )
 , m_readFile( readJson )
 , m_counter( 0 )
 , m_currDispValue( 0 )
@@ -132,13 +133,17 @@ void NumberCounter::Update()
 
 void NumberCounter::DrawUpdate()
 {
+	if( m_invalidDraw ){
+		// •`‰æ‚µ‚È‚¢–½—ß‚ªo‚Ä‚¢‚é‚Ì‚Å•`‰æ‚µ‚È‚¢
+		return;
+	}
+
 	// ”š‚Ì•`‰æ
 	for( uint32_t i = 0; i < m_pNumber2DArray.size() ; ++i ){
 		if( i != 0 && i > std::log10(static_cast<double>(m_currDispValue))){
 			break;
 		}
 		m_pNumber2DArray.at(i)->DrawUpdate2D();
-
 	}
 }
 

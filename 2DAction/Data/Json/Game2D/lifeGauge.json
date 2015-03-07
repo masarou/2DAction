@@ -3,7 +3,7 @@
 		{"fileName":"lifeGauge.png"
 		, "animDefault":"default"
 		, "sizeW": 30
-		, "sizeH": 30
+		, "sizeH": 10
 		, "splitW": 1
 		, "splitH": 1
 		, "total": 1 }

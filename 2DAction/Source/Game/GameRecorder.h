@@ -20,6 +20,8 @@ class GameRecorder : public TaskUnit
 
 public:
 
+	static const uint32_t COMBO_COUNT_MAX = 10000;
+
 	// 得点が入る種類
 	enum SCORE_KIND {
 		ENEMY_AAA_DEATH,
@@ -82,6 +84,9 @@ public:
 
 	// 各ステージの最大コンボ数取得
 	uint32_t GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
+
+	// コンボ継続有効時間取得
+	uint32_t GetLeftTimeOfCombo() const;
 
 	// ゲーム進行状況の更新と取得
 	void SetGameStateOfProgress( STATE_OF_PROGRESS nextState );

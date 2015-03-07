@@ -12,7 +12,6 @@
 #include "Flow/FlowManager.h"
 
 GameRecorder *GameRecorder::s_pInstance = NULL;
-uint32_t COMBO_COUNT_MAX = 10000;
 
 GameRecorder *GameRecorder::Create()
 {
@@ -176,6 +175,12 @@ uint32_t GameRecorder::GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage ) c
 		comboNum = m_clearStageInfo[static_cast<uint32_t>(stage)].m_hitComboMaxOfStage;
 	}
 	return comboNum;
+}
+
+// ƒRƒ“ƒ{Œp‘±—LŒøŽžŠÔŽæ“¾
+uint32_t GameRecorder::GetLeftTimeOfCombo() const
+{
+	return m_hitFailTime_ms;
 }
 
 void GameRecorder::Update()
