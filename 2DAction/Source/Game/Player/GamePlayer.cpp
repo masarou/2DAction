@@ -65,7 +65,6 @@ bool GamePlayer::Init()
 	m_drawTexture.m_texInfo.m_usePlayerOffset = false;
 	m_drawTexture.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
 	m_drawTexture.m_texInfo.m_fileName = "player.json";
-	Utility::GetBelongAreaInMap( m_drawTexture.m_texInfo );
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 
 

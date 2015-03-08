@@ -10,8 +10,8 @@
 #ifndef __SYSTEM_COLLISIONUNIT__
 #define __SYSTEM_COLLISIONUNIT__
 
-#include "System/Message/SystemMessageUnit.h"
 #include "Game/Game2DBase.h"
+#include "System/Message/SystemMessageUnit.h"
 
 class Collision2DUnit : public SystemMessageUnit
 {
@@ -20,8 +20,22 @@ public:
 	// 自分が何者なのかを示すタイプ
 	virtual const Common::TYPE_OBJECT GetTypeObject() const = 0 ;
 
+	// CollisionManagerから呼ばれる更新関数
+	void ListUpdate();
+
 	// 描画情報取得
 	const TEX_DRAW_INFO &GetDrawInfo() const;
+
+	// 当たり判定周りの情報取得
+	const uint32_t &GetBelongLv() const{ return m_drawTexture.m_texInfo.m_belongLv; }
+	const uint32_t &GetBelongIndex() const{ return m_drawTexture.m_texInfo.m_belongIndex; }
+
+	// 双方向リストに指定クラスを登録
+	void ClearChainList(){ m_nextUnit = NULL; m_prevUnit = NULL; }
+	Collision2DUnit *GetNextUnit(){ return m_nextUnit; }
+	Collision2DUnit *GetPrevUnit(){ return m_prevUnit; }
+	void SetNextUnit( Collision2DUnit *pUnit );
+	void SetPrevUnit( Collision2DUnit *pUnit );
 
 protected:
 	
@@ -31,7 +45,13 @@ protected:
 
 private:
 
+	// 当たり判定で使用する双方向リスト
+	Collision2DUnit		*m_nextUnit;
+	Collision2DUnit		*m_prevUnit;
 
+	// 直前の空間情報
+	uint32_t			m_preBelongLv;
+	uint32_t			m_preBelongIndex;
 };
 
 #endif

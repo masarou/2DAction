@@ -15,7 +15,6 @@
 #include "EnemyAIDefine.h"
 #include "EnemyAIBase.h"
 #include "EnemyManager.h"
-#include "Game/Game2DBase.h"
 #include "Game/Player/AttackGun/GamePlayerAttackGun.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/SystemDefine.h"
