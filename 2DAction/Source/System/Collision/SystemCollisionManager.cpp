@@ -83,42 +83,110 @@ void CollisionManager::RemoveUnit( Collision2DUnit *pUnit )
 /* ================================================ */
 void CollisionManager::CollisionUpdate()
 {
-	// とりあえず毎回初期化
 	for( uint32_t i = 0; i < m_vCollisionUnit.size() ; ++i ){
-		m_vCollisionUnit.at( i )->ClearChainList();
-	}
-	for( uint32_t i = 0; i < NUMBEROF(m_objectTree) ; ++i ){
-		m_objectTree[i].Init();
-	}
+		for( uint32_t j = 0; j < m_vCollisionUnit.size() ; ++j ){
+			if( i == j ){
+				// 自分はチェックからはずす
+				continue;
+			}
 
-	// 各Unitの双方向リストを成型
-	for( uint32_t i = 0; i < m_vCollisionUnit.size() ; ++i ){
-		Collision2DUnit *pTmp = m_vCollisionUnit.at( i );
-		std::vector<uint32_t> indexArray;
-		uint32_t accessIndex = GetRegisterTreeIndex( pTmp );
-		if( accessIndex != INVALID_VALUE ){
-			RegisterUnitFromTree( accessIndex, pTmp );
+			Common::TYPE_OBJECT typeA = m_vCollisionUnit.at(i)->GetTypeObject();
+			Common::TYPE_OBJECT typeB = m_vCollisionUnit.at(j)->GetTypeObject();
+			if( !NeedEvent( typeA, typeB ) ){
+				continue;
+			}
+			const TEX_DRAW_INFO &texA = m_vCollisionUnit.at(i)->GetDrawInfo();
+			const TEX_DRAW_INFO &texB = m_vCollisionUnit.at(j)->GetDrawInfo();
+			if( Utility::IsInRangeTexture( texA, texB ) ){
+				Common::CMN_EVENT eventInfo;
+				eventInfo.Init();
+
+				Common::EVENT_MESSAGE messageKind = Common::EVENT_MESSAGE_MAX;
+				switch( typeA ){
+				default:
+					DEBUG_ASSERT( 0, "objectの種類が想定外");
+					/* fall-through */
+				case Common::TYPE_PLAYER:
+					messageKind = Common::EVENT_HIT_PLAYER;
+					break;
+				case Common::TYPE_EVENMY_AAA:
+					messageKind = Common::EVENT_HIT_ENEMY_AAA;
+					eventInfo.m_eventValue = 20;
+					break;
+				case Common::TYPE_EVENMY_BBB:
+					messageKind = Common::EVENT_HIT_ENEMY_BBB;
+					eventInfo.m_eventValue = 20;
+					break;
+				case Common::TYPE_EVENMY_CCC:
+					messageKind = Common::EVENT_HIT_ENEMY_CCC;
+					break;
+				case Common::TYPE_ITEM_BULLET:
+					messageKind = Common::EVENT_GET_ITEM_BULLET;
+					break;
+				case Common::TYPE_ITEM_LIFE:
+					messageKind = Common::EVENT_GET_ITEM_LIFE;
+					break;
+				case Common::TYPE_ITEM_DAMAGE:
+					messageKind = Common::EVENT_GET_ITEM_DAMAGE;
+					break;
+				case Common::TYPE_BULLET_PLAYER:
+					{
+						messageKind = Common::EVENT_HIT_BULLET_PLAYER;
+						Bullet *pBullet = static_cast<Bullet*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pBullet->GetBulletDamage();
+					}
+					break;
+				case Common::TYPE_BULLET_ENEMY:
+					{
+						messageKind = Common::EVENT_HIT_BULLET_ENEMY;
+						Bullet *pBullet = static_cast<Bullet*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pBullet->GetBulletDamage();
+					}
+					break;
+				}
+				eventInfo.m_event = messageKind;
+
+				// 接触したことを伝える
+				SystemMessageManager::GetInstance()->PushMessage( m_vCollisionUnit.at(j)->GetUniqueId(), eventInfo );
+			}
 		}
 	}
-
-	//// 各Unitの双方向リストを更新
+	//// とりあえず毎回初期化
 	//for( uint32_t i = 0; i < m_vCollisionUnit.size() ; ++i ){
-	//	Collision2DUnit *pTmp = m_vCollisionUnit.at( i );
-	//	pTmp->ListUpdate();
+	//	m_vCollisionUnit.at( i )->ClearChainList();
+	//}
+	//for( uint32_t i = 0; i < NUMBEROF(m_objectTree) ; ++i ){
+	//	m_objectTree[i].Init();
 	//}
 
-	// 当たり判定全チェック
-	for( uint32_t i = 0; i < NUMBEROF(m_objectTree) ; ++i ){
-		if( m_objectTree[i].pUnit ){
+	//// 各Unitの双方向リストを成型
+	//for( uint32_t i = 0; i < m_vCollisionUnit.size() ; ++i ){
+	//	Collision2DUnit *pTmp = m_vCollisionUnit.at( i );
+	//	std::vector<uint32_t> indexArray;
+	//	uint32_t accessIndex = GetRegisterTreeIndex( pTmp );
+	//	if( accessIndex != INVALID_VALUE ){
+	//		RegisterUnitFromTree( accessIndex, pTmp );
+	//	}
+	//}
 
-			// 再帰
-			RecursiveSameAreaCheck( m_objectTree[i].pUnit );
+	////// 各Unitの双方向リストを更新
+	////for( uint32_t i = 0; i < m_vCollisionUnit.size() ; ++i ){
+	////	Collision2DUnit *pTmp = m_vCollisionUnit.at( i );
+	////	pTmp->ListUpdate();
+	////}
 
-			// チェック終了次へ
-			m_vCheckCollision.clear();
+	//// 当たり判定全チェック
+	//for( uint32_t i = 0; i < NUMBEROF(m_objectTree) ; ++i ){
+	//	if( m_objectTree[i].pUnit ){
 
-		}
-	}
+	//		// 再帰
+	//		RecursiveSameAreaCheck( m_objectTree[i].pUnit );
+
+	//		// チェック終了次へ
+	//		m_vCheckCollision.clear();
+
+	//	}
+	//}
 }
 
 /* ================================================ */

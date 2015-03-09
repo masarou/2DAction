@@ -58,7 +58,6 @@ void SoundManager::Update()
 /* ================================================ */
 void SoundManager::PlaySE(const char *tagSE)
 {
-	return ;
 	const uint32_t handle = GetHandleId(tagSE);
 	if(handle == INVALID_VALUE){
 		DEBUG_PRINT("yÄ¶‚µ‚æ‚¤‚Æ‚µ‚½SE‚Íƒ[ƒh‚³‚ê‚Ä‚¢‚È‚¢Hz\n");

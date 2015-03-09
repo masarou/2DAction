@@ -21,7 +21,7 @@ public:
 	virtual const Common::TYPE_OBJECT GetTypeObject() const = 0 ;
 
 	// CollisionManager‚©‚çŒÄ‚Î‚ê‚éXVŠÖ”
-	void ListUpdate();
+	//void ListUpdate();
 
 	// •`‰æî•ñæ“¾
 	const TEX_DRAW_INFO &GetDrawInfo() const;

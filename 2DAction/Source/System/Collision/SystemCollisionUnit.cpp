@@ -35,22 +35,22 @@ Collision2DUnit::~Collision2DUnit(void)
 	CollisionManager::GetInstance()->RemoveUnit( this );
 }
 
-void Collision2DUnit::ListUpdate()
-{
-	uint32_t currBelongLv		= m_drawTexture.m_texInfo.m_belongLv;
-	uint32_t currBelongIndex	= m_drawTexture.m_texInfo.m_belongIndex;
-
-	if( currBelongLv != m_preBelongLv || currBelongIndex != m_preBelongIndex ){
-		// 新しく双方向リストに登録をし直す
-		uint32_t index = CollisionManager::GetInstance()->GetRegisterTreeIndex( m_preBelongLv, m_preBelongIndex );
-		CollisionManager::GetInstance()->RemoveUnitFromTree( index, this );
-		index = CollisionManager::GetInstance()->GetRegisterTreeIndex( this );
-		CollisionManager::GetInstance()->RegisterUnitFromTree( index, this );
-		// 更新
-		m_preBelongLv		= currBelongLv;
-		m_preBelongIndex	= currBelongIndex;
-	}
-}
+//void Collision2DUnit::ListUpdate()
+//{
+//	uint32_t currBelongLv		= m_drawTexture.m_texInfo.m_belongLv;
+//	uint32_t currBelongIndex	= m_drawTexture.m_texInfo.m_belongIndex;
+//
+//	if( currBelongLv != m_preBelongLv || currBelongIndex != m_preBelongIndex ){
+//		// 新しく双方向リストに登録をし直す
+//		uint32_t index = CollisionManager::GetInstance()->GetRegisterTreeIndex( m_preBelongLv, m_preBelongIndex );
+//		CollisionManager::GetInstance()->RemoveUnitFromTree( index, this );
+//		index = CollisionManager::GetInstance()->GetRegisterTreeIndex( this );
+//		CollisionManager::GetInstance()->RegisterUnitFromTree( index, this );
+//		// 更新
+//		m_preBelongLv		= currBelongLv;
+//		m_preBelongIndex	= currBelongIndex;
+//	}
+//}
 
 const TEX_DRAW_INFO &Collision2DUnit::GetDrawInfo() const
 {

@@ -174,14 +174,16 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	uint32_t areaNum = upper^under;
 	uint32_t belongLv = 0;		// rootがLv0, 大きくになるにつれて親、子、孫となる
 	uint32_t belongIndex = 0;
-	for( int32_t i = HIT_AREA_SPLIT_MAX ; i >= 0; --i ){
-		uint32_t slideNum = HIT_AREA_SPLIT_MAX - (HIT_AREA_SPLIT_MAX-i);
-		if( (areaNum >> (2*slideNum)) == 0 ){
-			tex.m_belongLv = i;
-			tex.m_belongIndex = under >> (HIT_AREA_SPLIT_MAX-1)*2;
+
+	uint32_t lastShift = 0;
+	for( int32_t i = 0 ; i <= HIT_AREA_SPLIT_MAX; ++i ){
+		if( (areaNum >> (2*i)) == 0 ){
+			lastShift = i; 
 			break;
 		}
 	}
+	tex.m_belongLv = HIT_AREA_SPLIT_MAX - lastShift;
+	tex.m_belongIndex = under >> 2*lastShift;
 	//DEBUG_PRINT( " m_belongLv = %d, m_belongIndex = %d\n", tex.m_belongLv, tex.m_belongIndex );
 }
 
