@@ -14,6 +14,8 @@
     <ClCompile Include="Source\Common\CmnGameAccesser.cpp" />
     <ClCompile Include="Source\Common\CmnNumberCounter.cpp" />
     <ClCompile Include="Source\Common\Utility\CommonGameUtility.cpp" />
+    <ClCompile Include="Source\Flow\Effect\ControllDescription.cpp" />
+    <ClCompile Include="Source\Flow\Effect\FlowEffectBase.cpp" />
     <ClCompile Include="Source\Flow\FlowBase.cpp" />
     <ClCompile Include="Source\Flow\FlowExit.cpp" />
     <ClCompile Include="Source\Flow\FlowGame.cpp" />
@@ -62,6 +64,7 @@
     <ClCompile Include="Source\System\SystemFadeManager.cpp" />
     <ClCompile Include="Source\System\SystemFPSManager.cpp" />
     <ClCompile Include="Source\System\SystemMessage.cpp" />
+    <ClCompile Include="Source\System\SystemPauseFilter.cpp" />
     <ClCompile Include="Source\System\Task\SystemTaskManager.cpp" />
     <ClCompile Include="Source\System\Task\SystemTaskUnit.cpp" />
   </ItemGroup>
@@ -70,6 +73,8 @@
     <ClInclude Include="Source\Common\CmnNumberCounter.h" />
     <ClInclude Include="Source\Common\CommonDefine.h" />
     <ClInclude Include="Source\Common\Utility\CommonGameUtility.h" />
+    <ClInclude Include="Source\Flow\Effect\ControllDescription.h" />
+    <ClInclude Include="Source\Flow\Effect\FlowEffectBase.h" />
     <ClInclude Include="Source\Flow\FlowBase.h" />
     <ClInclude Include="Source\Flow\FlowExit.h" />
     <ClInclude Include="Source\Flow\FlowGame.h" />
@@ -122,6 +127,7 @@
     <ClInclude Include="Source\System\SystemFadeManager.h" />
     <ClInclude Include="Source\System\SystemFPSManager.h" />
     <ClInclude Include="Source\System\SystemMessage.h" />
+    <ClInclude Include="Source\System\SystemPauseFilter.h" />
     <ClInclude Include="Source\System\Task\SystemTaskManager.h" />
     <ClInclude Include="Source\System\Task\SystemTaskUnit.h" />
   </ItemGroup>
@@ -171,7 +177,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(SolutionName)\Lib\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(SolutionName)\Lib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
@@ -193,7 +199,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(SolutionName)\Lib\プロジェクトに追加すべきファイル_VC用</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

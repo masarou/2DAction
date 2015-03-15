@@ -161,7 +161,7 @@ void Result2D::Update()
 	case DISP_RESULT:
 		if( !m_pNumCounterResult->IsPlayCountAnim() ){
 			m_dispState = DISP_BONUS;
-			m_pNumCounterBonus->AddValue( GetStageClearBonus() );
+			m_pNumCounterBonus->AddValue( GetStageClearBonus() );		
 		}
 		break;
 	case DISP_BONUS:
@@ -214,6 +214,9 @@ void Result2D::PadEventDecide()
 		// カウントアニメ終了
 		m_pNumCounterTotal->CountAnimEnd();
 		m_dispState = DISP_ALL;
+		
+		// ここで求めたボーナスをステージスコアに加算
+		GameRecorder::GetInstance()->AddScoreBonus( m_pNumCounterBonus->GetValue() );
 		break;
 	case DISP_ALL:
 

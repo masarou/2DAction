@@ -44,12 +44,14 @@ public:
 	struct STAGE_CLEAR_INFO{
 		float		m_userLifeRatio;				// ユーザーライフの残り割合
 		uint32_t	m_userScore;					// クリア時のスコア
+		uint32_t	m_bonusScore;					// ボーナススコア
 		uint32_t	m_hitComboMaxOfStage;			// 各ステージの最大Hit数	
 		uint32_t	m_scoreDetail[POINT_MAX];		// スコア詳細
 
 		void Init(){
 			m_userLifeRatio			= 0.0f;
 			m_userScore				= 0;
+			m_bonusScore			= 0;
 			m_hitComboMaxOfStage	= 0;
 			for( uint32_t i = 0; i < NUMBEROF(m_scoreDetail) ;++i ){
 				m_scoreDetail[i] = 0;
@@ -70,7 +72,10 @@ public:
 
 	// スコアの加算と取得 GetScoreは引数なしなら直近のステージスコアを返す
 	void ScoreEvent( const SCORE_KIND &kind );
+	void AddScoreBonus( uint32_t bonusScore, const STATE_OF_PROGRESS &stage = STATE_MAX );
 	const int32_t GetScore( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
+	const int32_t GetScoreBonus( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
+	const int32_t GetStageScore( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
 	const int32_t GetTotalScore() const;
 
 	// アイテム取得数の加算

@@ -9,6 +9,7 @@
 #include "FlowGame.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
+#include "Effect/ControllDescription.h"
 
 FlowBase *FlowGame::Create( const std::string &fileName )
 {
@@ -38,6 +39,10 @@ bool FlowGame::Init()
 
 	// ゲームをするのに必要なインスタンス作成
 	GameRegister::CreateInstance();
+
+	// 最初の説明
+	ControllDescription *pEffectStage = ControllDescription::Create();
+	PushStageEffect( pEffectStage );
 
 	return true;
 }

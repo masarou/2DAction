@@ -16,6 +16,8 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "FlowManager.h"
 
+class FlowEffectBase;
+
 class FlowBase : public TaskManagerBase, public InputWatcher 
 {
 	friend class FlowManager;
@@ -38,10 +40,16 @@ protected:
 	//! 現在のフロー名取得
 	const std::string &GetFlowFilePath() const{ return m_filePath; }
 
+	//! ステージエフェクトAdd
+	void PushStageEffect( FlowEffectBase *pEffect ){ m_vStageEffect.push_back( pEffect ); }
+
 protected:
 	
 	// 次の画面に遷移
 	bool StartFade( const char *eventStr );
+
+	// ゲームをポーズ状態に
+	virtual void PadEventStart() override;
 
 private:
 
@@ -69,6 +77,8 @@ private:
 	bool m_isInvalidPadCtrl;	//!< パッド操作無効フラグ
 	std::string m_filePath;		//!< 読み込んでいるjsonファイルパス
 	std::vector<FLOW_DATA> m_vEventName;
+
+	std::vector<FlowEffectBase*>	m_vStageEffect;	// ゲーム全体を止めて見せる演出(ゲーム説明等)
 };
 #endif
 

@@ -102,6 +102,16 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
 	++m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_scoreDetail[static_cast<uint32_t>(kind)];
 }
 
+void GameRecorder::AddScoreBonus( uint32_t bonusScore, const STATE_OF_PROGRESS &stage )
+{
+	if( stage == STATE_MAX ){
+		m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_bonusScore += bonusScore;
+	}
+	else{
+		m_clearStageInfo[static_cast<uint32_t>(stage)].m_bonusScore += bonusScore;
+	}
+}
+
 const int32_t GameRecorder::GetScore( const STATE_OF_PROGRESS &stage ) const
 {
 	uint32_t score = 0;
@@ -114,11 +124,37 @@ const int32_t GameRecorder::GetScore( const STATE_OF_PROGRESS &stage ) const
 	return score;
 }
 
+const int32_t GameRecorder::GetScoreBonus( const STATE_OF_PROGRESS &stage ) const
+{
+	uint32_t score = 0;
+	if( stage == STATE_MAX ){
+		score = m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_bonusScore;
+	}
+	else{
+		score = m_clearStageInfo[static_cast<uint32_t>(stage)].m_bonusScore;
+	}
+	return score;
+}
+
+const int32_t GameRecorder::GetStageScore( const STATE_OF_PROGRESS &stage ) const
+{
+	uint32_t score = 0;
+	if( stage == STATE_MAX ){
+		score += m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userScore;
+		score += m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_bonusScore;
+	}
+	else{
+		score += m_clearStageInfo[static_cast<uint32_t>(stage)].m_userScore;
+		score += m_clearStageInfo[static_cast<uint32_t>(stage)].m_bonusScore;
+	}
+	return score;
+}
+
 const int32_t GameRecorder::GetTotalScore() const
 {
 	uint32_t score = 0;
 	for( uint32_t i = 0; i < STATE_MAX ; ++i ){
-		score += m_clearStageInfo[i].m_userScore;
+		score += m_clearStageInfo[i].m_userScore + m_clearStageInfo[i].m_bonusScore;
 	}
 	return score;
 }
@@ -220,11 +256,12 @@ void GameRecorder::Update()
 		}
 	}
 	else{
-		if( m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_hitComboMaxOfStage < m_hitComboNum ){
-			// 最大コンボ数更新!!!
-			m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_hitComboMaxOfStage = m_hitComboNum;
-		}
 		m_hitFailTime_ms	= 0;
 		m_hitComboNum		= 0;
+	}
+
+	if( m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_hitComboMaxOfStage < m_hitComboNum ){
+		// 最大コンボ数更新!!!
+		m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_hitComboMaxOfStage = m_hitComboNum;
 	}
 }

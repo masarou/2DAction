@@ -151,6 +151,7 @@ void CollisionManager::CollisionUpdate()
 			}
 		}
 	}
+
 	//// とりあえず毎回初期化
 	//for( uint32_t i = 0; i < m_vCollisionUnit.size() ; ++i ){
 	//	m_vCollisionUnit.at( i )->ClearChainList();
@@ -168,12 +169,6 @@ void CollisionManager::CollisionUpdate()
 	//		RegisterUnitFromTree( accessIndex, pTmp );
 	//	}
 	//}
-
-	////// 各Unitの双方向リストを更新
-	////for( uint32_t i = 0; i < m_vCollisionUnit.size() ; ++i ){
-	////	Collision2DUnit *pTmp = m_vCollisionUnit.at( i );
-	////	pTmp->ListUpdate();
-	////}
 
 	//// 当たり判定全チェック
 	//for( uint32_t i = 0; i < NUMBEROF(m_objectTree) ; ++i ){
@@ -322,6 +317,8 @@ void CollisionManager::RemoveUnitFromTree( const uint32_t &treeIndex, Collision2
 // 同じエリアのオブジェクトについて再帰的に当たり判定を行う
 void CollisionManager::RecursiveSameAreaCheck( Collision2DUnit *pUnit )
 {
+	uint32_t popCounter = 0;
+
 	// 連結しているUnitをまとめる
 	Collision2DUnit *pAddUnit = pUnit;
 	for(;;){
@@ -330,6 +327,7 @@ void CollisionManager::RecursiveSameAreaCheck( Collision2DUnit *pUnit )
 		}
 		m_vCheckCollision.push_back( pAddUnit );
 		pAddUnit = pAddUnit->GetNextUnit();
+		++popCounter;
 	}
 
 	// 連結していたUnitどうしの当たり判定チェック
@@ -347,11 +345,19 @@ void CollisionManager::RecursiveSameAreaCheck( Collision2DUnit *pUnit )
 	}
 
 	// 現在調べているエリアの子、孫とチェックしていく
-	uint32_t underLvIndex = static_cast<uint32_t>( pow( 4, static_cast<double>(pUnit->GetBelongLv())) + ( 4*pUnit->GetBelongIndex() ) + 1 );
-	for( uint32_t i = 0 ; i < 4 ; ++i ){
-		if( m_objectTree[underLvIndex+i].pUnit ){
-			RecursiveSameAreaCheck( m_objectTree[underLvIndex+i].pUnit );
+	if( pUnit->GetBelongLv() < HIT_AREA_SPLIT_MAX ){
+		// 子となる空間があるので再帰して調べていく		
+		uint32_t childLvFirstIndex = GetRegisterTreeIndex( pUnit->GetBelongLv() + 1, 0 );
+		childLvFirstIndex += 4 * pUnit->GetBelongIndex();
+		for( uint32_t i = childLvFirstIndex ; i < childLvFirstIndex+4 ; ++i ){
+			if( m_objectTree[i].pUnit ){
+				RecursiveSameAreaCheck( m_objectTree[i].pUnit );
+			}
 		}
+	}
+
+	for( uint32_t i = 0; i < popCounter; ++i ){
+		m_vCheckCollision.pop_back();
 	}
 }
 

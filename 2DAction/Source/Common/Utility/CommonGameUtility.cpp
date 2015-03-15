@@ -21,6 +21,27 @@
 
 namespace Utility
 {
+	
+/* ================================================ */
+/**
+ * @brief	ゲームが一周して終わるとき、タイトルに戻るときなどにプレイ記録リセット
+ */
+/* ================================================ */
+static bool s_gamePauseFlg = false;
+void StartGamePause()
+{
+	s_gamePauseFlg = true;
+}
+
+void EndGamePause()
+{
+	s_gamePauseFlg = false;
+}
+
+bool IsGamePause()
+{
+	return s_gamePauseFlg;
+}
 
 /* ================================================ */
 /**

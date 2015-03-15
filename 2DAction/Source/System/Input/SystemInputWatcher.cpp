@@ -10,6 +10,7 @@
 
 #include "System/Input/SystemInputWatcher.h"
 #include "System/SystemFadeManager.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 //! スティックの無効範囲
 #define STICK_INVALID_RANGE 0
@@ -144,6 +145,16 @@ void InputWatcher::CallPadEvent()
 		m_stickInfo[i] = GetStickInfo(static_cast<STICK_KIND>(i));
 	}
 
+	if(IsButtonEvent(BUTTON_START)){
+		PadEventStart();
+		DEBUG_PRINT("BUTTON_START\n");
+	}
+
+	// Pause中ならStart以外操作無効
+	if( Utility::IsGamePause() ){
+		return;
+	}
+
 	if(IsButtonEvent(BUTTON_UP)){
 		PadEventUp();
 	}
@@ -191,10 +202,6 @@ void InputWatcher::CallPadEvent()
 	if(IsButtonEvent(BUTTON_SELECT)){
 		PadEventSelect();
 		DEBUG_PRINT("BUTTON_BACK\n");
-	}
-	if(IsButtonEvent(BUTTON_START)){
-		PadEventStart();
-		DEBUG_PRINT("BUTTON_START\n");
 	}
 	if(IsButtonEvent(BUTTON_L3)){
 		PadEventL3();

@@ -35,7 +35,7 @@ bool FlowManager::DieMain()
 {
 	if(m_pFlow){
 		for(;;){
-			if(m_pFlow->ReleaseAllEnd()){
+			if(m_pFlow->Finish()){
 				SAFE_DELETE(m_pFlow);
 				return true;
 			}

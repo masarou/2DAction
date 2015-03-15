@@ -26,7 +26,7 @@ public:
 	static GameManager *CreateGameManager( const Common::GAME_FLOW &currentKind );
 	~GameManager(void);
 
-	// 制限時間を過ぎたかどうか
+	// ステージクリア条件を満たしたかどうか
 	bool	IsGameOver() const;
 
 	// 敵を倒した数をカウント

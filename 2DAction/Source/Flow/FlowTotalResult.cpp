@@ -173,7 +173,7 @@ bool TotalResult2D::Init()
 	}
 
 	// 敵を倒して得た得点をセット
-	m_pNumCounter[static_cast<uint32_t>(DISP_STAGE01)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE01 ) );
+	m_pNumCounter[static_cast<uint32_t>(DISP_STAGE01)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE01 ) );
 
 	return true;
 }
@@ -188,13 +188,13 @@ void TotalResult2D::Update()
 	case DISP_STAGE01:
 		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
 			m_dispState = DISP_STAGE02;
-			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE02 ) );
+			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE02 ) );
 		}
 		break;
 	case DISP_STAGE02:
 		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
 			m_dispState = DISP_STAGE03;
-			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE03 ) );
+			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE03 ) );
 		}
 		break;
 	case DISP_STAGE03:
@@ -235,14 +235,14 @@ void TotalResult2D::PadEventDecide()
 		m_pNumCounter[index]->CountAnimEnd();
 		m_dispState = DISP_STAGE02;
 
-		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE02 ) );
+		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE02 ) );
 		break;
 	case DISP_STAGE02:
 		// カウントアニメ終了
 		m_pNumCounter[index]->CountAnimEnd();
 		m_dispState = DISP_STAGE03;
 
-		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetScore( GameRecorder::STATE_STAGE03 ) );
+		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE03 ) );
 		break;
 	case DISP_STAGE03:
 		// カウントアニメ終了

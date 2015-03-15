@@ -9,6 +9,9 @@
 #include "System/picojson.h"
 #include "FlowBase.h"
 #include "FlowManager.h"
+#include "Effect/FlowEffectBase.h"
+#include "Common/Utility/CommonGameUtility.h"
+#include "System/SystemFadeManager.h"
 #include "System/Message/SystemMessageManager.h"
 #include "System/Collision/SystemCollisionManager.h"
 
@@ -50,10 +53,28 @@ bool FlowBase::StartFade(const char* eventStr)
 /* ================================================ */
 bool FlowBase::Finish()
 {
+	// 子タスクの終了処理
 	if( !ReleaseAllEnd() ){
 		return false;
 	}
-	//! まだ子タスクの終了待ち
+
+	// ステージエフェクト終了処理
+	auto it = m_vStageEffect.begin();
+	while( it != m_vStageEffect.end() ){
+		if( (*it)->CanDie() ){
+			FlowEffectBase *tmp = *it;
+			it = m_vStageEffect.erase(it);
+			SAFE_DELETE(tmp);
+		}
+		if( it != m_vStageEffect.end() ){
+			++it;
+		}
+	}
+	if( !m_vStageEffect.empty() ){
+		return false;
+	}
+
+	//! 派生先の終了確認
 	return FinishFlow();
 }
 
@@ -108,6 +129,17 @@ void FlowBase::UpdateFlow()
 	UpdateFlowAfterChildTask();
 }
 
+
+void FlowBase::PadEventStart()
+{
+	if( Utility::IsGamePause() ){
+		Utility::EndGamePause();
+	}
+	else{
+		Utility::StartGamePause();
+	}
+};
+
 /* ============================================== */
 /**
  * @brief	子タスク追加
@@ -127,8 +159,26 @@ void FlowBase::AddChildTask(TaskUnit *pTask)
 /* ================================================ */
 void FlowBase::ChildUpdate()
 {
-	Exec();				//! 位置等の更新
-	CollisionManager::GetInstance()->CollisionUpdate();			// 衝突判定更新+各クラスにイベント発行	
-	SystemMessageManager::GetInstance()->StartMessageEvent();	// 各クラスの相互イベント処理を行う
+	if( Utility::IsGamePause() ){
+		// ポーズ中
+	}
+	else if( m_vStageEffect.size() != 0
+		&& FadeManager::GetInstance()->GetCurrentState() == FadeManager::STATE_IDLE ){
+		// フロー演出中
+		auto it = m_vStageEffect.begin();
+		if( (*it)->IsEffectEnd() ){
+			FlowEffectBase *tmp = *it;
+			m_vStageEffect.erase( it );
+			SAFE_DELETE(tmp);
+		}
+		else{
+			(*it)->Exec();
+		}
+	}
+	else{
+		Exec();				//! 位置等の更新
+		CollisionManager::GetInstance()->CollisionUpdate();			// 衝突判定更新+各クラスにイベント発行	
+		SystemMessageManager::GetInstance()->StartMessageEvent();	// 各クラスの相互イベント処理を行う
+	}
 	DrawUpdate();		//! 描画等の更新
 }

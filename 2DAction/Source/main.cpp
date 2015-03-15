@@ -8,6 +8,7 @@
 #include "System/Draw2D/SystemDraw2DManager.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "System/SystemFadeManager.h"
+#include "System/SystemPauseFilter.h"
 #include "Game/GameRecorder.h"
 #include "Common/CmnGameAccesser.h"
 #include "Flow/FlowManager.h"
@@ -46,6 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	FlowManager::Create();
 	SoundManager::Create();
 	FadeManager::Create();
+	PauseFilter::Create();
 	GameRecorder::Create();
 
 	while(1){

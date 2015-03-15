@@ -56,6 +56,9 @@
     <Filter Include="System\Collision">
       <UniqueIdentifier>{980b874e-1d44-4099-8701-b069423d929e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Flow\Effect">
+      <UniqueIdentifier>{aa1c7ce2-e9da-47d5-b0c0-93a6c2b0413f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -232,6 +235,15 @@
     <ClInclude Include="Source\Game\Player\GamePlayerCombo.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\SystemPauseFilter.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\Effect\FlowEffectBase.h">
+      <Filter>Flow\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\Effect\ControllDescription.h">
+      <Filter>Flow\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -390,6 +402,15 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Player\GamePlayerCombo.cpp">
       <Filter>Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\SystemPauseFilter.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Effect\FlowEffectBase.cpp">
+      <Filter>Flow\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Effect\ControllDescription.cpp">
+      <Filter>Flow\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

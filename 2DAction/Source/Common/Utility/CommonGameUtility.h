@@ -23,11 +23,16 @@ class EnemyAIBase;
 namespace Utility
 {
 
+// ゲームポーズのセットと確認
+void StartGamePause();
+void EndGamePause();
+bool IsGamePause();
+
 // ゲームが一周して終わるとき、タイトルに戻るときなどにプレイ記録リセット
 void GameInitALL();
 
+// プレイヤーオフセットの変更と取得
 void AddPlayerOffsetPos( math::Vector2 &pos );
-
 const math::Vector2 &GetPlayerOffsetPos();
 
 // 二つの所属空間が当たり判定が必要かどうか判定
