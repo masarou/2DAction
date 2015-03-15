@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "ControllDescription.h"
+#include "System/Sound/SystemSoundManager.h"
 
 
 ControllDescription *ControllDescription::Create()
@@ -53,4 +54,5 @@ void ControllDescription::Update()
 void ControllDescription::PadEventDecide()
 {
 	SetStateNext();
+	SoundManager::GetInstance()->PlaySE("Decide");
 }

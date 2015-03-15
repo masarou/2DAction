@@ -33,7 +33,7 @@ public:
 	void	SetBulletSpeed( float &spd ){ m_speed = spd; }
 
 	// î•ñæ“¾
-	const uint32_t &GetBulletDamage() const{ return m_bulletDamage;}
+	const uint32_t &GetBulletDamage() const{ return m_bulletDamage; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetLiveTime() const{ return m_liveTime; }
 

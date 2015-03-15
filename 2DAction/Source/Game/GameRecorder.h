@@ -70,6 +70,9 @@ public:
 	const void SetUserLifeRatio( const float &lifeRatio, const STATE_OF_PROGRESS &stage = STATE_MAX );
 	const float GetUserLifeRatio( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
 
+	// ユーザーが指定ステージをクリアしたかどうか
+	const bool IsUserClear( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
+
 	// スコアの加算と取得 GetScoreは引数なしなら直近のステージスコアを返す
 	void ScoreEvent( const SCORE_KIND &kind );
 	void AddScoreBonus( uint32_t bonusScore, const STATE_OF_PROGRESS &stage = STATE_MAX );

@@ -111,11 +111,11 @@ void CollisionManager::CollisionUpdate()
 					break;
 				case Common::TYPE_EVENMY_AAA:
 					messageKind = Common::EVENT_HIT_ENEMY_AAA;
-					eventInfo.m_eventValue = 20;
+					eventInfo.m_eventValue = 10;
 					break;
 				case Common::TYPE_EVENMY_BBB:
 					messageKind = Common::EVENT_HIT_ENEMY_BBB;
-					eventInfo.m_eventValue = 20;
+					eventInfo.m_eventValue = 10;
 					break;
 				case Common::TYPE_EVENMY_CCC:
 					messageKind = Common::EVENT_HIT_ENEMY_CCC;

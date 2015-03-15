@@ -60,7 +60,6 @@ bool PlayerCombo::Init()
 	// 各種パーツセット
 	m_textureCombo.Init();
 	m_textureCombo.m_pTex2D = NEW Game2DBase("comboHitStr.json");
-	m_textureCombo.m_texInfo.Init();
 	m_textureCombo.m_texInfo.m_fileName = "comboHitStr.json";
 	m_textureCombo.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureCombo.m_texInfo.m_posOrigin = GetPartsPos("comboStr");
@@ -83,7 +82,6 @@ bool PlayerCombo::Init()
 	// コンボの継続時間を表すコンボゲージ
 	m_textureComboGauge.Init();
 	m_textureComboGauge.m_pTex2D = NEW Game2DBase("comboGauge.json");
-	m_textureComboGauge.m_texInfo.Init();
 	m_textureComboGauge.m_texInfo.m_fileName = "comboGauge.json";
 	m_textureComboGauge.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureComboGauge.m_texInfo.m_posOrigin = GetPartsPos("comboGauge");

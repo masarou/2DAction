@@ -54,6 +54,14 @@ void FlowStageResult::PadEventDecide()
 			DEBUG_ASSERT( 0, "GameRecorder is NULL");
 			return;
 		}
+		
+		// プレイヤーライフが0になったのでゲームオーバー
+		if( !GameRecorder::GetInstance()->IsUserClear() ){
+			StartFade( "totalresult" );
+			return;
+		}
+
+		// 次のステージor画面へ
 		switch( pRecorder->GetGameStateOfProgress() ){
 		case GameRecorder::STATE_TITLE:
 		default:
@@ -107,7 +115,6 @@ bool Result2D::Init()
 	// 背景セット
 	m_textureBG.Init();
 	m_textureBG.m_pTex2D = NEW Game2DBase("title.json");
-	m_textureBG.m_texInfo.Init();
 	m_textureBG.m_texInfo.m_fileName = "title.json";
 	m_textureBG.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureBG.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
@@ -120,9 +127,17 @@ bool Result2D::Init()
 
 	// 画面フレームセット
 	m_textureResult.Init();
-	m_textureResult.m_pTex2D = NEW Game2DBase("stageResult.json");
-	m_textureResult.m_texInfo.Init();
-	m_textureResult.m_texInfo.m_fileName = "stageResult.json";
+	std::string fileStr = "";
+	if( GameRecorder::GetInstance()->IsUserClear() ){
+		// 通常フレーム
+		fileStr = "stageResult.json";
+	}
+	else{
+		// ゲームオーバーフレーム
+		fileStr = "stageResultGameOver.json";
+	}
+	m_textureResult.m_pTex2D = NEW Game2DBase( fileStr.c_str() );
+	m_textureResult.m_texInfo.m_fileName = fileStr;
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;

@@ -78,6 +78,18 @@ const float GameRecorder::GetUserLifeRatio( const STATE_OF_PROGRESS &stage ) con
 	return retVal;
 }
 
+const bool GameRecorder::IsUserClear( const STATE_OF_PROGRESS &stage ) const
+{
+	float ratio = 0.0f;
+	if( stage == STATE_MAX ){
+		ratio = m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userLifeRatio;
+	}
+	else{
+		ratio = m_clearStageInfo[static_cast<uint32_t>(stage)].m_userLifeRatio;
+	}
+	return ( ratio == 0.0f ) ? false : true ;
+}
+
 void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
 {
 	uint32_t addValue = 0;

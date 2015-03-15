@@ -20,9 +20,9 @@
 #include "Common/Utility/CommonGameUtility.h"
 
 // ŒÅ’è’l
-static uint32_t DAMAGE_INVISIBLE_TIME	= 120;
+static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
 static uint32_t LIFE_POINT_MAX			= 200;
-static uint32_t WARNING_LIFE			= 50;
+static uint32_t WARNING_LIFE			= 40;
 static uint32_t EMERGENCY_LIFE			= 20;
 static uint32_t BULLET_INTERBAL_MIN		= 0;
 static uint32_t BULLET_DAMAGE_MAX		= 100;

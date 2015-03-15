@@ -18,7 +18,6 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const int32_t &posX, const int3
 	// 描画クラスセットアップ
 	m_textureEffect.Init();
 	m_textureEffect.m_pTex2D = NEW Game2DBase( SelectEffectFile().c_str() );
-	m_textureEffect.m_texInfo.Init();
 	m_textureEffect.m_texInfo.m_fileName = SelectEffectFile();
 	m_textureEffect.m_texInfo.m_posOrigin.x = static_cast<float>(posX);
 	m_textureEffect.m_texInfo.m_posOrigin.y = static_cast<float>(posY);

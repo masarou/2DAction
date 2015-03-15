@@ -16,6 +16,8 @@
 		{"tag":"LearningAction", "file":"LearningAction.mp3"},
 		{"tag":"FadeIn", "file":"fadein.mp3"},
 		{"tag":"FadeOut", "file":"fadeout.mp3"},
+		{"tag":"PauseStart", "file":"pauseStart.wav"},
+		{"tag":"PauseEnd", "file":"pauseEnd.wav"},
 		{"tag":"ShowResult", "file":"count.mp3"},
 		{"tag":"ShowTotal", "file":"count.mp3"},
 		{"tag":"Gameover", "file":"Gameover.mp3"}

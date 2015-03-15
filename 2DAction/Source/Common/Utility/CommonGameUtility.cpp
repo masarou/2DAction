@@ -9,6 +9,7 @@
 #include <random>
 #include "System/picojson.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
+#include "System/Sound/SystemSoundManager.h"
 #include "CommonGameUtility.h"
 #include "Math/MathUtility.h"
 #include "Game/Enemy/EnemyAIBase.h"
@@ -31,11 +32,13 @@ static bool s_gamePauseFlg = false;
 void StartGamePause()
 {
 	s_gamePauseFlg = true;
+	SoundManager::GetInstance()->PlaySE("PauseStart");
 }
 
 void EndGamePause()
 {
 	s_gamePauseFlg = false;
+	SoundManager::GetInstance()->PlaySE("PauseEnd");
 }
 
 bool IsGamePause()

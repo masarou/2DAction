@@ -34,6 +34,13 @@ void EnemyAITackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 	math::Vector2 targetVec = DEFAULT_VECTOR2;
 	math::Vector2 plPos = Utility::GetPlayerPos();
 
+	// ある一定以上プレイヤーから離れたらSearch状態に戻す
+	if( !math::IsInRange( plPos, enemyInfo.m_posOrigin, 600.0f ) ){
+		DEBUG_PRINT("【プレイヤーを見失った! ステータスをサーチに変更】\n");
+		ChangeEnemyAI( Common::AI_SEARCHING );
+		return;
+	}
+
 	targetVec = plPos - enemyInfo.m_posOrigin;
 	targetVec.Normalize();
 

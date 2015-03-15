@@ -80,7 +80,6 @@ bool ViewScore2D::Init()
 	// îwåiçÏê¨
 	m_textureResult.Init();
 	m_textureResult.m_pTex2D = NEW Game2DBase("title.json");
-	m_textureResult.m_texInfo.Init();
 	m_textureResult.m_texInfo.m_fileName = "title.json";
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
