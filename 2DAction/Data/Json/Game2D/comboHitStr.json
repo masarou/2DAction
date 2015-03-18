@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"comboHitStr.png"
+		, "animDefault":"default"
+		, "sizeW": 390
+		, "sizeH": 64
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",		"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	]	
+}

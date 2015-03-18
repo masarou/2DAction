@@ -1,0 +1,16 @@
+{
+	"basicInfo":[
+		{"fileName":"pauseStr.png"
+		, "animDefault":"default"
+		, "sizeW": 256
+		, "sizeH": 50
+		, "splitW": 1
+		, "splitH": 3
+		, "total": 3 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":120,	"animIndex":[0],	"nextAnim":"none"},
+		{"animTag":"none",		"frameSpeed":30,	"animIndex":[1],	"nextAnim":"default"}
+	]	
+}
