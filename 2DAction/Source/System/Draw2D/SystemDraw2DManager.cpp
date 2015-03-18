@@ -125,19 +125,17 @@ void Draw2DManager::Action()
 
 #ifdef _DEBUG
 	int Color = GetColor( 255 , 255 , 255 );
-	float xx = 0.0f;
-	float yy = 0.0f;
-	GameAccesser::GetInstance()->GetPlayerOffSet(xx, yy);
-	DrawFormatString( 0, 10, Color, "PlayerX = %.1f, PlayerY = %.1f\n", xx + WINDOW_WIDTH/2, yy + WINDOW_HEIGHT/2);
-	
+	//float xx = 0.0f;
+	//float yy = 0.0f;
+	//GameAccesser::GetInstance()->GetPlayerOffSet(xx, yy);
+	//DrawFormatString( 0, 10, Color, "PlayerX = %.1f, PlayerY = %.1f\n", xx + WINDOW_WIDTH/2, yy + WINDOW_HEIGHT/2);
+
 	// デバッグ用目印
 	for( uint32_t i = 0; i < m_drawCircle.size() ; ++i ){
 		math::Vector2 tmp = m_drawCircle.at(i) - Utility::GetPlayerOffsetPos();
 		DrawCircle( tmp.x, tmp.y, 3, Color, false);
 	}
 	m_drawCircle.clear();
-	
-	DrawFormatString( 0, 30, Color, "%d\n", GameRecorder::GetInstance()->GetCurrentHitCounter());
 #endif
 
 	m_vDrawTask.clear();

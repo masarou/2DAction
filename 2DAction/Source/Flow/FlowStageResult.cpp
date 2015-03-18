@@ -110,6 +110,15 @@ Result2D::~Result2D(void)
 	m_textureBG.DeleteAndInit();
 }
 
+bool Result2D::DieMain()
+{
+	if( m_pNumCounterBonus ){
+		// ここで求めたボーナスをステージスコアに加算
+		GameRecorder::GetInstance()->AddScoreBonus( m_pNumCounterBonus->GetValue() );
+	}
+	return true;
+}
+
 bool Result2D::Init()
 {
 	// 背景セット
@@ -229,9 +238,6 @@ void Result2D::PadEventDecide()
 		// カウントアニメ終了
 		m_pNumCounterTotal->CountAnimEnd();
 		m_dispState = DISP_ALL;
-		
-		// ここで求めたボーナスをステージスコアに加算
-		GameRecorder::GetInstance()->AddScoreBonus( m_pNumCounterBonus->GetValue() );
 		break;
 	case DISP_ALL:
 

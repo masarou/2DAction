@@ -63,7 +63,7 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 	vec -= enemyInfo.m_posOrigin;
 	vec.Normalize();
 
-	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( "player.json" );
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( GetEnemyJsonName().c_str() );
 	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
 	math::Vector2 up = nextPos;
 	up.y += playerTexInfo.m_sizeHeight/2.0f;
@@ -80,25 +80,6 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 		&& Utility::GetMapHeight( right ) == 0){
 		enemyInfo.m_posOrigin += vec * 1.0f;
 
-		// アニメ更新
-		//std::string animTag = "";
-		//switch( Utility::GetDirection( vec.x, vec.y ) ){
-		//default:
-		//	break;
-		//case InputWatcher::BUTTON_UP:
-		//	animTag = "up";
-		//	break;
-		//case InputWatcher::BUTTON_DOWN:
-		//	animTag = "down";
-		//	break;
-		//case InputWatcher::BUTTON_LEFT:
-		//	animTag = "left";
-		//	break;
-		//case InputWatcher::BUTTON_RIGHT:
-		//	animTag = "right";
-		//	break;
-		//}
-		//SetEnemyAnim( animTag );
 		SetEnemyEyeSight( vec );
 	}
 }

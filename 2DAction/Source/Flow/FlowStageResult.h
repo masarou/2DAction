@@ -53,6 +53,7 @@ public:
 protected:
 	
 	virtual bool Init() override;
+	virtual bool DieMain()override;
 	virtual void Update() override;
 	virtual void DrawUpdate() override;		// •`‰æXV
 	virtual void PadEventDecide() override;

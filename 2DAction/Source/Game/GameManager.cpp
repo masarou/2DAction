@@ -48,6 +48,8 @@ GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 			m_settingFileStr = "gameSettings03.json";
 			break;
 	}
+	// マップの環境取得
+	LoadGameSettings( m_settingFileStr.c_str() );
 }
 
 GameManager::~GameManager(void)
@@ -61,9 +63,6 @@ bool GameManager::DieMain()
 
 bool GameManager::Init()
 {
-	// マップの環境取得
-	LoadGameSettings( m_settingFileStr.c_str() );
-
 	return true;
 }
 
@@ -96,6 +95,51 @@ bool GameManager::IsGameOver() const
 void GameManager::AddDestroyCount()
 {
 	++m_destroyNum;
+}
+
+/* ================================================ */
+/**
+ * @brief	ステージタイプ取得
+ */
+/* ================================================ */
+const GameManager::STAGE_TYPE GameManager::GetStageType() const
+{
+	return m_type;
+}
+
+/* ================================================ */
+/**
+ * @brief	残り時間or殲滅数の取得
+ */
+/* ================================================ */
+const uint32_t GameManager::GetGameLeftTimeByFrame() const
+{
+	uint32_t retVal = 0;
+	if( m_gameTimeMax > m_gameTimer ){
+		retVal = m_gameTimeMax - m_gameTimer;
+	}
+
+	return retVal;
+}
+const uint32_t GameManager::GetGameLeftTimeBySec() const
+{
+	uint32_t retVal = 0;
+	if( m_gameTimeMax > m_gameTimer ){
+		retVal = m_gameTimeMax - m_gameTimer;
+		retVal += 59;
+		retVal /= 60;
+	}
+
+	return retVal;
+}
+const uint32_t GameManager::GetGameLeftDestroy() const
+{
+	uint32_t retVal = 0;
+	if( m_gameTimeMax > m_gameTimer ){
+		retVal = m_destroyMax - m_destroyNum;
+	}
+
+	return retVal;
 }
 
 /* ================================================ */

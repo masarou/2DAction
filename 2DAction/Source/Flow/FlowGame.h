@@ -12,6 +12,8 @@
 #include "FlowBase.h"
 #include "Common/CmnNumberCounter.h"
 
+class StageTimer;
+
 class FlowGame : public FlowBase
 {
 
@@ -27,7 +29,8 @@ private:
 	FlowGame( const std::string &fileName );
 	virtual ~FlowGame(void);
 
-	NumberCounter	*m_pNumCounter;
+	NumberCounter	*m_pNumScore;
+	StageTimer		*m_pStageTimer;
 };
 #endif
 

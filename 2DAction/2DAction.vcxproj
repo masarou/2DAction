@@ -47,6 +47,8 @@
     <ClCompile Include="Source\Game\Player\GamePlayer.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayerCombo.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayerStatusMenu.cpp" />
+    <ClCompile Include="Source\Game\Timer\GameCountDownTimer.cpp" />
+    <ClCompile Include="Source\Game\Timer\GameStageTimer.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Math\MathAngle.cpp" />
     <ClCompile Include="Source\Math\MathCommon.cpp" />
@@ -107,6 +109,8 @@
     <ClInclude Include="Source\Game\Player\GamePlayer.h" />
     <ClInclude Include="Source\Game\Player\GamePlayerCombo.h" />
     <ClInclude Include="Source\Game\Player\GamePlayerStatusMenu.h" />
+    <ClInclude Include="Source\Game\Timer\GameCountDownTimer.h" />
+    <ClInclude Include="Source\Game\Timer\GameStageTimer.h" />
     <ClInclude Include="Source\Math\MathAngle.h" />
     <ClInclude Include="Source\Math\MathCommon.h" />
     <ClInclude Include="Source\Math\MathMatrix.h" />

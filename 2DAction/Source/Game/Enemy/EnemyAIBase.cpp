@@ -97,3 +97,8 @@ Common::ENEMY_KIND EnemyAIBase::GetEnemyKind() const
 	}
 	return Common::ENEMY_KIND_MAX;
 }
+
+const std::string &EnemyAIBase::GetEnemyJsonName() const
+{
+	return m_enemyMine->GetDrawInfo().m_fileName;
+}

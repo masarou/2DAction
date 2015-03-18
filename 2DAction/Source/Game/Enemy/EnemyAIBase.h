@@ -39,6 +39,7 @@ public:
 	math::Vector2 GetEnemyEyeSight() const;
 	void ChangeEnemyAI( Common::ENEMY_AI nextAI );
 	Common::ENEMY_KIND GetEnemyKind() const;
+	const std::string &GetEnemyJsonName() const;
 
 protected:
 	

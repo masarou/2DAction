@@ -59,6 +59,9 @@
     <Filter Include="Flow\Effect">
       <UniqueIdentifier>{aa1c7ce2-e9da-47d5-b0c0-93a6c2b0413f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Timer">
+      <UniqueIdentifier>{404d0c94-9c6f-49cd-aa9e-3013a61b01bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -244,6 +247,12 @@
     <ClInclude Include="Source\Flow\Effect\ControllDescription.h">
       <Filter>Flow\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Timer\GameCountDownTimer.h">
+      <Filter>Game\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Timer\GameStageTimer.h">
+      <Filter>Game\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -411,6 +420,12 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\Effect\ControllDescription.cpp">
       <Filter>Flow\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Timer\GameCountDownTimer.cpp">
+      <Filter>Game\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Timer\GameStageTimer.cpp">
+      <Filter>Game\Timer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

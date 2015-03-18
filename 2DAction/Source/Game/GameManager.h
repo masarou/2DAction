@@ -32,6 +32,14 @@ public:
 	// 敵を倒した数をカウント
 	void AddDestroyCount();
 
+	// ステージタイプ取得
+	const STAGE_TYPE GetStageType() const;
+
+	// 残り時間or殲滅数の取得
+	const uint32_t GetGameLeftTimeByFrame() const;
+	const uint32_t GetGameLeftTimeBySec() const;
+	const uint32_t GetGameLeftDestroy() const;
+
 protected:
 
 	virtual bool Init() override;
