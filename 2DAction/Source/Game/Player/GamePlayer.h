@@ -12,10 +12,12 @@
 
 #include "System/Input/SystemInputWatcher.h"
 #include "System/Collision/SystemCollisionUnit.h"
-#include "AttackGun/GamePlayerAttackGun.h"
 #include "Game/Game2DBase.h"
 #include "Game/Item/ItemObject.h"
 #include "GamePlayerStatusMenu.h"
+
+class AttackGun;
+class AttackBlade;
 
 class GamePlayer : public TaskUnit, public Collision2DUnit, public InputWatcher
 {
@@ -58,11 +60,14 @@ private:
 	// 現在のプレイヤーの状況から再生するアニメタグ取得
 	std::string GetAnimTag();
 
+	// 移動処理
+	void UpdateMove( math::Vector2 &moveVec );
+
 	// 引数のベクター分移動ができるかどうかチェック
-	bool CanMoveThisPos( const math::Vector2 &nextFlameAddValue );
+	bool CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const;
 
 	// 基底からコールされるCommon::CMN_EVENTに対応した関数
-	void EventDamage( Common::EVENT_MESSAGE eventKind, uint32_t damageValue );
+	void EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue );
 	void PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCountUp = true );
 
 	uint32_t			m_playerLife;	// ユーザーライフ
@@ -71,6 +76,7 @@ private:
 	float				m_speedMultiply;// 行動速度の倍率
 	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
 	AttackGun			*m_attackGun;	// マシンガンクラス
+	AttackBlade			*m_attackBlade;	// 近接攻撃(剣)クラス
 
 	PlayerStatusMenu	*m_pStatusMenu;	// ステータスメニュー
 };

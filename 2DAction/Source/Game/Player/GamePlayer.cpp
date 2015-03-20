@@ -17,7 +17,11 @@
 #include "Game/Item/ItemObject.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
+#include "Game/Attack/GameAttackGun.h"
+#include "Game/Attack/GameAttackBlade.h"
 #include "Common/Utility/CommonGameUtility.h"
+
+#include "Game/Attack/Slashing.h"
 
 // 固定値
 static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
@@ -68,8 +72,11 @@ bool GamePlayer::Init()
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 
 
-	// 攻撃マシンガンクラスセット
+	// 遠距離攻撃マシンガンクラスセット
 	m_attackGun = AttackGun::CreateGun( Common::OWNER_PLAYER );
+	
+	// 近接攻撃剣クラスセット
+	m_attackBlade = AttackBlade::CreateAttackBlade( Common::OWNER_PLAYER );
 
 	// アイテム取得数を反映
 	for( uint32_t i = 0; i < ItemObject::ITEM_KIND_MAX ; ++i ){
@@ -158,50 +165,75 @@ void GamePlayer::DrawUpdate()
 void GamePlayer::PadEventUp()
 {
 	math::Vector2 moveVal = math::Vector2(0.0f, -1.0f*m_speedMove);
-
-	// 移動先が歩けないならば移動しない
-	if( !CanMoveThisPos( moveVal ) ){
-		return;
-	}
-	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
+	UpdateMove( moveVal );
 }
 
 void GamePlayer::PadEventDown()
 {
 	math::Vector2 moveVal = math::Vector2(0.0f, 1.0f*m_speedMove);
-
-	// 移動先が歩けないならば移動しない
-	if( !CanMoveThisPos( moveVal ) ){
-		return;
-	}
-	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
+	UpdateMove( moveVal );
 }
 
 void GamePlayer::PadEventRight()
 {
 	math::Vector2 moveVal = math::Vector2(1.0f*m_speedMove, 0.0f);
-
-	// 移動先が歩けないならば移動しない
-	if( !CanMoveThisPos( moveVal ) ){
-		return;
-	}
-	GameAccesser::GetInstance()->AddPlayerOffSet(1.0f*m_speedMove, 0.0f);
+	UpdateMove( moveVal );
 }
 
 void GamePlayer::PadEventLeft()
 {
 	math::Vector2 moveVal = math::Vector2(-1.0f*m_speedMove, 0.0f);
+	UpdateMove( moveVal );
+}
 
-	// 移動先が歩けないならば移動しない
-	if( !CanMoveThisPos( moveVal ) ){
+void GamePlayer::UpdateMove( math::Vector2 &moveVec )
+{
+	// 斬撃攻撃中なら移動できない
+	if( m_attackBlade && m_attackBlade->IsSlashingAnimPlay() ){
 		return;
 	}
 
-	GameAccesser::GetInstance()->AddPlayerOffSet( moveVal );
+	if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
+		// 攻撃中なら移動速度半分
+		moveVec /= 2.0f;
+	}
+
+	// 移動先が歩けないならば移動しない
+	if( !CanMoveThisPos( moveVec ) ){
+		return;
+	}
+
+	GameAccesser::GetInstance()->AddPlayerOffSet( moveVec );
 }
 
 void GamePlayer::PadEventDecide()
 {
+	if( !m_attackBlade ){
+		return;
+	}
+
+	// 斬撃
+	const STICK_INFO &stickInfo = GetStickInfoLeft();
+	if( stickInfo.m_vec == math::Vector2() ){
+		math::Vector2 vec = math::Vector2();
+		std::string anim = GetAnimTag();
+		if( anim.compare("up") == 0 ){
+			vec = math::Vector2( 0.0f, 1.0f );
+		}
+		if( anim.compare("down") == 0 ){
+			vec = math::Vector2( 0.0f, -1.0f );
+		}
+		if( anim.compare("left") == 0 ){
+			vec = math::Vector2( -1.0f, 0.0f );
+		}
+		if( anim.compare("right") == 0 ){
+			vec = math::Vector2( 1.0f, 0.0f );
+		}
+		m_attackBlade->CreateSlashing( Utility::GetPlayerPos(), vec );
+	}
+	else{
+		m_attackBlade->CreateSlashing( Utility::GetPlayerPos(), stickInfo.m_vec );
+	}
 }
 
 void GamePlayer::PadEventCancel()
@@ -291,7 +323,7 @@ std::string GamePlayer::GetAnimTag()
  * @brief	現在のステータスでプレイヤーが引数のベクター分移動ができるかどうかチェック
  */
 /* ================================================ */
-bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue )
+bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const
 {
 	bool ret = false;
 
@@ -365,7 +397,7 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 /* ================================================ */
 
 // 敵と接触した
-void GamePlayer::EventDamage( Common::EVENT_MESSAGE eventKind, uint32_t damageValue )
+void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue )
 {
 	// ダメージ音
 	if( eventKind != Common::EVENT_HIT_BULLET_ENEMY ){

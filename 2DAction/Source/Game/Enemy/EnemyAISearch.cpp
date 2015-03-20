@@ -79,9 +79,12 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 		&& Utility::GetMapHeight( left ) == 0
 		&& Utility::GetMapHeight( right ) == 0){
 		enemyInfo.m_posOrigin += vec * 1.0f;
-
-		SetEnemyEyeSight( vec );
 	}
+	else{
+		// •Ç‚É“–‚½‚Á‚½‚ç”½‘Î‚ðŒü‚¢‚Ä‚Ý‚é
+		vec *= -1;
+	}
+	SetEnemyEyeSight( vec );
 }
 
 

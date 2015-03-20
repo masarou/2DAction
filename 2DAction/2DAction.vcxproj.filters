@@ -35,9 +35,6 @@
     <Filter Include="Game\Player">
       <UniqueIdentifier>{6a5ed5c6-8b5e-4242-a7cb-505f01a05590}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Player\AttackGun">
-      <UniqueIdentifier>{bd6bda42-351d-4c1c-9d42-6725f1f62520}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Enemy">
       <UniqueIdentifier>{8562aac0-427e-4c4d-9ab7-6ea35f999247}</UniqueIdentifier>
     </Filter>
@@ -61,6 +58,9 @@
     </Filter>
     <Filter Include="Game\Timer">
       <UniqueIdentifier>{404d0c94-9c6f-49cd-aa9e-3013a61b01bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Attack">
+      <UniqueIdentifier>{6fa071bc-2a18-4645-adab-ac3bbf93778e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +138,6 @@
     </ClInclude>
     <ClInclude Include="Source\Common\CmnGameAccesser.h">
       <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h">
-      <Filter>Game\Player\AttackGun</Filter>
     </ClInclude>
     <ClInclude Include="Source\Common\Utility\CommonGameUtility.h">
       <Filter>Common</Filter>
@@ -229,9 +226,6 @@
     <ClInclude Include="Source\Game\GameRecorder.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h">
-      <Filter>Game\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Player\GamePlayerStatusMenu.h">
       <Filter>Game\Player</Filter>
     </ClInclude>
@@ -252,6 +246,18 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Timer\GameStageTimer.h">
       <Filter>Game\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Attack\Bullet.h">
+      <Filter>Game\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Attack\GameAttackGun.h">
+      <Filter>Game\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Attack\GameAttackBlade.h">
+      <Filter>Game\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Attack\Slashing.h">
+      <Filter>Game\Attack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,9 +324,6 @@
     </ClCompile>
     <ClCompile Include="Source\Common\CmnGameAccesser.cpp">
       <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp">
-      <Filter>Game\Player\AttackGun</Filter>
     </ClCompile>
     <ClCompile Include="Source\Common\Utility\CommonGameUtility.cpp">
       <Filter>Common</Filter>
@@ -403,9 +406,6 @@
     <ClCompile Include="Source\Game\GameRecorder.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp">
-      <Filter>Game\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Player\GamePlayerStatusMenu.cpp">
       <Filter>Game\Player</Filter>
     </ClCompile>
@@ -426,6 +426,18 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Timer\GameStageTimer.cpp">
       <Filter>Game\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Attack\Bullet.cpp">
+      <Filter>Game\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Attack\GameAttackGun.cpp">
+      <Filter>Game\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Attack\GameAttackBlade.cpp">
+      <Filter>Game\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Attack\Slashing.cpp">
+      <Filter>Game\Attack</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

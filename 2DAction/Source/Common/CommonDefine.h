@@ -16,6 +16,8 @@ namespace Common{
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
 		TYPE_ITEM_DAMAGE,
+		TYPE_BLADE_PLAYER,
+		TYPE_BLADE_ENEMY,
 		TYPE_BULLET_PLAYER,
 		TYPE_BULLET_ENEMY,
 
@@ -31,6 +33,8 @@ namespace Common{
 		EVENT_GET_ITEM_BULLET,	// アイテム取得
 		EVENT_GET_ITEM_LIFE,	// アイテム取得
 		EVENT_GET_ITEM_DAMAGE,	// アイテム取得
+		EVENT_HIT_BLADE_PLAYER,	// プレイヤーの斬撃に当たった
+		EVENT_HIT_BLADE_ENEMY,	// 敵の斬撃に当たった
 		EVENT_HIT_BULLET_PLAYER,// プレイヤーの攻撃弾に当たった
 		EVENT_HIT_BULLET_ENEMY,	// 敵の攻撃弾に当たった
 		EVENT_SHOOT_BULLET,		// 攻撃弾を発射

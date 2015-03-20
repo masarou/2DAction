@@ -3,9 +3,9 @@
  * @brief  プレイヤーの攻撃管理クラス
  *
  * @note
- *		Bulletクラスをベクタで持つ
- *		実際に的とのやり取りはBulletクラスが行いこのクラスはBulletクラスと他クラスとの仲介
- *		CmnGameAccesserを通じてこのクラスが管理しているBulletクラスの位置情報を取得したりする
+ *		Bladeクラスをベクタで持つ
+ *		実際に的とのやり取りはBladeクラスが行いこのクラスはBladeクラスと他クラスとの仲介
+ *		CmnGameAccesserを通じてこのクラスが管理しているBladeクラスの位置情報を取得したりする
  *		
  */
 /* ====================================================================== */
@@ -15,10 +15,12 @@
 
 #include "Common/CommonDefine.h"
 #include "System/Task/SystemTaskUnit.h"
-#include "Bullet.h"
+
 
 // 固定値
 static const uint32_t SHOOT_INTERBAL_DEFAULT	= 16;
+
+class Bullet;
 
 class AttackGun : public TaskUnit
 {

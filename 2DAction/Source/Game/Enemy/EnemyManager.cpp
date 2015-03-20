@@ -10,7 +10,7 @@
 #include "EnemyManager.h"
 #include "EnemyAAA.h"
 #include "EnemyBBB.h"
-#include "Game/Player/AttackGun/Bullet.h"
+#include "Game/Attack/Bullet.h"
 #include "Game/Player/GamePlayer.h"
 #include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"

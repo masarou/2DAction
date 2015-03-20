@@ -18,11 +18,11 @@ public:
 	Message(void);
 	~Message(void);
 
-	const uint32_t getSignal(){
+	const uint32_t &getSignal() const{
 		return m_msgKind;
 	}
 
-	void* getPtr(){
+	void *getPtr() const{
 		return m_ptr;
 	}
 

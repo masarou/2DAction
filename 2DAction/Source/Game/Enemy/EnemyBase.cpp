@@ -143,6 +143,10 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 		HitPlayreBullet( eventId.m_eventValue );
 		break;
 
+	case Common::EVENT_HIT_BLADE_PLAYER:	// Player‚ÌŽaŒ‚‚É“–‚½‚Á‚½
+		HitPlayreBullet( eventId.m_eventValue );
+		break;
+
 	}
 }
 

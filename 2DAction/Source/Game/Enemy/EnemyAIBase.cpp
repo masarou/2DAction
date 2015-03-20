@@ -10,7 +10,7 @@
 
 #include "EnemyAIBase.h"
 #include "Game/Enemy/EnemyBase.h"
-#include "Game/Player/AttackGun/GamePlayerAttackGun.h"
+#include "Game/Attack/GameAttackGun.h"
 
 EnemyAIBase::EnemyAIBase(void)
 : m_enemyMine( NULL )

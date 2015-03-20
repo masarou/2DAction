@@ -26,6 +26,10 @@
     <ClCompile Include="Source\Flow\FlowTitle.cpp" />
     <ClCompile Include="Source\Flow\FlowTotalResult.cpp" />
     <ClCompile Include="Source\Flow\FlowViewScore.cpp" />
+    <ClCompile Include="Source\Game\Attack\Bullet.cpp" />
+    <ClCompile Include="Source\Game\Attack\GameAttackBlade.cpp" />
+    <ClCompile Include="Source\Game\Attack\GameAttackGun.cpp" />
+    <ClCompile Include="Source\Game\Attack\Slashing.cpp" />
     <ClCompile Include="Source\Game\Effect\GameEffect.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAIBase.cpp" />
@@ -42,8 +46,6 @@
     <ClCompile Include="Source\Game\GameRegister.cpp" />
     <ClCompile Include="Source\Game\Item\ItemManager.cpp" />
     <ClCompile Include="Source\Game\Item\ItemObject.cpp" />
-    <ClCompile Include="Source\Game\Player\AttackGun\Bullet.cpp" />
-    <ClCompile Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayer.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayerCombo.cpp" />
     <ClCompile Include="Source\Game\Player\GamePlayerStatusMenu.cpp" />
@@ -87,6 +89,10 @@
     <ClInclude Include="Source\Flow\FlowTitle.h" />
     <ClInclude Include="Source\Flow\FlowTotalResult.h" />
     <ClInclude Include="Source\Flow\FlowViewScore.h" />
+    <ClInclude Include="Source\Game\Attack\Bullet.h" />
+    <ClInclude Include="Source\Game\Attack\GameAttackBlade.h" />
+    <ClInclude Include="Source\Game\Attack\GameAttackGun.h" />
+    <ClInclude Include="Source\Game\Attack\Slashing.h" />
     <ClInclude Include="Source\Game\Effect\GameEffect.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAAA.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAIBase.h" />
@@ -104,8 +110,6 @@
     <ClInclude Include="Source\Game\GameRegister.h" />
     <ClInclude Include="Source\Game\Item\ItemManager.h" />
     <ClInclude Include="Source\Game\Item\ItemObject.h" />
-    <ClInclude Include="Source\Game\Player\AttackGun\Bullet.h" />
-    <ClInclude Include="Source\Game\Player\AttackGun\GamePlayerAttackGun.h" />
     <ClInclude Include="Source\Game\Player\GamePlayer.h" />
     <ClInclude Include="Source\Game\Player\GamePlayerCombo.h" />
     <ClInclude Include="Source\Game\Player\GamePlayerStatusMenu.h" />

@@ -23,6 +23,10 @@ public:
 	// CollisionManagerから呼ばれる更新関数
 	//void ListUpdate();
 
+	// 当たり判定をするかどうかフラグセット
+	void SetInvalidCollisionFlag( const bool &flg ){ m_invalidCollision = flg; }
+	const bool GetInvalidCollisionFlag() const{ return m_invalidCollision; }
+
 	// 描画情報取得
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 
@@ -44,6 +48,9 @@ protected:
 	Texture2D			m_drawTexture;	// 表示画像データ
 
 private:
+
+	// 判定をするかどうかフラグ
+	bool				m_invalidCollision;
 
 	// 当たり判定で使用する双方向リスト
 	Collision2DUnit		*m_nextUnit;

@@ -12,7 +12,8 @@
 
 
 Collision2DUnit::Collision2DUnit( const char *readFile )
-: m_nextUnit( NULL )
+: m_invalidCollision( false )
+, m_nextUnit( NULL )
 , m_prevUnit( NULL )
 , m_preBelongLv( 0 )
 , m_preBelongIndex( 0 )

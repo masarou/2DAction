@@ -7,7 +7,8 @@
  */
 /* ====================================================================== */
 
-#include "GamePlayerAttackGun.h"
+#include "GameAttackGun.h"
+#include "Bullet.h"
 #include "System/Sound/SystemSoundManager.h"
 
 AttackGun *AttackGun::CreateGun( const Common::OWNER_TYPE &ownerType )

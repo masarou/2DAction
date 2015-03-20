@@ -9,7 +9,7 @@
 
 #include "SystemCollisionManager.h"
 #include "System/Message/SystemMessageManager.h"
-#include "Game/Player/AttackGun/Bullet.h"
+#include "Game/Attack/Bullet.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/GameMap.h"
 
@@ -89,10 +89,15 @@ void CollisionManager::CollisionUpdate()
 				// 自分はチェックからはずす
 				continue;
 			}
-
+			if( m_vCollisionUnit.at(i)->GetInvalidCollisionFlag() || m_vCollisionUnit.at(j)->GetInvalidCollisionFlag() )
+			{
+				// 当たり判定無効フラグが立っている
+				continue;
+			}
 			Common::TYPE_OBJECT typeA = m_vCollisionUnit.at(i)->GetTypeObject();
 			Common::TYPE_OBJECT typeB = m_vCollisionUnit.at(j)->GetTypeObject();
 			if( !NeedEvent( typeA, typeB ) ){
+				// 当たり判定が不要なオブジェクトどうし
 				continue;
 			}
 			const TEX_DRAW_INFO &texA = m_vCollisionUnit.at(i)->GetDrawInfo();
@@ -217,7 +222,8 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 		DEBUG_ASSERT( 0, "オブジェクトのタイプが想定外" );
 		break;
 	case Common::TYPE_PLAYER:
-		if( typeB == Common::TYPE_BULLET_PLAYER ){
+		if( typeB == Common::TYPE_BULLET_PLAYER
+			|| typeB == Common::TYPE_BLADE_PLAYER ){
 			retVal = false;
 		}
 		break;
@@ -225,23 +231,27 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_EVENMY_BBB:
 	case Common::TYPE_EVENMY_CCC:
 		if( typeB != Common::TYPE_PLAYER
-			&& typeB != Common::TYPE_BULLET_PLAYER ){
+			&& typeB != Common::TYPE_BULLET_PLAYER
+			&& typeB != Common::TYPE_BLADE_PLAYER ){
 			retVal = false;
 		}
 		break;
-	case Common::EVENT_GET_ITEM_BULLET:
-	case Common::EVENT_GET_ITEM_LIFE:
-	case Common::EVENT_GET_ITEM_DAMAGE:
+	case Common::TYPE_ITEM_BULLET:
+	case Common::TYPE_ITEM_LIFE:
+	case Common::TYPE_ITEM_DAMAGE:
 	case Common::TYPE_BULLET_ENEMY:
+	case Common::TYPE_BLADE_ENEMY:
 		if( typeB != Common::TYPE_PLAYER ){
 			retVal = false;
 		}
 		break;
+	case Common::TYPE_BLADE_PLAYER:
 	case Common::TYPE_BULLET_PLAYER:
 		if( typeB == Common::TYPE_PLAYER
-			|| typeB == Common::EVENT_GET_ITEM_BULLET
-			|| typeB == Common::EVENT_GET_ITEM_LIFE
-			|| typeB == Common::EVENT_GET_ITEM_DAMAGE
+			|| typeB == Common::TYPE_ITEM_BULLET
+			|| typeB == Common::TYPE_ITEM_LIFE
+			|| typeB == Common::TYPE_ITEM_DAMAGE
+			|| typeB == Common::TYPE_BLADE_PLAYER
 			|| typeB == Common::TYPE_BULLET_PLAYER){
 			retVal = false;
 		}
@@ -403,18 +413,31 @@ void CollisionManager::CheckUnitCollision( Collision2DUnit *unitA, Collision2DUn
 		case Common::TYPE_ITEM_DAMAGE:
 			messageKind = Common::EVENT_GET_ITEM_DAMAGE;
 			break;
+		case Common::TYPE_BLADE_PLAYER:
+			{
+				messageKind = Common::EVENT_HIT_BLADE_PLAYER;
+				eventInfo.m_eventValue = 20;
+			}
+			break;
+		case Common::TYPE_BLADE_ENEMY:
+			{
+				messageKind = Common::EVENT_HIT_BLADE_ENEMY;
+				eventInfo.m_eventValue = 20;
+			}
 		case Common::TYPE_BULLET_PLAYER:
 			{
 				messageKind = Common::EVENT_HIT_BULLET_PLAYER;
-				Bullet *pBullet = static_cast<Bullet*>( unitA );
-				eventInfo.m_eventValue = pBullet->GetBulletDamage();
+				if( Bullet *pBullet = dynamic_cast<Bullet*>( unitA ) ){
+					eventInfo.m_eventValue = pBullet->GetBulletDamage();
+				}
 			}
 			break;
 		case Common::TYPE_BULLET_ENEMY:
 			{
 				messageKind = Common::EVENT_HIT_BULLET_ENEMY;
-				Bullet *pBullet = static_cast<Bullet*>( unitA );
-				eventInfo.m_eventValue = pBullet->GetBulletDamage();
+				if( Bullet *pBullet = dynamic_cast<Bullet*>( unitA ) ){
+					eventInfo.m_eventValue = pBullet->GetBulletDamage();
+				}
 			}
 			break;
 		}

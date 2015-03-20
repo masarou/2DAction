@@ -13,7 +13,7 @@
 #include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/Enemy/EnemyManager.h"
-#include "Game/Player/AttackGun/GamePlayerAttackGun.h"
+#include "Game/Attack/GameAttackGun.h"
 
 Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage, float speed )
 : TaskUnit( "Bullet" )
