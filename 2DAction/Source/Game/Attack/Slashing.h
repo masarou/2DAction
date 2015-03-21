@@ -55,15 +55,19 @@ protected:
 
 private:
 
+	// 当たり判定が有効となるフレーム取得
+	void GetHitFrame();
+
 	const std::string GetJsonFileStr();
 	
-	Common::OWNER_TYPE	m_ownerType;
-	TYPE_SLASHING		m_slashingType;
-	uint32_t			m_liveTime;		// 生成されてからの時間
+	Common::OWNER_TYPE		m_ownerType;
+	TYPE_SLASHING			m_slashingType;
+	uint32_t				m_liveTime;		// 生成されてからの時間
 
-	uint32_t			m_bladeDamage;	// 斬撃威力
-	math::Vector2		m_bladePos;		// 斬撃位置
-	math::Vector2		m_bladeVec;		// 斬撃向き
+	uint32_t				m_bladeDamage;	// 斬撃威力
+	math::Vector2			m_bladePos;		// 斬撃位置
+	math::Vector2			m_bladeVec;		// 斬撃向き
+	std::vector<uint32_t>	m_hitFrame;		// 当たり判定が有効となるフレーム
 
 };
 

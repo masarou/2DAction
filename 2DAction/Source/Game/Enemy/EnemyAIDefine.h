@@ -22,6 +22,8 @@ enum AI_TYPE{
 };
 
 // 以下各行動に必要な情報を格納した構造体
+
+// 攻撃弾発射情報構造体
 struct AI_INFO_SHOOT{
 	
 	uint32_t m_tmp;

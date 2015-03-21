@@ -32,6 +32,9 @@ public:
 	//!設定アニメの更新
 	void DrawUpdate2D();
 
+	//!現在のアニメ再生フレーム数取得
+	const uint32_t &GetCurrentAnimFrame() const{ return m_animCounter; }
+
 	const TEX_DRAW_INFO &GetDrawInfo() const{ return m_drawInfo; }
 	
 private:

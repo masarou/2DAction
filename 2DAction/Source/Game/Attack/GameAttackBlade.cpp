@@ -15,7 +15,7 @@
 #include "System/Sound/SystemSoundManager.h"
 
 // å≈íËíl
-static uint32_t SLASHING_INTERBAL = 30;	// éaåÇÇÃê∂ê¨ä‘äu
+static uint32_t SLASHING_INTERBAL = 20;	// éaåÇÇÃê∂ê¨ä‘äu
 
 AttackBlade *AttackBlade::CreateAttackBlade( const Common::OWNER_TYPE &ownerType )
 {

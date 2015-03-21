@@ -27,6 +27,7 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_HP(10)
 , m_eye(math::Vector2( 1.0f, 0.0f ))
 , m_walkHeight( 0 )
+, m_stunTime( 0 )
 , m_pEnemyAI( NULL )
 , m_nextAI( Common::AI_NONE )
 , m_prevAI( Common::AI_NONE )
@@ -94,25 +95,31 @@ bool EnemyBase::DieMain()
 /* ================================================ */
 void EnemyBase::Update()
 {
-	if( m_pEnemyAI && m_nextAI != Common::AI_MAX )
-	{
-		// AI変更
-		m_prevAI = m_pEnemyAI->GetAIKind();
-		SAFE_DELETE( m_pEnemyAI );
-		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
-		m_pEnemyAI->SetThingingEnemy(this);
-		m_nextAI = Common::AI_MAX;
+	if( m_stunTime == 0 ){
+		if( m_pEnemyAI && m_nextAI != Common::AI_MAX )
+		{
+			// AI変更
+			m_prevAI = m_pEnemyAI->GetAIKind();
+			SAFE_DELETE( m_pEnemyAI );
+			m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
+			m_pEnemyAI->SetThingingEnemy(this);
+			m_nextAI = Common::AI_MAX;
+		}
+
+		if( m_pEnemyAI ){
+			m_pEnemyAI->Exec( m_drawTexture.m_texInfo, m_actionInfoAI );
+		}
+
+		// AIによって更新された値を反映
+		m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
+
+		// AIによって設定された行動を設定
+		RefrectAIAction();
 	}
-
-	if( m_pEnemyAI ){
-		m_pEnemyAI->Exec( m_drawTexture.m_texInfo, m_actionInfoAI );
+	else{
+		// スタン状態ならデクリメント
+		--m_stunTime;
 	}
-
-	// AIによって更新された値を反映
-	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
-
-	// AIによって設定された行動を設定
-	RefrectAIAction();
 
 	// HP描画準備
 	m_textureLife.m_texInfo.m_posOrigin.x = m_drawTexture.m_texInfo.m_posOrigin.x;
@@ -144,7 +151,7 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_BLADE_PLAYER:	// Playerの斬撃に当たった
-		HitPlayreBullet( eventId.m_eventValue );
+		HitPlayreSlashing( eventId.m_eventValue );
 		break;
 
 	}
@@ -167,7 +174,49 @@ const TEX_DRAW_INFO &EnemyBase::GetDrawInfo() const
 /* ================================================ */
 
 // プレイヤーの弾に当たった
-void EnemyBase::HitPlayreBullet( uint32_t damageValue )
+void EnemyBase::HitPlayreBullet( const uint32_t &damageValue )
+{
+	UpdateEnemyDamage( damageValue );
+}
+// プレイヤーの斬撃に当たった
+void EnemyBase::HitPlayreSlashing( const uint32_t &damageValue )
+{
+	m_stunTime = 10;
+	UpdateEnemyDamage( damageValue );
+}
+
+/* ================================================ */
+/**
+ * @brief	AI結果を反映
+ */
+/* ================================================ */
+void EnemyBase::RefrectAIAction()
+{
+	// 格納されたイベントメッセージをセット
+	for( uint32_t i = 0; i < m_actionInfoAI.m_pushEventArray.size(); ++i){
+		Common::CMN_EVENT eventInfo;
+		eventInfo.Init();
+		eventInfo.m_event = m_actionInfoAI.m_pushEventArray.at(i);
+		SystemMessageManager::GetInstance()->PushMessage( GetUniqueId(), eventInfo );
+	}
+	m_actionInfoAI.m_pushEventArray.clear();
+
+	switch( m_actionInfoAI.m_AItype ){
+	default:
+
+		break;
+	case AI_SHOOT_BULLET:
+		// m_actionInfoAI.m_AIInfoから情報を取り出していろいろ行う
+		break;
+	}
+}
+
+/* ================================================ */
+/**
+ * @brief	ダメージ共通処理
+ */
+/* ================================================ */
+void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 {
 	if( m_HP <= damageValue ){
 		m_HP = 0;
@@ -194,39 +243,7 @@ void EnemyBase::HitPlayreBullet( uint32_t damageValue )
 		// 死亡
 		TaskStartDie();
 	}
-	else{
-		// Hit音
-		//SoundManager::GetInstance()->PlaySE("DamageBullet");
-	}
 
 	// 連続Hit数加算
 	GameRecorder::GetInstance()->IncHitCounter();
-}
-
-/* ================================================ */
-/**
- * @brief	AI結果を反映
- */
-/* ================================================ */
-void EnemyBase::RefrectAIAction()
-{
-
-	// 格納されたイベントメッセージをセット
-	for( uint32_t i = 0; i < m_actionInfoAI.m_pushEventArray.size(); ++i){
-		Common::CMN_EVENT eventInfo;
-		eventInfo.Init();
-		eventInfo.m_event = m_actionInfoAI.m_pushEventArray.at(i);
-		SystemMessageManager::GetInstance()->PushMessage( GetUniqueId(), eventInfo );
-	}
-	m_actionInfoAI.m_pushEventArray.clear();
-
-	switch( m_actionInfoAI.m_AItype ){
-	default:
-
-		break;
-	case AI_SHOOT_BULLET:
-		// m_actionInfoAI.m_AIInfoから情報を取り出していろいろ行う
-
-		break;
-	}
 }

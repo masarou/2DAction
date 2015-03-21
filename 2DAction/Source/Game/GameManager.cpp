@@ -156,7 +156,7 @@ void GameManager::Update()
 
 	// “G‚Ì¶¬
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
-		if( Utility::GetRandamValue( 1, 0 ) == 0){
+		if( Utility::GetRandamValue( 7, 0 ) != 0){
 			pEnemyManager->AddEnemy( Common::ENEMY_KIND_AAA );
 		}
 		else{

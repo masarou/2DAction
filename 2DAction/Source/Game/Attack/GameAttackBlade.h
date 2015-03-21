@@ -27,7 +27,7 @@ public:
 		uint32_t	m_damage;			// ƒ_ƒ[ƒW
 
 		void Init(){
-			m_damage	= 5;
+			m_damage	= 20;
 		}
 	};
 

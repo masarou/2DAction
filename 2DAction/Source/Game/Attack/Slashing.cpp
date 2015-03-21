@@ -8,6 +8,7 @@
  */
 /* ====================================================================== */
 
+#include "System/picojson.h"
 #include "Slashing.h"
 #include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"
@@ -68,6 +69,10 @@ bool Slashing::DieMain()
 
 bool Slashing::Init()
 {
+	// 当たり判定フレームを取得しておく
+	GetHitFrame();
+	SetInvalidCollisionFlag( true );
+
 	return true;
 }
 
@@ -86,6 +91,16 @@ const TEX_DRAW_INFO &Slashing::GetDrawInfo() const
 /* ================================================ */
 void Slashing::Update()
 {
+	// 当たり判定フレームかどうかチェック
+	bool needCollision = false;
+	for( uint32_t i = 0; i < m_hitFrame.size() ; ++i ){
+		if( m_drawTexture.m_pTex2D->GetCurrentAnimFrame() == m_hitFrame.at(i) ){
+			needCollision = true;
+			break;
+		}
+	}
+	SetInvalidCollisionFlag( !needCollision );
+
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 	++m_liveTime;
 }
@@ -148,6 +163,37 @@ const Common::TYPE_OBJECT Slashing::GetTypeObject() const
 	return type;
 }
 
+/* ================================================ */
+/**
+ * @brief	当たり判定が有効となるフレーム取得
+ */
+/* ================================================ */
+void Slashing::GetHitFrame()
+{
+	std::string path = JSON_GAME2D_PATH;
+	path += m_drawTexture.m_texInfo.m_fileName;
+	std::ifstream ifs(path.c_str());
+
+	picojson::value root;
+	picojson::parse( root, ifs);
+
+	picojson::value sceneData = root.get("hitInfo");
+	for( uint32_t i = 0;; ++i ){
+		picojson::value null;
+		if( sceneData.get(0).get("hitFrame").get(i) == null ){
+			break;
+		}
+		
+		uint32_t frame = static_cast<uint32_t>(sceneData.get(0).get("hitFrame").get(i).get<double>());
+		m_hitFrame.push_back( frame );
+	}
+}
+
+/* ================================================ */
+/**
+ * @brief	読み込むべきファイル名取得
+ */
+/* ================================================ */
 const std::string Slashing::GetJsonFileStr()
 {
 	std::string retStr = "";

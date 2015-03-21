@@ -50,7 +50,8 @@ protected:
 
 	// ほかのクラスからのイベント処理
 	virtual void EventUpdate( const Common::CMN_EVENT &eventId ) override;
-	virtual void HitPlayreBullet( uint32_t damageValue );// 弾が当たった時の処理
+	virtual void HitPlayreBullet( const uint32_t &damageValue );// 弾が当たった時の処理
+	virtual void HitPlayreSlashing( const uint32_t &damageValue );// 斬撃が当たった時の処理
 
 	// 派生先でセットする関数
 	virtual uint32_t GetEnemyDefaultHP() const{return 10;}	// 敵クラスのデフォルトHP取得
@@ -65,6 +66,9 @@ protected:
 
 private:
 
+	// ダメージ共通処理
+	void UpdateEnemyDamage( const uint32_t &damageValue );
+
 	// AIの行動を反映
 	void RefrectAIAction();
 
@@ -73,6 +77,7 @@ private:
 	uint32_t			m_HP;							// 敵体力
 	math::Vector2		m_eye;							// 敵の視線
 	uint32_t			m_walkHeight;					// 敵の歩ける高さ
+	uint32_t			m_stunTime;						// 何かしらの理由によって動けない時間
 
 	Texture2D			m_textureLife;					// 敵ライフ画像
 
