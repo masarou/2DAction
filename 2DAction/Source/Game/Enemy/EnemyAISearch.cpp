@@ -84,6 +84,26 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 		// 壁に当たったら反対を向いてみる
 		vec *= -1;
 	}
+
+	// アニメ更新
+	std::string animTag = "";
+	switch( Utility::GetDirection( vec.x, vec.y ) ){
+	default:
+		break;
+	case InputWatcher::BUTTON_UP:
+		animTag = "up";
+		break;
+	case InputWatcher::BUTTON_DOWN:
+		animTag = "down";
+		break;
+	case InputWatcher::BUTTON_LEFT:
+		animTag = "left";
+		break;
+	case InputWatcher::BUTTON_RIGHT:
+		animTag = "right";
+		break;
+	}
+	SetEnemyAnim( animTag );
 	SetEnemyEyeSight( vec );
 }
 
