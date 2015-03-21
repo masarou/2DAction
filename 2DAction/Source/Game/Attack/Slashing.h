@@ -21,12 +21,21 @@ class Slashing : public TaskUnit, public Collision2DUnit
 
 public:
 
+	enum TYPE_SLASHING{
+		TYPE_1ST,
+		TYPE_2ND,
+		TYPE_3RD,
+
+		TYPE_MAX,
+	};
+
 	static const uint32_t SLASHING_ANIM_END = 0;
 
-	Slashing( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage );
+	Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &type, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage );
 	~Slashing(void);
 
 	// èÓïÒéÊìæ
+	const TYPE_SLASHING &GetTypeSlashing() const{ return m_slashingType; }
 	const uint32_t &GetBladeDamage() const{ return m_bladeDamage; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetLiveTime() const{ return m_liveTime; }
@@ -45,8 +54,11 @@ protected:
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override;
 
 private:
+
+	const std::string GetJsonFileStr();
 	
 	Common::OWNER_TYPE	m_ownerType;
+	TYPE_SLASHING		m_slashingType;
 	uint32_t			m_liveTime;		// ê∂ê¨Ç≥ÇÍÇƒÇ©ÇÁÇÃéûä‘
 
 	uint32_t			m_bladeDamage;	// éaåÇà–óÕ

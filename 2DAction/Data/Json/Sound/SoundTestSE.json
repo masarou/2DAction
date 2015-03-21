@@ -1,6 +1,7 @@
 {
 	"soundTable":[
-		{"tag":"ShootBullet", "file":"se_maoudamashii_system43.mp3"},
+		{"tag":"ShootBullet", "file":"shootBullet.mp3"},
+		{"tag":"Slashing1st", "file":"slashing1st.mp3"},
 		{"tag":"DamageDirect", "file":"damageDirect.mp3"},
 		{"tag":"DamageBullet", "file":"damageBullet.mp3"},
 		{"tag":"Dash", "file":"dash.mp3"},

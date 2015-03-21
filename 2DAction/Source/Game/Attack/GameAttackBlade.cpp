@@ -9,14 +9,13 @@
 ///* ====================================================================== */
 
 #include "GameAttackBlade.h"
-#include "Slashing.h"
 #include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/Enemy/EnemyManager.h"
 #include "System/Sound/SystemSoundManager.h"
 
 // ŒÅ’è’l
-static uint32_t SLASHING_INTERBAL = 10;	// aŒ‚‚Ì¶¬ŠÔŠu
+static uint32_t SLASHING_INTERBAL = 30;	// aŒ‚‚Ì¶¬ŠÔŠu
 
 AttackBlade *AttackBlade::CreateAttackBlade( const Common::OWNER_TYPE &ownerType )
 {
@@ -55,22 +54,37 @@ void AttackBlade::MessageReceive( const Message &msg )
 / * @brief	ŠeíUpdateŠÖ”
 / */
 /* ================================================ */
-void AttackBlade::CreateSlashing(  const math::Vector2 &pos, const math::Vector2 &vec )
+void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type )
 {
 	if( !m_currSlashing && m_intervalTime == 0 ){
 		// TaskUnitŒp³‚ÅƒAƒjƒI—¹Œã‚É©E‚·‚é‚Ì‚Å¶¬‚·‚é‚¾‚¯
-		m_currSlashing = NEW Slashing( m_owner, pos, vec, m_currState.m_damage );
-		m_intervalTime = SLASHING_INTERBAL;
+		m_currSlashing = NEW Slashing( m_owner, type, pos, vec, m_currState.m_damage );
 		SetChildUnit( m_currSlashing );
 
 		// aŒ‚Œø‰Ê‰¹
-		//SoundManager::GetInstance()->PlaySE("Slashing");
+		SoundManager::GetInstance()->PlaySE("Slashing1st");
+
+		// ˜A‘±‚µ‚Ä‚Å‚«‚éUŒ‚‚ÌÅŒã‚È‚çŸ‚ÌUŒ‚‚Ü‚Å‚ÉŠÔ‚ğİ‚¯‚é
+		if( type == Slashing::TYPE_3RD ){
+			m_intervalTime = SLASHING_INTERBAL;
+		}
 	}
-	else{
+	else if( m_intervalTime == 0 ){
 		// aŒ‚—\–ñ‚ğ‚µ‚Ä¶¬‚Å‚«‚é‚æ‚¤‚É‚È‚èŸ‘æì‚é
 		m_reserveInfo.m_isReserve	= true;
 		m_reserveInfo.m_pos			= pos;
 		m_reserveInfo.m_vec			= vec;
+		switch( m_currSlashing->GetTypeSlashing() ){
+		case Slashing::TYPE_1ST:
+			m_reserveInfo.m_type = Slashing::TYPE_2ND;
+			break;
+		case Slashing::TYPE_2ND:
+			m_reserveInfo.m_type = Slashing::TYPE_3RD;
+			break;
+		case Slashing::TYPE_3RD:
+			m_reserveInfo.Init();
+			break;
+		}
 	}
 }
 
@@ -87,7 +101,7 @@ void AttackBlade::Update()
 
 	// aŒ‚¶¬—\–ñ‚ª‚ ‚ê‚ÎŸ‚ğì¬
 	if( !m_currSlashing && m_reserveInfo.m_isReserve && m_intervalTime == 0 ){
-		CreateSlashing( m_reserveInfo.m_pos, m_reserveInfo.m_vec );
+		CreateSlashing( m_reserveInfo.m_pos, m_reserveInfo.m_vec, m_reserveInfo.m_type );
 		m_reserveInfo.Init();
 	}
 }

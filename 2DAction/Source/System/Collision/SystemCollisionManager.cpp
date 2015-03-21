@@ -10,6 +10,7 @@
 #include "SystemCollisionManager.h"
 #include "System/Message/SystemMessageManager.h"
 #include "Game/Attack/Bullet.h"
+#include "Game/Attack/Slashing.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/GameMap.h"
 
@@ -133,6 +134,20 @@ void CollisionManager::CollisionUpdate()
 					break;
 				case Common::TYPE_ITEM_DAMAGE:
 					messageKind = Common::EVENT_GET_ITEM_DAMAGE;
+					break;
+				case Common::TYPE_BLADE_PLAYER:
+					{
+						messageKind = Common::EVENT_HIT_BLADE_PLAYER;
+						Slashing *pSlashing = static_cast<Slashing*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pSlashing->GetBladeDamage();
+					}
+					break;
+				case Common::TYPE_BLADE_ENEMY:
+					{
+						messageKind = Common::EVENT_HIT_BLADE_ENEMY;
+						Slashing *pSlashing = static_cast<Slashing*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pSlashing->GetBladeDamage();
+					}
 					break;
 				case Common::TYPE_BULLET_PLAYER:
 					{

@@ -182,6 +182,10 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 		rest /= 10;
 	}
 
+	if( damageInfo.m_array2D.size() == 0 ){
+		DEBUG_ASSERT( 0, "aaa");
+	}
+
 	m_damageArray.push_back( damageInfo );
 }
 

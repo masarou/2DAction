@@ -14,8 +14,8 @@
 #include "Common/CommonDefine.h"
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"
+#include "Slashing.h"
 
-class Slashing;
 
 class AttackBlade : public TaskUnit
 {
@@ -27,7 +27,7 @@ public:
 		uint32_t	m_damage;			// ダメージ
 
 		void Init(){
-			m_damage	= 20;
+			m_damage	= 5;
 		}
 	};
 
@@ -35,7 +35,7 @@ public:
 	~AttackBlade(void);
 
 	// 斬撃生成
-	void CreateSlashing(  const math::Vector2 &pos, const math::Vector2 &vec );
+	void CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type = Slashing::TYPE_1ST );
 
 	// 剣のステータス
 	BladeState &UpdateBladeState(){ return m_currState; }
@@ -52,13 +52,15 @@ protected:
 private:
 
 	struct RESERVE_SLASHING_INFO{
-		bool			m_isReserve;
-		math::Vector2	m_pos;
-		math::Vector2	m_vec;
+		bool					m_isReserve;
+		Slashing::TYPE_SLASHING	m_type;
+		math::Vector2			m_pos;
+		math::Vector2			m_vec;
 		void Init(){
-			m_isReserve = false;
-			m_pos = math::Vector2();
-			m_vec = math::Vector2();
+			m_isReserve	= false;
+			m_type		= Slashing::TYPE_MAX;
+			m_pos		= math::Vector2();
+			m_vec		= math::Vector2();
 		}
 	};
 

@@ -12,41 +12,49 @@
 #include "Game/GameRegister.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/Enemy/EnemyManager.h"
+#include "System/Draw2D/SystemDraw2DResource.h"
 
-Slashing::Slashing( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage )
+Slashing::Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &type, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage )
 : TaskUnit( "Slashing" )
 , m_ownerType( ownerType )
+, m_slashingType( type )
 , m_liveTime( 0 )
 , m_bladeDamage( damage )
 {
-	std::string jsonStr = ( m_ownerType == Common::OWNER_PLAYER ) ? "slashing.json" : "slashing.json" ;
+	std::string jsonStr = GetJsonFileStr();
 	m_drawTexture.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
 
-	//!初期位置セット
-	m_drawTexture.m_texInfo.Init();
-	m_drawTexture.m_texInfo.m_fileName = jsonStr;
-	m_drawTexture.m_texInfo.m_posOrigin = pos;
-	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
-
+	const TEX_INIT_INFO &slashingInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( jsonStr.c_str() );
 	std::string setAnim = "";
+	math::Vector2 vecOffset = math::Vector2();	// プレイヤーの位置にそのまま出すのではなく向きによって多少ずらす
 	switch( Utility::GetDirection( vec.x, vec.y ) ){
 	default:
 		break;
 	case InputWatcher::BUTTON_UP:
 		setAnim = "up";
+		vecOffset = math::Vector2( 0.0f, slashingInfo.m_sizeHeight / -3.0f );
 		break;
 	case InputWatcher::BUTTON_DOWN:
 		setAnim = "down";
+		vecOffset = math::Vector2( 0.0f, slashingInfo.m_sizeHeight / 3.0f );
 		break;
 	case InputWatcher::BUTTON_LEFT:
 		setAnim = "left";
+		vecOffset = math::Vector2( slashingInfo.m_sizeWidth / -3.0f, 0.0f );
 		break;
 	case InputWatcher::BUTTON_RIGHT:
 		setAnim = "right";
+		vecOffset = math::Vector2( slashingInfo.m_sizeWidth / 3.0f, 0.0f );
 		break;
 	}
 	m_drawTexture.m_pTex2D->SetAnim( setAnim );
+	
+	//!初期位置セット
+	m_drawTexture.m_texInfo.Init();
+	m_drawTexture.m_texInfo.m_fileName = jsonStr;
+	m_drawTexture.m_texInfo.m_posOrigin = pos + vecOffset;
+	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 }
 
 Slashing::~Slashing(void)
@@ -92,7 +100,7 @@ void Slashing::DrawUpdate()
 		return;
 	}
 
-	// 弾描画
+	// 描画
 	m_drawTexture.m_pTex2D->DrawUpdate2D();
 }
 
@@ -133,9 +141,30 @@ void Slashing::EventUpdate( const Common::CMN_EVENT &eventId )
 /* ================================================ */
 const Common::TYPE_OBJECT Slashing::GetTypeObject() const
 {
-	Common::TYPE_OBJECT type = Common::TYPE_BULLET_PLAYER;
+	Common::TYPE_OBJECT type = Common::TYPE_BLADE_PLAYER;
 	if( m_ownerType == Common::OWNER_ENEMY ){
-		type = Common::TYPE_BULLET_ENEMY;
+		type = Common::TYPE_BLADE_ENEMY;
 	}
 	return type;
+}
+
+const std::string Slashing::GetJsonFileStr()
+{
+	std::string retStr = "";
+	
+	switch( m_slashingType ){
+	default:
+		DEBUG_ASSERT( 0, "想定外の斬撃タイプ" );
+		/* fall-through */
+	case TYPE_1ST:
+		retStr = "slashing1st.json";
+		break;
+	case TYPE_2ND:
+		retStr = "slashing2nd.json";
+		break;
+	case TYPE_3RD:
+		retStr = "slashing3rd.json";
+		break;
+	}
+	return retStr;
 }

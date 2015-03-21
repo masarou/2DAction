@@ -218,10 +218,10 @@ void GamePlayer::PadEventDecide()
 		math::Vector2 vec = math::Vector2();
 		std::string anim = GetAnimTag();
 		if( anim.compare("up") == 0 ){
-			vec = math::Vector2( 0.0f, 1.0f );
+			vec = math::Vector2( 0.0f, -1.0f );
 		}
 		if( anim.compare("down") == 0 ){
-			vec = math::Vector2( 0.0f, -1.0f );
+			vec = math::Vector2( 0.0f, 1.0f );
 		}
 		if( anim.compare("left") == 0 ){
 			vec = math::Vector2( -1.0f, 0.0f );
