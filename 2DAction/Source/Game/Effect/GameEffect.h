@@ -38,7 +38,6 @@ protected:
 public:
 
 	std::string SelectEffectFile();		// 読み込みファイル選別関数
-	std::string SelectEffectAnimTag();	// 再生アニメタグ取得
 
 	EFFECT_KIND		m_kind;				// 演出の種類
 	Texture2D		m_textureEffect;	// エフェクト

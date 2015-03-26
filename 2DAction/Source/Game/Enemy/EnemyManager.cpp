@@ -10,6 +10,8 @@
 #include "EnemyManager.h"
 #include "EnemyAAA.h"
 #include "EnemyBBB.h"
+#include "EnemyCCC.h"
+#include "EnemyBoss.h"
 #include "Game/Attack/Bullet.h"
 #include "Game/Player/GamePlayer.h"
 #include "Game/GameRegister.h"
@@ -57,10 +59,10 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind )
 		pEnemy = EnemyBBB::Create( currUniqueNo );
 		break;
 	case Common::ENEMY_KIND_CCC:
-		pEnemy = EnemyAAA::Create( currUniqueNo );
+		pEnemy = EnemyCCC::Create( currUniqueNo );
 		break;
-	case Common::ENEMY_KIND_DDD:
-		pEnemy = EnemyAAA::Create( currUniqueNo );
+	case Common::ENEMY_KIND_BOSS:
+		pEnemy = EnemyBoss::Create( currUniqueNo );
 		break;
 
 	default:

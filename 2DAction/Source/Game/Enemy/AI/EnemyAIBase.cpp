@@ -34,7 +34,7 @@ void EnemyAIBase::SetThingingEnemy( EnemyBase *enemyMine )
 
 
 
-void EnemyAIBase::Exec( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
+void EnemyAIBase::Exec( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
 	if( !m_isReady ){
 		m_isReady = InitAI();

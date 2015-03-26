@@ -193,10 +193,10 @@ void GamePlayer::UpdateMove( math::Vector2 &moveVec )
 		return;
 	}
 
-	if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
-		// UŒ‚’†‚È‚çˆÚ“®‘¬“x”¼•ª
-		moveVec /= 2.0f;
-	}
+	//if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
+	//	// UŒ‚’†‚È‚çˆÚ“®‘¬“x”¼•ª
+	//	moveVec /= 2.0f;
+	//}
 
 	// ˆÚ“®æ‚ª•à‚¯‚È‚¢‚È‚ç‚ÎˆÚ“®‚µ‚È‚¢
 	if( !CanMoveThisPos( moveVec ) ){

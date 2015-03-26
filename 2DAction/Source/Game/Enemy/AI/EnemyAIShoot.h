@@ -24,7 +24,7 @@ public:
 protected:
 	
 	virtual bool InitAI() override{ return true; }					// AI‰Šú‰»
-	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo ) override;		// ”h¶æ‚Å‚ÌAIÀ‘•
+	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo ) override;		// ”h¶æ‚Å‚ÌAIÀ‘•
 
 private:
 

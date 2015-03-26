@@ -22,7 +22,6 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const int32_t &posX, const int3
 	m_textureEffect.m_texInfo.m_posOrigin.x = static_cast<float>(posX);
 	m_textureEffect.m_texInfo.m_posOrigin.y = static_cast<float>(posY);
 	m_textureEffect.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_textureEffect.m_pTex2D->SetAnim(SelectEffectAnimTag());
 }
 
 GameEffect::~GameEffect(void)
@@ -61,7 +60,7 @@ std::string GameEffect::SelectEffectFile()
 	std::string rtn = "";
 	switch(m_kind){
 	case EFFECT_BOMB:
-		rtn = "effectBomb.json";
+		rtn = "exprosion.json";
 		break;
 
 	default:
@@ -72,25 +71,6 @@ std::string GameEffect::SelectEffectFile()
 	}
 	return rtn;
 }
-
-std::string GameEffect::SelectEffectAnimTag()
-{
-	std::string rtn = "";
-	switch(m_kind){
-	case EFFECT_BOMB:
-		rtn = "bomb";
-		break;
-
-	default:
-		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
-		rtn = "";
-		break;
-	}
-	return rtn;
-}
-
-
-
 
 /* ====================================================================== */
 /**

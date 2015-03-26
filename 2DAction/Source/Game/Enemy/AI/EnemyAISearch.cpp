@@ -33,11 +33,11 @@ bool EnemyAISearch::InitAI()
 	return true;
 }
 
-void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
+void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
 	if( SearchPlayer( enemyInfo ) ){
 		// プレイヤー発見!!!
-		if( GetEnemyKind() == Common::ENEMY_KIND_AAA ){
+		if( GetEnemyKind() == Common::ENEMY_KIND_AAA || GetEnemyKind() == Common::ENEMY_KIND_CCC ){
 			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
 			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
 		}
@@ -46,6 +46,13 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 			ChangeEnemyAI( Common::AI_SHOOTING );
 		}
 		return;
+	}
+
+	if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
+		if( SearchPlayer( enemyInfo, 600.0f ) ){
+			DEBUG_PRINT("【プレイヤー発見! ステータスをMovingに変更】\n");
+			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+		}
 	}
 
 	// 目標となる地点を設定
@@ -108,10 +115,10 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo 
 }
 
 
-bool EnemyAISearch::SearchPlayer( TEX_DRAW_INFO &enemyInfo )
+bool EnemyAISearch::SearchPlayer( TEX_DRAW_INFO &enemyInfo, float distance )
 {
 	bool retVal = false;
-	if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, 300.0f ) ){
+	if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, distance ) ){
 		retVal = true;
 	}
 	return retVal;

@@ -105,9 +105,27 @@ Interval2D::Interval2D()
 {
 	m_textureRetry.Init();
 
+	std::string readBgJsonStr = "";
+	GameRecorder *pRecorder = GameRecorder::GetInstance();
+	if( pRecorder ){
+		switch( pRecorder->GetGameStateOfProgress() ){
+		case GameRecorder::STATE_TITLE:
+		case GameRecorder::STATE_STAGE03:
+		default:
+			DEBUG_ASSERT( 0, "想定外のフロー" );
+			/* fall-througt */
+		case GameRecorder::STATE_STAGE01:
+			readBgJsonStr = "resultBgStage02.json";
+			break;
+		case GameRecorder::STATE_STAGE02:
+			readBgJsonStr = "resultBgStage03.json";
+			break;
+		}
+	}
+
 	// 描画クラスセットアップ
-	m_textureRetry.m_pTex2D = NEW Game2DBase("title.json");
-	m_textureRetry.m_texInfo.m_fileName = "title.json";
+	m_textureRetry.m_pTex2D = NEW Game2DBase( readBgJsonStr.c_str() );
+	m_textureRetry.m_texInfo.m_fileName = readBgJsonStr;
 	m_textureRetry.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureRetry.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureRetry.m_texInfo.m_usePlayerOffset = false;

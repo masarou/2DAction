@@ -121,18 +121,32 @@ bool Result2D::DieMain()
 
 bool Result2D::Init()
 {
+	std::string readBgJsonStr = "";
+	GameRecorder::STATE_OF_PROGRESS progress = GameRecorder::GetInstance()->GetGameStateOfProgress();
+	switch( progress ){
+	default:
+		DEBUG_ASSERT( 0, "想定外の値" );
+		/* fall-througt */
+	case GameRecorder::STATE_STAGE01:
+		readBgJsonStr = "resultBgStage01.json";
+		break;		
+	case GameRecorder::STATE_STAGE02:
+		readBgJsonStr = "resultBgStage02.json";
+		break;
+	case GameRecorder::STATE_STAGE03:
+		readBgJsonStr = "resultBgStage03.json";
+		break;
+	}
+
 	// 背景セット
 	m_textureBG.Init();
-	m_textureBG.m_pTex2D = NEW Game2DBase("title.json");
-	m_textureBG.m_texInfo.m_fileName = "title.json";
+	m_textureBG.m_pTex2D = NEW Game2DBase( readBgJsonStr.c_str() );
+	m_textureBG.m_texInfo.m_fileName = readBgJsonStr.c_str();
 	m_textureBG.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureBG.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureBG.m_texInfo.m_usePlayerOffset = false;
 	m_textureBG.m_texInfo.m_prioity = PRIORITY_LOWEST;
 	m_textureBG.m_pTex2D->SetDrawInfo(m_textureBG.m_texInfo);
-
-	// ステータスメニューのパーツ情報取得
-	Utility::GetPartsInfoFromJson( "stageResult.json", m_partsMap );
 
 	// 画面フレームセット
 	m_textureResult.Init();
@@ -145,6 +159,10 @@ bool Result2D::Init()
 		// ゲームオーバーフレーム
 		fileStr = "stageResultGameOver.json";
 	}
+	
+	// ステータスメニューのパーツ情報取得
+	Utility::GetPartsInfoFromJson( fileStr.c_str(), m_partsMap );
+
 	m_textureResult.m_pTex2D = NEW Game2DBase( fileStr.c_str() );
 	m_textureResult.m_texInfo.m_fileName = fileStr;
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;

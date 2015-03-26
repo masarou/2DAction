@@ -12,8 +12,8 @@
 
 #include "Common/CommonDefine.h"
 #include "Common/Utility/CommonGameUtility.h"
-#include "EnemyAIDefine.h"
-#include "EnemyAIBase.h"
+#include "AI/EnemyAIDefine.h"
+#include "AI/EnemyAIBase.h"
 #include "EnemyManager.h"
 #include "Game/Attack/GameAttackGun.h"
 #include "System/Task/SystemTaskUnit.h"
@@ -81,7 +81,7 @@ private:
 
 	Texture2D			m_textureLife;					// 敵ライフ画像
 
-	ACTION_INFO			m_actionInfoAI;					// AIの思考結果格納変数
+	ACTION_ARRAY		m_actionInfoAI;					// AIの思考結果格納変数
 	Common::ENEMY_AI	m_nextAI;						// 次に思考するAIステート
 	Common::ENEMY_AI	m_prevAI;						// ひとつ前のAIステート
 

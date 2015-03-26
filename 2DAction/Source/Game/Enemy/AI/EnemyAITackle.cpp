@@ -8,6 +8,7 @@
 /* ====================================================================== */
 
 #include "EnemyAITackle.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 EnemyAITackle *EnemyAITackle::Create()
 {
@@ -29,7 +30,7 @@ bool EnemyAITackle::InitAI()
 	return true;
 }
 
-void EnemyAITackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo )
+void EnemyAITackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
 	math::Vector2 targetVec = DEFAULT_VECTOR2;
 	math::Vector2 plPos = Utility::GetPlayerPos();

@@ -7,30 +7,31 @@
  */
 /* ====================================================================== */
 
-#ifndef __ENEMY_BBB__
-#define __ENEMY_BBB__
+#ifndef __ENEMY_BOSS__
+#define __ENEMY_BOSS__
 
 #include "EnemyBase.h"
 
-class AttackGun;
-
-class EnemyBBB : public EnemyBase
+class EnemyBoss : public EnemyBase
 {
 public:
 
-	static EnemyBBB *Create( const uint32_t &uniqueID );
+	// ボスが行動する際の目的地
+	static math::Vector2 BOSS_TARGET_PLACE;
+
+	static EnemyBoss *Create( const uint32_t &uniqueID );
 
 protected:
 	
 	virtual bool InitMain() override;		// 派生先での初期化
+	virtual uint32_t GetEnemyDefaultHP() const override{return 1000;}	// 敵クラスのデフォルトHP取得
 	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
-	virtual uint32_t GetEnemyDefaultHP() const override{return 200;}	// 敵クラスのデフォルトHP取得
 
 private:
 
-	EnemyBBB( const uint32_t &uniqueID );
-	~EnemyBBB(void);
+	EnemyBoss( const uint32_t &uniqueID );
+	~EnemyBoss(void);
 
 };
 
-#endif ENEMY_BBB
+#endif //ENEMY_AAA

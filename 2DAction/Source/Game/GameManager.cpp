@@ -156,8 +156,13 @@ void GameManager::Update()
 
 	// “G‚Ì¶¬
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
-		if( Utility::GetRandamValue( 7, 0 ) != 0){
+		pEnemyManager->AddEnemy( Common::ENEMY_KIND_BOSS );
+		return;
+		if( Utility::GetRandamValue( 5, 0 ) != 0 ){
 			pEnemyManager->AddEnemy( Common::ENEMY_KIND_AAA );
+		}
+		else if( Utility::GetRandamValue( 3, 0 ) != 0 ){
+			pEnemyManager->AddEnemy( Common::ENEMY_KIND_CCC );
 		}
 		else{
 			pEnemyManager->AddEnemy( Common::ENEMY_KIND_BBB );

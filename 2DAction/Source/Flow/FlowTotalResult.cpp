@@ -131,8 +131,8 @@ bool TotalResult2D::Init()
 {
 	// ”wŒiƒZƒbƒg
 	m_textureBG.Init();
-	m_textureBG.m_pTex2D = NEW Game2DBase("title.json");
-	m_textureBG.m_texInfo.m_fileName = "title.json";
+	m_textureBG.m_pTex2D = NEW Game2DBase("titleBg.json");
+	m_textureBG.m_texInfo.m_fileName = "titleBg.json";
 	m_textureBG.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureBG.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureBG.m_texInfo.m_usePlayerOffset = false;

@@ -1,9 +1,9 @@
 {
 	"basicInfo":[
-		{"fileName":"ActionGameTitle.png"
+		{"fileName":"resultBgStage03.png"
 		, "animDefault":"idle"
-		, "sizeW": 1366
-		, "sizeH": 768
+		, "sizeW": 1280
+		, "sizeH": 720
 		, "splitW": 1
 		, "splitH": 1
 		, "total": 1 }

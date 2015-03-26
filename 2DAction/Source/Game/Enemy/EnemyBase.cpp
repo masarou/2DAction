@@ -154,6 +154,13 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 		HitPlayreSlashing( eventId.m_eventValue );
 		break;
 
+	case Common::EVENT_SHOOT_BULLET:
+		if( s_pAttackGun ){
+			math::Vector2 direction = Utility::GetPlayerPos() - GetDrawInfo().m_posOrigin;
+			direction.Normalize();
+			s_pAttackGun->ShootBullet( GetDrawInfo().m_posOrigin, direction );
+		}
+		break;
 	}
 }
 
@@ -196,19 +203,19 @@ void EnemyBase::RefrectAIAction()
 	for( uint32_t i = 0; i < m_actionInfoAI.m_pushEventArray.size(); ++i){
 		Common::CMN_EVENT eventInfo;
 		eventInfo.Init();
-		eventInfo.m_event = m_actionInfoAI.m_pushEventArray.at(i);
+		eventInfo.m_event = m_actionInfoAI.m_pushEventArray.at(i).m_EventMessage;
 		SystemMessageManager::GetInstance()->PushMessage( GetUniqueId(), eventInfo );
 	}
 	m_actionInfoAI.m_pushEventArray.clear();
 
-	switch( m_actionInfoAI.m_AItype ){
-	default:
+	//switch( m_actionInfoAI.m_AItype ){
+	//default:
 
-		break;
-	case AI_SHOOT_BULLET:
-		// m_actionInfoAI.m_AIInfoから情報を取り出していろいろ行う
-		break;
-	}
+	//	break;
+	//case AI_SHOOT_BULLET:
+	//	// m_actionInfoAI.m_AIInfoから情報を取り出していろいろ行う
+	//	break;
+	//}
 }
 
 /* ================================================ */
@@ -232,7 +239,21 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 
 	if( m_HP <= 0 ){
 		// スコア追加
-		GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AAA_DEATH );
+		Common::ENEMY_KIND kind = GetKind();
+		switch( kind ){
+		case Common::ENEMY_KIND_AAA:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AAA_DEATH );
+			break;
+		case Common::ENEMY_KIND_BBB:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BBB_DEATH );
+			break;
+		case Common::ENEMY_KIND_CCC:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_CCC_DEATH );
+			break;
+		case Common::ENEMY_KIND_BOSS:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BOSS_DEATH );
+			break;
+		}
 
 		// 爆破エフェクトを出す
 		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x), static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y) );

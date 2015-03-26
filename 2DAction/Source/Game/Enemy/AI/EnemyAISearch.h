@@ -24,11 +24,11 @@ public:
 protected:
 	
 	virtual bool InitAI() override;								// AI初期化
-	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_INFO &actionInfo ) override;	// 派生先でのAI実装
+	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo ) override;	// 派生先でのAI実装
 
 private:
 
-	bool SearchPlayer( TEX_DRAW_INFO &enemyInfo );				// プレイヤー探索
+	bool SearchPlayer( TEX_DRAW_INFO &enemyInfo, float distance = 300.0f );				// プレイヤー探索
 
 	EnemyAISearch(void);
 	~EnemyAISearch(void);

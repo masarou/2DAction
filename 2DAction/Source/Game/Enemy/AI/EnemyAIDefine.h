@@ -26,10 +26,16 @@ enum AI_TYPE{
 // 攻撃弾発射情報構造体
 struct AI_INFO_SHOOT{
 	
-	uint32_t m_tmp;
+	float			vecX;
+	float			vecY;
+	uint32_t		speed;
+	uint32_t		damage;
 
 	void Init(){
-		m_tmp = 0;
+		vecX	= 0.0f;
+		vecY	= 0.0f;
+		speed	= 0;
+		damage	= 0;
 	}
 };
 
@@ -43,16 +49,30 @@ union AI_INFO{
 	}
 };
 
-// 変数として所有する構造体
+// AIにPushされる行動ひとつの構造体
 struct ACTION_INFO{
 
-	AI_TYPE m_AItype;	// 現在のm_AIInfoのタイプ
-	AI_INFO	m_AIInfo;	// 行動に必要な情報
-	std::vector<Common::EVENT_MESSAGE>	m_pushEventArray;	// Eventとして必要なMessageを格納
+	AI_TYPE			m_AItype;	// 現在のm_AIInfoのタイプ
+	AI_INFO			m_AIInfo;	// 行動に必要な情報
+	Common::EVENT_MESSAGE	m_EventMessage;	// Eventとして必要なMessageを格納
+
+	ACTION_INFO::ACTION_INFO(){
+		Init();
+	}
 
 	void Init(){
-		m_AItype = AI_MAX;
+		m_AItype		= AI_MAX;
 		m_AIInfo.Init();
+		m_EventMessage	= Common::EVENT_MESSAGE_MAX;
+	}
+};
+
+// 行動配列
+struct ACTION_ARRAY{
+
+	std::vector<ACTION_INFO>	m_pushEventArray;	// Eventとして必要なMessageを格納
+
+	void Init(){
 		m_pushEventArray.clear();
 	}
 };

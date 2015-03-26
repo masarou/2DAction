@@ -43,16 +43,4 @@ void EnemyBBB::EventUpdate( const Common::CMN_EVENT &eventId )
 {
 	EnemyBase::EventUpdate( eventId );
 
-	switch( eventId.m_event ){
-	case Common::EVENT_SHOOT_BULLET:
-		if( s_pAttackGun ){
-			math::Vector2 direction = Utility::GetPlayerPos() - GetDrawInfo().m_posOrigin;
-			direction.Normalize();
-			s_pAttackGun->ShootBullet( GetDrawInfo().m_posOrigin, direction );
-		}
-		break;
-	default:
-		break;
-	}
-
 }
