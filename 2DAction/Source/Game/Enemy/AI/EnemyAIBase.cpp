@@ -12,15 +12,18 @@
 #include "Game/Enemy/EnemyBase.h"
 #include "Game/Attack/GameAttackGun.h"
 
+AttackGun *EnemyAIBase::s_pAttackGun = NULL;
+
 EnemyAIBase::EnemyAIBase(void)
 : m_enemyMine( NULL )
-{
-}
-
-EnemyAIBase::EnemyAIBase(EnemyBase *enemyMine)
-: m_enemyMine( enemyMine )
 , m_isReady( false )
 {
+	if( !s_pAttackGun ){
+		// 攻撃銃作成。共有+ランダムで発射なので発射のインターバルはなし
+		s_pAttackGun = AttackGun::CreateGun( Common::OWNER_ENEMY );
+		AttackGun::GunState &gunStatus = s_pAttackGun->UpdateGunState();
+		gunStatus.m_shootInterval = 0;
+	}
 }
 
 EnemyAIBase::~EnemyAIBase(void)
@@ -101,4 +104,29 @@ Common::ENEMY_KIND EnemyAIBase::GetEnemyKind() const
 const std::string &EnemyAIBase::GetEnemyJsonName() const
 {
 	return m_enemyMine->GetDrawInfo().m_fileName;
+}
+
+void EnemyAIBase::ClearAttackGun()
+{
+	// 共有物にNULL設定(解放はTaskManagerが勝手にやる)
+	s_pAttackGun = NULL;
+}
+
+/* ================================================ */
+/**
+ * @brief	便利関数
+ */
+/* ================================================ */
+// 攻撃弾生成
+void EnemyAIBase::ShootBullet( const uint32_t &damage, const uint32_t &speed, const math::Vector2 &vec )
+{
+	if( s_pAttackGun && m_enemyMine ){
+		math::Vector2 direction = vec;
+		if( vec == math::Vector2() ){
+			// 方向が指定されていなかったらプレイヤーに向かって飛ばす
+			direction = Utility::GetPlayerPos() - m_enemyMine->GetDrawInfo().m_posOrigin;
+		}
+		direction.Normalize();
+		s_pAttackGun->ShootBullet( m_enemyMine->GetDrawInfo().m_posOrigin, direction, damage, speed );
+	}
 }

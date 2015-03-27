@@ -12,6 +12,7 @@
 #include "EnemyBBB.h"
 #include "EnemyCCC.h"
 #include "EnemyBoss.h"
+#include "AI/EnemyAIBase.h"
 #include "Game/Attack/Bullet.h"
 #include "Game/Player/GamePlayer.h"
 #include "Game/GameRegister.h"
@@ -36,8 +37,8 @@ bool EnemyManager::DieMain()
 	// 保持しているクラスをすべて除外
 	m_enemyArray.clear();
 
-	// 共有物にNULL設定(解放はTaskManagerが勝手にやる)
-	EnemyBase::s_pAttackGun = NULL;
+	// 敵クラスが共有で使用しているものをclear
+	EnemyAIBase::ClearAttackGun();
 
 	return true;
 }

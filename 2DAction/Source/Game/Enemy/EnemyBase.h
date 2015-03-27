@@ -15,7 +15,6 @@
 #include "AI/EnemyAIDefine.h"
 #include "AI/EnemyAIBase.h"
 #include "EnemyManager.h"
-#include "Game/Attack/GameAttackGun.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/SystemDefine.h"
 #include "System/Collision/SystemCollisionUnit.h"
@@ -84,11 +83,6 @@ private:
 	ACTION_ARRAY		m_actionInfoAI;					// AIの思考結果格納変数
 	Common::ENEMY_AI	m_nextAI;						// 次に思考するAIステート
 	Common::ENEMY_AI	m_prevAI;						// ひとつ前のAIステート
-
-protected:
-
-	// すべての敵クラスで共有
-	static AttackGun	*s_pAttackGun;		// マシンガンクラス
 
 };
 

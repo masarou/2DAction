@@ -56,19 +56,6 @@ void AIBossMoving::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo 
 	}
 	SetEnemyAnim( animTag );
 	SetEnemyEyeSight( vec );
-
-	// プレイヤーに向かって弾を発射
-	if( Utility::GetRandamValue( 120, 0 ) == 0 ){
-
-		// 行動の詳細をセット
-		ACTION_INFO action;
-		action.m_AItype = AI_SHOOT_BULLET;
-		action.m_AIInfo.Init();
-		action.m_EventMessage	= Common::EVENT_SHOOT_BULLET;
-
-		// 後ほどイベントメッセージとして投げてもらう
-		actionInfo.m_pushEventArray.push_back( action );
-	}
 }
 
 

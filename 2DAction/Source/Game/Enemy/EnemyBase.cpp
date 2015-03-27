@@ -17,8 +17,6 @@
 #include "Game/GameRecorder.h"
 #include "System/Sound/SystemSoundManager.h"
 
-AttackGun *EnemyBase::s_pAttackGun = NULL;
-
 EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind )
 : TaskUnit("Enemy")
 , Collision2DUnit( jsonName.c_str() )
@@ -57,13 +55,6 @@ bool EnemyBase::Init()
 
 	if( !m_pEnemyAI ){
 		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
-	}
-
-	if( !s_pAttackGun ){
-		// 攻撃銃作成。共有+ランダムで発射なので発射のインターバルはなし
-		s_pAttackGun = AttackGun::CreateGun( Common::OWNER_ENEMY );
-		AttackGun::GunState &gunStatus = s_pAttackGun->UpdateGunState();
-		gunStatus.m_shootInterval = 0;
 	}
 
 	return InitMain();
@@ -152,14 +143,6 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 
 	case Common::EVENT_HIT_BLADE_PLAYER:	// Playerの斬撃に当たった
 		HitPlayreSlashing( eventId.m_eventValue );
-		break;
-
-	case Common::EVENT_SHOOT_BULLET:
-		if( s_pAttackGun ){
-			math::Vector2 direction = Utility::GetPlayerPos() - GetDrawInfo().m_posOrigin;
-			direction.Normalize();
-			s_pAttackGun->ShootBullet( GetDrawInfo().m_posOrigin, direction );
-		}
 		break;
 	}
 }

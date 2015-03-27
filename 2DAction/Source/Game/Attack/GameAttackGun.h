@@ -43,7 +43,8 @@ public:
 	~AttackGun(void);
 
 	// 弾の発射(登録)と削除
-	void ShootBullet( math::Vector2 pos = DEFAULT_VECTOR2, math::Vector2 vec = math::Vector2( 0.0f, 1.0f ) );
+	void ShootBullet( const math::Vector2 &pos, const math::Vector2 &vec );
+	void ShootBullet( const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const uint32_t &speed );
 
 	// 銃のステート更新
 	GunState &UpdateGunState(){ return m_currState; }

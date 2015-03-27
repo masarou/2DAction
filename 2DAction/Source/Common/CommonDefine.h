@@ -37,7 +37,6 @@ namespace Common{
 		EVENT_HIT_BLADE_ENEMY,	// “G‚ÌŽaŒ‚‚É“–‚½‚Á‚½
 		EVENT_HIT_BULLET_PLAYER,// ƒvƒŒƒCƒ„[‚ÌUŒ‚’e‚É“–‚½‚Á‚½
 		EVENT_HIT_BULLET_ENEMY,	// “G‚ÌUŒ‚’e‚É“–‚½‚Á‚½
-		EVENT_SHOOT_BULLET,		// UŒ‚’e‚ð”­ŽË
 
 		// ‚»‚Ì‘¼
 

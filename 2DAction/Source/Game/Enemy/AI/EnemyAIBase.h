@@ -17,6 +17,7 @@
 #include "EnemyAIDefine.h"
 
 class EnemyBase;
+class AttackGun;
 
 // 共通での距離の認識
 static const uint32_t DISTANCE_TO_PLAYER_NEAR	= 300;
@@ -46,16 +47,24 @@ public:
 	Common::ENEMY_KIND GetEnemyKind() const;
 	const std::string &GetEnemyJsonName() const;
 
+	// 攻撃クラス解放
+	static void ClearAttackGun();
+
 protected:
 	
 	EnemyAIBase();
 
 	virtual bool InitAI(){ return true; }					// AI初期化
 	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo ) = 0;	// 派生先でのAI実装
-		
+	
+	// 以下、必要になるであろう便利関数
+	void ShootBullet( const uint32_t &damage = 20.0f, const uint32_t &speed = 5.0f, const math::Vector2 &vec = math::Vector2() );	// 攻撃弾生成
+
+		// すべての敵クラスで共有
+	static AttackGun	*s_pAttackGun;		// マシンガンクラス
+
 private:
 	
-	EnemyAIBase( EnemyBase *enemyMine );
 	bool		m_isReady;		// 思考準備が終了したかどうか
 	EnemyBase	*m_enemyMine;	// 現在の自分の状態を知るために保持しておく
 };

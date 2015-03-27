@@ -15,7 +15,7 @@
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/Attack/GameAttackGun.h"
 
-Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage, float speed )
+Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const float &speed )
 : TaskUnit( "Bullet" )
 , m_ownerType( ownerType )
 , m_liveTime( 0 )
