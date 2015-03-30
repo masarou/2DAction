@@ -51,6 +51,7 @@ GamePlayer::GamePlayer(void)
 , m_speedMoveBase( 3 )
 , m_speedMultiply( 0.0f )
 , m_invisibleTime(0)
+, m_invalidCtrlTime(0)
 , m_playerLife(LIFE_POINT_MAX)
 , m_pStatusMenu(NULL)
 {
@@ -124,6 +125,11 @@ void GamePlayer::Update()
 		if( m_invisibleTime > 0 ){
 			--m_invisibleTime;
 		}
+
+		// 操作不能時間中ならデクリメント
+		if( m_invalidCtrlTime > 0 ){
+			--m_invalidCtrlTime;
+		}
 	}
 
 	// 現在のライフセット
@@ -131,8 +137,11 @@ void GamePlayer::Update()
 		m_pStatusMenu->SetPlayerHP( m_playerLife, LIFE_POINT_MAX );
 	}
 
-	// パッドに対応した挙動を設定
-	CallPadEvent();
+	// 操作不能中でないならパッドイベントをコール
+	if( m_invalidCtrlTime == 0 ){
+		// パッドに対応した挙動を設定
+		CallPadEvent();
+	}
 
 	// 再生アニメタグセット
 	m_drawTexture.m_pTex2D->SetAnim(GetAnimTag());
@@ -370,6 +379,7 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_BBB:
 	case Common::EVENT_HIT_ENEMY_CCC:
 	case Common::EVENT_HIT_BULLET_ENEMY:
+	case Common::EVENT_HIT_BLADE_ENEMY:
 		if( m_invisibleTime == 0 ){
 			EventDamage( eventId.m_event, eventId.m_eventValue );
 		}
@@ -396,7 +406,6 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
  */
 /* ================================================ */
 
-// 敵と接触した
 void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue )
 {
 	// ダメージ音
@@ -409,6 +418,11 @@ void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint
 
 	// ダメージを受けたら一定時間ダメージを受けない
 	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
+
+	// 斬撃攻撃を受けたら一定時間操作不能
+	if( eventKind == Common::EVENT_HIT_BLADE_ENEMY ){
+		m_invalidCtrlTime = 10;
+	}
 
 	// ライフを減らす
 	if( m_playerLife > damageValue ){

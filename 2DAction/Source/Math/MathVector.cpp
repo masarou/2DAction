@@ -93,6 +93,21 @@ Angle GetBetweenAngle(const Vector2 &vec1, const Vector2 &vec2)
 	return ArcCos( innerProduct );
 }
 
+//<!‰ñ“]‚³‚¹‚½ƒxƒNƒgƒ‹‚ð•Ô‚·
+Vector2 GetRotateVec( const Vector2 &vec, float degree )
+{
+	Vector2 vecNor = vec.GetNormalize();
+
+	float cos = math::Cos( math::Angle(degree) );
+	float sin = math::Sin( math::Angle(degree) );
+
+	Vector2 retVec = Vector2();
+	retVec.x = (vecNor.x * cos) - (vecNor.y * sin);
+	retVec.y = (vecNor.x * sin) + (vecNor.y * cos);
+
+	return retVec;
+}
+
 //!<operator
 Vector2 Vector2::operator-() const{ return Vector2( -x, -y); }
 Vector2& Vector2::operator+=(const Vector2& vec){ x+=vec.x; y+=vec.y; return *(this); }

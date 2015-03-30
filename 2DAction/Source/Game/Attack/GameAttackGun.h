@@ -29,12 +29,12 @@ public:
 
 	struct GunState{
 		uint32_t	m_shootInterval;	// 発射間隔
-		float		m_speed;			// 発射スピード
+		uint32_t	m_speed;			// 発射スピード
 		uint32_t	m_damage;			// ダメージ
 
 		void Init(){
 			m_shootInterval	= SHOOT_INTERBAL_DEFAULT;
-			m_speed			= 15.0f;
+			m_speed			= 15;
 			m_damage		= 20;
 		}
 	};

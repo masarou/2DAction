@@ -36,6 +36,7 @@ private:
 		ACTION_MAX,
 	};
 
+	void ChangeActionType( const ACTION_TYPE &nextType );
 	bool ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo );	// ショットガン的な攻撃
 	bool ExecSlashing( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo );		// 斬撃攻撃
 	bool ExecRunAway( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo );		// 距離をとる
@@ -46,6 +47,7 @@ private:
 	AIBossNearAttack(void);
 	~AIBossNearAttack(void);
 
+	uint32_t		m_currActionTime;	// 現在のアクションタイプになってからの時間
 	math::Vector2	m_targetPlace;
 	ACTION_TYPE		m_actionType;
 };

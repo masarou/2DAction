@@ -38,7 +38,7 @@ bool EnemyManager::DieMain()
 	m_enemyArray.clear();
 
 	// 敵クラスが共有で使用しているものをclear
-	EnemyAIBase::ClearAttackGun();
+	EnemyAIBase::ClearAttackMaterial();
 
 	return true;
 }

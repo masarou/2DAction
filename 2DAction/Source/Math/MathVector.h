@@ -53,6 +53,8 @@ float GetLength(const Vector2 &vec1, const Vector2 &vec2);
 float GetLengthSquare(const Vector2 &vec1, const Vector2 &vec2);
 //<!2つのベクトルのなす角
 Angle GetBetweenAngle(const Vector2 &vec1, const Vector2 &vec2);
+//<!回転させたベクトルを返す
+Vector2 GetRotateVec( const Vector2 &vec, float degree );
 
 //!<operator
 inline Vector2 operator+(const Vector2& vec1, const Vector2& vec2){ return Vector2(vec1.x+vec2.x, vec1.y+vec2.y); }

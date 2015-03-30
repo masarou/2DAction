@@ -14,14 +14,18 @@
 
 namespace math{
 
+// “àÏ‚ğ‹‚ß‚é
+float GetInnerProduct( math::Vector2 vecA, math::Vector2 vecB );
+
 // “ñ“_‚Ì‹——£‚Ì—İæ‚ğ•Ô‚·
 float GetDistance( const Vector2 &vecA, const Vector2 &vecB );
-
 
 // “ñ“_‚Ì‹——£‚ªw’è”ÍˆÍ‚¢‚È‚¢‚©‚Ç‚¤‚©
 bool IsInRange( const Vector2 &vecA, const Vector2 &vecB, const uint32_t &range );
 bool IsInRange( const Vector2 &vecA, const Vector2 &vecB, const float &range );
 
+// ¬‚·Šp‚ğ‹‚ß‚é
+float GetAngleFormed( const math::Vector2 &vecA, const math::Vector2 &vecB);
 
 }
 

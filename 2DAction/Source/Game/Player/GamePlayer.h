@@ -75,6 +75,7 @@ private:
 	uint32_t			m_speedMoveBase;// 基本行動速度
 	float				m_speedMultiply;// 行動速度の倍率
 	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
+	uint32_t			m_invalidCtrlTime;// 何らかの理由で操作を受け付けない時間
 	AttackGun			*m_attackGun;	// マシンガンクラス
 	AttackBlade			*m_attackBlade;	// 近接攻撃(剣)クラス
 

@@ -11,9 +11,6 @@
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 
-// ボスが行動する際の目的地
-math::Vector2 EnemyBoss::BOSS_TARGET_PLACE = math::Vector2( static_cast<float>(INVALID_VALUE), static_cast<float>(INVALID_VALUE) );
-
 EnemyBoss *EnemyBoss::Create( const uint32_t &uniqueID )
 {
 	return NEW EnemyBoss( uniqueID );

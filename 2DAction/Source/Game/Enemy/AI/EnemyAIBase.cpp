@@ -12,7 +12,8 @@
 #include "Game/Enemy/EnemyBase.h"
 #include "Game/Attack/GameAttackGun.h"
 
-AttackGun *EnemyAIBase::s_pAttackGun = NULL;
+AttackGun	*EnemyAIBase::s_pAttackGun		= NULL;
+AttackBlade	*EnemyAIBase::s_pAttackBlade	= NULL;
 
 EnemyAIBase::EnemyAIBase(void)
 : m_enemyMine( NULL )
@@ -23,6 +24,12 @@ EnemyAIBase::EnemyAIBase(void)
 		s_pAttackGun = AttackGun::CreateGun( Common::OWNER_ENEMY );
 		AttackGun::GunState &gunStatus = s_pAttackGun->UpdateGunState();
 		gunStatus.m_shootInterval = 0;
+	}
+	if( !s_pAttackBlade ){
+		// 斬撃クラス作成。共有
+		s_pAttackBlade = AttackBlade::CreateAttackBlade( Common::OWNER_ENEMY );
+		AttackBlade::BladeState &bladeStatus = s_pAttackBlade->UpdateBladeState();
+		bladeStatus.m_damage = 20;
 	}
 }
 
@@ -106,10 +113,11 @@ const std::string &EnemyAIBase::GetEnemyJsonName() const
 	return m_enemyMine->GetDrawInfo().m_fileName;
 }
 
-void EnemyAIBase::ClearAttackGun()
+void EnemyAIBase::ClearAttackMaterial()
 {
 	// 共有物にNULL設定(解放はTaskManagerが勝手にやる)
 	s_pAttackGun = NULL;
+	s_pAttackBlade = NULL;
 }
 
 /* ================================================ */
@@ -118,7 +126,7 @@ void EnemyAIBase::ClearAttackGun()
  */
 /* ================================================ */
 // 攻撃弾生成
-void EnemyAIBase::ShootBullet( const uint32_t &damage, const uint32_t &speed, const math::Vector2 &vec )
+void EnemyAIBase::ShootBullet( const math::Vector2 &vec, const uint32_t &damage, const uint32_t &speed )
 {
 	if( s_pAttackGun && m_enemyMine ){
 		math::Vector2 direction = vec;
@@ -130,3 +138,17 @@ void EnemyAIBase::ShootBullet( const uint32_t &damage, const uint32_t &speed, co
 		s_pAttackGun->ShootBullet( m_enemyMine->GetDrawInfo().m_posOrigin, direction, damage, speed );
 	}
 }
+
+void EnemyAIBase::Slashing( const Slashing::TYPE_SLASHING &type, const math::Vector2 slashDir, const math::Vector2 &vec )
+{
+	if( s_pAttackBlade && m_enemyMine ){
+		math::Vector2 direction = vec;
+		if( vec == math::Vector2() ){
+			// 方向が指定されていなかったらプレイヤーに向かって飛ばす
+			direction = Utility::GetPlayerPos() - m_enemyMine->GetDrawInfo().m_posOrigin;
+		}
+		direction.Normalize();
+		s_pAttackBlade->CreateSlashing( m_enemyMine->GetDrawInfo().m_posOrigin, direction, type );
+	}
+}
+

@@ -156,8 +156,8 @@ void GameManager::Update()
 
 	// “G‚Ì¶¬
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
-		//pEnemyManager->AddEnemy( Common::ENEMY_KIND_BOSS );
-		//return;
+		pEnemyManager->AddEnemy( Common::ENEMY_KIND_BOSS );
+		return;
 		if( Utility::GetRandamValue( 5, 0 ) != 0 ){
 			pEnemyManager->AddEnemy( Common::ENEMY_KIND_AAA );
 		}

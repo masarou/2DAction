@@ -13,6 +13,7 @@
 #include "Game/Enemy/AI/EnemyAIBase.h"
 #include "Common/CommonDefine.h"
 #include "System/Draw2D/SystemDraw2DDefine.h"
+#include "Game/Attack/GameAttackBlade.h"
 
 #include "EnemyAIDefine.h"
 
@@ -48,7 +49,7 @@ public:
 	const std::string &GetEnemyJsonName() const;
 
 	// 攻撃クラス解放
-	static void ClearAttackGun();
+	static void ClearAttackMaterial();
 
 protected:
 	
@@ -58,10 +59,12 @@ protected:
 	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo ) = 0;	// 派生先でのAI実装
 	
 	// 以下、必要になるであろう便利関数
-	void ShootBullet( const uint32_t &damage = 20.0f, const uint32_t &speed = 5.0f, const math::Vector2 &vec = math::Vector2() );	// 攻撃弾生成
+	void ShootBullet( const math::Vector2 &vec = math::Vector2(), const uint32_t &damage = 20.0f, const uint32_t &speed = 5.0f );	// 攻撃弾生成
+	void Slashing( const Slashing::TYPE_SLASHING &type, const math::Vector2 slashDir = math::Vector2(), const math::Vector2 &vec = math::Vector2() );
 
-		// すべての敵クラスで共有
+	// すべての敵クラスで共有
 	static AttackGun	*s_pAttackGun;		// マシンガンクラス
+	static AttackBlade	*s_pAttackBlade;	// 斬撃クラス
 
 private:
 	

@@ -20,7 +20,6 @@ AIBossMoving *AIBossMoving::Create()
 
 AIBossMoving::AIBossMoving(void)
 {
-	m_targetPlace = EnemyBoss::BOSS_TARGET_PLACE;
 }
 
 

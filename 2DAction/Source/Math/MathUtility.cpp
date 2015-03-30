@@ -7,6 +7,7 @@
  */
 /* ====================================================================== */
 
+#include "Math/MathCommon.h"
 #include "MathUtility.h"
 
 namespace math{

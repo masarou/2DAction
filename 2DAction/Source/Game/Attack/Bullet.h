@@ -25,12 +25,12 @@ class Bullet : public TaskUnit, public Collision2DUnit
 
 public:
 
-	Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const float &speed );
+	Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const uint32_t &speed );
 	~Bullet(void);
 
 	// 情報セット
 	void	SetBulletVec( math::Vector2 &vec ){ m_bulletVec = vec; }
-	void	SetBulletSpeed( float &spd ){ m_speed = spd; }
+	void	SetBulletSpeed( uint32_t &spd ){ m_speed = spd; }
 
 	// 情報取得
 	const uint32_t &GetBulletDamage() const{ return m_bulletDamage; }
@@ -57,7 +57,7 @@ private:
 
 	uint32_t			m_bulletDamage;	// 弾の威力
 	math::Vector2		m_bulletVec;	// 発射方向
-	float				m_speed;		// 発射スピード
+	uint32_t			m_speed;		// 発射スピード
 
 };
 

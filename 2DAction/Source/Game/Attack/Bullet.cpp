@@ -15,7 +15,7 @@
 #include "Game/Enemy/EnemyManager.h"
 #include "Game/Attack/GameAttackGun.h"
 
-Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const float &speed )
+Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const uint32_t &speed )
 : TaskUnit( "Bullet" )
 , m_ownerType( ownerType )
 , m_liveTime( 0 )
@@ -63,7 +63,7 @@ const TEX_DRAW_INFO &Bullet::GetDrawInfo() const
 /* ================================================ */
 void Bullet::Update()
 {
-	m_drawTexture.m_texInfo.m_posOrigin += m_bulletVec * m_speed;
+	m_drawTexture.m_texInfo.m_posOrigin += m_bulletVec * static_cast<float>(m_speed);
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 	++m_liveTime;
 

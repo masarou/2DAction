@@ -50,8 +50,8 @@ bool EnemyBase::Init()
 	m_HP		= GetEnemyDefaultHP();
 
 	// ’¼‘O‚ÌAI‚ª‚È‚¢‚Ì‚Å“¯‚¶AI‚É‚µ‚Ä‚¨‚­
-	m_prevAI	= Common::AI_SEARCHING;
-	m_nextAI	= Common::AI_SEARCHING;
+	m_prevAI	= Common::AI_ATTACK_NEAR;
+	m_nextAI	= Common::AI_ATTACK_NEAR;
 
 	if( !m_pEnemyAI ){
 		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );

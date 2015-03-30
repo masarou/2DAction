@@ -16,6 +16,7 @@
 #include "Game/Enemy/AI/EnemyAISearch.h"
 #include "Game/Enemy/AI/EnemyAITackle.h"
 #include "Game/Enemy/AI/EnemyAIShoot.h"
+#include "Game/Enemy/AI/Boss/AIBossNearAttack.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
@@ -317,6 +318,9 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 		break;
 	case Common::AI_SHOOTING:	// ‰“‹——£UŒ‚(‰“‹——£UŒ‚)
 		pRetAI = EnemyAIShoot::Create();
+		break;
+	case Common::AI_ATTACK_NEAR:	// ‰“‹——£UŒ‚(‰“‹——£UŒ‚)
+		pRetAI = AIBossNearAttack::Create();
 		break;
 	}
 	return pRetAI;
