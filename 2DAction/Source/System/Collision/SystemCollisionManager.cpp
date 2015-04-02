@@ -163,6 +163,18 @@ void CollisionManager::CollisionUpdate()
 						eventInfo.m_eventValue = pBullet->GetBulletDamage();
 					}
 					break;
+				case Common::TYPE_EXPLOSION_PLAYER:
+					{
+						messageKind = Common::EVENT_HIT_EXPLOSION_PLAYER;
+						eventInfo.m_eventValue = 40;
+					}
+					break;
+				case Common::TYPE_EXPLOSION_ENEMY:
+					{
+						messageKind = Common::EVENT_HIT_EXPLOSION_ENEMY;
+						eventInfo.m_eventValue = 40;
+					}
+					break;
 				}
 				eventInfo.m_event = messageKind;
 
@@ -256,12 +268,14 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ITEM_DAMAGE:
 	case Common::TYPE_BULLET_ENEMY:
 	case Common::TYPE_BLADE_ENEMY:
+	//case Common::TYPE_EXPLOSION_ENEMY:
 		if( typeB != Common::TYPE_PLAYER ){
 			retVal = false;
 		}
 		break;
 	case Common::TYPE_BLADE_PLAYER:
 	case Common::TYPE_BULLET_PLAYER:
+	case Common::TYPE_EXPLOSION_PLAYER:
 		if( typeB == Common::TYPE_PLAYER
 			|| typeB == Common::TYPE_ITEM_BULLET
 			|| typeB == Common::TYPE_ITEM_LIFE
@@ -270,6 +284,9 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 			|| typeB == Common::TYPE_BULLET_PLAYER){
 			retVal = false;
 		}
+		break;
+	case Common::TYPE_EXPLOSION_ENEMY:
+		{uint32_t aaa = 0;}
 		break;
 	}
 
@@ -340,125 +357,125 @@ void CollisionManager::RemoveUnitFromTree( const uint32_t &treeIndex, Collision2
 }
 
 // 同じエリアのオブジェクトについて再帰的に当たり判定を行う
-void CollisionManager::RecursiveSameAreaCheck( Collision2DUnit *pUnit )
-{
-	uint32_t popCounter = 0;
-
-	// 連結しているUnitをまとめる
-	Collision2DUnit *pAddUnit = pUnit;
-	for(;;){
-		if( !pAddUnit ){
-			break;
-		}
-		m_vCheckCollision.push_back( pAddUnit );
-		pAddUnit = pAddUnit->GetNextUnit();
-		++popCounter;
-	}
-
-	// 連結していたUnitどうしの当たり判定チェック
-	Collision2DUnit *pCheckUnit = pUnit;
-	for(;;){
-		for( uint32_t j = 0; j < m_vCheckCollision.size() ; ++j ){
-			if( pCheckUnit != m_vCheckCollision.at(j) ){
-				CheckUnitCollision( pCheckUnit, m_vCheckCollision.at(j) );
-			}
-		}
-		pCheckUnit = pCheckUnit->GetNextUnit();
-		if( !pCheckUnit ){
-			break;
-		}
-	}
-
-	// 現在調べているエリアの子、孫とチェックしていく
-	if( pUnit->GetBelongLv() < HIT_AREA_SPLIT_MAX ){
-		// 子となる空間があるので再帰して調べていく		
-		uint32_t childLvFirstIndex = GetRegisterTreeIndex( pUnit->GetBelongLv() + 1, 0 );
-		childLvFirstIndex += 4 * pUnit->GetBelongIndex();
-		for( uint32_t i = childLvFirstIndex ; i < childLvFirstIndex+4 ; ++i ){
-			if( m_objectTree[i].pUnit ){
-				RecursiveSameAreaCheck( m_objectTree[i].pUnit );
-			}
-		}
-	}
-
-	for( uint32_t i = 0; i < popCounter; ++i ){
-		m_vCheckCollision.pop_back();
-	}
-}
+//void CollisionManager::RecursiveSameAreaCheck( Collision2DUnit *pUnit )
+//{
+//	uint32_t popCounter = 0;
+//
+//	// 連結しているUnitをまとめる
+//	Collision2DUnit *pAddUnit = pUnit;
+//	for(;;){
+//		if( !pAddUnit ){
+//			break;
+//		}
+//		m_vCheckCollision.push_back( pAddUnit );
+//		pAddUnit = pAddUnit->GetNextUnit();
+//		++popCounter;
+//	}
+//
+//	// 連結していたUnitどうしの当たり判定チェック
+//	Collision2DUnit *pCheckUnit = pUnit;
+//	for(;;){
+//		for( uint32_t j = 0; j < m_vCheckCollision.size() ; ++j ){
+//			if( pCheckUnit != m_vCheckCollision.at(j) ){
+//				CheckUnitCollision( pCheckUnit, m_vCheckCollision.at(j) );
+//			}
+//		}
+//		pCheckUnit = pCheckUnit->GetNextUnit();
+//		if( !pCheckUnit ){
+//			break;
+//		}
+//	}
+//
+//	// 現在調べているエリアの子、孫とチェックしていく
+//	if( pUnit->GetBelongLv() < HIT_AREA_SPLIT_MAX ){
+//		// 子となる空間があるので再帰して調べていく		
+//		uint32_t childLvFirstIndex = GetRegisterTreeIndex( pUnit->GetBelongLv() + 1, 0 );
+//		childLvFirstIndex += 4 * pUnit->GetBelongIndex();
+//		for( uint32_t i = childLvFirstIndex ; i < childLvFirstIndex+4 ; ++i ){
+//			if( m_objectTree[i].pUnit ){
+//				RecursiveSameAreaCheck( m_objectTree[i].pUnit );
+//			}
+//		}
+//	}
+//
+//	for( uint32_t i = 0; i < popCounter; ++i ){
+//		m_vCheckCollision.pop_back();
+//	}
+//}
 
 // 当たり判定を実際に行う
-void CollisionManager::CheckUnitCollision( Collision2DUnit *unitA, Collision2DUnit *unitB )
-{
-	Common::TYPE_OBJECT typeA = unitA->GetTypeObject();
-	Common::TYPE_OBJECT typeB = unitB->GetTypeObject();
-	if( !NeedEvent( typeA, typeB ) ){
-		return;
-	}
-	const TEX_DRAW_INFO &texA = unitA->GetDrawInfo();
-	const TEX_DRAW_INFO &texB = unitB->GetDrawInfo();
-	if( Utility::IsInRangeTexture( texA, texB ) ){
-		Common::CMN_EVENT eventInfo;
-		eventInfo.Init();
-
-		Common::EVENT_MESSAGE messageKind = Common::EVENT_MESSAGE_MAX;
-		switch( typeA ){
-		default:
-			DEBUG_ASSERT( 0, "objectの種類が想定外");
-			/* fall-through */
-		case Common::TYPE_PLAYER:
-			messageKind = Common::EVENT_HIT_PLAYER;
-			break;
-		case Common::TYPE_EVENMY_AAA:
-			messageKind = Common::EVENT_HIT_ENEMY_AAA;
-			eventInfo.m_eventValue = 20;
-			break;
-		case Common::TYPE_EVENMY_BBB:
-			messageKind = Common::EVENT_HIT_ENEMY_BBB;
-			eventInfo.m_eventValue = 20;
-			break;
-		case Common::TYPE_EVENMY_CCC:
-			messageKind = Common::EVENT_HIT_ENEMY_CCC;
-			break;
-		case Common::TYPE_ITEM_BULLET:
-			messageKind = Common::EVENT_GET_ITEM_BULLET;
-			break;
-		case Common::TYPE_ITEM_LIFE:
-			messageKind = Common::EVENT_GET_ITEM_LIFE;
-			break;
-		case Common::TYPE_ITEM_DAMAGE:
-			messageKind = Common::EVENT_GET_ITEM_DAMAGE;
-			break;
-		case Common::TYPE_BLADE_PLAYER:
-			{
-				messageKind = Common::EVENT_HIT_BLADE_PLAYER;
-				eventInfo.m_eventValue = 20;
-			}
-			break;
-		case Common::TYPE_BLADE_ENEMY:
-			{
-				messageKind = Common::EVENT_HIT_BLADE_ENEMY;
-				eventInfo.m_eventValue = 20;
-			}
-		case Common::TYPE_BULLET_PLAYER:
-			{
-				messageKind = Common::EVENT_HIT_BULLET_PLAYER;
-				if( Bullet *pBullet = dynamic_cast<Bullet*>( unitA ) ){
-					eventInfo.m_eventValue = pBullet->GetBulletDamage();
-				}
-			}
-			break;
-		case Common::TYPE_BULLET_ENEMY:
-			{
-				messageKind = Common::EVENT_HIT_BULLET_ENEMY;
-				if( Bullet *pBullet = dynamic_cast<Bullet*>( unitA ) ){
-					eventInfo.m_eventValue = pBullet->GetBulletDamage();
-				}
-			}
-			break;
-		}
-		eventInfo.m_event = messageKind;
-
-		// 接触したことを伝える
-		SystemMessageManager::GetInstance()->PushMessage( unitB->GetUniqueId(), eventInfo );
-	}
-}
+//void CollisionManager::CheckUnitCollision( Collision2DUnit *unitA, Collision2DUnit *unitB )
+//{
+//	Common::TYPE_OBJECT typeA = unitA->GetTypeObject();
+//	Common::TYPE_OBJECT typeB = unitB->GetTypeObject();
+//	if( !NeedEvent( typeA, typeB ) ){
+//		return;
+//	}
+//	const TEX_DRAW_INFO &texA = unitA->GetDrawInfo();
+//	const TEX_DRAW_INFO &texB = unitB->GetDrawInfo();
+//	if( Utility::IsInRangeTexture( texA, texB ) ){
+//		Common::CMN_EVENT eventInfo;
+//		eventInfo.Init();
+//
+//		Common::EVENT_MESSAGE messageKind = Common::EVENT_MESSAGE_MAX;
+//		switch( typeA ){
+//		default:
+//			DEBUG_ASSERT( 0, "objectの種類が想定外");
+//			/* fall-through */
+//		case Common::TYPE_PLAYER:
+//			messageKind = Common::EVENT_HIT_PLAYER;
+//			break;
+//		case Common::TYPE_EVENMY_AAA:
+//			messageKind = Common::EVENT_HIT_ENEMY_AAA;
+//			eventInfo.m_eventValue = 20;
+//			break;
+//		case Common::TYPE_EVENMY_BBB:
+//			messageKind = Common::EVENT_HIT_ENEMY_BBB;
+//			eventInfo.m_eventValue = 20;
+//			break;
+//		case Common::TYPE_EVENMY_CCC:
+//			messageKind = Common::EVENT_HIT_ENEMY_CCC;
+//			break;
+//		case Common::TYPE_ITEM_BULLET:
+//			messageKind = Common::EVENT_GET_ITEM_BULLET;
+//			break;
+//		case Common::TYPE_ITEM_LIFE:
+//			messageKind = Common::EVENT_GET_ITEM_LIFE;
+//			break;
+//		case Common::TYPE_ITEM_DAMAGE:
+//			messageKind = Common::EVENT_GET_ITEM_DAMAGE;
+//			break;
+//		case Common::TYPE_BLADE_PLAYER:
+//			{
+//				messageKind = Common::EVENT_HIT_BLADE_PLAYER;
+//				eventInfo.m_eventValue = 20;
+//			}
+//			break;
+//		case Common::TYPE_BLADE_ENEMY:
+//			{
+//				messageKind = Common::EVENT_HIT_BLADE_ENEMY;
+//				eventInfo.m_eventValue = 20;
+//			}
+//		case Common::TYPE_BULLET_PLAYER:
+//			{
+//				messageKind = Common::EVENT_HIT_BULLET_PLAYER;
+//				if( Bullet *pBullet = dynamic_cast<Bullet*>( unitA ) ){
+//					eventInfo.m_eventValue = pBullet->GetBulletDamage();
+//				}
+//			}
+//			break;
+//		case Common::TYPE_BULLET_ENEMY:
+//			{
+//				messageKind = Common::EVENT_HIT_BULLET_ENEMY;
+//				if( Bullet *pBullet = dynamic_cast<Bullet*>( unitA ) ){
+//					eventInfo.m_eventValue = pBullet->GetBulletDamage();
+//				}
+//			}
+//			break;
+//		}
+//		eventInfo.m_event = messageKind;
+//
+//		// 接触したことを伝える
+//		SystemMessageManager::GetInstance()->PushMessage( unitB->GetUniqueId(), eventInfo );
+//	}
+//}

@@ -11,6 +11,7 @@
 #define __GAME_MANAGER__
 
 #include "System/Task/SystemTaskUnit.h"
+#include "Game/Item/ItemObject.h"
 
 class GameManager : public TaskUnit
 {
@@ -39,6 +40,11 @@ public:
 	const uint32_t GetGameLeftTimeByFrame() const;
 	const uint32_t GetGameLeftTimeBySec() const;
 	const uint32_t GetGameLeftDestroy() const;
+	
+	// アイテム生成依頼
+	void CreateItem( const Common::ITEM_KIND &kind, const math::Vector2 &pos = math::Vector2() );
+	// 敵生成依頼
+	void CreateEnemy( const Common::ENEMY_KIND &kind );
 
 protected:
 
@@ -53,7 +59,9 @@ private:
 	void ResetManageValue();										// 初期化
 	void LoadGameSettings( const char *jsonFile );					// ゲーム環境の読み込み
 	bool IsCreateEnemy( uint32_t enemyLimit, uint32_t frequency );	// 敵の生成判断
+	bool IsCreateEnemy( uint32_t enemyLimit	);						// 敵の生成判断(ランダム要素なし)
 	bool IsCreateItem( uint32_t itemLimit, uint32_t frequency );	// アイテムの生成判断
+	bool IsCreateItem( uint32_t enemyLimit );						// アイテムの生成判断(ランダム要素なし)
 
 	STAGE_TYPE		m_type;				// ステージクリアのタイプ
 

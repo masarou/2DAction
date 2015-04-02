@@ -48,7 +48,9 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 {
 	if( !math::IsInRange( enemyInfo.m_posOrigin, Utility::GetPlayerPos(), DISTANCE_TO_PLAYER_FAR ) ){
 		// ˆê’è‹——£—£‚ê‚½
-		//ChangeEnemyAI( Common::AI_CREATE_ENEMY
+		if( Utility::GetRandamValue( 60, 0 ) == 0 ){
+			GameEffect::CreateEffect( GameEffect::EFFECT_PRE_EXPLOSION, Utility::GetPlayerPos() );
+		}
 		return;
 	}
 
@@ -83,9 +85,6 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 			break;
 		case ACTION_SLASHING:
 			ExecSlashing( enemyInfo, actionInfo );
-			break;
-		case ACTION_RUN_AWAY:
-			ExecRunAway( enemyInfo, actionInfo );
 			break;
 		}
 	}
@@ -218,16 +217,3 @@ bool AIBossNearAttack::ExecSlashing( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 
 	return true;
 }
-
-bool AIBossNearAttack::ExecRunAway( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
-{
-	return true;
-}
-
-void AIBossNearAttack::CreateSpreadBullet( ACTION_ARRAY &actionInfo )
-{
-	for( uint32_t i = 0; i < 10 ; ++i ){
-
-	}
-}
-

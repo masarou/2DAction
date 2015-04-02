@@ -12,12 +12,12 @@
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Sound/SystemSoundManager.h"
 
-ItemObject *ItemObject::Create( const ITEM_KIND &kind, math::Vector2 pos )
+ItemObject *ItemObject::Create( const Common::ITEM_KIND &kind, math::Vector2 pos )
 {
 	return NEW ItemObject( kind, pos );
 }
 
-ItemObject::ItemObject( const ITEM_KIND &kind, math::Vector2 pos )
+ItemObject::ItemObject( const Common::ITEM_KIND &kind, math::Vector2 pos )
 : TaskUnit("ItemObject")
 , m_kindItem(kind)
 , m_liveTime(0)
@@ -103,13 +103,13 @@ const Common::TYPE_OBJECT ItemObject::GetTypeObject() const
 	default:
 		DEBUG_ASSERT( 0, "アイテムの種類が想定外" );
 		/* fall-through */
-	case ITEM_KIND_RAPID_BULLET:
+	case Common::ITEM_KIND_RAPID_BULLET:
 		type = Common::TYPE_ITEM_BULLET;
 		break;
-	case ITEM_KIND_LIFE_UP:
+	case Common::ITEM_KIND_LIFE_UP:
 		type = Common::TYPE_ITEM_LIFE;
 		break;
-	case ITEM_KIND_DAMAGE_UP:
+	case Common::ITEM_KIND_DAMAGE_UP:
 		type = Common::TYPE_ITEM_DAMAGE;
 		break;
 	};
@@ -144,13 +144,13 @@ std::string ItemObject::GetItemFilePath()
 	std::string fileName = "";
 	switch( m_kindItem ){
 	default:
-	case ITEM_KIND_RAPID_BULLET:
+	case Common::ITEM_KIND_RAPID_BULLET:
 		fileName = "itemBullet.json";
 		break;
-	case ITEM_KIND_LIFE_UP:
+	case Common::ITEM_KIND_LIFE_UP:
 		fileName = "itemLife.json";
 		break;
-	case ITEM_KIND_DAMAGE_UP:
+	case Common::ITEM_KIND_DAMAGE_UP:
 		fileName = "itemDamage.json";
 		break;
 	};

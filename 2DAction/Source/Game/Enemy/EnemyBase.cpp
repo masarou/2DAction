@@ -50,8 +50,14 @@ bool EnemyBase::Init()
 	m_HP		= GetEnemyDefaultHP();
 
 	// 直前のAIがないので同じAIにしておく
-	m_prevAI	= Common::AI_ATTACK_NEAR;
-	m_nextAI	= Common::AI_ATTACK_NEAR;
+	m_prevAI	= Common::AI_SEARCHING;
+	m_nextAI	= Common::AI_SEARCHING;
+
+	// ボスなら専用AIへ
+	if( GetKind() == Common::ENEMY_KIND_BOSS ){
+		m_prevAI	= Common::AI_ATTACK_NEAR;
+		m_nextAI	= Common::AI_ATTACK_NEAR;
+	}
 
 	if( !m_pEnemyAI ){
 		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
@@ -172,6 +178,7 @@ void EnemyBase::HitPlayreBullet( const uint32_t &damageValue )
 void EnemyBase::HitPlayreSlashing( const uint32_t &damageValue )
 {
 	m_stunTime = 10;
+	GameEffect::CreateEffect( GameEffect::EFFECT_SLASHING_HIT, m_drawTexture.m_texInfo.m_posOrigin );
 	UpdateEnemyDamage( damageValue );
 }
 
@@ -238,8 +245,13 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			break;
 		}
 
+		if( Utility::GetRandamValue( 10, 0 ) == 0 ){
+			Common::ITEM_KIND itemKind = static_cast<Common::ITEM_KIND>( Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 ) );
+			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_texInfo.m_posOrigin );
+		}
+
 		// 爆破エフェクトを出す
-		GameEffect *effect = NEW GameEffect( GameEffect::EFFECT_BOMB, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x), static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y) );
+		GameEffect::CreateEffect( GameEffect::EFFECT_BOMB, m_drawTexture.m_texInfo.m_posOrigin );
 
 		// 爆発SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Death");

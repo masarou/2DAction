@@ -109,7 +109,7 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
 		addValue = 1000;
 		break;
 	case ENEMY_BOSS_DEATH:
-		addValue = 1000000;
+		addValue = 300000;
 		break;
 	}
 	m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userScore += addValue;
@@ -174,13 +174,13 @@ const int32_t GameRecorder::GetTotalScore() const
 	return score;
 }
 
-const void GameRecorder::AddItem( ItemObject::ITEM_KIND kind )
+const void GameRecorder::AddItem( Common::ITEM_KIND kind )
 {
 	uint32_t index = static_cast<uint32_t>(kind);
 	++m_getItem[index];
 }
 
-const uint32_t GameRecorder::GetItemCount( ItemObject::ITEM_KIND kind ) const
+const uint32_t GameRecorder::GetItemCount( Common::ITEM_KIND kind ) const
 {
 	uint32_t index = static_cast<uint32_t>(kind);
 	return m_getItem[index];

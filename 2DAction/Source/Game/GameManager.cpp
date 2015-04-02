@@ -144,6 +144,32 @@ const uint32_t GameManager::GetGameLeftDestroy() const
 
 /* ================================================ */
 /**
+ * @brief	ƒAƒCƒeƒ€¶¬ˆË—Š
+ */
+/* ================================================ */
+void GameManager::CreateItem( const Common::ITEM_KIND &kind, const math::Vector2 &pos )
+{
+	if( IsCreateItem( m_itemMax ) ){
+		ItemManager *pItemManager = GameRegister::GetInstance()->UpdateManagerItem();
+		pItemManager->CreateItem( kind, pos );
+	}
+}
+
+/* ================================================ */
+/**
+ * @brief	“G¶¬ˆË—Š
+ */
+/* ================================================ */
+void GameManager::CreateEnemy( const Common::ENEMY_KIND &kind )
+{
+	if( IsCreateEnemy( m_enemyMax ) ){
+		EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
+		pEnemyManager->AddEnemy( kind );
+	}
+}
+
+/* ================================================ */
+/**
  * @brief	–ˆƒtƒŒ[ƒ€ˆ—
  */
 /* ================================================ */
@@ -151,27 +177,24 @@ void GameManager::Update()
 {
 	++m_gameTimer;
 
-	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
-	ItemManager *pItemManager = GameRegister::GetInstance()->UpdateManagerItem();
-
 	// “G‚Ì¶¬
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
-		pEnemyManager->AddEnemy( Common::ENEMY_KIND_BOSS );
-		return;
+		Common::ENEMY_KIND kind = Common::ENEMY_KIND_MAX;
 		if( Utility::GetRandamValue( 5, 0 ) != 0 ){
-			pEnemyManager->AddEnemy( Common::ENEMY_KIND_AAA );
+			kind = Common::ENEMY_KIND_AAA;
 		}
 		else if( Utility::GetRandamValue( 3, 0 ) != 0 ){
-			pEnemyManager->AddEnemy( Common::ENEMY_KIND_CCC );
+			kind = Common::ENEMY_KIND_CCC;
 		}
 		else{
-			pEnemyManager->AddEnemy( Common::ENEMY_KIND_BBB );
+			kind = Common::ENEMY_KIND_BBB;
 		}
+		CreateEnemy( kind );
 	}
 	// ƒAƒCƒeƒ€‚Ì¶¬
 	if( IsCreateItem( m_itemMax, m_itemFrequency ) ){
-		uint32_t kind = Utility::GetRandamValue( ItemObject::ITEM_KIND_MAX-1, 0 );
-		pItemManager->CreateItem( static_cast<ItemObject::ITEM_KIND>(kind) );
+		uint32_t kind = Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 );
+		CreateItem( static_cast<Common::ITEM_KIND>(kind) );
 	}
 }
 
@@ -230,6 +253,11 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	“G‚Ì¶¬”»’f
+ */
+/* ================================================ */
 bool GameManager::IsCreateEnemy( uint32_t enemyLimit, uint32_t frequency )
 {
 	bool isCreate = false;
@@ -252,7 +280,24 @@ bool GameManager::IsCreateEnemy( uint32_t enemyLimit, uint32_t frequency )
 	}
 	return isCreate;
 }
-
+bool GameManager::IsCreateEnemy( uint32_t enemyLimit )
+{
+	bool isCreate = false;
+	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();	
+	// “G‚Ì¶¬
+	if( pEnemyManager ){
+		uint32_t currEnemy = pEnemyManager->CountEnemy();
+		if( currEnemy < enemyLimit ){
+			isCreate = true;
+		}
+	}
+	return isCreate;
+}
+/* ================================================ */
+/**
+ * @brief	ƒAƒCƒeƒ€‚Ì¶¬”»’f
+ */
+/* ================================================ */
 bool GameManager::IsCreateItem( uint32_t itemLimit, uint32_t frequency )
 {
 	bool isCreate = false;
@@ -262,10 +307,23 @@ bool GameManager::IsCreateItem( uint32_t itemLimit, uint32_t frequency )
 		uint32_t currItem = pEnemyManager->CountItem();
 		if( currItem <= itemLimit ){
 			// oŒ»•p“x‚É‚æ‚Á‚Ä¶¬
-			uint32_t rand = static_cast<uint32_t>( Utility::GetRandamValue( 1000, 0 ) );
-			if( rand < ( 5 + (5*frequency) )){
+			uint32_t rand = static_cast<uint32_t>( Utility::GetRandamValue( 500, 0 ) );
+			if( rand < ( frequency )){
 				isCreate = true;	
 			}
+		}
+	}
+	return isCreate;
+}
+bool GameManager::IsCreateItem( uint32_t itemLimit )
+{
+	bool isCreate = false;
+	ItemManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerItem();	
+	// “G‚Ì¶¬
+	if( pEnemyManager ){
+		uint32_t currItem = pEnemyManager->CountItem();
+		if( currItem <= itemLimit ){
+			isCreate = true;
 		}
 	}
 	return isCreate;

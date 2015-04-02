@@ -31,7 +31,6 @@ private:
 	enum ACTION_TYPE{
 		ACTION_SPREAD_BULLET,
 		ACTION_SLASHING,
-		ACTION_RUN_AWAY,
 
 		ACTION_MAX,
 	};
@@ -39,10 +38,6 @@ private:
 	void ChangeActionType( const ACTION_TYPE &nextType );
 	bool ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo );	// ショットガン的な攻撃
 	bool ExecSlashing( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo );		// 斬撃攻撃
-	bool ExecRunAway( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo );		// 距離をとる
-
-	// 攻撃関数
-	void CreateSpreadBullet( ACTION_ARRAY &actionInfo );
 
 	AIBossNearAttack(void);
 	~AIBossNearAttack(void);

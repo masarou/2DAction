@@ -3,21 +3,21 @@
  * @brief  
  *
  * @note
- *		操作説明演出クラス
+ *		ステージ準備クラス
  */
 /* ====================================================================== */
-#ifndef __FLOW_EFFECT_CTRL_DESCRIPTION__
-#define __FLOW_EFFECT_CTRL_DESCRIPTION__
+#ifndef __FLOW_PROCESS_INIT_LAST_STAGE__
+#define __FLOW_PROCESS_INIT_LAST_STAGE__
 
-#include "FlowEffectBase.h"
+#include "FlowProcessBase.h"
 
-class ControllDescription : public FlowEffectBase
+class InitLastStage : public ProcessBase
 {
 public:
 
-	static ControllDescription *Create();
+	static InitLastStage *Create();
 
-	~ControllDescription(void);
+	~InitLastStage(void);
 
 protected:
 
@@ -28,7 +28,7 @@ protected:
 	// パッド操作
 	void PadEventDecide() override;
 
-	ControllDescription(void);
+	InitLastStage(void);
 
 	Texture2D			m_controllTex;	// 操作画像データ
 };

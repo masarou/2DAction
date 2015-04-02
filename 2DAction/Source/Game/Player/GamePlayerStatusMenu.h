@@ -24,8 +24,8 @@ public:
 	PlayerStatusMenu();
 	~PlayerStatusMenu(void);
 
-	void AddItemLevel( const ItemObject::ITEM_KIND $kind );
-	const uint32_t GetItemLevel( const ItemObject::ITEM_KIND &kind ) const;
+	void AddItemLevel( const Common::ITEM_KIND $kind );
+	const uint32_t GetItemLevel( const Common::ITEM_KIND &kind ) const;
 
 	void SetPlayerHP( const uint32_t &val, const uint32_t &lifeMax );
 

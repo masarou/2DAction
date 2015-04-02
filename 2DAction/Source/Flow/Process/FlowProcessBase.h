@@ -13,7 +13,7 @@
 #include "System/Input/SystemInputWatcher.h"
 #include "Game/Game2DBase.h"
 
-class FlowEffectBase : public InputWatcher
+class ProcessBase : public InputWatcher
 {
 
 	friend FlowBase;
@@ -32,7 +32,7 @@ public:
 
 	void Exec();
 	virtual bool IsEffectEnd(){ return (m_effectState == STATE_FLOW_WAIT) ? true : false ;}
-	virtual ~FlowEffectBase(void);
+	virtual ~ProcessBase(void);
 
 protected:
 
@@ -43,7 +43,7 @@ protected:
 	const STATE &GetState() const{ return m_effectState; }
 	void SetStateNext();
 
-	FlowEffectBase(void);
+	ProcessBase(void);
 
 private:
 

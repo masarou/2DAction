@@ -16,7 +16,7 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "FlowManager.h"
 
-class FlowEffectBase;
+class ProcessBase;
 
 class FlowBase : public TaskManagerBase, public InputWatcher 
 {
@@ -41,7 +41,7 @@ protected:
 	const std::string &GetFlowFilePath() const{ return m_filePath; }
 
 	//! ステージエフェクトAdd
-	void PushStageEffect( FlowEffectBase *pEffect ){ m_vStageEffect.push_back( pEffect ); }
+	void PushStageEffect( ProcessBase *pEffect ){ m_vStageEffect.push_back( pEffect ); }
 
 protected:
 	
@@ -78,7 +78,7 @@ private:
 	std::string m_filePath;		//!< 読み込んでいるjsonファイルパス
 	std::vector<FLOW_DATA> m_vEventName;
 
-	std::vector<FlowEffectBase*>	m_vStageEffect;	// ゲーム全体を止めて見せる演出(ゲーム説明等)
+	std::vector<ProcessBase*>	m_vStageEffect;	// ゲーム全体を止めて見せる演出(ゲーム説明等)
 };
 #endif
 

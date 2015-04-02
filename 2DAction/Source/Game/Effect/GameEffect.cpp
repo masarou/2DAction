@@ -11,17 +11,35 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-GameEffect::GameEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
+class GameEffectWithCollision;
+
+GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
+{
+	return NEW GameEffect( kind, pos );
+}
+
+GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
+{
+	return NEW GameEffect( kind, math::Vector2( posX, posY ) );
+}
+
+GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	: TaskUnit("GameEffect")
 	, m_kind( kind )
 {
+	std::string readFileStr = SelectEffectFile();
+
 	// 描画クラスセットアップ
 	m_textureEffect.Init();
-	m_textureEffect.m_pTex2D = NEW Game2DBase( SelectEffectFile().c_str() );
-	m_textureEffect.m_texInfo.m_fileName = SelectEffectFile();
-	m_textureEffect.m_texInfo.m_posOrigin.x = static_cast<float>(posX);
-	m_textureEffect.m_texInfo.m_posOrigin.y = static_cast<float>(posY);
+	m_textureEffect.m_pTex2D = NEW Game2DBase( readFileStr.c_str() );
+	m_textureEffect.m_texInfo.m_fileName = readFileStr;
+	m_textureEffect.m_texInfo.m_posOrigin = pos;
 	m_textureEffect.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	if( m_kind == EFFECT_SLASHING_HIT ){
+		// 斬撃HITはランダムに回転
+		uint32_t rotate = Utility::GetRandamValue( 360, 0 );
+		m_textureEffect.m_texInfo.m_rot = rotate;
+	}
 }
 
 GameEffect::~GameEffect(void)
@@ -49,18 +67,30 @@ void GameEffect::DrawUpdate()
 	if( std::string("").compare(m_textureEffect.m_pTex2D->GetPlayAnim()) == 0 ){
 		// アニメは終わったので自殺
 		TaskStartDie();
+
+		if( m_kind == EFFECT_PRE_EXPLOSION ){
+			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_EXPLOSION, m_textureEffect.m_texInfo.m_posOrigin );
+		}
 		return;
 	}
 
 	m_textureEffect.m_pTex2D->DrawUpdate2D();
 }
 
-std::string GameEffect::SelectEffectFile()
+std::string GameEffect::SelectEffectFile() const
 {
 	std::string rtn = "";
 	switch(m_kind){
 	case EFFECT_BOMB:
-		rtn = "exprosion.json";
+		rtn = "effectBomb.json";
+		break;
+
+	case EFFECT_PRE_EXPLOSION:
+		rtn = "preExplosion.json";
+		break;
+
+	case EFFECT_SLASHING_HIT:
+		rtn = "slashingHit.json";
 		break;
 
 	default:
@@ -71,6 +101,110 @@ std::string GameEffect::SelectEffectFile()
 	}
 	return rtn;
 }
+
+
+
+
+
+
+
+/* ====================================================================== */
+/**
+ * @brief  当たり判定付きのエフェクトクラス
+ *
+ * @note
+ *		
+ */
+/* ====================================================================== */
+GameEffectWithCollision *GameEffectWithCollision::CreateEffect( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos )
+{
+	return NEW GameEffectWithCollision( owner, kind, pos );
+}
+
+GameEffectWithCollision *GameEffectWithCollision::CreateEffect( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
+{
+	return NEW GameEffectWithCollision( owner, kind, math::Vector2( posX, posY ) );
+}
+
+GameEffectWithCollision::GameEffectWithCollision( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos )
+: TaskUnit("GameEffect")
+, m_ownerType( owner )
+, m_kind( kind )
+{
+	std::string readFileStr = SelectEffectFile();
+
+	// 描画クラスセットアップ
+	m_drawTexture.Init();
+	m_drawTexture.m_pTex2D = NEW Game2DBase( readFileStr.c_str() );
+	m_drawTexture.m_texInfo.m_fileName = readFileStr;
+	m_drawTexture.m_texInfo.m_posOrigin = pos;
+	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+}
+
+GameEffectWithCollision::~GameEffectWithCollision(void)
+{
+}
+
+bool GameEffectWithCollision::Init()
+{
+	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
+	return true;
+}
+
+void GameEffectWithCollision::Update()
+{
+}
+
+void GameEffectWithCollision::DrawUpdate()
+{
+	if( std::string("").compare(m_drawTexture.m_pTex2D->GetPlayAnim()) == 0 ){
+		// アニメは終わったので自殺
+		TaskStartDie();
+		return;
+	}
+
+	m_drawTexture.m_pTex2D->DrawUpdate2D();
+}
+
+const Common::TYPE_OBJECT GameEffectWithCollision::GetTypeObject() const
+{
+	Common::TYPE_OBJECT retType = Common::TYPE_MAX;
+	switch( m_kind ){
+
+	default:
+		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
+		/* fall-through */
+
+	case EFFECT_EXPLOSION:
+		retType = ( m_ownerType == Common::OWNER_PLAYER ) ? Common::TYPE_EXPLOSION_PLAYER : Common::TYPE_EXPLOSION_ENEMY ;
+		break;
+	}
+	return retType;
+}
+
+std::string GameEffectWithCollision::SelectEffectFile() const
+{
+	std::string rtn = "";
+	switch(m_kind){
+	case EFFECT_EXPLOSION:
+		rtn = "explosion.json";
+		break;
+
+	default:
+		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
+		// とりあえず一番無難なものをセット
+		rtn = "explosion.json";
+		break;
+	}
+	return rtn;
+}
+
+
+
+
+
+
+
 
 /* ====================================================================== */
 /**
@@ -91,7 +225,7 @@ GameEffectDamage *GameEffectDamage::GetInstance()
 }
 
 GameEffectDamage::GameEffectDamage()
-	: TaskUnit("GameEffectDamage")
+	: TaskUnit("GameEffectWithCollision")
 {
 
 }
@@ -160,10 +294,6 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 		damageInfo.m_array2D.at(i).m_pTex2D->SetAnim( anim.c_str() );
 
 		rest /= 10;
-	}
-
-	if( damageInfo.m_array2D.size() == 0 ){
-		DEBUG_ASSERT( 0, "aaa");
 	}
 
 	m_damageArray.push_back( damageInfo );

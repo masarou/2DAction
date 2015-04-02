@@ -80,10 +80,10 @@ bool GamePlayer::Init()
 	m_attackBlade = AttackBlade::CreateAttackBlade( Common::OWNER_PLAYER );
 
 	// アイテム取得数を反映
-	for( uint32_t i = 0; i < ItemObject::ITEM_KIND_MAX ; ++i ){
-		uint32_t itemNum = GameRecorder::GetInstance()->GetItemCount( static_cast<ItemObject::ITEM_KIND>(i) );
+	for( uint32_t i = 0; i < Common::ITEM_KIND_MAX ; ++i ){
+		uint32_t itemNum = GameRecorder::GetInstance()->GetItemCount( static_cast<Common::ITEM_KIND>(i) );
 		for( uint32_t j = 0; j < itemNum ; ++j ){
-			PlayerGetItem( static_cast<ItemObject::ITEM_KIND>(i), /*isCountUp=*/false );
+			PlayerGetItem( static_cast<Common::ITEM_KIND>(i), /*isCountUp=*/false );
 		}
 	}
 
@@ -251,7 +251,7 @@ void GamePlayer::PadEventCancel()
 
 void GamePlayer::PadEventR1()
 {
-	m_speedMultiply = 7.0f;
+	m_speedMultiply = 4.0f;
 
 	// ダッシュ効果音
 	SoundManager::GetInstance()->PlaySE("Dash");
@@ -259,7 +259,7 @@ void GamePlayer::PadEventR1()
 
 void GamePlayer::PadEventL1()
 {
-	m_speedMultiply = 7.0f;
+	m_speedMultiply = 4.0f;
 
 	// ダッシュ効果音
 	SoundManager::GetInstance()->PlaySE("Dash");
@@ -380,18 +380,19 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_CCC:
 	case Common::EVENT_HIT_BULLET_ENEMY:
 	case Common::EVENT_HIT_BLADE_ENEMY:
+	case Common::EVENT_HIT_EXPLOSION_ENEMY:
 		if( m_invisibleTime == 0 ){
 			EventDamage( eventId.m_event, eventId.m_eventValue );
 		}
 		break;
 	case Common::EVENT_GET_ITEM_BULLET:
-		PlayerGetItem( ItemObject::ITEM_KIND_RAPID_BULLET );
+		PlayerGetItem( Common::ITEM_KIND_RAPID_BULLET );
 		break;
 	case Common::EVENT_GET_ITEM_LIFE:
-		PlayerGetItem( ItemObject::ITEM_KIND_LIFE_UP );
+		PlayerGetItem( Common::ITEM_KIND_LIFE_UP );
 		break;
 	case Common::EVENT_GET_ITEM_DAMAGE:
-		PlayerGetItem( ItemObject::ITEM_KIND_DAMAGE_UP );
+		PlayerGetItem( Common::ITEM_KIND_DAMAGE_UP );
 		break;
 	default:
 
@@ -447,14 +448,14 @@ void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint
 }
 
 // アイテム取得
-void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCountUp )
+void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountUp )
 {
 	// アイテムレベル描画クラスに取得を知らせるかどうか
 	bool reflectDisp = true;
 
 	switch( itemKind ){
 	default:
-	case ItemObject::ITEM_KIND_RAPID_BULLET:
+	case Common::ITEM_KIND_RAPID_BULLET:
 		{
 			// 銃の発射間隔を狭める
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
@@ -467,13 +468,13 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCo
 
 			if( isCountUp ){
 				// 取得アイテム数をカウント
-				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_RAPID_BULLET );
+				GameRecorder::GetInstance()->AddItem( Common::ITEM_KIND_RAPID_BULLET );
 				// アイテム取得音を鳴らす
 				SoundManager::GetInstance()->PlaySE("GetItem");
 			}
 		}
 		break;
-	case ItemObject::ITEM_KIND_LIFE_UP:
+	case Common::ITEM_KIND_LIFE_UP:
 		{
 			// ライフ回復
 			m_playerLife += 30;
@@ -483,18 +484,18 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCo
 
 			if( isCountUp ){
 				// 取得アイテム数をカウント
-				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_LIFE_UP );
+				GameRecorder::GetInstance()->AddItem( Common::ITEM_KIND_LIFE_UP );
 				// アイテム取得音を鳴らす
 				SoundManager::GetInstance()->PlaySE("GetItemHeal");
 			}
 		}
 		break;
-	case ItemObject::ITEM_KIND_DAMAGE_UP:
+	case Common::ITEM_KIND_DAMAGE_UP:
 		{
 			// ダメージ量UP
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
 			if( gunState.m_damage < BULLET_DAMAGE_MAX ){
-				gunState.m_damage += 20;
+				gunState.m_damage += 10;
 			}
 			else{
 				reflectDisp = false;
@@ -502,7 +503,7 @@ void GamePlayer::PlayerGetItem( const ItemObject::ITEM_KIND &itemKind, bool isCo
 
 			if( isCountUp ){
 				// 取得アイテム数をカウント
-				GameRecorder::GetInstance()->AddItem( ItemObject::ITEM_KIND_DAMAGE_UP );
+				GameRecorder::GetInstance()->AddItem( Common::ITEM_KIND_DAMAGE_UP );
 				// アイテム取得音を鳴らす
 				SoundManager::GetInstance()->PlaySE("GetItem");
 			}

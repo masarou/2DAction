@@ -1,17 +1,17 @@
-#include "FlowEffectBase.h"
+#include "FlowProcessBase.h"
 
 
-FlowEffectBase::FlowEffectBase(void)
+ProcessBase::ProcessBase(void)
 : m_effectState( STATE_INIT )
 {
 }
 
 
-FlowEffectBase::~FlowEffectBase(void)
+ProcessBase::~ProcessBase(void)
 {
 }
 
-void FlowEffectBase::SetStateNext()
+void ProcessBase::SetStateNext()
 {
 	switch( m_effectState ){
 	default:
@@ -31,7 +31,7 @@ void FlowEffectBase::SetStateNext()
 	}
 }
 
-void FlowEffectBase::Exec()
+void ProcessBase::Exec()
 {
 	switch( GetState() ){
 	default:

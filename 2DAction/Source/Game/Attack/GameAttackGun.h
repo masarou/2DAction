@@ -18,7 +18,7 @@
 
 
 // ŒÅ’è’l
-static const uint32_t SHOOT_INTERBAL_DEFAULT	= 16;
+static const uint32_t SHOOT_INTERBAL_DEFAULT	= 20;
 
 class Bullet;
 
@@ -35,7 +35,7 @@ public:
 		void Init(){
 			m_shootInterval	= SHOOT_INTERBAL_DEFAULT;
 			m_speed			= 15;
-			m_damage		= 20;
+			m_damage		= 10;
 		}
 	};
 

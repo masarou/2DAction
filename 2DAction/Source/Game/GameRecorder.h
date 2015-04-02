@@ -83,8 +83,8 @@ public:
 	const int32_t GetTotalScore() const;
 
 	// アイテム取得数の加算
-	const void AddItem( ItemObject::ITEM_KIND kind );
-	const uint32_t GetItemCount( ItemObject::ITEM_KIND kind ) const;
+	const void AddItem( Common::ITEM_KIND kind );
+	const uint32_t GetItemCount( Common::ITEM_KIND kind ) const;
 
 	// Hit数のIncと取得
 	void IncHitCounter();				// Hit数プラス
@@ -115,7 +115,7 @@ private:
 	STAGE_CLEAR_INFO	m_clearStageInfo[STATE_MAX];	// 各ステージクリア時の情報
 	
 	// ユーザーの取得アイテム(ゲーム一周での成長率)
-	uint32_t			m_getItem[ItemObject::ITEM_KIND_MAX];
+	uint32_t			m_getItem[Common::ITEM_KIND_MAX];
 
 	// 以下、ステージクリア毎にクリアされる
 	// 連続HIT数

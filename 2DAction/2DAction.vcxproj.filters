@@ -53,9 +53,6 @@
     <Filter Include="System\Collision">
       <UniqueIdentifier>{980b874e-1d44-4099-8701-b069423d929e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Flow\Effect">
-      <UniqueIdentifier>{aa1c7ce2-e9da-47d5-b0c0-93a6c2b0413f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Timer">
       <UniqueIdentifier>{404d0c94-9c6f-49cd-aa9e-3013a61b01bb}</UniqueIdentifier>
     </Filter>
@@ -64,6 +61,9 @@
     </Filter>
     <Filter Include="Game\Enemy\AI\Boss">
       <UniqueIdentifier>{f042e3e9-d259-4260-94dc-2f0dbc4f4a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Flow\Process">
+      <UniqueIdentifier>{34dad26e-a1fe-497a-8432-eb7a38b1e5c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -223,12 +223,6 @@
     <ClInclude Include="Source\System\SystemPauseFilter.h">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Flow\Effect\FlowEffectBase.h">
-      <Filter>Flow\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Flow\Effect\ControllDescription.h">
-      <Filter>Flow\Effect</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Timer\GameCountDownTimer.h">
       <Filter>Game\Timer</Filter>
     </ClInclude>
@@ -273,6 +267,15 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.h">
       <Filter>Game\Enemy\AI\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\Process\FlowProcessControllDescription.h">
+      <Filter>Flow\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\Process\FlowProcessInitLastStage.h">
+      <Filter>Flow\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\Process\FlowProcessBase.h">
+      <Filter>Flow\Process</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -418,12 +421,6 @@
     <ClCompile Include="Source\System\SystemPauseFilter.cpp">
       <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Flow\Effect\FlowEffectBase.cpp">
-      <Filter>Flow\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Flow\Effect\ControllDescription.cpp">
-      <Filter>Flow\Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Timer\GameCountDownTimer.cpp">
       <Filter>Game\Timer</Filter>
     </ClCompile>
@@ -465,6 +462,15 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.cpp">
       <Filter>Game\Enemy\AI\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Process\FlowProcessControllDescription.cpp">
+      <Filter>Flow\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Process\FlowProcessInitLastStage.cpp">
+      <Filter>Flow\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Process\FlowProcessBase.cpp">
+      <Filter>Flow\Process</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

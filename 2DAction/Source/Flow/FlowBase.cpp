@@ -9,7 +9,7 @@
 #include "System/picojson.h"
 #include "FlowBase.h"
 #include "FlowManager.h"
-#include "Effect/FlowEffectBase.h"
+#include "Process/FlowProcessBase.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/SystemFadeManager.h"
 #include "System/Message/SystemMessageManager.h"
@@ -62,7 +62,7 @@ bool FlowBase::Finish()
 	auto it = m_vStageEffect.begin();
 	while( it != m_vStageEffect.end() ){
 		if( (*it)->CanDie() ){
-			FlowEffectBase *tmp = *it;
+			ProcessBase *tmp = *it;
 			it = m_vStageEffect.erase(it);
 			SAFE_DELETE(tmp);
 		}
@@ -167,7 +167,7 @@ void FlowBase::ChildUpdate()
 		// ƒtƒ[‰‰o’†
 		auto it = m_vStageEffect.begin();
 		if( (*it)->IsEffectEnd() ){
-			FlowEffectBase *tmp = *it;
+			ProcessBase *tmp = *it;
 			m_vStageEffect.erase( it );
 			SAFE_DELETE(tmp);
 		}

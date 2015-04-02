@@ -40,7 +40,7 @@ bool ItemManager::DieMain()
  * @brief	ÉAÉCÉeÉÄê∂ê¨
  */
 /* ================================================ */
-void ItemManager::CreateItem( const ItemObject::ITEM_KIND &kind, math::Vector2 pos )
+void ItemManager::CreateItem( const Common::ITEM_KIND &kind, math::Vector2 pos )
 {
 	ItemObject *item = ItemObject::Create( kind, pos );
 	m_itemArray.push_back( item );

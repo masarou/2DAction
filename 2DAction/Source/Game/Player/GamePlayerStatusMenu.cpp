@@ -21,8 +21,8 @@ PlayerStatusMenu::PlayerStatusMenu()
 : TaskUnit( "MenuPlayerStatus" )
 , m_playerLife( 0 )
 , m_playerLifeMax( 0 )
-, m_itemLevelDamage( 1 )
-, m_itemLevelRapid( 1 )
+, m_itemLevelDamage( 0 )
+, m_itemLevelRapid( 0 )
 {
 	m_textureStatus.Init();
 	m_lifeGauge.Init();
@@ -94,18 +94,18 @@ bool PlayerStatusMenu::Init()
  * @brief	現在表示しているアイテムレベル取得
  */
 /* ================================================ */
-void PlayerStatusMenu::AddItemLevel( ItemObject::ITEM_KIND kind )
+void PlayerStatusMenu::AddItemLevel( Common::ITEM_KIND kind )
 {
 	switch( kind ){
 	default:
 		break;
-	case ItemObject::ITEM_KIND_DAMAGE_UP:
+	case Common::ITEM_KIND_DAMAGE_UP:
 		if( m_itemLevelDamage < ITEM_LEVEL_MAX ){
 			++m_itemLevelDamage;
 		}
 		break;
 		
-	case ItemObject::ITEM_KIND_RAPID_BULLET:
+	case Common::ITEM_KIND_RAPID_BULLET:
 		if( m_itemLevelRapid < ITEM_LEVEL_MAX ){
 			++m_itemLevelRapid;
 		}
@@ -118,18 +118,18 @@ void PlayerStatusMenu::AddItemLevel( ItemObject::ITEM_KIND kind )
  * @brief	現在表示しているアイテムレベル取得
  */
 /* ================================================ */
-const uint32_t PlayerStatusMenu::GetItemLevel( const ItemObject::ITEM_KIND &kind ) const
+const uint32_t PlayerStatusMenu::GetItemLevel( const Common::ITEM_KIND &kind ) const
 {
 	uint32_t retval = 0;
 	switch( kind ){
 	default:
 		DEBUG_ASSERT( 0, "アイテムの種類が想定外" );
 		break;
-	case ItemObject::ITEM_KIND_DAMAGE_UP:
+	case Common::ITEM_KIND_DAMAGE_UP:
 		retval = m_itemLevelDamage;
 		break;
 		
-	case ItemObject::ITEM_KIND_RAPID_BULLET:
+	case Common::ITEM_KIND_RAPID_BULLET:
 		retval = m_itemLevelRapid;
 		break;
 	}

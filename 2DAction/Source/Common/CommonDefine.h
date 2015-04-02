@@ -20,6 +20,9 @@ namespace Common{
 		TYPE_BLADE_ENEMY,
 		TYPE_BULLET_PLAYER,
 		TYPE_BULLET_ENEMY,
+		
+		TYPE_EXPLOSION_PLAYER,
+		TYPE_EXPLOSION_ENEMY,
 
 		TYPE_MAX,
 	};
@@ -30,13 +33,15 @@ namespace Common{
 		EVENT_HIT_ENEMY_BBB,	// 敵との接触
 		EVENT_HIT_ENEMY_CCC,	// 敵との接触
 
-		EVENT_GET_ITEM_BULLET,	// アイテム取得
-		EVENT_GET_ITEM_LIFE,	// アイテム取得
-		EVENT_GET_ITEM_DAMAGE,	// アイテム取得
-		EVENT_HIT_BLADE_PLAYER,	// プレイヤーの斬撃に当たった
-		EVENT_HIT_BLADE_ENEMY,	// 敵の斬撃に当たった
-		EVENT_HIT_BULLET_PLAYER,// プレイヤーの攻撃弾に当たった
-		EVENT_HIT_BULLET_ENEMY,	// 敵の攻撃弾に当たった
+		EVENT_GET_ITEM_BULLET,		// アイテム取得
+		EVENT_GET_ITEM_LIFE,		// アイテム取得
+		EVENT_GET_ITEM_DAMAGE,		// アイテム取得
+		EVENT_HIT_BLADE_PLAYER,		// プレイヤーの斬撃に当たった
+		EVENT_HIT_BLADE_ENEMY,		// 敵の斬撃に当たった
+		EVENT_HIT_BULLET_PLAYER,	// プレイヤーの攻撃弾に当たった
+		EVENT_HIT_BULLET_ENEMY,		// 敵の攻撃弾に当たった
+		EVENT_HIT_EXPLOSION_PLAYER,	// プレイヤーの爆発攻撃に当たった
+		EVENT_HIT_EXPLOSION_ENEMY,	// 敵の爆発攻撃に当たった
 
 		// その他
 
@@ -88,6 +93,13 @@ namespace Common{
 		ENEMY_KIND_MAX,
 	};
 
+	enum ITEM_KIND{
+		ITEM_KIND_RAPID_BULLET,	// 連射速度UP
+		ITEM_KIND_LIFE_UP,		// ライフ回復
+		ITEM_KIND_DAMAGE_UP,	// 弾の威力UP
+
+		ITEM_KIND_MAX,
+	};
 
 	enum ENEMY_AI{
 		AI_NONE,		// 何もしない

@@ -10,7 +10,8 @@
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
 #include "Game/Timer/GameStageTimer.h"
-#include "Effect/ControllDescription.h"
+#include "Process/FlowProcessControllDescription.h"
+#include "Process/FlowProcessInitLastStage.h"
 
 FlowBase *FlowGame::Create( const std::string &fileName )
 {
@@ -48,9 +49,25 @@ bool FlowGame::Init()
 		m_pStageTimer = StageTimer::CreateStageTimer( pGameManager->GetGameLeftTimeBySec() );
 	}
 
-	// Å‰‚Ìà–¾
-	ControllDescription *pEffectStage = ControllDescription::Create();
-	PushStageEffect( pEffectStage );
+	switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
+	case GameRecorder::STATE_STAGE01:
+		{
+			// Å‰‚Ìà–¾
+			ControllDescription *pEffectStage = ControllDescription::Create();
+			PushStageEffect( pEffectStage );
+		}
+		break;
+	case GameRecorder::STATE_STAGE02:
+
+		break;
+	case GameRecorder::STATE_STAGE03:
+		{
+			// ƒ{ƒXí€”õ
+			InitLastStage *pEffectStage = InitLastStage::Create();
+			PushStageEffect( pEffectStage );
+		}
+		break;
+	}
 
 	return true;
 }

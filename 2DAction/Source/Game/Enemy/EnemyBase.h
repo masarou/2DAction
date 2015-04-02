@@ -15,6 +15,7 @@
 #include "AI/EnemyAIDefine.h"
 #include "AI/EnemyAIBase.h"
 #include "EnemyManager.h"
+#include "Game/Effect/GameEffect.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/SystemDefine.h"
 #include "System/Collision/SystemCollisionUnit.h"
