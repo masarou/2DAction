@@ -44,3 +44,9 @@ void EnemyBBB::EventUpdate( const Common::CMN_EVENT &eventId )
 	EnemyBase::EventUpdate( eventId );
 
 }
+
+uint32_t EnemyBBB::GetEnemyDefaultHP() const
+{
+	// ステージによって最大ライフ変更
+	return 100 + ( 200 * ( GetEnemyLevel() - 1 ) );
+}

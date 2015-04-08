@@ -28,7 +28,7 @@ static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
 static uint32_t LIFE_POINT_MAX			= 200;
 static uint32_t WARNING_LIFE			= 40;
 static uint32_t EMERGENCY_LIFE			= 20;
-static uint32_t BULLET_INTERBAL_MIN		= 0;
+static uint32_t BULLET_INTERBAL_MIN		= 1;
 static uint32_t BULLET_DAMAGE_MAX		= 100;
 static uint32_t DEFAULT_POS_X			= 1000;
 static uint32_t DEFAULT_POS_Y			= 1000;
@@ -92,6 +92,9 @@ bool GamePlayer::Init()
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
 	math::Vector2 vec = math::Vector2( static_cast<float>(DEFAULT_POS_X), static_cast<float>(DEFAULT_POS_Y) );
 	GameAccesser::GetInstance()->AddPlayerOffSet( vec );
+
+	SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PRESS );
+	SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PRESS );
 
 	return true;
 }
@@ -251,18 +254,18 @@ void GamePlayer::PadEventCancel()
 
 void GamePlayer::PadEventR1()
 {
-	m_speedMultiply = 4.0f;
+	m_speedMultiply = 5.0f;
 
 	// ダッシュ効果音
-	SoundManager::GetInstance()->PlaySE("Dash");
+	//SoundManager::GetInstance()->PlaySE("Dash");
 }
 
 void GamePlayer::PadEventL1()
 {
-	m_speedMultiply = 4.0f;
+	m_speedMultiply = 5.0f;
 
 	// ダッシュ効果音
-	SoundManager::GetInstance()->PlaySE("Dash");
+	//SoundManager::GetInstance()->PlaySE("Dash");
 }
 
 /* ================================================ */
@@ -460,7 +463,7 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 			// 銃の発射間隔を狭める
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
 			if( gunState.m_shootInterval > BULLET_INTERBAL_MIN ){
-				gunState.m_shootInterval -= 2;
+				gunState.m_shootInterval -= 1;
 			}
 			else{
 				reflectDisp = false;
@@ -495,7 +498,7 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 			// ダメージ量UP
 			AttackGun::GunState &gunState = m_attackGun->UpdateGunState();
 			if( gunState.m_damage < BULLET_DAMAGE_MAX ){
-				gunState.m_damage += 10;
+				gunState.m_damage += 5;
 			}
 			else{
 				reflectDisp = false;

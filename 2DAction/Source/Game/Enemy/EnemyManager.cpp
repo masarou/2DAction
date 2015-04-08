@@ -60,7 +60,7 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind )
 		pEnemy = EnemyBBB::Create( currUniqueNo );
 		break;
 	case Common::ENEMY_KIND_CCC:
-		pEnemy = EnemyCCC::Create( currUniqueNo );
+		//pEnemy = EnemyCCC::Create( currUniqueNo );
 		break;
 	case Common::ENEMY_KIND_BOSS:
 		pEnemy = EnemyBoss::Create( currUniqueNo );

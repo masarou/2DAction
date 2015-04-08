@@ -113,6 +113,14 @@ const std::string &EnemyAIBase::GetEnemyJsonName() const
 	return m_enemyMine->GetDrawInfo().m_fileName;
 }
 
+const uint32_t EnemyAIBase::GetEnemyLevel() const
+{
+	if( m_enemyMine ){
+		return m_enemyMine->GetEnemyLevel();
+	}
+	return 0;
+}
+
 void EnemyAIBase::ClearAttackMaterial()
 {
 	// ‹¤—L•¨‚ÉNULLİ’è(‰ğ•ú‚ÍTaskManager‚ªŸè‚É‚â‚é)

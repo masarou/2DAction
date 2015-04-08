@@ -5,7 +5,7 @@
 		{"destroyMax": 0}
 	],
 	"gameCondition":[
-		{"EnemyMax": 50, "frequency":5},
+		{"EnemyMax": 300, "frequency":5},
 		{"ItemMax": 10, "frequency":3}
 	]
 }

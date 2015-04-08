@@ -37,6 +37,7 @@ public:
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }
 	const math::Vector2 &GetEnemyEyeSight() const{ return m_eye; }
 	const uint32_t &GetWalkHeight() const{ return m_walkHeight; }
+	const uint32_t &GetEnemyLevel() const;
 
 protected:
 
@@ -74,6 +75,7 @@ private:
 
 	uint32_t			m_uniqueIdOfEnemyAll;			// “G‘S‘Ì‚Ì’†‚Å‚Ì¯•ÊID
 	Common::ENEMY_KIND	m_enemyKind;					// “G‚Ìí—Ş
+	uint32_t			m_enemyLv;						// “G‚Ì‹­‚³
 	uint32_t			m_HP;							// “G‘Ì—Í
 	math::Vector2		m_eye;							// “G‚Ì‹ü
 	uint32_t			m_walkHeight;					// “G‚Ì•à‚¯‚é‚‚³

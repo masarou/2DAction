@@ -18,7 +18,8 @@
 #include "System/Collision/SystemCollisionUnit.h"
 
 // ŒÅ’è’l
-static const uint32_t BULLET_LIVE_TIME	= 120;
+static const uint32_t BULLET_LIVE_TIME_PLAYER	= 60;
+static const uint32_t BULLET_LIVE_TIME_ENEMY	= 120;
 
 class Bullet : public TaskUnit, public Collision2DUnit
 {
@@ -54,6 +55,7 @@ private:
 	
 	Common::OWNER_TYPE	m_ownerType;
 	uint32_t			m_liveTime;		// ¶¬‚³‚ê‚Ä‚©‚ç‚ÌŠÔ
+	uint32_t			m_liveTimeMax;	// ¶¬‚³‚ê‚Ä‚©‚ç€‚Ê‚Ü‚Å‚ÌŠÔ
 
 	uint32_t			m_bulletDamage;	// ’e‚ÌˆĞ—Í
 	math::Vector2		m_bulletVec;	// ”­Ë•ûŒü

@@ -40,6 +40,7 @@ void InitLastStage::Update()
 {
 	// ƒ{ƒX¶¬
 	GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_BOSS );
+	GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_BOSS );
 
 	SetStateNext();
 }

@@ -149,10 +149,10 @@ const uint32_t GameManager::GetGameLeftDestroy() const
 /* ================================================ */
 void GameManager::CreateItem( const Common::ITEM_KIND &kind, const math::Vector2 &pos )
 {
-	if( IsCreateItem( m_itemMax ) ){
+	//if( IsCreateItem( m_itemMax ) ){
 		ItemManager *pItemManager = GameRegister::GetInstance()->UpdateManagerItem();
 		pItemManager->CreateItem( kind, pos );
-	}
+	//}
 }
 
 /* ================================================ */
@@ -183,12 +183,12 @@ void GameManager::Update()
 		if( Utility::GetRandamValue( 5, 0 ) != 0 ){
 			kind = Common::ENEMY_KIND_AAA;
 		}
-		else if( Utility::GetRandamValue( 3, 0 ) != 0 ){
-			kind = Common::ENEMY_KIND_CCC;
+		else{// if( Utility::GetRandamValue( 3, 0 ) != 0 ){
+			kind = Common::ENEMY_KIND_AAA;
 		}
-		else{
-			kind = Common::ENEMY_KIND_BBB;
-		}
+		//else{
+		//	kind = Common::ENEMY_KIND_BBB;
+		//}
 		CreateEnemy( kind );
 	}
 	// アイテムの生成
@@ -307,8 +307,8 @@ bool GameManager::IsCreateItem( uint32_t itemLimit, uint32_t frequency )
 		uint32_t currItem = pEnemyManager->CountItem();
 		if( currItem <= itemLimit ){
 			// 出現頻度によって生成
-			uint32_t rand = static_cast<uint32_t>( Utility::GetRandamValue( 500, 0 ) );
-			if( rand < ( frequency )){
+			uint32_t rand = static_cast<uint32_t>( Utility::GetRandamValue( 1000, 1 ) );
+			if( rand < ( 5*frequency )){
 				isCreate = true;	
 			}
 		}

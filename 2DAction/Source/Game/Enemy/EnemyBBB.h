@@ -24,7 +24,7 @@ protected:
 	
 	virtual bool InitMain() override;		// 派生先での初期化
 	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
-	virtual uint32_t GetEnemyDefaultHP() const override{return 200;}	// 敵クラスのデフォルトHP取得
+	virtual uint32_t GetEnemyDefaultHP() const override;	// 敵クラスのデフォルトHP取得
 
 private:
 

@@ -20,8 +20,8 @@ public:
 
 protected:
 	
-	virtual bool InitMain() override;		// 派生先での初期化
-	virtual uint32_t GetEnemyDefaultHP() const override{return 100;}	// 敵クラスのデフォルトHP取得
+	virtual bool InitMain() override;						// 派生先での初期化
+	virtual uint32_t GetEnemyDefaultHP() const override;	// 敵クラスのデフォルトHP取得
 
 private:
 

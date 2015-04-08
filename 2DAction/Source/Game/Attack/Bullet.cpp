@@ -19,6 +19,7 @@ Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, co
 : TaskUnit( "Bullet" )
 , m_ownerType( ownerType )
 , m_liveTime( 0 )
+, m_liveTimeMax( 0 )
 , m_bulletDamage( damage )
 , m_bulletVec( vec )
 , m_speed( speed )
@@ -31,6 +32,13 @@ Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, co
 	m_drawTexture.m_texInfo.m_fileName = jsonStr;
 	m_drawTexture.m_texInfo.m_posOrigin = pos;
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+
+	if( m_ownerType == Common::OWNER_PLAYER ){
+		m_liveTimeMax = BULLET_LIVE_TIME_PLAYER;
+	}
+	else{
+		m_liveTimeMax = BULLET_LIVE_TIME_ENEMY;
+	}
 
 }
 
@@ -67,7 +75,7 @@ void Bullet::Update()
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 	++m_liveTime;
 
-	if( m_liveTime >= BULLET_LIVE_TIME ){
+	if( m_liveTime >= m_liveTimeMax ){
 		// ê∂ê¨Ç©ÇÁàÍíËéûä‘ÇΩÇ¡ÇΩÇ»ÇÁé©éE
 		TaskStartDie();
 	}
@@ -95,14 +103,14 @@ void Bullet::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_BBB:
 	case Common::EVENT_HIT_ENEMY_CCC:
 		if( m_ownerType == Common::OWNER_PLAYER ){
-			m_liveTime = BULLET_LIVE_TIME;
+			m_liveTime = m_liveTimeMax;
 			TaskStartDie();
 		}
 		break;
 		
 	case Common::EVENT_HIT_PLAYER:
 		if( m_ownerType == Common::OWNER_ENEMY ){
-			m_liveTime = BULLET_LIVE_TIME;
+			m_liveTime = m_liveTimeMax;
 			TaskStartDie();
 		}
 		break;

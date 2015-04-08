@@ -22,6 +22,7 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , Collision2DUnit( jsonName.c_str() )
 , m_uniqueIdOfEnemyAll( uniqueId )
 , m_enemyKind( kind )
+, m_enemyLv( 0 )
 , m_HP(10)
 , m_eye(math::Vector2( 1.0f, 0.0f ))
 , m_walkHeight( 0 )
@@ -39,6 +40,23 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 	m_textureLife.m_pTex2D = NEW Game2DBase( "enemyGauge.json" );
 	m_textureLife.m_texInfo.m_fileName = "enemyGauge.json";
 	m_textureLife.m_pTex2D->SetDrawInfo( m_textureLife.m_texInfo );
+
+	// 敵の強さを求める
+	uint32_t enemyLv = 0;
+	switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
+	default:
+		DEBUG_ASSERT( 0, "想定外のゲームの状態" );
+		/* fall-through */
+	case GameRecorder::STATE_STAGE01:
+		m_enemyLv = 1;
+		break;
+	case GameRecorder::STATE_STAGE02:
+		m_enemyLv = 2;
+		break;
+	case GameRecorder::STATE_STAGE03:
+		m_enemyLv = 3;
+		break;
+	}
 }
 
 EnemyBase::~EnemyBase()
@@ -163,6 +181,11 @@ const TEX_DRAW_INFO &EnemyBase::GetDrawInfo() const
 	return m_drawTexture.m_texInfo;
 }
 
+const uint32_t &EnemyBase::GetEnemyLevel() const
+{
+	return m_enemyLv;
+}
+
 /* ================================================ */
 /**
  * @brief	イベントに対応した関数群
@@ -245,7 +268,7 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			break;
 		}
 
-		if( Utility::GetRandamValue( 10, 0 ) == 0 ){
+		if( Utility::GetRandamValue( 5, 0 ) == 0 ){
 			Common::ITEM_KIND itemKind = static_cast<Common::ITEM_KIND>( Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 ) );
 			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_texInfo.m_posOrigin );
 		}

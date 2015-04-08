@@ -165,7 +165,7 @@ bool AIBossNearAttack::ExecSlashing( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 
 	// 自分とプレイヤーの距離によって行動を分ける
 	if( !math::IsInRange( enemyInfo.m_posOrigin, Utility::GetPlayerPos(), 100.0f )
-		&& currTime - m_currActionTime < 3000/*3sec*/ ){
+		&& currTime - m_currActionTime < 1500/*1.5sec*/ ){
 		// まだ距離が遠いので接近
 		math::Vector2 moveVec	= Utility::GetPlayerPos() - enemyInfo.m_posOrigin;
 		math::Vector2 addvec	= math::Vector2();

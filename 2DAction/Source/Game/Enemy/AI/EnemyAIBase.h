@@ -47,6 +47,7 @@ public:
 	void ChangeEnemyAI( Common::ENEMY_AI nextAI );
 	Common::ENEMY_KIND GetEnemyKind() const;
 	const std::string &GetEnemyJsonName() const;
+	const uint32_t GetEnemyLevel() const;
 
 	// UŒ‚ƒNƒ‰ƒX‰ğ•ú
 	static void ClearAttackMaterial();
@@ -59,7 +60,7 @@ protected:
 	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo ) = 0;	// ”h¶æ‚Å‚ÌAIÀ‘•
 	
 	// ˆÈ‰ºA•K—v‚É‚È‚é‚Å‚ ‚ë‚¤•Ö—˜ŠÖ”
-	void ShootBullet( const math::Vector2 &vec = math::Vector2(), const uint32_t &damage = 20.0f, const uint32_t &speed = 5.0f );	// UŒ‚’e¶¬
+	void ShootBullet( const math::Vector2 &vec = math::Vector2(), const uint32_t &damage = 20.0f, const uint32_t &speed = 10.0f );	// UŒ‚’e¶¬
 	void Slashing( const Slashing::TYPE_SLASHING &type, const math::Vector2 slashDir = math::Vector2(), const math::Vector2 &vec = math::Vector2() );
 
 	// ‚·‚×‚Ä‚Ì“GƒNƒ‰ƒX‚Å‹¤—L
