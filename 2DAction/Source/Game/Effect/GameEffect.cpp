@@ -9,6 +9,7 @@
 
 #include "GameEffect.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
+#include "System/Sound/SystemSoundManager.h"
 #include "Common/Utility/CommonGameUtility.h"
 
 class GameEffectWithCollision;
@@ -148,6 +149,16 @@ GameEffectWithCollision::~GameEffectWithCollision(void)
 bool GameEffectWithCollision::Init()
 {
 	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
+
+	// エフェクトに適した効果音再生
+	switch( m_kind ){
+	default:
+		break;
+	case EFFECT_EXPLOSION:
+		SoundManager::GetInstance()->PlaySE( "explosion" );
+		break;
+	}
+
 	return true;
 }
 

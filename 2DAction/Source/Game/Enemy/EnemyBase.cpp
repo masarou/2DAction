@@ -268,7 +268,7 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			break;
 		}
 
-		if( Utility::GetRandamValue( 5, 0 ) == 0 ){
+		if( Utility::GetRandamValue( 10, 0 ) == 0 ){
 			Common::ITEM_KIND itemKind = static_cast<Common::ITEM_KIND>( Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 ) );
 			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_texInfo.m_posOrigin );
 		}

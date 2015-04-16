@@ -70,6 +70,7 @@ private:
 	Common::SAVE_SCORE	m_scoreData;
 
 	Texture2D			m_textureResult;	// タイトル一枚絵
+	Texture2D			m_textureHeadline;	// Score文字列
 	NumberCounter		*m_pNumCounter[Common::RANKING_RECORD_MAX];	// スコア表示
 	TEX_DRAW_INFO		m_numberInfo;								// 描画関係情報
 };

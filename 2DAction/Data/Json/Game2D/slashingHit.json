@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"slashingHit.png"
+		, "animDefault":"anim"
+		, "sizeW": 240
+		, "sizeH": 240
+		, "splitW": 9
+		, "splitH": 1
+		, "total": 9 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"anim",	"frameSpeed":1,	"animIndex":[0,2,4,6,8],				"nextAnim":""}
+	]
+}

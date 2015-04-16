@@ -1,7 +1,7 @@
 {
 	"stageKind":[
 		{"type": "TIME"},
-		{"TimeS": 100},
+		{"TimeS": 80},
 		{"destroyMax": 0}
 	],
 	"gameCondition":[

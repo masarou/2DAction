@@ -36,9 +36,8 @@ bool FlowTitle::Init()
 	// ˆê–‡ŠGì¬
 	m_pTitleTex = Title2D::CreateTitle2D();
 
-	math::GetRotateVec( math::Vector2( 1, 0 ), 45 );
-
-	math::GetRotateVec( math::Vector2( -1, 0 ), 45 );
+	// BGMÄ¶ŠJŽn
+	SoundManager::GetInstance()->PlayBGM( "title" );
 
 	return true;
 }

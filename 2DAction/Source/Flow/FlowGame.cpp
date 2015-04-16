@@ -31,7 +31,7 @@ FlowGame::~FlowGame(void)
 {
 	// ゲーム周りのクラス解放
 	GameRegister::GetInstance()->DeleteRegister();
-
+	
 	DEBUG_PRINT("FlowGame削除！！\n");
 }
 
@@ -49,25 +49,33 @@ bool FlowGame::Init()
 		m_pStageTimer = StageTimer::CreateStageTimer( pGameManager->GetGameLeftTimeBySec() );
 	}
 
+	std::string soundTag = "";
 	switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
 	case GameRecorder::STATE_STAGE01:
 		{
 			// 最初の説明
 			ControllDescription *pEffectStage = ControllDescription::Create();
 			PushStageEffect( pEffectStage );
+
+			soundTag = "stage01";
 		}
 		break;
 	case GameRecorder::STATE_STAGE02:
-
+		soundTag = "stage02";
 		break;
 	case GameRecorder::STATE_STAGE03:
 		{
 			// ボス戦準備
 			InitLastStage *pEffectStage = InitLastStage::Create();
 			PushStageEffect( pEffectStage );
+
+			soundTag = "stage03";
 		}
 		break;
 	}
+
+	// BGM再生開始
+	SoundManager::GetInstance()->PlayBGM( soundTag.c_str() );
 
 	return true;
 }

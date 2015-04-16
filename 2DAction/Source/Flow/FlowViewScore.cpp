@@ -65,7 +65,7 @@ ViewScore2D::ViewScore2D()
 {
 	// ”Žš•\Ž¦—p‰æ‘œî•ñ
 	m_numberInfo.Init();
-	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH - 300.0f;
+	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH - 200.0f;
 	m_numberInfo.m_posOrigin.y = 100.0f;
 	m_numberInfo.m_usePlayerOffset = false;
 }
@@ -73,6 +73,7 @@ ViewScore2D::ViewScore2D()
 ViewScore2D::~ViewScore2D(void)
 {
 	m_textureResult.DeleteAndInit();
+	m_textureHeadline.DeleteAndInit();
 }
 
 bool ViewScore2D::Init()
@@ -85,6 +86,15 @@ bool ViewScore2D::Init()
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
+
+	m_textureHeadline.Init();
+	m_textureHeadline.m_pTex2D = NEW Game2DBase("scoreRanking.json");
+	m_textureHeadline.m_texInfo.m_fileName = "scoreRanking.json";
+	m_textureHeadline.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	m_textureHeadline.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
+	m_textureHeadline.m_texInfo.m_usePlayerOffset = false;
+	m_textureHeadline.m_pTex2D->SetDrawInfo(m_textureHeadline.m_texInfo);
+
 
 	// ƒ‰ƒ“ƒLƒ“ƒOŽæ“¾
 	Utility::GetSaveRanking( m_scoreData );
@@ -108,7 +118,8 @@ void ViewScore2D::Update()
 void ViewScore2D::DrawUpdate()
 {
 	// ”wŒi•`‰æ
-	if( m_textureResult.m_pTex2D ){
+	if( m_textureResult.m_pTex2D && m_textureHeadline.m_pTex2D ){
 		m_textureResult.m_pTex2D->DrawUpdate2D();
+		m_textureHeadline.m_pTex2D->DrawUpdate2D();
 	}
 }

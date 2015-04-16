@@ -1,11 +1,11 @@
 {
 	"stageKind":[
 		{"type": "TIME"},
-		{"TimeS": 60},
+		{"TimeS": 80},
 		{"destroyMax": 0}
 	],
 	"gameCondition":[
-		{"EnemyMax": 300, "frequency":5},
-		{"ItemMax": 10, "frequency":3}
+		{"EnemyMax": 5000, "frequency":9},
+		{"ItemMax": 10, "frequency":0}
 	]
 }

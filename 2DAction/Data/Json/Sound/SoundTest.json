@@ -1,9 +1,9 @@
 {
 	"soundTable":[
-		{"tag":"SE_TEST01", "file":"01 The Lonely Tower.mp3"},
-		{"tag":"SE_TEST02", "file":"02 Stairway to Revelation.mp3"},
-		{"tag":"SE_TEST03", "file":"03 Sanctuary Zero.mp3"},
-		{"tag":"SE_TEST04", "file":"04 Indignant Divinity.mp3"},
-		{"tag":"SE_TEST05", "file":"05 Divine Breath.mp3"}
+		{"tag":"stage01", "file":"stage01.mp3"},
+		{"tag":"stage02", "file":"stage02.mp3"},
+		{"tag":"stage03", "file":"stage03.mp3"},
+		{"tag":"title", "file":"interval.mp3"},
+		{"tag":"interval", "file":"interval.mp3"}
 	]
 }

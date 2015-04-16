@@ -138,6 +138,9 @@ bool Result2D::Init()
 		break;
 	}
 
+	// BGM再生開始
+	SoundManager::GetInstance()->PlayBGM( "interval" );
+
 	// 背景セット
 	m_textureBG.Init();
 	m_textureBG.m_pTex2D = NEW Game2DBase( readBgJsonStr.c_str() );

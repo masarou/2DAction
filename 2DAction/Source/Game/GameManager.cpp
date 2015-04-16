@@ -180,15 +180,12 @@ void GameManager::Update()
 	// ìGÇÃê∂ê¨
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
 		Common::ENEMY_KIND kind = Common::ENEMY_KIND_MAX;
-		if( Utility::GetRandamValue( 5, 0 ) != 0 ){
+		if( Utility::GetRandamValue( 10, 0 ) != 0 ){
 			kind = Common::ENEMY_KIND_AAA;
 		}
-		else{// if( Utility::GetRandamValue( 3, 0 ) != 0 ){
-			kind = Common::ENEMY_KIND_AAA;
+		else{
+			kind = Common::ENEMY_KIND_BBB;
 		}
-		//else{
-		//	kind = Common::ENEMY_KIND_BBB;
-		//}
 		CreateEnemy( kind );
 	}
 	// ÉAÉCÉeÉÄÇÃê∂ê¨

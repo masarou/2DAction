@@ -24,7 +24,7 @@
 #include "Game/Attack/Slashing.h"
 
 // ŒÅ’è’l
-static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
+static uint32_t DAMAGE_INVISIBLE_TIME	= 60;
 static uint32_t LIFE_POINT_MAX			= 200;
 static uint32_t WARNING_LIFE			= 40;
 static uint32_t EMERGENCY_LIFE			= 20;
@@ -502,6 +502,11 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 			}
 			else{
 				reflectDisp = false;
+			}
+
+			if( gunState.m_damage % 4 == 0 ){// 20‚Ì”{”‚É‚È‚é‚²‚Æ‚ÉŽaŒ‚‚ÌUŒ‚—Í‚àUP
+				AttackBlade::BladeState &bladeState = m_attackBlade->UpdateBladeState();
+				bladeState.m_damage += 5;
 			}
 
 			if( isCountUp ){

@@ -2,8 +2,9 @@
 #include "System/picojson.h"
 #include "SystemSoundManager.h"
 
-#define VOLUME_FADE_SPEED 10
-#define VOLUME_MAX 10000
+#define VOLUME_FADE_SPEED 30
+#define BGM_VOLUME_MAX 9600
+#define SE_VOLUME_MAX 9400
 
 SoundManager *SoundManager::m_pInstance = NULL;
 
@@ -63,7 +64,8 @@ void SoundManager::PlaySE(const char *tagSE)
 		DEBUG_PRINT("Åyçƒê∂ÇµÇÊÇ§Ç∆ÇµÇΩSEÇÕÉçÅ[ÉhÇ≥ÇÍÇƒÇ¢Ç»Ç¢ÅHÅz\n");
 		return;
 	}
-
+	
+	SetVolumeSoundMem( SE_VOLUME_MAX, handle);
 	PlaySoundMem(GetHandleId(tagSE), DX_PLAYTYPE_BACK);
 }
 
@@ -96,7 +98,7 @@ void SoundManager::PlayBGM(const char *tagBGM)
 			//! ëºÇÃBGMÇÕÇ∑Ç◊Çƒé~ÇﬂÇÈ
 			StopSoundMem(m_vBGM.at(i).m_soundId);
 		}
-		SetVolumeSoundMem( VOLUME_MAX, handle);
+		SetVolumeSoundMem( BGM_VOLUME_MAX, handle);
 		PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
 		m_fadeTag = INVALID_VALUE;
 	}
