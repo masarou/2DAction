@@ -34,7 +34,7 @@ bool FlowTitle::Init()
 	Utility::GameInitALL();
 
 	// 選択肢管理クラス
-	m_pMenuWindow = TitleMenu::Create( "menuTitle.json" );
+	m_pMenuWindow = TitleMenu::Create( "MenuTitle.json" );
 
 	// BGM再生開始
 	SoundManager::GetInstance()->PlayBGM( "title" );

@@ -60,8 +60,8 @@ bool PlayerStatusMenu::Init()
 
 	// 各種パーツセット
 	m_lifeGauge.Init();
-	m_lifeGauge.m_pTex2D = NEW Game2DBase("lifeGauge.json");
-	m_lifeGauge.m_texInfo.m_fileName = "lifeGauge.json";
+	m_lifeGauge.m_pTex2D = NEW Game2DBase("LifeGauge.json");
+	m_lifeGauge.m_texInfo.m_fileName = "LifeGauge.json";
 	m_lifeGauge.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_lifeGauge.m_texInfo.m_posOrigin = GetPartsPos("lifeBarPos");
 	m_lifeGauge.m_texInfo.m_usePlayerOffset = false;
@@ -70,8 +70,8 @@ bool PlayerStatusMenu::Init()
 
 	// 連射速度レベル
 	m_rapidLevel.Init();
-	m_rapidLevel.m_pTex2D = NEW Game2DBase("numberLv.json");
-	m_rapidLevel.m_texInfo.m_fileName = "numberLv.json";
+	m_rapidLevel.m_pTex2D = NEW Game2DBase("NumberLv.json");
+	m_rapidLevel.m_texInfo.m_fileName = "NumberLv.json";
 	m_rapidLevel.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_rapidLevel.m_texInfo.m_posOrigin = GetPartsPos("itemLevel01");
 	m_rapidLevel.m_texInfo.m_usePlayerOffset = false;
@@ -79,8 +79,8 @@ bool PlayerStatusMenu::Init()
 
 	// 攻撃力レベル
 	m_danageLevel.Init();
-	m_danageLevel.m_pTex2D = NEW Game2DBase("numberLv.json");
-	m_danageLevel.m_texInfo.m_fileName = "numberLv.json";
+	m_danageLevel.m_pTex2D = NEW Game2DBase("NumberLv.json");
+	m_danageLevel.m_texInfo.m_fileName = "NumberLv.json";
 	m_danageLevel.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_danageLevel.m_texInfo.m_posOrigin = GetPartsPos("itemLevel02");
 	m_danageLevel.m_texInfo.m_usePlayerOffset = false;

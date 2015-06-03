@@ -17,7 +17,7 @@ EnemyBoss *EnemyBoss::Create( const uint32_t &uniqueID )
 }
 
 EnemyBoss::EnemyBoss( const uint32_t &uniqueID )
-	: EnemyBase( "enemyBoss.json", uniqueID, Common::ENEMY_KIND_BOSS )
+	: EnemyBase( "EnemyBoss.json", uniqueID, Common::ENEMY_KIND_BOSS )
 {
 }
 

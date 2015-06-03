@@ -39,13 +39,13 @@ GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 			DEBUG_ASSERT( 0, "想定外の箇所でゲーム設定ファイルが読み込まれている");
 			/* fall-through */
 		case Common::FLOW_STAGE01:
-			m_settingFileStr = "gameSettings01.json";
+			m_settingFileStr = "GameSettings01.json";
 			break;
 		case Common::FLOW_STAGE02:
-			m_settingFileStr = "gameSettings02.json";
+			m_settingFileStr = "GameSettings02.json";
 			break;
 		case Common::FLOW_STAGE03:
-			m_settingFileStr = "gameSettings03.json";
+			m_settingFileStr = "GameSettings03.json";
 			break;
 	}
 	// マップの環境取得

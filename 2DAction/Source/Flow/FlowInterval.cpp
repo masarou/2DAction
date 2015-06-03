@@ -117,10 +117,10 @@ Interval2D::Interval2D()
 			DEBUG_ASSERT( 0, "想定外のフロー" );
 			/* fall-througt */
 		case GameRecorder::STATE_STAGE01:
-			readBgJsonStr = "resultBgStage02.json";
+			readBgJsonStr = "ResultBgStage02.json";
 			break;
 		case GameRecorder::STATE_STAGE02:
-			readBgJsonStr = "resultBgStage03.json";
+			readBgJsonStr = "ResultBgStage03.json";
 			break;
 		}
 	}
@@ -139,9 +139,9 @@ Interval2D::Interval2D()
 		m_pTexChoiceArray[i] = NULL;
 		m_pTexChoiceBGArray[i] = NULL;
 
-		m_pTexChoiceArray[i] = NEW Game2DBase("choice.json");
+		m_pTexChoiceArray[i] = NEW Game2DBase("Choice.json");
 		m_pTexChoiceArray[i]->SetDrawInfo( m_texInfo );
-		m_pTexChoiceBGArray[i] = NEW Game2DBase("choiceBG.json");
+		m_pTexChoiceBGArray[i] = NEW Game2DBase("ChoiceBG.json");
 		m_pTexChoiceBGArray[i]->SetDrawInfo( m_texInfo );
 	}
 }

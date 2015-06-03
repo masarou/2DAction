@@ -28,7 +28,7 @@ StageTimer::StageTimer( uint32_t startTime )
 	m_animClock.Init();
 
 	//!初期位置セット
-	std::string jsonStr = "stageTimer.json";
+	std::string jsonStr = "StageTimer.json";
 	m_plateStageTimer.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
 	m_plateStageTimer.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_plateStageTimer.m_texInfo.m_fileName = jsonStr;
@@ -55,7 +55,7 @@ bool StageTimer::Init()
 	Utility::GetPartsInfoFromJson( m_plateStageTimer.m_texInfo.m_fileName, m_partsMap );
 
 	// 時計画像
-	std::string jsonStr = "clockTimer.json";
+	std::string jsonStr = "ClockTimer.json";
 	m_animClock.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
 	m_animClock.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_animClock.m_texInfo.m_fileName = jsonStr;

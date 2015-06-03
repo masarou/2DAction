@@ -1,5 +1,5 @@
 {
 	"partsInfo":[
-		{"partsName":"frame",		"loadJson":"powerUpMenu.json",	"x": 640,	"y": 360}
+		{"partsName":"frame",		"loadJson":"PowerUpMenu.json",	"x": 640,	"y": 360}
 	]
 }

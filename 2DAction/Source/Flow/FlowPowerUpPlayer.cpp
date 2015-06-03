@@ -30,7 +30,7 @@ FlowPowerUpPlayer::~FlowPowerUpPlayer(void)
 
 bool FlowPowerUpPlayer::Init()
 {
-	m_pMenuWindow = PowerUpMenu::CreatePowerUp2D( "menuPowerUpPlayer.json" );
+	m_pMenuWindow = PowerUpMenu::CreatePowerUp2D( "MenuPowerUpPlayer.json" );
 	return true;
 }
 

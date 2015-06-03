@@ -128,11 +128,11 @@ bool Result2D::Init()
 	std::string fileStr = "";
 	if( GameRecorder::GetInstance()->IsUserClear() ){
 		// 通常フレーム
-		fileStr = "stageResult.json";
+		fileStr = "StageResult.json";
 	}
 	else{
 		// ゲームオーバーフレーム
-		fileStr = "stageResultGameOver.json";
+		fileStr = "StageResultGameOver.json";
 	}
 	
 	// ステータスメニューのパーツ情報取得
@@ -146,9 +146,9 @@ bool Result2D::Init()
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
 
 	// 数字カウンタの初期化
-	m_pNumCounterResult = NumberCounter::Create("numberLarge.json");
-	m_pNumCounterBonus = NumberCounter::Create("numberLarge.json");
-	m_pNumCounterTotal = NumberCounter::Create("numberLarge.json");
+	m_pNumCounterResult = NumberCounter::Create("NumberLarge.json");
+	m_pNumCounterBonus = NumberCounter::Create("NumberLarge.json");
+	m_pNumCounterTotal = NumberCounter::Create("NumberLarge.json");
 
 	// 数字表示用画像情報
 	m_numberInfo.Init();

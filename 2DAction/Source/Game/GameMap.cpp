@@ -25,13 +25,13 @@ GameMap::GameMap( const Common::GAME_FLOW &currentKind )
 		DEBUG_ASSERT( 0, "Map‚ª‘¶İ‚µ‚È‚¢‚Í‚¸‚Ì‘z’èŠO‚Ìí—Ş" );
 		break;
 	case Common::FLOW_STAGE01:
-		LoadMapInfo("mapStage01.json");
+		LoadMapInfo("MapStage01.json");
 		break;
 	case Common::FLOW_STAGE02:
-		LoadMapInfo("mapStage02.json");
+		LoadMapInfo("MapStage02.json");
 		break;
 	case Common::FLOW_STAGE03:
-		LoadMapInfo("mapStage03.json");
+		LoadMapInfo("MapStage03.json");
 		break;
 	}
 }

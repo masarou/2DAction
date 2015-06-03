@@ -52,7 +52,7 @@ GamePlayer *GamePlayer::CreatePlayer()
 
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
-, Collision2DUnit( "player.json" )
+, Collision2DUnit( "Player.json" )
 , m_speedMove( 0 )
 , m_speedMoveBase( MOVE_SPEED_DEFAULT )
 , m_speedMultiply( 0.0f )
@@ -76,7 +76,7 @@ bool GamePlayer::Init()
 	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_drawTexture.m_texInfo.m_usePlayerOffset = false;
 	m_drawTexture.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
-	m_drawTexture.m_texInfo.m_fileName = "player.json";
+	m_drawTexture.m_texInfo.m_fileName = "Player.json";
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 
 

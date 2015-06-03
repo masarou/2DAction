@@ -79,8 +79,8 @@ bool ViewScore2D::Init()
 {
 	// ヘッダー文字
 	m_textureHeadline.Init();
-	m_textureHeadline.m_pTex2D = NEW Game2DBase("scoreRanking.json");
-	m_textureHeadline.m_texInfo.m_fileName = "scoreRanking.json";
+	m_textureHeadline.m_pTex2D = NEW Game2DBase("ScoreRanking.json");
+	m_textureHeadline.m_texInfo.m_fileName = "ScoreRanking.json";
 	m_textureHeadline.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureHeadline.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureHeadline.m_texInfo.m_usePlayerOffset = false;
@@ -91,7 +91,7 @@ bool ViewScore2D::Init()
 
 	// ランキング描画
 	for( uint32_t i = 0; i < Common::RANKING_RECORD_MAX; ++i ){
-		m_pNumCounter[i] = NumberCounter::Create("numberLarge.json");
+		m_pNumCounter[i] = NumberCounter::Create("NumberLarge.json");
 		m_numberInfo.m_posOrigin.y += 100.0f;
 		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
 		m_pNumCounter[i]->AddValue( m_saveData.m_scoreRanking[i] );

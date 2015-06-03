@@ -133,12 +133,12 @@ TotalResult2D::~TotalResult2D(void)
 bool TotalResult2D::Init()
 {
 	// ステータスメニューのパーツ情報取得
-	Utility::GetPartsInfoFromJson( "gameResult.json", m_partsMap );
+	Utility::GetPartsInfoFromJson( "GameResult.json", m_partsMap );
 
 	// 画面フレームセット
 	m_textureResult.Init();
-	m_textureResult.m_pTex2D = NEW Game2DBase("gameResult.json");
-	m_textureResult.m_texInfo.m_fileName = "gameResult.json";
+	m_textureResult.m_pTex2D = NEW Game2DBase("GameResult.json");
+	m_textureResult.m_texInfo.m_fileName = "GameResult.json";
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;
@@ -157,7 +157,7 @@ bool TotalResult2D::Init()
 		"strNumber04",
 	};
 	for( uint32_t i = 0; i < DISP_MAX ; ++i ){
-		m_pNumCounter[i] = NumberCounter::Create("numberLarge.json");
+		m_pNumCounter[i] = NumberCounter::Create("NumberLarge.json");
 		m_numberInfo.m_posOrigin = GetPartsPos( s_partsStr[i] );
 		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
 	}

@@ -160,13 +160,13 @@ std::string BgManager::GetBgJsonName( const BGID &bgId ) const
 
 		break;
 	case BGID_TITLE:
-		fileName = "titleBg.json";
+		fileName = "TitleBg.json";
 		break;
 	case BGID_STAGE_RESULT:
-		fileName = "titleBg.json";
+		fileName = "TitleBg.json";
 		break;
 	case BGID_COMMON:
-		fileName = "commonBg.json";
+		fileName = "CommonBg.json";
 		break;
 	case BGID_CURRENT:
 	case BGID_NONE:

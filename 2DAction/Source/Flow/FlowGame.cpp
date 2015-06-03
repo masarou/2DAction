@@ -38,7 +38,7 @@ FlowGame::~FlowGame(void)
 bool FlowGame::Init()
 {
 	// ゲーム中に表示するスコア準備
-	m_pNumScore = NumberCounter::Create("number.json");
+	m_pNumScore = NumberCounter::Create("Number.json");
 
 	// ゲームをするのに必要なインスタンス作成
 	GameRegister::CreateInstance();

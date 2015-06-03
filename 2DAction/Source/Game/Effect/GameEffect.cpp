@@ -83,21 +83,21 @@ std::string GameEffect::SelectEffectFile() const
 	std::string rtn = "";
 	switch(m_kind){
 	case EFFECT_BOMB:
-		rtn = "effectBomb.json";
+		rtn = "EffectBomb.json";
 		break;
 
 	case EFFECT_PRE_EXPLOSION:
-		rtn = "preExplosion.json";
+		rtn = "PreExplosion.json";
 		break;
 
 	case EFFECT_SLASHING_HIT:
-		rtn = "slashingHit.json";
+		rtn = "SlashingHit.json";
 		break;
 
 	default:
 		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
 		// とりあえず一番無難なものをセット
-		rtn = "effectBomb.json";
+		rtn = "EffectBomb.json";
 		break;
 	}
 	return rtn;
@@ -198,13 +198,13 @@ std::string GameEffectWithCollision::SelectEffectFile() const
 	std::string rtn = "";
 	switch(m_kind){
 	case EFFECT_EXPLOSION:
-		rtn = "explosion.json";
+		rtn = "Explosion.json";
 		break;
 
 	default:
 		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
 		// とりあえず一番無難なものをセット
-		rtn = "explosion.json";
+		rtn = "Explosion.json";
 		break;
 	}
 	return rtn;
@@ -287,8 +287,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 	for(;damageInfo.m_array2D.size() < digitNum;){
 		Texture2D tex;
 		tex.Init();
-		tex.m_pTex2D = NEW Game2DBase("damageNum.json");
-		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("damageNum.json");
+		tex.m_pTex2D = NEW Game2DBase("DamageNum.json");
+		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("DamageNum.json");
 		basePos.x -= texInfo.m_sizeWidth;
 		tex.m_texInfo.m_posOrigin		= basePos;
 		tex.m_texInfo.m_prioity	= PRIORITY_HIGH;

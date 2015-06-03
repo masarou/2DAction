@@ -203,13 +203,13 @@ const std::string Slashing::GetJsonFileStr()
 		DEBUG_ASSERT( 0, "想定外の斬撃タイプ" );
 		/* fall-through */
 	case TYPE_1ST:
-		retStr = "slashing1st.json";
+		retStr = "Slashing1st.json";
 		break;
 	case TYPE_2ND:
-		retStr = "slashing2nd.json";
+		retStr = "Slashing2nd.json";
 		break;
 	case TYPE_3RD:
-		retStr = "slashing3rd.json";
+		retStr = "Slashing3rd.json";
 		break;
 	}
 	return retStr;

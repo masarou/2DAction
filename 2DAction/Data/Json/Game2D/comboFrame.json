@@ -14,8 +14,8 @@
 	],
 	
 	"partsInfo":[
-		{"partsName":"comboStr",	"loadJson":"comboHitStr.json",	"x": 390,	"y": 95},
-		{"partsName":"count",		"loadJson":"numberLarge.json",	"x": 230,	"y": 85},
-		{"partsName":"comboGauge",	"loadJson":"comboGauge.json",	"x": 490,	"y": 115}
+		{"partsName":"comboStr",	"loadJson":"ComboHitStr.json",	"x": 390,	"y": 95},
+		{"partsName":"count",		"loadJson":"NumberLarge.json",	"x": 230,	"y": 85},
+		{"partsName":"comboGauge",	"loadJson":"ComboGauge.json",	"x": 490,	"y": 115}
 	]
 }

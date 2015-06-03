@@ -17,7 +17,7 @@ EnemyCCC *EnemyCCC::Create( const uint32_t &uniqueID )
 }
 
 EnemyCCC::EnemyCCC( const uint32_t &uniqueID )
-	: EnemyBase( "enemyTough.json", uniqueID, Common::ENEMY_KIND_CCC )
+	: EnemyBase( "EnemyTough.json", uniqueID, Common::ENEMY_KIND_CCC )
 {
 }
 

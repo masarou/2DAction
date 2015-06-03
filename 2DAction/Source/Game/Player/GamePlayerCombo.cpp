@@ -59,17 +59,17 @@ bool PlayerCombo::Init()
 
 	// 各種パーツセット
 	m_textureCombo.Init();
-	m_textureCombo.m_pTex2D = NEW Game2DBase("comboHitStr.json");
-	m_textureCombo.m_texInfo.m_fileName = "comboHitStr.json";
+	m_textureCombo.m_pTex2D = NEW Game2DBase("ComboHitStr.json");
+	m_textureCombo.m_texInfo.m_fileName = "ComboHitStr.json";
 	m_textureCombo.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureCombo.m_texInfo.m_posOrigin = GetPartsPos("comboStr");
 	m_textureCombo.m_texInfo.m_usePlayerOffset = false;
 	m_textureCombo.m_pTex2D->SetDrawInfo(m_textureCombo.m_texInfo);
 	
 	// コンボ数
-	m_pNumCounterCombo = NumberCounter::Create("numberLarge.json");
-	m_pNumCounterComboYellow = NumberCounter::Create("numberLargeYellow.json");
-	m_pNumCounterComboRed = NumberCounter::Create("numberLargeRed.json");
+	m_pNumCounterCombo = NumberCounter::Create("NumberLarge.json");
+	m_pNumCounterComboYellow = NumberCounter::Create("NumberLargeYellow.json");
+	m_pNumCounterComboRed = NumberCounter::Create("NumberLargeRed.json");
 	TEX_DRAW_INFO comboInfo;
 	comboInfo.Init();
 	comboInfo.m_prioity = PRIORITY_HIGH;
@@ -81,8 +81,8 @@ bool PlayerCombo::Init()
 
 	// コンボの継続時間を表すコンボゲージ
 	m_textureComboGauge.Init();
-	m_textureComboGauge.m_pTex2D = NEW Game2DBase("comboGauge.json");
-	m_textureComboGauge.m_texInfo.m_fileName = "comboGauge.json";
+	m_textureComboGauge.m_pTex2D = NEW Game2DBase("ComboGauge.json");
+	m_textureComboGauge.m_texInfo.m_fileName = "ComboGauge.json";
 	m_textureComboGauge.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureComboGauge.m_texInfo.m_posOrigin = GetPartsPos("comboGauge");
 	m_textureComboGauge.m_texInfo.m_usePlayerOffset = false;

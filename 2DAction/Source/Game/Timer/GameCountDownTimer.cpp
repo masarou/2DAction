@@ -52,7 +52,7 @@ bool GameCountDownTimer::Init()
 	}
 
 	if( m_isDisp ){
-		m_pNumCounter = NumberCounter::Create("number.json");
+		m_pNumCounter = NumberCounter::Create("Number.json");
 		m_pNumCounter->SetDrawPos( m_dispPos );
 		m_pNumCounter->SetValue( ConvDispNum() );
 		m_pNumCounter->CountAnimEnd();

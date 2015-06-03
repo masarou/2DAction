@@ -14,7 +14,7 @@
 	],
 	
 	"partsInfo":[
-		{"partsName":"numPos",		"loadJson":"clockTimer.json",	"x": 230,	"y": 40},
-		{"partsName":"timeIcon",	"loadJson":"clockTimer.json",	"x": 50,	"y": 40}
+		{"partsName":"numPos",		"loadJson":"ClockTimer.json",	"x": 230,	"y": 40},
+		{"partsName":"timeIcon",	"loadJson":"ClockTimer.json",	"x": 50,	"y": 40}
 	]
 }

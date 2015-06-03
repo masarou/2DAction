@@ -148,16 +148,16 @@ std::string ItemObject::GetItemFilePath()
 	switch( m_kindItem ){
 	default:
 	case Common::ITEM_KIND_RAPID_BULLET:
-		fileName = "itemBullet.json";
+		fileName = "ItemBullet.json";
 		break;
 	case Common::ITEM_KIND_LIFE_UP:
-		fileName = "itemLife.json";
+		fileName = "ItemLife.json";
 		break;
 	case Common::ITEM_KIND_DAMAGE_UP:
-		fileName = "itemDamage.json";
+		fileName = "ItemDamage.json";
 		break;
 	case Common::ITEM_KIND_BATTLE_POINT:
-		fileName = "itemBattlePoint.json";
+		fileName = "ItemBattlePoint.json";
 		break;
 	};
 

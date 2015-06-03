@@ -34,7 +34,7 @@ bool ControllDescription::CanDie()
 bool ControllDescription::Init()
 {
 	m_controllTex.Init();
-	m_controllTex.m_pTex2D = NEW Game2DBase( "pauseStr.json" );
+	m_controllTex.m_pTex2D = NEW Game2DBase( "PauseStr.json" );
 	m_controllTex.m_texInfo.m_prioity			= PRIORITY_HIGH;
 	m_controllTex.m_texInfo.m_posOrigin			= math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
 	m_controllTex.m_texInfo.m_usePlayerOffset	= false;
