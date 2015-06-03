@@ -101,9 +101,6 @@ void TaskManagerBase::DrawUpdate()
 			pTask->DrawUpdate();
 		}
 	}
-
-	//! ‚·‚×‚Ä‚Ì2D•`‰æ‚Í‚±‚±‚Ås‚¤
-	Draw2DManager::GetInstance()->Action();
 }
 
 /* ================================================ */

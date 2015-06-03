@@ -67,6 +67,7 @@ std::string FlowInterval::GetNextFadeStr()
 		if( pRecorder ){
 			switch( pRecorder->GetGameStateOfProgress() ){
 			case GameRecorder::STATE_TITLE:
+			case GameRecorder::STATE_POWER_UP:
 			case GameRecorder::STATE_STAGE03:
 			default:
 				DEBUG_ASSERT( 0, "想定外のフロー" );
@@ -110,6 +111,7 @@ Interval2D::Interval2D()
 	if( pRecorder ){
 		switch( pRecorder->GetGameStateOfProgress() ){
 		case GameRecorder::STATE_TITLE:
+		case GameRecorder::STATE_POWER_UP:
 		case GameRecorder::STATE_STAGE03:
 		default:
 			DEBUG_ASSERT( 0, "想定外のフロー" );

@@ -12,8 +12,10 @@
 #include "Process/FlowProcessBase.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/SystemFadeManager.h"
+#include "System/SystemBgManager.h"
 #include "System/Message/SystemMessageManager.h"
 #include "System/Collision/SystemCollisionManager.h"
+
 
 FlowBase::FlowBase(std::string fileName)
 : m_filePath(fileName)
@@ -101,11 +103,16 @@ void FlowBase::LoadFlowFile()
 		data.filePath = sceneData.get(i).get("path").get<std::string>();
 		m_vEventName.push_back(data);
 	}
-
 	if(m_vEventName.empty()){
 		DEBUG_ASSERT( 0, "m_vEventName is empty!!");
 	}
 
+	//BGïœçXèàóù
+	picojson::value bgData = root.get("bgdata");
+	std::string bgStr = bgData.get(0).get("bgid").get<std::string>();
+	if( BgManager::GetInstance() ){
+		BgManager::GetInstance()->SetNextBg( bgStr );
+	}
 }
 
 /* ============================================== */

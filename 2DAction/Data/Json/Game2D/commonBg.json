@@ -1,6 +1,6 @@
 {
 	"basicInfo":[
-		{"fileName":"ScoreRankingBg.png"
+		{"fileName":"GameBgCommon.png"
 		, "animDefault":"idle"
 		, "sizeW": 1280
 		, "sizeH": 720
@@ -11,8 +11,5 @@
 	
 	"animeInfo":[
 		{"animTag":"idle",	"frameSpeed":1,	"animIndex":[0],	"nextAnim":"idle"}
-	],
-	
-	"partsInfo":[
-	]
+	]	
 }

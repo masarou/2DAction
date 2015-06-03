@@ -25,13 +25,19 @@
 
 // 固定値
 static uint32_t DAMAGE_INVISIBLE_TIME	= 60;
-static uint32_t LIFE_POINT_MAX			= 200;
+
+static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;
+static uint32_t MOVE_SPEED_DEFAULT		= 3;
+static float DASH_TIME_DEFAULT			= 5.0f;
 static uint32_t WARNING_LIFE			= 40;
 static uint32_t EMERGENCY_LIFE			= 20;
+
 static uint32_t BULLET_INTERBAL_MIN		= 1;
 static uint32_t BULLET_DAMAGE_MAX		= 100;
+
 static uint32_t DEFAULT_POS_X			= 1000;
 static uint32_t DEFAULT_POS_Y			= 1000;
+
 
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
@@ -48,11 +54,12 @@ GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
 , Collision2DUnit( "player.json" )
 , m_speedMove( 0 )
-, m_speedMoveBase( 3 )
+, m_speedMoveBase( MOVE_SPEED_DEFAULT )
 , m_speedMultiply( 0.0f )
 , m_invisibleTime(0)
 , m_invalidCtrlTime(0)
-, m_playerLife(LIFE_POINT_MAX)
+, m_playerLife( LIFE_POINT_DEFAULT_MAX )
+, m_playerLifeMax( LIFE_POINT_DEFAULT_MAX )
 , m_pStatusMenu(NULL)
 {
 	m_pStatusMenu = NEW PlayerStatusMenu();
@@ -79,13 +86,8 @@ bool GamePlayer::Init()
 	// 近接攻撃剣クラスセット
 	m_attackBlade = AttackBlade::CreateAttackBlade( Common::OWNER_PLAYER );
 
-	// アイテム取得数を反映
-	for( uint32_t i = 0; i < Common::ITEM_KIND_MAX ; ++i ){
-		uint32_t itemNum = GameRecorder::GetInstance()->GetItemCount( static_cast<Common::ITEM_KIND>(i) );
-		for( uint32_t j = 0; j < itemNum ; ++j ){
-			PlayerGetItem( static_cast<Common::ITEM_KIND>(i), /*isCountUp=*/false );
-		}
-	}
+	// ベースとなるステータスとアイテム取得数を反映させる
+	SetupInitPlayerState();
 
 	// 画像の真ん中がオフセット位置になるように調整しておく(プレイヤーの初期位置セット)
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
@@ -137,7 +139,7 @@ void GamePlayer::Update()
 
 	// 現在のライフセット
 	if( m_pStatusMenu ){
-		m_pStatusMenu->SetPlayerHP( m_playerLife, LIFE_POINT_MAX );
+		m_pStatusMenu->SetPlayerHP( m_playerLife, m_playerLifeMax );
 	}
 
 	// 操作不能中でないならパッドイベントをコール
@@ -283,7 +285,7 @@ const TEX_DRAW_INFO &GamePlayer::GetDrawInfo() const
 
 const uint32_t	&GamePlayer::GetPlayerLifeMax() const
 {
-	return LIFE_POINT_MAX;
+	return m_playerLifeMax;
 }
 
 /* ================================================ */
@@ -328,6 +330,83 @@ std::string GamePlayer::GetAnimTag()
 		retAnim = m_drawTexture.m_pTex2D->GetPlayAnim();
 	}
 	return retAnim;
+}
+
+/* ================================================ */
+/**
+ * @brief	ベースとなるステータス＋取得アイテム数を反映させる
+ */
+/* ================================================ */
+void GamePlayer::SetupInitPlayerState()
+{
+	// ベースステータスを反映
+	Common::SAVE_DATA playData;
+	Utility::GetSaveData( playData );
+
+	// ライフを反映
+	m_playerLifeMax = ConvertLevelToBaseState( Common::BASE_STATE_LIFE, playData.m_playerBaseStateLv[Common::BASE_STATE_LIFE] );
+	m_playerLife = m_playerLifeMax;
+
+	// 行動速度を反映
+	m_speedMoveBase = ConvertLevelToBaseState( Common::BASE_STATE_MOVE_SPEED, playData.m_playerBaseStateLv[Common::BASE_STATE_MOVE_SPEED] );
+
+	// マシンガンクラスを反映
+	if( m_attackGun ){
+		AttackGun::GunState &gunState	= m_attackGun->UpdateGunState();
+		gunState.m_damage				= ConvertLevelToBaseState( Common::BASE_STATE_BULLET_DMG, playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_DMG] );
+		gunState.m_shootInterval		= ConvertLevelToBaseState( Common::BASE_STATE_BULLET_SPD, playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_SPD] );
+		gunState.m_speed				+= playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_DMG];
+	}
+
+	// 剣クラスを反映
+	if( m_attackBlade ){
+		AttackBlade::BladeState &bladeState	= m_attackBlade->UpdateBladeState();
+		bladeState.m_damage					= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_DMG, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_DMG] );
+		bladeState.m_interval				= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_SPD, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_SPD] );
+	}
+
+	// アイテム取得数を反映
+	for( uint32_t i = 0; i < Common::ITEM_KIND_MAX ; ++i ){
+		uint32_t itemNum = GameRecorder::GetInstance()->GetItemCount( static_cast<Common::ITEM_KIND>(i) );
+		for( uint32_t j = 0; j < itemNum ; ++j ){
+			PlayerGetItem( static_cast<Common::ITEM_KIND>(i), /*isCountUp=*/false );
+		}
+	}
+}
+
+/* ================================================ */
+/**
+ * @brief	ステータスレベルから実際にセットする値へ変換
+ */
+/* ================================================ */
+uint32_t GamePlayer::ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level )
+{
+	uint32_t retVal = 0;
+	switch( stateKind ){
+
+	case Common::BASE_STATE_LIFE:
+		retVal = LIFE_POINT_DEFAULT_MAX + (level*20);
+		break;
+	case Common::BASE_STATE_MOVE_SPEED:
+		retVal = MOVE_SPEED_DEFAULT + level;
+		break;
+	case Common::BASE_STATE_DEFFENCE:
+		retVal = 0;	// まだ未実装
+		break;
+	case Common::BASE_STATE_BLADE_SPD:
+		retVal = SLASHING_INTERBAL_DEFAULT - (level*2);
+		break;
+	case Common::BASE_STATE_BLADE_DMG:
+		retVal = SLASHING_DAMAGE_DEFAULT + (level*5);
+		break;
+	case Common::BASE_STATE_BULLET_SPD:
+		retVal = SHOOT_INTERBAL_DEFAULT + level;
+		break;
+	case Common::BASE_STATE_BULLET_DMG:
+		retVal = SHOOT_DAMAGE_DEFAULT + (level*5);
+		break;
+	}
+	return retVal;
 }
 
 /* ================================================ */
@@ -396,6 +475,9 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 		break;
 	case Common::EVENT_GET_ITEM_DAMAGE:
 		PlayerGetItem( Common::ITEM_KIND_DAMAGE_UP );
+		break;
+	case Common::EVENT_GET_ITEM_BATTLE_POINT:
+		PlayerGetItem( Common::ITEM_KIND_BATTLE_POINT );
 		break;
 	default:
 
@@ -481,8 +563,8 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 		{
 			// ライフ回復
 			m_playerLife += 30;
-			if( m_playerLife > LIFE_POINT_MAX ){
-				m_playerLife = LIFE_POINT_MAX;
+			if( m_playerLife > m_playerLifeMax ){
+				m_playerLife = m_playerLifeMax;
 			}
 
 			if( isCountUp ){
@@ -515,6 +597,12 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 				// アイテム取得音を鳴らす
 				SoundManager::GetInstance()->PlaySE("GetItem");
 			}
+		}
+		break;
+	case Common::ITEM_KIND_BATTLE_POINT:
+		if( isCountUp ){
+			// 取得アイテム数をカウント
+			GameRecorder::GetInstance()->AddItem( Common::ITEM_KIND_BATTLE_POINT );
 		}
 		break;
 	}

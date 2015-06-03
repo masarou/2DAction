@@ -72,10 +72,13 @@ int32_t GetRandamValue( const int32_t &max, const int32_t &min);
 float GetRandamValueFloat( const int32_t &max, const int32_t &min);
 
 // セーブデータの情報を取得
-bool GetSaveRanking( Common::SAVE_SCORE &saveData );
+bool GetSaveData( Common::SAVE_DATA &saveData );
 
 // 画面のjsonからパーツ情報を取得("partsInfo")
 void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Common::PARTS_INFO > &vParts );
+
+// 文字列の表示
+void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint32_t color = GetColor( 255, 255, 255 ) );
 
 #ifdef _DEBUG
 void DrawDebugCircle( math::Vector2 drawPos );

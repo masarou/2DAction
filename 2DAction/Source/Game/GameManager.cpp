@@ -180,7 +180,7 @@ void GameManager::Update()
 	// “G‚Ì¶¬
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
 		Common::ENEMY_KIND kind = Common::ENEMY_KIND_MAX;
-		if( Utility::GetRandamValue( 10, 0 ) != 0 ){
+		if( Utility::GetRandamValue( 30, 0 ) != 0 ){
 			kind = Common::ENEMY_KIND_AAA;
 		}
 		else{
@@ -316,7 +316,7 @@ bool GameManager::IsCreateItem( uint32_t itemLimit )
 {
 	bool isCreate = false;
 	ItemManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerItem();	
-	// “G‚Ì¶¬
+	// ƒAƒCƒeƒ€‚Ì¶¬
 	if( pEnemyManager ){
 		uint32_t currItem = pEnemyManager->CountItem();
 		if( currItem <= itemLimit ){

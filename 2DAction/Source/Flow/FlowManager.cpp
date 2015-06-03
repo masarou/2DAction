@@ -12,6 +12,7 @@
 #include "Flow/FlowTable.h"
 #include "Game/GameRecorder.h"
 #include "System/SystemFadeManager.h"
+#include "System/SystemBgManager.h"
 
 FlowManager* FlowManager::m_pInstance = NULL;
 static const char *JSON_START_FLOW_PATH		= "Data/Json/Flow/FlowTitle.json";
@@ -141,8 +142,11 @@ void FlowManager::Update()
 
 	//! フロー変更後、フローの初期化待ちステップ
 	case FLOW_INIT:
-		if( m_pFlow && m_pFlow->Init() ){
-			m_step = FLOW_FADEOUT_CHECK;
+		// BGの準備のチェックとフローの準備チェック
+		if( BgManager::GetInstance() && BgManager::GetInstance()->IsShowingBG() ){
+			if( m_pFlow && m_pFlow->Init() ){
+				m_step = FLOW_FADEOUT_CHECK;
+			}
 		}
 		break;
 

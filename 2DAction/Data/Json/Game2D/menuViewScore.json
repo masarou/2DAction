@@ -1,0 +1,10 @@
+{
+	"partsInfo":[
+		{"partsName":"header",		"loadJson":"scoreRanking.json",	"x": 640,	"y": 360},
+		{"partsName":"rank0",		"loadJson":"numberLarge.json",	"x": 1080,	"y": 200},
+		{"partsName":"rank1",		"loadJson":"numberLarge.json",	"x": 700,	"y": 400},
+		{"partsName":"rank2",		"loadJson":"numberLarge.json",	"x": 100,	"y": 600},
+		{"partsName":"rank3",		"loadJson":"numberLarge.json",	"x": 400,	"y": 800},
+		{"partsName":"rank4",		"loadJson":"numberLarge.json",	"x": 700,	"y": 1000}
+	]
+}

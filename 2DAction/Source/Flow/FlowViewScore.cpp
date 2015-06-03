@@ -72,21 +72,12 @@ ViewScore2D::ViewScore2D()
 
 ViewScore2D::~ViewScore2D(void)
 {
-	m_textureResult.DeleteAndInit();
 	m_textureHeadline.DeleteAndInit();
 }
 
 bool ViewScore2D::Init()
 {
-	// ”wŒiì¬
-	m_textureResult.Init();
-	m_textureResult.m_pTex2D = NEW Game2DBase("titleBg.json");
-	m_textureResult.m_texInfo.m_fileName = "titleBg.json";
-	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	m_textureResult.m_texInfo.m_usePlayerOffset = false;
-	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
-
+	// ƒwƒbƒ_[•¶š
 	m_textureHeadline.Init();
 	m_textureHeadline.m_pTex2D = NEW Game2DBase("scoreRanking.json");
 	m_textureHeadline.m_texInfo.m_fileName = "scoreRanking.json";
@@ -95,16 +86,15 @@ bool ViewScore2D::Init()
 	m_textureHeadline.m_texInfo.m_usePlayerOffset = false;
 	m_textureHeadline.m_pTex2D->SetDrawInfo(m_textureHeadline.m_texInfo);
 
-
 	// ƒ‰ƒ“ƒLƒ“ƒOæ“¾
-	Utility::GetSaveRanking( m_scoreData );
+	Utility::GetSaveData( m_saveData );
 
 	// ƒ‰ƒ“ƒLƒ“ƒO•`‰æ
 	for( uint32_t i = 0; i < Common::RANKING_RECORD_MAX; ++i ){
 		m_pNumCounter[i] = NumberCounter::Create("numberLarge.json");
 		m_numberInfo.m_posOrigin.y += 100.0f;
 		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
-		m_pNumCounter[i]->AddValue( m_scoreData.m_scoreTimeAttack[i] );
+		m_pNumCounter[i]->AddValue( m_saveData.m_scoreRanking[i] );
 	}
 
 	return true;
@@ -118,8 +108,7 @@ void ViewScore2D::Update()
 void ViewScore2D::DrawUpdate()
 {
 	// ”wŒi•`‰æ
-	if( m_textureResult.m_pTex2D && m_textureHeadline.m_pTex2D ){
-		m_textureResult.m_pTex2D->DrawUpdate2D();
+	if( m_textureHeadline.m_pTex2D ){
 		m_textureHeadline.m_pTex2D->DrawUpdate2D();
 	}
 }

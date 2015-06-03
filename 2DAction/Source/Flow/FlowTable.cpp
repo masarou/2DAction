@@ -19,6 +19,7 @@
 #include "FlowInterval.h"
 #include "FlowTotalResult.h"
 #include "FlowExit.h"
+#include "FlowPowerUpPlayer.h"
 
 typedef FlowBase *(*pFunkRetFlowBase)( const std::string &fileName );
 
@@ -31,15 +32,16 @@ struct FLOW_DATA{
 //! 各フローとjson名のテーブル
 static FLOW_DATA s_flowTablse[] = 
 {
-	{FlowTitle::Create,			"FlowTitle.json",		Common::FLOW_TITLE},
-	{FlowViewScore::Create,		"FlowScore.json",		Common::FLOW_SCORE},
-	{FlowGame::Create,			"FlowGameStage01.json",	Common::FLOW_STAGE01},
-	{FlowGame::Create,			"FlowGameStage02.json",	Common::FLOW_STAGE02},
-	{FlowGame::Create,			"FlowGameStage03.json",	Common::FLOW_STAGE03},
-	{FlowStageResult::Create,	"FlowStageResult.json",	Common::FLOW_RESULT},
-	{FlowInterval::Create,		"FlowInterval.json",	Common::FLOW_INTERVAL},
-	{FlowTotalResult::Create,	"FlowTotalResult.json",	Common::FLOW_RESULT_TOTAL},
-	{FlowExit::Create,			"FlowExit.json",		Common::FLOW_EXIT},
+	{	FlowTitle::Create,			"FlowTitle.json",			Common::FLOW_TITLE},
+	{	FlowViewScore::Create,		"FlowScore.json",			Common::FLOW_SCORE},
+	{	FlowPowerUpPlayer::Create,	"FlowPowerUpPlayer.json",	Common::FLOW_POWER_UP},
+	{	FlowGame::Create,			"FlowGameStage01.json",		Common::FLOW_STAGE01},
+	{	FlowGame::Create,			"FlowGameStage02.json",		Common::FLOW_STAGE02},
+	{	FlowGame::Create,			"FlowGameStage03.json",		Common::FLOW_STAGE03},
+	{	FlowStageResult::Create,	"FlowStageResult.json",		Common::FLOW_RESULT},
+	{	FlowInterval::Create,		"FlowInterval.json",		Common::FLOW_INTERVAL},
+	{	FlowTotalResult::Create,	"FlowTotalResult.json",		Common::FLOW_RESULT_TOTAL},
+	{	FlowExit::Create,			"FlowExit.json",			Common::FLOW_EXIT},
 
 };
 

@@ -14,8 +14,8 @@
 	],
 	
 	"partsInfo":[
-		{"partsName":"lifeBarPos",	"x": 22,	"y": 46},
-		{"partsName":"itemLevel01",	"x": 120,	"y": 10},
-		{"partsName":"itemLevel02",	"x": 270,	"y": 10}
+		{"partsName":"lifeBarPos",	"loadJson":"lifeGauge.json",	"x": 22,	"y": 46},
+		{"partsName":"itemLevel01",	"loadJson":"numberLv.json",	"x": 120,	"y": 10},
+		{"partsName":"itemLevel02",	"loadJson":"numberLv.json",	"x": 270,	"y": 10}
 	]
 }

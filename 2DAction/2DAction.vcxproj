@@ -19,6 +19,7 @@
     <ClCompile Include="Source\Flow\FlowGame.cpp" />
     <ClCompile Include="Source\Flow\FlowInterval.cpp" />
     <ClCompile Include="Source\Flow\FlowManager.cpp" />
+    <ClCompile Include="Source\Flow\FlowPowerUpPlayer.cpp" />
     <ClCompile Include="Source\Flow\FlowStageResult.cpp" />
     <ClCompile Include="Source\Flow\FlowTable.cpp" />
     <ClCompile Include="Source\Flow\FlowTitle.cpp" />
@@ -66,10 +67,13 @@
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DManager.cpp" />
     <ClCompile Include="Source\System\Draw2D\SystemDraw2DResource.cpp" />
     <ClCompile Include="Source\System\Input\SystemInputWatcher.cpp" />
+    <ClCompile Include="Source\System\Menu\SystemMenuParts.cpp" />
+    <ClCompile Include="Source\System\Menu\SystemMenuWindow.cpp" />
     <ClCompile Include="Source\System\Message\SystemMessageManager.cpp" />
     <ClCompile Include="Source\System\Message\SystemMessageUnit.cpp" />
     <ClCompile Include="Source\System\picojson.cpp" />
     <ClCompile Include="Source\System\Sound\SystemSoundManager.cpp" />
+    <ClCompile Include="Source\System\SystemBgManager.cpp" />
     <ClCompile Include="Source\System\SystemFadeManager.cpp" />
     <ClCompile Include="Source\System\SystemFPSManager.cpp" />
     <ClCompile Include="Source\System\SystemMessage.cpp" />
@@ -87,6 +91,7 @@
     <ClInclude Include="Source\Flow\FlowGame.h" />
     <ClInclude Include="Source\Flow\FlowInterval.h" />
     <ClInclude Include="Source\Flow\FlowManager.h" />
+    <ClInclude Include="Source\Flow\FlowPowerUpPlayer.h" />
     <ClInclude Include="Source\Flow\FlowStageResult.h" />
     <ClInclude Include="Source\Flow\FlowTable.h" />
     <ClInclude Include="Source\Flow\FlowTitle.h" />
@@ -137,10 +142,14 @@
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DManager.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DResource.h" />
     <ClInclude Include="Source\System\Input\SystemInputWatcher.h" />
+    <ClInclude Include="Source\System\Menu\SystemMenuParts.h" />
+    <ClInclude Include="Source\System\Menu\SystemMenuWindow.h" />
     <ClInclude Include="Source\System\Message\SystemMessageManager.h" />
     <ClInclude Include="Source\System\Message\SystemMessageUnit.h" />
     <ClInclude Include="Source\System\picojson.h" />
     <ClInclude Include="Source\System\Sound\SystemSoundManager.h" />
+    <ClInclude Include="Source\System\Sound\SystemSoundTable.h" />
+    <ClInclude Include="Source\System\SystemBgManager.h" />
     <ClInclude Include="Source\System\SystemDefine.h" />
     <ClInclude Include="Source\System\SystemFadeManager.h" />
     <ClInclude Include="Source\System\SystemFPSManager.h" />

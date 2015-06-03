@@ -60,6 +60,12 @@ private:
 	// 現在のプレイヤーの状況から再生するアニメタグ取得
 	std::string GetAnimTag();
 
+	// ベースとなるステータス＋取得アイテム数を反映させる
+	void SetupInitPlayerState();
+
+	// ステータスレベルから実際にセットする値へ変換
+	uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level );
+
 	// 移動処理
 	void UpdateMove( math::Vector2 &moveVec );
 
@@ -71,7 +77,8 @@ private:
 	void PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountUp = true );
 
 	uint32_t			m_playerLife;	// ユーザーライフ
-	uint32_t			m_speedMove;	// 行動速度
+	uint32_t			m_playerLifeMax;// ユーザーライフ最大値
+	uint32_t			m_speedMove;	// 行動速度に倍率をかけた瞬間のスピード
 	uint32_t			m_speedMoveBase;// 基本行動速度
 	float				m_speedMultiply;// 行動速度の倍率
 	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間

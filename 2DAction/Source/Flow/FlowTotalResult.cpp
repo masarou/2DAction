@@ -58,18 +58,22 @@ void FlowTotalResult::PadEventDecide()
 		StartFade("title");
 
 		// 今回のプレイを反映させたランキング作成
-		Common::SAVE_SCORE scoreLog;
-		bool retVal = Utility::GetSaveRanking( scoreLog );
+		Common::SAVE_DATA updateData;
+		bool retVal = Utility::GetSaveData( updateData );
 		if( retVal ){
-			UpdateSortRanking( scoreLog );
+			// ランキング作成
+			UpdateSortRanking( updateData );
+
+			// 取得したバトルポイントを反映させる
+			updateData.m_battlePoint = 10*GameRecorder::GetInstance()->GetItemCount( Common::ITEM_KIND_BATTLE_POINT );
 		}
-	
+		
 		// プレイログ書き出し
 		FILE *fpWrite = fopen( "playLog.dat", "wb" );
 		if( fpWrite == NULL ){
 			return;
 		}
-		fwrite( &scoreLog, sizeof(scoreLog), 1, fpWrite );
+		fwrite( &updateData, sizeof(updateData), 1, fpWrite );
 		fclose( fpWrite );
 	}
 }
@@ -79,12 +83,12 @@ bool sortScore(const uint32_t &left, const uint32_t &rRight)
 	return left > rRight;
 }
 
-void FlowTotalResult::UpdateSortRanking( Common::SAVE_SCORE &scoreData )
+void FlowTotalResult::UpdateSortRanking( Common::SAVE_DATA &scoreData )
 {
 	// 今までのスコアをpush
 	std::vector<uint32_t> ranking;
-	for( uint32_t i = 0; i < NUMBEROF(scoreData.m_scoreTimeAttack) ; ++i ){
-		ranking.push_back(scoreData.m_scoreTimeAttack[i]);
+	for( uint32_t i = 0; i < NUMBEROF(scoreData.m_scoreRanking) ; ++i ){
+		ranking.push_back(scoreData.m_scoreRanking[i]);
 	}
 
 	// 今回のスコアをpush
@@ -94,8 +98,8 @@ void FlowTotalResult::UpdateSortRanking( Common::SAVE_SCORE &scoreData )
 	// 並び替え
 	std::sort( ranking.begin(), ranking.end(), sortScore);
 	
-	for( uint32_t i = 0; i < NUMBEROF(scoreData.m_scoreTimeAttack) ; ++i ){
-		scoreData.m_scoreTimeAttack[i] = ranking.at(i);
+	for( uint32_t i = 0; i < NUMBEROF(scoreData.m_scoreRanking) ; ++i ){
+		scoreData.m_scoreRanking[i] = ranking.at(i);
 	}
 }
 
@@ -123,22 +127,11 @@ TotalResult2D::TotalResult2D()
 
 TotalResult2D::~TotalResult2D(void)
 {
-	m_textureBG.DeleteAndInit();
 	m_textureResult.DeleteAndInit();
 }
 
 bool TotalResult2D::Init()
 {
-	// 背景セット
-	m_textureBG.Init();
-	m_textureBG.m_pTex2D = NEW Game2DBase("titleBg.json");
-	m_textureBG.m_texInfo.m_fileName = "titleBg.json";
-	m_textureBG.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	m_textureBG.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	m_textureBG.m_texInfo.m_usePlayerOffset = false;
-	m_textureBG.m_texInfo.m_prioity = PRIORITY_LOWEST;
-	m_textureBG.m_pTex2D->SetDrawInfo(m_textureBG.m_texInfo);
-
 	// ステータスメニューのパーツ情報取得
 	Utility::GetPartsInfoFromJson( "gameResult.json", m_partsMap );
 
@@ -149,7 +142,6 @@ bool TotalResult2D::Init()
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 	m_textureResult.m_texInfo.m_usePlayerOffset = false;
-	m_textureBG.m_texInfo.m_prioity = PRIORITY_LOW;
 	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
 
 	// 数字表示用画像情報
@@ -215,10 +207,6 @@ void TotalResult2D::Update()
 
 void TotalResult2D::DrawUpdate()
 {
-	// 背景描画
-	if( m_textureBG.m_pTex2D ){
-		m_textureBG.m_pTex2D->DrawUpdate2D();
-	}
 	if( m_textureResult.m_pTex2D ){
 		m_textureResult.m_pTex2D->DrawUpdate2D();
 	}

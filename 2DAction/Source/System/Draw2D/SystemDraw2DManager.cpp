@@ -52,6 +52,19 @@ Draw2DManager *Draw2DManager::GetInstance()
  * @brief	•`‰æƒ^ƒXƒN’Ç‰Á
  */
 /* ================================================ */
+void Draw2DManager::PushDrawString( const std::string &str, const math::Vector2 &pos, const uint32_t &color )
+{
+	DRAWSTR task;
+
+	task.Init();
+	task.m_str		= str;
+	task.m_drawPos	= pos;
+	task.m_color	= color;
+
+	m_vDrawStringTask.push_back(task);
+}
+
+
 void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )
 {
 	if( texInfo.m_fileName.compare("") == 0 ){
@@ -114,6 +127,7 @@ void Draw2DManager::DeleteDrawInfo( const char *jsonFile )
 #include "Game/GameRecorder.h"
 void Draw2DManager::Action()
 {
+	// —\–ñƒeƒNƒXƒ`ƒƒ•`‰æ
 	for( uint32_t i = 0; i < PRIORITY_MAX; ++i ){
 		for( uint32_t j = 0; j < m_vDrawTask.size(); ++j ){
 			if( m_vDrawTask.at(j).m_info.m_prioity == static_cast<PRIORITY>(i) ){
@@ -122,6 +136,15 @@ void Draw2DManager::Action()
 		}
 	}
 
+	// —\–ñ•¶Žš—ñ•`‰æ
+	for( uint32_t i = 0; i < m_vDrawStringTask.size(); ++i ){
+		DrawFormatString( 
+			static_cast<uint32_t>( m_vDrawStringTask.at(i).m_drawPos.x ),
+			static_cast<uint32_t>( m_vDrawStringTask.at(i).m_drawPos.y ),
+			m_vDrawStringTask.at(i).m_color,
+			m_vDrawStringTask.at(i).m_str.c_str()
+			);
+	}
 
 #ifdef _DEBUG
 	int Color = GetColor( 255 , 255 , 255 );
@@ -139,6 +162,7 @@ void Draw2DManager::Action()
 #endif
 
 	m_vDrawTask.clear();
+	m_vDrawStringTask.clear();
 }
 
 /* ================================================ */

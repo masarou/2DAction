@@ -67,9 +67,8 @@ private:
 	ViewScore2D();
 	virtual ~ViewScore2D(void);
 	
-	Common::SAVE_SCORE	m_scoreData;
+	Common::SAVE_DATA	m_saveData;
 
-	Texture2D			m_textureResult;	// タイトル一枚絵
 	Texture2D			m_textureHeadline;	// Score文字列
 	NumberCounter		*m_pNumCounter[Common::RANKING_RECORD_MAX];	// スコア表示
 	TEX_DRAW_INFO		m_numberInfo;								// 描画関係情報

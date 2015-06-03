@@ -29,7 +29,7 @@ private:
 	virtual void PadEventDecide() override;
 
 	// 引数に今回のプレイデータを反映したランキングをセット
-	void UpdateSortRanking( Common::SAVE_SCORE &scoreData );
+	void UpdateSortRanking( Common::SAVE_DATA &scoreData );
 	
 	FlowTotalResult( const std::string &fileName );
 	~FlowTotalResult(void);
@@ -78,7 +78,6 @@ private:
 	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
 
 	DISP_STATE			m_dispState;						// どこまで表示しているか
-	Texture2D			m_textureBG;						// 背景一枚絵
 	Texture2D			m_textureResult;					// 背景フレーム
 	TEX_DRAW_INFO		m_numberInfo;						// 描画関係情報
 	

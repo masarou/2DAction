@@ -16,6 +16,7 @@ namespace Common{
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
 		TYPE_ITEM_DAMAGE,
+		TYPE_ITEM_BATTLE_POINT,
 		TYPE_BLADE_PLAYER,
 		TYPE_BLADE_ENEMY,
 		TYPE_BULLET_PLAYER,
@@ -36,6 +37,7 @@ namespace Common{
 		EVENT_GET_ITEM_BULLET,		// アイテム取得
 		EVENT_GET_ITEM_LIFE,		// アイテム取得
 		EVENT_GET_ITEM_DAMAGE,		// アイテム取得
+		EVENT_GET_ITEM_BATTLE_POINT,// アイテム取得
 		EVENT_HIT_BLADE_PLAYER,		// プレイヤーの斬撃に当たった
 		EVENT_HIT_BLADE_ENEMY,		// 敵の斬撃に当たった
 		EVENT_HIT_BULLET_PLAYER,	// プレイヤーの攻撃弾に当たった
@@ -52,6 +54,7 @@ namespace Common{
 	enum GAME_FLOW{
 		FLOW_TITLE,			// タイトル
 		FLOW_SCORE,			// スコア
+		FLOW_POWER_UP,		// ユーザーパワーアップ
 		FLOW_STAGE01,		// ステージ01
 		FLOW_STAGE02,		// ステージ02
 		FLOW_STAGE03,		// ステージ03
@@ -78,8 +81,10 @@ namespace Common{
 
 	// 画面クラスで使用するパーツの情報構造体
 	struct PARTS_INFO{
-		math::Vector2 m_pos;
+		std::string		m_jsonStr;
+		math::Vector2	m_pos;
 		void Init(){
+			m_jsonStr = "";
 			m_pos = math::Vector2(0,0);
 		}
 	};
@@ -97,6 +102,7 @@ namespace Common{
 		ITEM_KIND_RAPID_BULLET,	// 連射速度UP
 		ITEM_KIND_LIFE_UP,		// ライフ回復
 		ITEM_KIND_DAMAGE_UP,	// 弾の威力UP
+		ITEM_KIND_BATTLE_POINT,	// ベースステータスLvをあげるポイント
 
 		ITEM_KIND_MAX,
 	};
@@ -125,10 +131,26 @@ namespace Common{
 		OWNER_MAX,
 	};
 
+	// バトルポイントを使用してあげることのできるプレイヤーステータス
+	enum PLAYER_BASE_STATE{
+		BASE_STATE_LIFE,		// ライフの最大値を決める
+		BASE_STATE_MOVE_SPEED,	// ダッシュ時間
+		BASE_STATE_DEFFENCE,	// 被ダメージを決める
+		BASE_STATE_BLADE_SPD,	// 斬撃のインターバル
+		BASE_STATE_BULLET_SPD,	// マシンガンの間隔
+		BASE_STATE_BLADE_DMG,	// 斬撃のダメージ
+		BASE_STATE_BULLET_DMG,	// マシンガンのダメージ
+
+		BASE_STATE_MAX,
+	};
+
+	// 以下、セーブデータとして保持する
 	const uint32_t RANKING_RECORD_MAX = 5;
-	struct SAVE_SCORE{
-		uint32_t m_scoreTimeAttack[RANKING_RECORD_MAX];
-		uint32_t m_scoreEndless[RANKING_RECORD_MAX];
+	struct SAVE_DATA{
+		uint32_t m_battlePoint;	// ゲームプレイで手にいてたポイント(パワーアップに必要)
+		uint32_t m_scoreRanking[RANKING_RECORD_MAX];
+
+		uint32_t m_playerBaseStateLv[BASE_STATE_MAX];
 	};
 }
 #endif

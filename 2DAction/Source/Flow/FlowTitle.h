@@ -12,8 +12,9 @@
 #include "FlowBase.h"
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"
+#include "System/Menu/SystemMenuWindow.h"
 
-class Title2D;
+class TitleMenu;
 
 class FlowTitle : public FlowBase
 {
@@ -24,15 +25,14 @@ public:
 protected:
 
 	virtual bool Init() override;
-	virtual void PadEventDecide() override;
+	virtual void UpdateFlowAfterChildTask();
 
 private:
 
 	FlowTitle( const std::string &fileName );
 	virtual ~FlowTitle(void);
 
-	Title2D	*m_pTitleTex;
-
+	TitleMenu	*m_pMenuWindow;
 };
 
 /* ====================================================================== */
@@ -43,10 +43,30 @@ private:
  *		
  */
 /* ====================================================================== */
-class Title2D : public TaskUnit, InputWatcher
+class TitleMenu : public MenuWindow
 {
 public:
+
+	static TitleMenu *Create( const std::string &readMenuJson );
+
+	const uint32_t &GetSelectedNo(){ return m_selectNo; }
+
+	const std::string GetNextFlowStr(){ return m_nextFlow; }
+
+protected:
+
+	virtual bool InitMenu() override;
 	
+	virtual void Update() override;
+
+	virtual void PadEventDecide() override;
+	virtual void PadEventUp() override;
+	virtual void PadEventDown() override;
+	virtual void PadEventRight() override;
+	virtual void PadEventLeft() override;
+
+private:
+
 	enum{
 		SELECT_START,
 		SELECT_SCORE,
@@ -55,32 +75,11 @@ public:
 		SELECT_MAX,
 	};
 
-	static Title2D *CreateTitle2D();
-
-	const uint32_t &GetSelectedNo(){ return m_selectNo; }
-
-protected:
-	
-	virtual bool Init() override;
-	virtual void Update() override;
-	virtual void DrawUpdate() override;		// •`‰æXV
-	
-	virtual void PadEventUp() override;
-	virtual void PadEventDown() override;
-	virtual void PadEventRight() override;
-	virtual void PadEventLeft() override;
-
-private:
-
-	Title2D();
-	virtual ~Title2D(void);
-	
-	Texture2D			m_textureTitle;	// ƒ^ƒCƒgƒ‹ˆê–‡ŠG
+	TitleMenu( const std::string &readMenuJson );
+	virtual ~TitleMenu(void);
 	
 	uint32_t			m_selectNo;
-	Game2DBase			*m_pTexChoiceArray[SELECT_MAX];		// ‘I‘ğˆ
-	Game2DBase			*m_pTexChoiceBGArray[SELECT_MAX];	// ‘I‘ğˆ”wŒi
-	TEX_DRAW_INFO		m_texInfo;							// ‘I‘ğˆ•`‰æî•ñ
+	std::string			m_nextFlow;
 };
 #endif
 

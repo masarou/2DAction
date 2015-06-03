@@ -16,6 +16,9 @@
 #include "System/Task/SystemTaskUnit.h"
 #include "Slashing.h"
 
+// å≈íËíl
+static uint32_t SLASHING_INTERBAL_DEFAULT	= 20;	// éaåÇÇÃê∂ê¨ä‘äu
+static uint32_t SLASHING_DAMAGE_DEFAULT		= 20;	// éaåÇÇÃà–óÕ
 
 class AttackBlade : public TaskUnit
 {
@@ -25,9 +28,11 @@ public:
 	struct BladeState{
 
 		uint32_t	m_damage;			// É_ÉÅÅ[ÉW
+		uint32_t	m_interval;			// éaåÇä‘äu
 
 		void Init(){
-			m_damage	= 20;
+			m_damage	= SLASHING_DAMAGE_DEFAULT;
+			m_interval	= SLASHING_INTERBAL_DEFAULT;
 		}
 	};
 

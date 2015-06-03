@@ -3,5 +3,8 @@
 		{"event":"interval", "path":"FlowInterval.json"},
 		{"event":"totalresult", "path":"FlowTotalResult.json"},
 		{"event":"title", "path":"FlowTitle.json"}
+	],
+	"bgdata":[
+		{"bgid":"BGID_COMMON"}
 	]
 }

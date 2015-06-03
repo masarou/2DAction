@@ -112,6 +112,9 @@ const Common::TYPE_OBJECT ItemObject::GetTypeObject() const
 	case Common::ITEM_KIND_DAMAGE_UP:
 		type = Common::TYPE_ITEM_DAMAGE;
 		break;
+	case Common::ITEM_KIND_BATTLE_POINT:
+		type = Common::TYPE_ITEM_BATTLE_POINT;
+		break;
 	};
 	return type;
 }
@@ -152,6 +155,9 @@ std::string ItemObject::GetItemFilePath()
 		break;
 	case Common::ITEM_KIND_DAMAGE_UP:
 		fileName = "itemDamage.json";
+		break;
+	case Common::ITEM_KIND_BATTLE_POINT:
+		fileName = "itemBattlePoint.json";
 		break;
 	};
 

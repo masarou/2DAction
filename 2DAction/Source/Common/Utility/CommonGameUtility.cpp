@@ -414,7 +414,7 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min)
  * @brief	セーブデータの情報を取得
  */
 /* ================================================ */
-bool GetSaveRanking( Common::SAVE_SCORE &saveData )
+bool GetSaveData( Common::SAVE_DATA &saveData )
 {
 	// ファイルがない場合もあるので一度開いて作成しておく
 	FILE *fpCheck = fopen( "playLog.dat", "r" );
@@ -424,9 +424,10 @@ bool GetSaveRanking( Common::SAVE_SCORE &saveData )
 		fclose( fpCreate );
 
 		// デフォルトの値を詰めておく
-		Common::SAVE_SCORE scoreLog = {
+		Common::SAVE_DATA scoreLog = {
+			0,
 			{ 1000, 500, 300, 100, 0},
-			{ 1000, 500, 300, 100, 0},
+			{ 0 }
 		};
 		FILE *fpWriteDef = fopen( "playLog.dat", "wb" );
 		if( fpWriteDef == NULL ){
@@ -479,9 +480,15 @@ void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Co
 		name			= partsData.get(i).get("partsName").get<std::string>();
 		info.m_pos.x	= static_cast<float>( partsData.get(i).get("x").get<double>() );
 		info.m_pos.y	= static_cast<float>( partsData.get(i).get("y").get<double>() );
+		info.m_jsonStr	= partsData.get(i).get("loadJson").get<std::string>();
 
 		vParts.insert( std::make_pair< std::string, Common::PARTS_INFO >( name, info ));
 	}
+}
+
+void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint32_t color )
+{
+	Draw2DManager::GetInstance()->PushDrawString( str, pos, color );
 }
 
 #ifdef _DEBUG

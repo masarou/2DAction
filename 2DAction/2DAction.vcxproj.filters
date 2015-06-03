@@ -65,6 +65,9 @@
     <Filter Include="Flow\Process">
       <UniqueIdentifier>{34dad26e-a1fe-497a-8432-eb7a38b1e5c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Menu">
+      <UniqueIdentifier>{8628adb3-56a3-44b0-84b4-5d668ddfb7e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -277,6 +280,21 @@
     <ClInclude Include="Source\Flow\Process\FlowProcessBase.h">
       <Filter>Flow\Process</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\SystemBgManager.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowPowerUpPlayer.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Menu\SystemMenuParts.h">
+      <Filter>System\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Menu\SystemMenuWindow.h">
+      <Filter>System\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Sound\SystemSoundTable.h">
+      <Filter>System\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -471,6 +489,18 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\Process\FlowProcessBase.cpp">
       <Filter>Flow\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\SystemBgManager.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowPowerUpPlayer.cpp">
+      <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Menu\SystemMenuParts.cpp">
+      <Filter>System\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Menu\SystemMenuWindow.cpp">
+      <Filter>System\Menu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

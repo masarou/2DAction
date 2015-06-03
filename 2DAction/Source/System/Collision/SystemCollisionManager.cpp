@@ -135,6 +135,9 @@ void CollisionManager::CollisionUpdate()
 				case Common::TYPE_ITEM_DAMAGE:
 					messageKind = Common::EVENT_GET_ITEM_DAMAGE;
 					break;
+				case Common::TYPE_ITEM_BATTLE_POINT:
+					messageKind = Common::EVENT_GET_ITEM_BATTLE_POINT;
+					break;
 				case Common::TYPE_BLADE_PLAYER:
 					{
 						messageKind = Common::EVENT_HIT_BLADE_PLAYER;
@@ -266,6 +269,7 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ITEM_BULLET:
 	case Common::TYPE_ITEM_LIFE:
 	case Common::TYPE_ITEM_DAMAGE:
+	case Common::TYPE_ITEM_BATTLE_POINT:
 	case Common::TYPE_BULLET_ENEMY:
 	case Common::TYPE_BLADE_ENEMY:
 	//case Common::TYPE_EXPLOSION_ENEMY:

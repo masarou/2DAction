@@ -77,7 +77,6 @@ private:
 
 	DISP_STATE			m_dispState;						// どこまで表示しているか
 	Texture2D			m_textureResult;					// 画面フレーム
-	Texture2D			m_textureBG;						// 背景一枚絵
 	TEX_DRAW_INFO		m_numberInfo;						// 描画関係情報
 	
 	NumberCounter		*m_pNumCounterResult;				// スコア表示

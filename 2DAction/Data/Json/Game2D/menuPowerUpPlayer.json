@@ -1,0 +1,5 @@
+{
+	"partsInfo":[
+		{"partsName":"frame",		"loadJson":"powerUpMenu.json",	"x": 640,	"y": 360}
+	]
+}

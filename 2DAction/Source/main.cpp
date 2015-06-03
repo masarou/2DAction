@@ -9,6 +9,7 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "System/SystemFadeManager.h"
 #include "System/SystemPauseFilter.h"
+#include "System/SystemBgManager.h"
 #include "Game/GameRecorder.h"
 #include "Common/CmnGameAccesser.h"
 #include "Flow/FlowManager.h"
@@ -36,6 +37,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	// ウインドウサイズ設定
 	SetGraphMode( WINDOW_WIDTH, WINDOW_HEIGHT, 32);
 
+	// デフォルトフォント設定
+	SetDefaultFontState( "メイリオ", 25, 6 );
+
 	//! TaskUnit非継承常駐物
 	GameAccesser::Create();
 	Draw2DManager::Create();
@@ -49,6 +53,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	FadeManager::Create();
 	PauseFilter::Create();
 	GameRecorder::Create();
+	BgManager::Create();
 
 	while(1){
 
@@ -100,6 +105,9 @@ void GameMain()
 	SetDrawScreen( DX_SCREEN_BACK ) ;
 
 	TaskManager::GetInstance()->ExecApp();
+
+	//! すべての2D描画はここで行う
+	Draw2DManager::GetInstance()->Action();
 
 	//! 裏画面の内容を表画面に反映させる
 	ScreenFlip() ;

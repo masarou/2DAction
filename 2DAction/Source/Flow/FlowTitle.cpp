@@ -17,7 +17,7 @@ FlowBase *FlowTitle::Create( const std::string &fileName )
 
 FlowTitle::FlowTitle( const std::string &fileName )
 : FlowBase( fileName )
-, m_pTitleTex( NULL )
+, m_pMenuWindow( NULL )
 {
 	DEBUG_PRINT("FlowTitle生成！！\n");
 }
@@ -33,8 +33,8 @@ bool FlowTitle::Init()
 	// ゲームスコア等初期化
 	Utility::GameInitALL();
 
-	// 一枚絵作成
-	m_pTitleTex = Title2D::CreateTitle2D();
+	// 選択肢管理クラス
+	m_pMenuWindow = TitleMenu::Create( "menuTitle.json" );
 
 	// BGM再生開始
 	SoundManager::GetInstance()->PlayBGM( "title" );
@@ -42,27 +42,13 @@ bool FlowTitle::Init()
 	return true;
 }
 
-void FlowTitle::PadEventDecide()
+void FlowTitle::UpdateFlowAfterChildTask()
 {
-	// 決定SE鳴らす
-	SoundManager::GetInstance()->PlaySE("Decide");
-
-	switch( m_pTitleTex->GetSelectedNo() ){
-	default:
-		
-		break;
-	case Title2D::SELECT_START:
-	StartFade("startgame");
-		break;
-	case Title2D::SELECT_SCORE:
-	StartFade("score");
-		break;
-	case Title2D::SELECT_EXIT:
-	StartFade("exit");
-		break;
+	// 次の遷移先を常に監視
+	if( m_pMenuWindow && !m_pMenuWindow->GetNextFlowStr().empty() ){
+		StartFade( m_pMenuWindow->GetNextFlowStr().c_str() );
 	}
 }
-
 
 /* ====================================================================== */
 /**
@@ -72,50 +58,22 @@ void FlowTitle::PadEventDecide()
  *		
  */
 /* ====================================================================== */
-Title2D *Title2D::CreateTitle2D()
+TitleMenu *TitleMenu::Create( const std::string &readMenuJson )
 {
-	return NEW Title2D();
+	return NEW TitleMenu( readMenuJson );
 }
 
-Title2D::Title2D()
-: TaskUnit("Title2D")
+TitleMenu::TitleMenu( const std::string &readMenuJson )
+: MenuWindow( readMenuJson )
 , m_selectNo( 0 )
 {
-	m_textureTitle.Init();
-
-	// 描画クラスセットアップ
-	m_textureTitle.m_pTex2D = NEW Game2DBase("titleBg.json");
-	m_textureTitle.m_texInfo.m_fileName = "titleBg.json";
-	m_textureTitle.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	m_textureTitle.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	m_textureTitle.m_texInfo.m_usePlayerOffset = false;
-	m_textureTitle.m_pTex2D->SetDrawInfo(m_textureTitle.m_texInfo);
-
-	m_texInfo.Init();
-	m_texInfo.m_usePlayerOffset = false;
-	for( uint32_t i = 0; i < SELECT_MAX; ++i ){
-		m_pTexChoiceArray[i] = NULL;
-		m_pTexChoiceBGArray[i] = NULL;
-
-		m_pTexChoiceArray[i] = NEW Game2DBase("choice.json");
-		m_pTexChoiceArray[i]->SetDrawInfo( m_texInfo );
-		m_pTexChoiceBGArray[i] = NEW Game2DBase("choiceBG.json");
-		m_pTexChoiceBGArray[i]->SetDrawInfo( m_texInfo );
-	}
 }
 
-Title2D::~Title2D(void)
+TitleMenu::~TitleMenu(void)
 {
-	m_textureTitle.DeleteAndInit();
-	
-	for( uint32_t i = 0; i < SELECT_MAX; ++i ){
-		SAFE_DELETE( m_pTexChoiceArray[i] );
-		SAFE_DELETE( m_pTexChoiceBGArray[i] );
-	}
 }
 
-
-bool Title2D::Init()
+bool TitleMenu::InitMenu()
 {
 	// 方向キーのパッドイベントはPUSHで呼ぶように設定
 	SetPadButtonState( InputWatcher::BUTTON_UP,		InputWatcher::EVENT_PUSH );
@@ -123,77 +81,87 @@ bool Title2D::Init()
 	SetPadButtonState( InputWatcher::BUTTON_RIGHT,	InputWatcher::EVENT_PUSH );
 	SetPadButtonState( InputWatcher::BUTTON_LEFT,	InputWatcher::EVENT_PUSH );
 
+	// 選択肢項目のセットアップ
+	for( uint32_t i = 0; i < SELECT_MAX ; ++i ){
+		std::string animStr = "";
+		switch( i ){
+		default:
+		case SELECT_START:
+			animStr = "start";
+			break;
+		case SELECT_SCORE:
+			animStr = "score";
+			break;
+		case SELECT_EXIT:
+			animStr = "exit";
+			break;
+		}
+
+		std::string partStr = "choice";
+		partStr += '0' + i;
+		SetAnim( partStr, animStr );
+	}
 	return true;
 }
 
-void Title2D::PadEventUp()
+void TitleMenu::Update()
 {
-}
-
-void Title2D::PadEventDown()
-{
-}
-void Title2D::PadEventRight()
-{
-	// カーソルSE鳴らす
-	SoundManager::GetInstance()->PlaySE("Cursor");
-	m_selectNo = (m_selectNo+1) % SELECT_MAX;
-}
-void Title2D::PadEventLeft()
-{
-	// カーソルSE鳴らす
-	SoundManager::GetInstance()->PlaySE("Cursor");
-	m_selectNo = (m_selectNo+(SELECT_MAX - 1)) % SELECT_MAX;
-}
-
-void Title2D::Update()
-{
-	CallPadEvent();
-}
-
-void Title2D::DrawUpdate()
-{
-	if( m_textureTitle.m_pTex2D ){
-		m_textureTitle.m_pTex2D->DrawUpdate2D();
+	if( !m_nextFlow.empty() ){
+		// 次の遷移先が決まったのでなにもしない
+		return;
 	}
-	
-	for( uint32_t i = 0; i < SELECT_MAX; ++i){
-		if( !m_pTexChoiceArray[i] || !m_pTexChoiceBGArray[i] ){
-			continue;
-		}
-		switch(i){
-		default:
-			DEBUG_ASSERT( 0, "想定外の値" );
-			m_pTexChoiceArray[i]->SetAnim("start");
-			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
-			break;
-		case SELECT_START:
-			m_pTexChoiceArray[i]->SetAnim("start");
-			m_texInfo.m_posOrigin = math::Vector2( 100.0f, 40.0f );
-			break;
-		case SELECT_SCORE:
-			m_pTexChoiceArray[i]->SetAnim("score");
-			m_texInfo.m_posOrigin = math::Vector2( 400.0f, 40.0f );
-			break;
-		case SELECT_EXIT:
-			m_pTexChoiceArray[i]->SetAnim("exit");
-			m_texInfo.m_posOrigin = math::Vector2( 700.0f, 40.0f );
-			break;
-		}
 
+	CallPadEvent();
+	for( uint32_t i = 0; i < SELECT_MAX; ++i){
 		// カーソルが当たっていたらアニメ変更
 		std::string anim = "default";
 		if( m_selectNo == i ){
 			anim = "spot";
 		}
-		m_pTexChoiceBGArray[i]->SetAnim( anim );
-
-		// 描画位置更新
-		m_pTexChoiceArray[i]->SetDrawInfo( m_texInfo );
-		m_pTexChoiceBGArray[i]->SetDrawInfo( m_texInfo );
-
-		// 描画
-		m_pTexChoiceBGArray[i]->DrawUpdate2D();
-		m_pTexChoiceArray[i]->DrawUpdate2D();
+		std::string partStr = "choiceBG";
+		partStr += '0' + i;
+		SetAnim( partStr, anim );
 	}
+}
+
+
+void TitleMenu::PadEventDecide()
+{
+	// 決定SE鳴らす
+	SoundManager::GetInstance()->PlaySE("Decide");
+
+	switch( m_selectNo ){
+	default:
+		break;
+	case SELECT_START:
+	m_nextFlow = "startgame";
+		break;
+	case SELECT_SCORE:
+	m_nextFlow = "score";
+		break;
+	case SELECT_EXIT:
+	m_nextFlow = "exit";
+		break;
+	}
+}
+
+void TitleMenu::PadEventUp()
+{
+}
+
+void TitleMenu::PadEventDown()
+{
+}
+
+void TitleMenu::PadEventRight()
+{
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+	m_selectNo = (m_selectNo+1) % SELECT_MAX;
+}
+void TitleMenu::PadEventLeft()
+{
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+	m_selectNo = (m_selectNo+(SELECT_MAX - 1)) % SELECT_MAX;
 }

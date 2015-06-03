@@ -27,6 +27,7 @@ public:
 	void Action();
 
 	//! •`‰æ—\–ñ
+	void PushDrawString( const std::string &str, const math::Vector2 &pos, const uint32_t &color );
 	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority = PRIORITY_NORMAL );
 
 	//! •`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
@@ -56,6 +57,17 @@ private:
 		}
 	};
 
+	struct DRAWSTR{
+		std::string		m_str;
+		math::Vector2	m_drawPos;
+		uint32_t		m_color;
+		void Init(){
+			m_str		= "";
+			m_drawPos	= math::Vector2();
+			m_color		= GetColor( 255,255,255 );
+		}
+	};
+
 	Draw2DManager(void);
 	~Draw2DManager(void);
 
@@ -69,6 +81,7 @@ private:
 
 	bool					m_useBilinear;
 	std::vector<DRAW2D>		m_vDrawTask;
+	std::vector<DRAWSTR>	m_vDrawStringTask;
 };
 
 #endif //SYSTEM_DRAW2D_MASNAGER

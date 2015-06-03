@@ -14,9 +14,6 @@
 #include "Game/Enemy/EnemyManager.h"
 #include "System/Sound/SystemSoundManager.h"
 
-// ŒÅ’è’l
-static uint32_t SLASHING_INTERBAL = 20;	// aŒ‚‚Ì¶¬ŠÔŠu
-
 AttackBlade *AttackBlade::CreateAttackBlade( const Common::OWNER_TYPE &ownerType )
 {
 	return NEW AttackBlade( ownerType );
@@ -66,7 +63,7 @@ void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 
 
 		// ˜A‘±‚µ‚Ä‚Å‚«‚éUŒ‚‚ÌÅŒã‚È‚çŸ‚ÌUŒ‚‚Ü‚Å‚ÉŠÔ‚ğİ‚¯‚é
 		if( type == Slashing::TYPE_3RD ){
-			m_intervalTime = SLASHING_INTERBAL;
+			m_intervalTime = m_currState.m_interval;
 		}
 	}
 	else if( m_intervalTime == 0 ){
