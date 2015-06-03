@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"GameBgCommon.png"
+		, "animDefault":"idle"
+		, "sizeW": 1280
+		, "sizeH": 720
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"idle",	"frameSpeed":1,	"animIndex":[0],	"nextAnim":"idle"}
+	]	
+}

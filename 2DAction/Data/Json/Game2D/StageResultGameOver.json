@@ -1,0 +1,22 @@
+{
+	"basicInfo":[
+		{"fileName":"stageResultGameOver.png"
+		, "animDefault":"default"
+		, "sizeW": 1280
+		, "sizeH": 720
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	],
+	
+	"partsInfo":[
+		{"partsName":"strNumber01",	"x": 1100,	"y": 243},
+		{"partsName":"strNumber02",	"x": 1100,	"y": 332},
+		{"partsName":"strNumber03",	"x": 1100,	"y": 410},
+		{"partsName":"strNumber04",	"x": 1100,	"y": 560}
+	]
+}

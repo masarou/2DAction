@@ -1,0 +1,21 @@
+{
+	"basicInfo":[
+		{"fileName":"comboFrame2.png"
+		, "animDefault":"default"
+		, "sizeW": 500
+		, "sizeH": 128
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	],
+	
+	"partsInfo":[
+		{"partsName":"comboStr",	"loadJson":"ComboHitStr.json",	"x": 390,	"y": 95},
+		{"partsName":"count",		"loadJson":"NumberLarge.json",	"x": 230,	"y": 85},
+		{"partsName":"comboGauge",	"loadJson":"ComboGauge.json",	"x": 490,	"y": 115}
+	]
+}

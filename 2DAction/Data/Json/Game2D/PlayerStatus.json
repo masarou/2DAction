@@ -1,0 +1,21 @@
+{
+	"basicInfo":[
+		{"fileName":"lifeFrame.png"
+		, "animDefault":"default"
+		, "sizeW": 480
+		, "sizeH": 70
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	],
+	
+	"partsInfo":[
+		{"partsName":"lifeBarPos",	"loadJson":"LifeGauge.json",	"x": 22,	"y": 46},
+		{"partsName":"itemLevel01",	"loadJson":"NumberLv.json",	"x": 120,	"y": 10},
+		{"partsName":"itemLevel02",	"loadJson":"NumberLv.json",	"x": 270,	"y": 10}
+	]
+}

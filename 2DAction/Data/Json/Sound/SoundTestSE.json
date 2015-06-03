@@ -1,0 +1,27 @@
+{
+	"soundTable":[
+		{"tag":"ShootBullet", "file":"shootBullet.mp3"},
+		{"tag":"Slashing1st", "file":"slashing1st.mp3"},
+		{"tag":"DamageDirect", "file":"damageDirect.mp3"},
+		{"tag":"DamageBullet", "file":"damageBullet.mp3"},
+		{"tag":"Dash", "file":"dash.mp3"},
+		{"tag":"Warning", "file":"warning.mp3"},
+		{"tag":"Emergency", "file":"emergency.mp3"},
+		{"tag":"Death", "file":"bomb.mp3"},
+		{"tag":"Cursor", "file":"cursor.mp3"},
+		{"tag":"Decide", "file":"decide.mp3"},
+		{"tag":"Cancel", "file":"cancel.mp3"},
+		{"tag":"Count", "file":"count.mp3"},
+		{"tag":"GetItemHeal", "file":"getItemHeal.mp3"},
+		{"tag":"GetItem", "file":"getItem.mp3"},
+		{"tag":"LearningAction", "file":"LearningAction.mp3"},
+		{"tag":"FadeIn", "file":"fadein.mp3"},
+		{"tag":"FadeOut", "file":"fadeout.mp3"},
+		{"tag":"PauseStart", "file":"pauseStart.wav"},
+		{"tag":"PauseEnd", "file":"pauseEnd.wav"},
+		{"tag":"ShowResult", "file":"count.mp3"},
+		{"tag":"ShowTotal", "file":"count.mp3"},
+		{"tag":"Gameover", "file":"Gameover.mp3"},
+		{"tag":"explosion", "file":"explosion.mp3"}
+	]
+}

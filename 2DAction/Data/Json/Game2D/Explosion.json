@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"explosion.png"
+		, "animDefault":"anim"
+		, "sizeW": 192
+		, "sizeH": 192
+		, "splitW": 5
+		, "splitH": 4
+		, "total": 20 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"anim",	"frameSpeed":2,	"animIndex":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],	"nextAnim":""}
+	]	
+}

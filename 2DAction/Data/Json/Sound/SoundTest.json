@@ -1,0 +1,9 @@
+{
+	"soundTable":[
+		{"tag":"stage01", "file":"stage01.mp3"},
+		{"tag":"stage02", "file":"stage02.mp3"},
+		{"tag":"stage03", "file":"stage03.mp3"},
+		{"tag":"title", "file":"interval.mp3"},
+		{"tag":"interval", "file":"interval.mp3"}
+	]
+}

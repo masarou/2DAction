@@ -1,0 +1,10 @@
+{
+	"eventdata":[
+		{"event":"startgame", "path":"FlowPowerUpPlayer.json"},
+		{"event":"score", "path":"FlowScore.json"},
+		{"event":"exit", "path":"FlowExit.json"}
+	],
+	"bgdata":[
+		{"bgid":"BGID_TITLE"}
+	]
+}

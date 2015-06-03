@@ -1,0 +1,20 @@
+{
+	"basicInfo":[
+		{"fileName":"stageTimer.png"
+		, "animDefault":"default"
+		, "sizeW": 320
+		, "sizeH": 80
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	],
+	
+	"partsInfo":[
+		{"partsName":"numPos",		"loadJson":"ClockTimer.json",	"x": 230,	"y": 40},
+		{"partsName":"timeIcon",	"loadJson":"ClockTimer.json",	"x": 50,	"y": 40}
+	]
+}

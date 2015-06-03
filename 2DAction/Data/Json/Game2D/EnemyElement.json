@@ -1,0 +1,18 @@
+{
+	"basicInfo":[
+		{"fileName":"enemyElement.png"
+		, "animDefault":"down"
+		, "sizeW": 55
+		, "sizeH": 54
+		, "splitW": 1
+		, "splitH": 10
+		, "total": 10 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"up",	"frameSpeed":8,	"animIndex":[0,1,2,3,4,5,6,7,8,9],	"nextAnim":"up"},
+		{"animTag":"down",	"frameSpeed":8,	"animIndex":[0,1,2,3,4,5,6,7,8,9],	"nextAnim":"down"},
+		{"animTag":"right",	"frameSpeed":8,	"animIndex":[0,1,2,3,4,5,6,7,8,9],	"nextAnim":"right"},
+		{"animTag":"left",	"frameSpeed":8,	"animIndex":[0,1,2,3,4,5,6,7,8,9],	"nextAnim":"left"}
+	]	
+}

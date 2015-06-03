@@ -1,0 +1,24 @@
+{
+	"basicInfo":[
+		{"fileName":"damageNum.png"
+		, "animDefault":""
+		, "sizeW": 12
+		, "sizeH": 25
+		, "splitW": 10
+		, "splitH": 10
+		, "total": 100 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"0",	"frameSpeed":3,	"animIndex":[0,10,20,30,40,50,60,70,80,90],	"nextAnim":""},
+		{"animTag":"1",	"frameSpeed":3,	"animIndex":[1,11,21,31,41,51,61,71,81,91],	"nextAnim":""},
+		{"animTag":"2",	"frameSpeed":3,	"animIndex":[2,12,22,32,42,52,62,72,82,92],	"nextAnim":""},
+		{"animTag":"3",	"frameSpeed":3,	"animIndex":[3,13,23,33,43,53,63,73,83,93],	"nextAnim":""},
+		{"animTag":"4",	"frameSpeed":3,	"animIndex":[4,14,24,34,44,54,64,74,84,94],	"nextAnim":""},
+		{"animTag":"5",	"frameSpeed":3,	"animIndex":[5,15,25,35,45,55,65,75,85,95],	"nextAnim":""},
+		{"animTag":"6",	"frameSpeed":3,	"animIndex":[6,16,26,36,46,56,66,76,86,96],	"nextAnim":""},
+		{"animTag":"7",	"frameSpeed":3,	"animIndex":[7,17,27,37,47,57,67,77,87,97],	"nextAnim":""},
+		{"animTag":"8",	"frameSpeed":3,	"animIndex":[8,18,28,38,48,58,68,78,88,98],	"nextAnim":""},
+		{"animTag":"9",	"frameSpeed":3,	"animIndex":[9,19,29,39,49,59,69,79,89,99],	"nextAnim":""}
+	]	
+}

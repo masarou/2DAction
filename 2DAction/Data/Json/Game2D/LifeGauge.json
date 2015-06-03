@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"lifeGauge.png"
+		, "animDefault":"default"
+		, "sizeW": 30
+		, "sizeH": 10
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":6,	"animIndex":[0],	"nextAnim":"default"}
+	]	
+}
