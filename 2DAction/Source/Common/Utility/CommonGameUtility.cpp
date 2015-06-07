@@ -477,10 +477,28 @@ void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Co
 		Common::PARTS_INFO info;
 		info.Init();
 
+		// 名前と位置情報取得
 		name			= partsData.get(i).get("partsName").get<std::string>();
 		info.m_pos.x	= static_cast<float>( partsData.get(i).get("x").get<double>() );
 		info.m_pos.y	= static_cast<float>( partsData.get(i).get("y").get<double>() );
-		info.m_jsonStr	= partsData.get(i).get("loadJson").get<std::string>();
+
+		// パーツ情報が書かれたjsonファイル名
+		if( partsData.get(i).get("loadJson") != null ){
+			info.m_jsonStr	= partsData.get(i).get("loadJson").get<std::string>();
+		}
+		else{
+			info.m_jsonStr = "";
+		}
+
+		// 特殊な機能を持ったパーツの場合そのタイプをセットしておく
+		if( partsData.get(i).get("partsType") != null ){
+			if( partsData.get(i).get("partsType").get<std::string>() == "PARTS_SINGLE_DRAW" ){
+				info.m_type	= Common::PARTS_SINGLE_DRAW;
+			}
+			else if( partsData.get(i).get("partsType").get<std::string>() == "PARTS_NUM_COUNTER" ){
+				info.m_type	= Common::PARTS_NUM_COUNTER;
+			}
+		}
 
 		vParts.insert( std::make_pair< std::string, Common::PARTS_INFO >( name, info ));
 	}

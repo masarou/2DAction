@@ -58,7 +58,7 @@ public:
 protected:
 	
 	virtual bool InitMenu() override;
-	virtual void Update() override;
+	virtual void UpdateMenu() override;
 
 private:
 

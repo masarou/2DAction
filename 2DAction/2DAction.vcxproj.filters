@@ -295,6 +295,12 @@
     <ClInclude Include="Source\System\Sound\SystemSoundTable.h">
       <Filter>System\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\Menu\SystemMenuPartsCounter.h">
+      <Filter>System\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\Menu\SystemMenuPartsFactory.h">
+      <Filter>System\Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -500,6 +506,9 @@
       <Filter>System\Menu</Filter>
     </ClCompile>
     <ClCompile Include="Source\System\Menu\SystemMenuWindow.cpp">
+      <Filter>System\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\Menu\SystemMenuPartsCounter.cpp">
       <Filter>System\Menu</Filter>
     </ClCompile>
   </ItemGroup>

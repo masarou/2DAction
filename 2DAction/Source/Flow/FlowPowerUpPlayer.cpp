@@ -104,7 +104,7 @@ bool PowerUpMenu::InitMenu()
 	return true;
 }
 
-void PowerUpMenu::Update()
+void PowerUpMenu::UpdateMenu()
 {
 	
 }

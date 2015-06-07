@@ -28,6 +28,7 @@ namespace Common{
 		TYPE_MAX,
 	};
 
+	// オブジェクト同士のイベントメッセージ
 	enum EVENT_MESSAGE{
 		EVENT_HIT_PLAYER,		// プレイヤーキャラクタ
 		EVENT_HIT_ENEMY_AAA,	// 敵との接触
@@ -79,13 +80,23 @@ namespace Common{
 		}
 	};
 
+	// 画面クラス内のパーツ種類
+	enum PARTS_TYPE_MENU{
+		PARTS_SINGLE_DRAW,	// アニメ情報をもつ程度のシンプルなパーツ
+		PARTS_NUM_COUNTER,	// 与えられた数値を描画し続けるパーツ
+
+		PARTS_MAX,
+	};
+
 	// 画面クラスで使用するパーツの情報構造体
 	struct PARTS_INFO{
 		std::string		m_jsonStr;
 		math::Vector2	m_pos;
+		PARTS_TYPE_MENU	m_type;
 		void Init(){
 			m_jsonStr = "";
 			m_pos = math::Vector2(0,0);
+			m_type = PARTS_SINGLE_DRAW;
 		}
 	};
 

@@ -104,7 +104,7 @@ bool TitleMenu::InitMenu()
 	return true;
 }
 
-void TitleMenu::Update()
+void TitleMenu::UpdateMenu()
 {
 	if( !m_nextFlow.empty() ){
 		// Ÿ‚Ì‘JˆÚæ‚ªŒˆ‚Ü‚Á‚½‚Ì‚Å‚È‚É‚à‚µ‚È‚¢

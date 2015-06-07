@@ -57,7 +57,7 @@ protected:
 
 	virtual bool InitMenu() override;
 	
-	virtual void Update() override;
+	virtual void UpdateMenu() override;
 
 	virtual void PadEventDecide() override;
 	virtual void PadEventUp() override;

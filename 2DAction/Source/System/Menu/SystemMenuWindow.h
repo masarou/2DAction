@@ -11,6 +11,7 @@
 #define __MENU_WINDOW__
 
 #include "Game/Game2DBase.h"
+#include "SystemMenuPartsCounter.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/Input/SystemInputWatcher.h"
 
@@ -29,13 +30,19 @@ protected:
 	// 継承禁止!!!
 	virtual bool Init() override;
 	virtual bool DieMain() override;
+	virtual void Update() override;
 	virtual void DrawUpdate() override;
 	
 	// 派生先専用
 	virtual bool InitMenu(){ return true; }
+	virtual void UpdateMenu(){};
+	virtual void DrawUpdateMenu(){};
 
 	// 継承先各Menu画面からアニメイベントセット
 	void SetAnim( const std::string &partsStr, const std::string &animStr );
+
+	// 各パーツクラス取得
+	PartsCounter *GetPartsCounter( const std::string &partsStr );
 
 private:
 	

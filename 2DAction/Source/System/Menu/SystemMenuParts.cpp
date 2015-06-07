@@ -9,6 +9,7 @@
 
 
 #include "SystemMenuParts.h"
+#include "SystemMenuPartsFactory.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
@@ -50,6 +51,30 @@ void MenuParts::DrawParts()
 	for( uint32_t i = 0; i < m_partsArray.size() ; ++i ){
 		m_partsArray.at(i)->DrawParts();
 	}
+}
+
+/* ================================================ */
+/**
+ * @brief	子も含めてパーツ削除
+ */
+/* ================================================ */
+MenuParts *MenuParts::GetPartsRecursive( const std::string &partsStr )
+{
+	// 探しているのが自分ではないかチェック
+	if( m_partsNameStr.compare( partsStr ) == 0 ){
+		return this;
+	}
+
+	// 自分でなければ子クラスを探す
+	for( uint32_t i = 0; i < m_partsArray.size() ; ++i ){
+		MenuParts *pSearchResult = m_partsArray.at(i)->GetPartsRecursive( partsStr );
+		if( pSearchResult ){
+			return pSearchResult;
+		}
+	}
+
+	// 見つからなかった
+	return NULL;
 }
 
 /* ================================================ */
@@ -125,11 +150,10 @@ void MenuParts::SetupParts()
 		if( it == m_partsMap.end() ){
 			break;
 		}
-		MenuParts *parts = Create( it->first, it->second.m_jsonStr, it->second.m_pos + m_originPos );
+		MenuParts *parts = CreatePartsFactory( it->second.m_type, it->first, it->second.m_jsonStr, it->second.m_pos + m_originPos );
 		m_partsArray.push_back(parts);
 		++it;
 	}
 
 }
-
 

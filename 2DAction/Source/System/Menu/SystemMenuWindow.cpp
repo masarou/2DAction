@@ -32,6 +32,19 @@ void MenuWindow::SetAnim( const std::string &partsStr, const std::string &animSt
 	}
 }
 
+PartsCounter *MenuWindow::GetPartsCounter( const std::string &partsStr )
+{
+	if( m_pMainParts ){
+		MenuParts *pParts = m_pMainParts->GetPartsRecursive( partsStr );
+		if( pParts ){
+			return dynamic_cast<PartsCounter*>(pParts);
+		}
+	}
+
+	DEBUG_ASSERT( 0, "指定されたMenuパーツは見つかりませんでした");
+	return NULL;
+}
+
 bool MenuWindow::DieMain()
 {
 	if( m_pMainParts->DeletePartsAll() ){
@@ -45,9 +58,17 @@ bool MenuWindow::DieMain()
 bool MenuWindow::Init()
 {
 	if( !m_pMainParts ){
-		m_pMainParts = NEW MenuParts( "root", m_readMenuFile, math::Vector2() );
+		m_pMainParts = MenuParts::Create( "root", m_readMenuFile, math::Vector2() );
 	}
 	return InitMenu();
+}
+
+void MenuWindow::Update()
+{
+	if( m_pMainParts ){
+		m_pMainParts->UpdateParts();
+	}
+	UpdateMenu();
 }
 
 void MenuWindow::DrawUpdate()
@@ -55,5 +76,6 @@ void MenuWindow::DrawUpdate()
 	if( m_pMainParts ){
 		m_pMainParts->DrawParts();
 	}
+	DrawUpdateMenu();
 }
 
