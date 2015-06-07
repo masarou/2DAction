@@ -32,7 +32,7 @@ FadeManager::FadeManager()
 , m_currState( STATE_IDLE )
 {
 	// 描画クラスセットアップ
-	m_fadePlate2D = NEW Game2DBase("WhiteFade.json");
+	m_fadePlate2D = Game2DBase::Create("WhiteFade.json");
 	m_PlateInfo.Init();
 	m_PlateInfo.m_prioity			= PRIORITY_HIGHEST;
 	const TEX_INIT_INFO &info		= TextureResourceManager::GetInstance()->GetLoadTextureInfo( "WhiteFade.json" );

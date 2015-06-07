@@ -32,7 +32,7 @@ PauseFilter::PauseFilter()
 {
 	// 描画クラスセットアップ
 	m_drawTexture.Init();
-	m_drawTexture.m_pTex2D = NEW Game2DBase( "PauseFilter.json" );
+	m_drawTexture.m_pTex2D = Game2DBase::Create( "PauseFilter.json" );
 	m_drawTexture.m_texInfo.m_prioity			= PRIORITY_HIGH;
 	const TEX_INIT_INFO &info					= TextureResourceManager::GetInstance()->GetLoadTextureInfo( "PauseFilter.json" );
 	m_drawTexture.m_texInfo.m_scale				= math::Vector2( (WINDOW_WIDTH / info.m_sizeWidth) + 1.0f, (WINDOW_HEIGHT / info.m_sizeHeight) + 1.0f );
@@ -42,7 +42,7 @@ PauseFilter::PauseFilter()
 	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 	
 	m_drawPauseStr.Init();
-	m_drawPauseStr.m_pTex2D = NEW Game2DBase( "PauseStr.json" );
+	m_drawPauseStr.m_pTex2D = Game2DBase::Create( "PauseStr.json" );
 	m_drawPauseStr.m_texInfo.m_prioity			= PRIORITY_HIGH;
 	m_drawPauseStr.m_texInfo.m_posOrigin		= math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
 	m_drawPauseStr.m_texInfo.m_usePlayerOffset	= false;

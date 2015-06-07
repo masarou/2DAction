@@ -29,7 +29,7 @@ StageTimer::StageTimer( uint32_t startTime )
 
 	//!初期位置セット
 	std::string jsonStr = "StageTimer.json";
-	m_plateStageTimer.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
+	m_plateStageTimer.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 	m_plateStageTimer.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_plateStageTimer.m_texInfo.m_fileName = jsonStr;
 	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( jsonStr.c_str() );
@@ -56,7 +56,7 @@ bool StageTimer::Init()
 
 	// 時計画像
 	std::string jsonStr = "ClockTimer.json";
-	m_animClock.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
+	m_animClock.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 	m_animClock.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	m_animClock.m_texInfo.m_fileName = jsonStr;
 	const Common::PARTS_INFO &clockInfo = GetPartsInfo("timeIcon");

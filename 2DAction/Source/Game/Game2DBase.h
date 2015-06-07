@@ -19,11 +19,14 @@ class Game2DBase
 {
 public:
 
-	Game2DBase( const char *jsonFile );
+	// CreateWithCheckは指定されたJsonがGame2D用のものかどうかのチェックも行う
+	static Game2DBase *Create( const char *jsonFile );
+	static Game2DBase *CreateWithCheck( const char *jsonFile );
+	
 	virtual ~Game2DBase(void);
 
 	//!再生中アニメの変更、取得
-	void SetAnim( const std::string &animTag );							
+	void SetAnim( const std::string &animTag );
 	const char *GetPlayAnim() const{return m_currentAnimTag.c_str();}
 	
 	//!描画設定更新
@@ -38,6 +41,8 @@ public:
 	const TEX_DRAW_INFO &GetDrawInfo() const{ return m_drawInfo; }
 	
 private:
+
+	Game2DBase( const char *jsonFile );
 
 	//!テクスチャロード
 	void LoadTextureInfo(const char *jsonFile);

@@ -124,7 +124,7 @@ void BgManager::Update()
 			if( m_currBGID != BGID_NONE ){
 				// 描画クラスセットアップ
 				std::string fileName = GetBgJsonName( m_currBGID );
-				m_drawTexture.m_pTex2D = NEW Game2DBase( fileName.c_str() );
+				m_drawTexture.m_pTex2D = Game2DBase::Create( fileName.c_str() );
 				m_drawTexture.m_texInfo.m_fileName = fileName;
 				m_drawTexture.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 				m_drawTexture.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;

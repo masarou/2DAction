@@ -66,7 +66,7 @@ bool MenuWindow::Init()
 void MenuWindow::Update()
 {
 	if( m_pMainParts ){
-		m_pMainParts->UpdateParts();
+		m_pMainParts->UpdatePartsRecursive();
 	}
 	UpdateMenu();
 }
@@ -74,7 +74,7 @@ void MenuWindow::Update()
 void MenuWindow::DrawUpdate()
 {
 	if( m_pMainParts ){
-		m_pMainParts->DrawParts();
+		m_pMainParts->DrawPartsRecursive();
 	}
 	DrawUpdateMenu();
 }

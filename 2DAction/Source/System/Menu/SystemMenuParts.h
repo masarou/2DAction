@@ -31,17 +31,22 @@ public:
 	// 描画情報取得＆更新
 	TEX_DRAW_INFO &GetTexDrawInfo(){ return m_texMine.m_texInfo; }
 
-	// 子も含め描画トリガー関数
-	void DrawParts();
-
 	// 各派生先で必要になるUpdate
-	virtual void UpdateParts(){};
+	void UpdatePartsRecursive();
 
-	// パーツタイプ取得(派生先では必ず実装)
-	virtual Common::PARTS_TYPE_MENU GetPartsType(){ return Common::PARTS_SINGLE_DRAW; }
+	// 子も含め描画トリガー関数
+	void DrawPartsRecursive();
 
 	// 指定されたパーツクラスを再帰的に探すなければNULL
 	MenuParts *GetPartsRecursive( const std::string &partsStr );
+
+	// 描画するかどうかフラグ
+	void SetDrawFlag( const bool &isDraw );
+
+	// 以下、派生先で要実装の可能性がある関数
+	// パーツタイプ取得
+	virtual Common::PARTS_TYPE_MENU GetPartsType(){ return Common::PARTS_SINGLE_DRAW; }
+	virtual void UpdateParts(){};
 
 protected:
 
@@ -54,6 +59,7 @@ private:
 
 protected:
 	
+	bool										m_invalidDraw;	// 描画するかどうかフラグ(立ってたら描画しない)
 	std::string									m_partsNameStr;	// 親に名づけられたパーツ名
 	std::string									m_readJsonStr;	// 読み込んだjsonファイル名
 	math::Vector2								m_originPos;	// 親クラスに指定された位置情報

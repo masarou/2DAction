@@ -25,7 +25,7 @@ Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, co
 , m_speed( speed )
 {
 	std::string jsonStr = ( m_ownerType == Common::OWNER_PLAYER ) ? "Bullet.json" : "BulletEnemy.json" ;
-	m_drawTexture.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
+	m_drawTexture.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 
 	//!初期位置セット
 	m_drawTexture.m_texInfo.Init();

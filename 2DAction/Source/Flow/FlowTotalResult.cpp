@@ -137,7 +137,7 @@ bool TotalResult2D::Init()
 
 	// 画面フレームセット
 	m_textureResult.Init();
-	m_textureResult.m_pTex2D = NEW Game2DBase("GameResult.json");
+	m_textureResult.m_pTex2D = Game2DBase::Create("GameResult.json");
 	m_textureResult.m_texInfo.m_fileName = "GameResult.json";
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;

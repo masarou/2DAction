@@ -32,7 +32,7 @@ ItemObject::~ItemObject(void)
 
 bool ItemObject::Init()
 {
-	m_drawTexture.m_pTex2D = NEW Game2DBase( GetItemFilePath().c_str() );
+	m_drawTexture.m_pTex2D = Game2DBase::Create( GetItemFilePath().c_str() );
 
 	//!初期位置セット
 	m_drawTexture.m_texInfo.m_fileName = GetItemFilePath().c_str();

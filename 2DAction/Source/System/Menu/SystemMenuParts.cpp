@@ -19,7 +19,8 @@ MenuParts *MenuParts::Create( const std::string &partsStr, const std::string &js
 }
 
 MenuParts::MenuParts( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos )
-: m_partsNameStr( partsStr )
+: m_invalidDraw( false )
+, m_partsNameStr( partsStr )
 , m_readJsonStr( jsonStr )
 , m_originPos( originalPos )
 {
@@ -39,17 +40,31 @@ MenuParts::~MenuParts(void)
 
 /* ================================================ */
 /**
+ * @brief	画面パーツの更新トリガー 子パーツも含め更新指示
+ */
+/* ================================================ */
+void MenuParts::UpdatePartsRecursive()
+{
+	UpdateParts();
+
+	for( uint32_t i = 0; i < m_partsArray.size() ; ++i ){
+		m_partsArray.at(i)->UpdateParts();
+	}
+}
+
+/* ================================================ */
+/**
  * @brief	画面パーツの描画トリガー 子パーツも含め描画指示
  */
 /* ================================================ */
-void MenuParts::DrawParts()
+void MenuParts::DrawPartsRecursive()
 {
-	if( m_texMine.m_pTex2D ){
+	if( !m_invalidDraw && m_texMine.m_pTex2D ){
 		m_texMine.m_pTex2D->DrawUpdate2D();
 	}
 
 	for( uint32_t i = 0; i < m_partsArray.size() ; ++i ){
-		m_partsArray.at(i)->DrawParts();
+		m_partsArray.at(i)->DrawPartsRecursive();
 	}
 }
 
@@ -75,6 +90,22 @@ MenuParts *MenuParts::GetPartsRecursive( const std::string &partsStr )
 
 	// 見つからなかった
 	return NULL;
+}
+
+
+/* ================================================ */
+/**
+ * @brief	描画するかどうかフラグセット
+ */
+/* ================================================ */
+void MenuParts::SetDrawFlag( const bool &isDraw )
+{
+	m_invalidDraw = !isDraw;
+	
+	// 子クラスにも伝達
+	for( uint32_t i = 0; i < m_partsArray.size() ; ++i ){
+		m_partsArray.at( i )->SetDrawFlag( isDraw );
+	}
 }
 
 /* ================================================ */
@@ -133,13 +164,16 @@ bool MenuParts::SetPartsAnim( const std::string &partsName, const std::string &a
 void MenuParts::SetupParts()
 {
 	if( m_partsNameStr.compare("root") != 0 ){
-		// root(一番上)でなければまず自身のパーツセット
-		m_texMine.m_pTex2D = NEW Game2DBase( m_readJsonStr.c_str() );
-		m_texMine.m_texInfo.m_fileName = m_readJsonStr.c_str();
-		m_texMine.m_texInfo.m_posOrigin.x = m_originPos.x;
-		m_texMine.m_texInfo.m_posOrigin.y = m_originPos.y;
-		m_texMine.m_texInfo.m_usePlayerOffset = false;
-		m_texMine.m_pTex2D->SetDrawInfo(m_texMine.m_texInfo);
+		// root(一番上)でなければ自身のパーツセット
+		// 作られないこともあるのでNULLチェックも行う
+		m_texMine.m_pTex2D = Game2DBase::CreateWithCheck( m_readJsonStr.c_str() );
+		if( m_texMine.m_pTex2D ){
+			m_texMine.m_texInfo.m_fileName = m_readJsonStr.c_str();
+			m_texMine.m_texInfo.m_posOrigin.x = m_originPos.x;
+			m_texMine.m_texInfo.m_posOrigin.y = m_originPos.y;
+			m_texMine.m_texInfo.m_usePlayerOffset = false;
+			m_texMine.m_pTex2D->SetDrawInfo(m_texMine.m_texInfo);
+		}
 	}
 
 	// ステータスメニューのパーツ情報取得

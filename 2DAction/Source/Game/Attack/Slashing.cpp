@@ -23,7 +23,7 @@ Slashing::Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &typ
 , m_bladeDamage( damage )
 {
 	std::string jsonStr = GetJsonFileStr();
-	m_drawTexture.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
+	m_drawTexture.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 
 	const TEX_INIT_INFO &slashingInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( jsonStr.c_str() );
 	std::string setAnim = "";

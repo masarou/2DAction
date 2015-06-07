@@ -12,8 +12,9 @@
 #include "FlowBase.h"
 #include "Game/Game2DBase.h"
 #include "Common/CmnNumberCounter.h"
+#include "System/Menu/SystemMenuWindow.h"
 
-class ViewScore2D;
+class ViewScoreMenu;
 
 class FlowViewScore : public FlowBase
 {
@@ -24,13 +25,13 @@ public:
 private:
 
 	virtual bool Init() override;
-	virtual void PadEventCancel() override;
+	virtual void UpdateFlowAfterChildTask();
 
 	FlowViewScore( const std::string &fileName );
 	~FlowViewScore(void);
 	
 
-	ViewScore2D	*m_pViewScoreTex;
+	ViewScoreMenu	*m_pMenuWindow;
 };
 
 
@@ -42,35 +43,26 @@ private:
  *		
  */
 /* ====================================================================== */
-class ViewScore2D : public TaskUnit, InputWatcher
+class ViewScoreMenu : public MenuWindow
 {
 public:
+
+	static ViewScoreMenu *CreateViewScore2D( const std::string &readMenuJson );
 	
-	enum{
-		SELECT_START,
-		SELECT_SCORE,
-		SELECT_EXIT,
-
-		SELECT_MAX,
-	};
-
-	static ViewScore2D *CreateViewScore2D();
+	const std::string GetNextFlowStr(){ return m_nextFlow; }
 
 protected:
 	
-	virtual bool Init() override;
-	virtual void Update() override;
-	virtual void DrawUpdate() override;		// 描画更新
+	virtual bool InitMenu() override;
+	virtual void UpdateMenu() override;
+	virtual void PadEventCancel() override;
 
 private:
 
-	ViewScore2D();
-	virtual ~ViewScore2D(void);
+	ViewScoreMenu( const std::string &readMenuJson );
+	virtual ~ViewScoreMenu(void);
 	
 	Common::SAVE_DATA	m_saveData;
-
-	Texture2D			m_textureHeadline;	// Score文字列
-	NumberCounter		*m_pNumCounter[Common::RANKING_RECORD_MAX];	// スコア表示
-	TEX_DRAW_INFO		m_numberInfo;								// 描画関係情報
+	std::string			m_nextFlow;
 };
 #endif

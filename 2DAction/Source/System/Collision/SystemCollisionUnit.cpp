@@ -21,7 +21,7 @@ Collision2DUnit::Collision2DUnit( const char *readFile )
 	// 描画クラスセットアップ
 	m_drawTexture.Init();
 	if( readFile ){
-		m_drawTexture.m_pTex2D = NEW Game2DBase( readFile );
+		m_drawTexture.m_pTex2D = Game2DBase::Create( readFile );
 	}
 	
 	// 管理をするように知らせる

@@ -37,7 +37,7 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
 
 	m_textureLife.Init();
-	m_textureLife.m_pTex2D = NEW Game2DBase( "EnemyGauge.json" );
+	m_textureLife.m_pTex2D = Game2DBase::Create( "EnemyGauge.json" );
 	m_textureLife.m_texInfo.m_fileName = "EnemyGauge.json";
 	m_textureLife.m_pTex2D->SetDrawInfo( m_textureLife.m_texInfo );
 

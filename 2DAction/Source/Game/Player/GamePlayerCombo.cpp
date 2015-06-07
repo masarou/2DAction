@@ -29,7 +29,7 @@ PlayerCombo::PlayerCombo()
 	m_textureComboGauge.Init();
 
 	std::string jsonStr = "ComboFrame.json";
-	m_textureFrame.m_pTex2D = NEW Game2DBase( jsonStr.c_str() );
+	m_textureFrame.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 
 	//!初期位置セット
 	m_textureFrame.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
@@ -59,7 +59,7 @@ bool PlayerCombo::Init()
 
 	// 各種パーツセット
 	m_textureCombo.Init();
-	m_textureCombo.m_pTex2D = NEW Game2DBase("ComboHitStr.json");
+	m_textureCombo.m_pTex2D = Game2DBase::Create("ComboHitStr.json");
 	m_textureCombo.m_texInfo.m_fileName = "ComboHitStr.json";
 	m_textureCombo.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureCombo.m_texInfo.m_posOrigin = GetPartsPos("comboStr");
@@ -81,7 +81,7 @@ bool PlayerCombo::Init()
 
 	// コンボの継続時間を表すコンボゲージ
 	m_textureComboGauge.Init();
-	m_textureComboGauge.m_pTex2D = NEW Game2DBase("ComboGauge.json");
+	m_textureComboGauge.m_pTex2D = Game2DBase::Create("ComboGauge.json");
 	m_textureComboGauge.m_texInfo.m_fileName = "ComboGauge.json";
 	m_textureComboGauge.m_texInfo.m_prioity = PRIORITY_HIGH;
 	m_textureComboGauge.m_texInfo.m_posOrigin = GetPartsPos("comboGauge");

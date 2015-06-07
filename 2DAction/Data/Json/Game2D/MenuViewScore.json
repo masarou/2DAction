@@ -1,10 +1,10 @@
 {
 	"partsInfo":[
-		{"partsName":"header",		"loadJson":"ScoreRanking.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 640,	"y": 360},
-		{"partsName":"rank0",		"loadJson":"NumberLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 200},
-		{"partsName":"rank1",		"loadJson":"NumberLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 700,	"y": 400},
-		{"partsName":"rank2",		"loadJson":"NumberLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 100,	"y": 600},
-		{"partsName":"rank3",		"loadJson":"NumberLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 400,	"y": 800},
-		{"partsName":"rank4",		"loadJson":"NumberLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 700,	"y": 1000}
+		{"partsName":"header",		"loadJson":"ScoreRanking.json",			"partsType":"PARTS_SINGLE_DRAW",	"x": 640,	"y": 360},
+		{"partsName":"rank0",		"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 200},
+		{"partsName":"rank1",		"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 300},
+		{"partsName":"rank2",		"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 400},
+		{"partsName":"rank3",		"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 500},
+		{"partsName":"rank4",		"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 600}
 	]
 }

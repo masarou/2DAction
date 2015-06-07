@@ -126,7 +126,7 @@ Interval2D::Interval2D()
 	}
 
 	// 描画クラスセットアップ
-	m_textureRetry.m_pTex2D = NEW Game2DBase( readBgJsonStr.c_str() );
+	m_textureRetry.m_pTex2D = Game2DBase::Create( readBgJsonStr.c_str() );
 	m_textureRetry.m_texInfo.m_fileName = readBgJsonStr;
 	m_textureRetry.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureRetry.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
@@ -139,9 +139,9 @@ Interval2D::Interval2D()
 		m_pTexChoiceArray[i] = NULL;
 		m_pTexChoiceBGArray[i] = NULL;
 
-		m_pTexChoiceArray[i] = NEW Game2DBase("Choice.json");
+		m_pTexChoiceArray[i] = Game2DBase::Create("Choice.json");
 		m_pTexChoiceArray[i]->SetDrawInfo( m_texInfo );
-		m_pTexChoiceBGArray[i] = NEW Game2DBase("ChoiceBG.json");
+		m_pTexChoiceBGArray[i] = Game2DBase::Create("ChoiceBG.json");
 		m_pTexChoiceBGArray[i]->SetDrawInfo( m_texInfo );
 	}
 }

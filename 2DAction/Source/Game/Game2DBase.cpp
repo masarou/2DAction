@@ -11,6 +11,37 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
+bool IsGame2DJson( const char *jsonFile )
+{
+	// jsonに"basicInfo"の項目があるかどうかチェック
+	std::string path = JSON_GAME2D_PATH;
+	path += jsonFile;
+	std::ifstream ifs(path.c_str());
+
+	picojson::value root;
+	picojson::parse( root, ifs);
+	
+	if( root.get("basicInfo") == NULL ){
+		return false;
+	}
+	return true;
+}
+
+Game2DBase *Game2DBase::Create( const char *jsonFile )
+{
+	return NEW Game2DBase( jsonFile );
+}
+
+Game2DBase *Game2DBase::CreateWithCheck( const char *jsonFile )
+{
+	// Game2D情報の書かれたjsonかチェック
+	if( !IsGame2DJson(jsonFile) ){
+		return NULL;
+	}
+
+	return Game2DBase::Create( jsonFile );
+}
+
 Game2DBase::Game2DBase(const char *jsonFile)
 : m_animCounter(0)
 , m_jsonFile(jsonFile)

@@ -49,9 +49,9 @@ public:
 
 	static TitleMenu *Create( const std::string &readMenuJson );
 
-	const uint32_t &GetSelectedNo(){ return m_selectNo; }
+	const uint32_t &GetSelectedNo() const{ return m_selectNo; }
 
-	const std::string GetNextFlowStr(){ return m_nextFlow; }
+	const std::string GetNextFlowStr() const{ return m_nextFlow; }
 
 protected:
 

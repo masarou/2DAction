@@ -30,20 +30,16 @@ FlowViewScore::~FlowViewScore(void)
 bool FlowViewScore::Init()
 {
 	// 背景一枚絵作成
-	m_pViewScoreTex = ViewScore2D::CreateViewScore2D();
+	m_pMenuWindow = ViewScoreMenu::CreateViewScore2D( "MenuViewScore.json" );
 	return true;
 }
 
-/* ================================================ */
-/**
- * @brief	パッド操作関数
- */
-/* ================================================ */
-void FlowViewScore::PadEventCancel()
+void FlowViewScore::UpdateFlowAfterChildTask()
 {
-	// キャンセルSE鳴らす
-	SoundManager::GetInstance()->PlaySE("Cancel");
-	StartFade("return");
+	// 次の遷移先を常に監視
+	if( m_pMenuWindow && !m_pMenuWindow->GetNextFlowStr().empty() ){
+		StartFade( m_pMenuWindow->GetNextFlowStr().c_str() );
+	}
 }
 
 
@@ -55,60 +51,62 @@ void FlowViewScore::PadEventCancel()
  *		
  */
 /* ====================================================================== */
-ViewScore2D *ViewScore2D::CreateViewScore2D()
+ViewScoreMenu *ViewScoreMenu::CreateViewScore2D( const std::string &readMenuJson )
 {
-	return NEW ViewScore2D();
+	return NEW ViewScoreMenu( readMenuJson );
 }
 
-ViewScore2D::ViewScore2D()
-: TaskUnit("ViewScore2D")
+ViewScoreMenu::ViewScoreMenu( const std::string &readMenuJson )
+: MenuWindow( readMenuJson )
 {
-	// 数字表示用画像情報
-	m_numberInfo.Init();
-	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH - 200.0f;
-	m_numberInfo.m_posOrigin.y = 100.0f;
-	m_numberInfo.m_usePlayerOffset = false;
 }
 
-ViewScore2D::~ViewScore2D(void)
+ViewScoreMenu::~ViewScoreMenu(void)
 {
-	m_textureHeadline.DeleteAndInit();
 }
 
-bool ViewScore2D::Init()
+bool ViewScoreMenu::InitMenu()
 {
-	// ヘッダー文字
-	m_textureHeadline.Init();
-	m_textureHeadline.m_pTex2D = NEW Game2DBase("ScoreRanking.json");
-	m_textureHeadline.m_texInfo.m_fileName = "ScoreRanking.json";
-	m_textureHeadline.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	m_textureHeadline.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	m_textureHeadline.m_texInfo.m_usePlayerOffset = false;
-	m_textureHeadline.m_pTex2D->SetDrawInfo(m_textureHeadline.m_texInfo);
+	// キャンセルボタン有効に
+	SetPadButtonState( InputWatcher::BUTTON_DOWN,	InputWatcher::EVENT_PUSH );
 
 	// ランキング取得
 	Utility::GetSaveData( m_saveData );
 
 	// ランキング描画
 	for( uint32_t i = 0; i < Common::RANKING_RECORD_MAX; ++i ){
-		m_pNumCounter[i] = NumberCounter::Create("NumberLarge.json");
-		m_numberInfo.m_posOrigin.y += 100.0f;
-		m_pNumCounter[i]->SetDrawInfo( m_numberInfo );
-		m_pNumCounter[i]->AddValue( m_saveData.m_scoreRanking[i] );
+		std::string partsStr = "rank";
+		partsStr += '0' + i;
+		PartsCounter *pCounter = GetPartsCounter( partsStr );
+		if( pCounter ){
+			TEX_DRAW_INFO &aaa = pCounter->GetTexDrawInfo();
+			aaa.m_prioity = PRIORITY_HIGHEST;
+			pCounter->AddValue( m_saveData.m_scoreRanking[i] );
+		}
 	}
 
 	return true;
 }
 
-void ViewScore2D::Update()
+
+void ViewScoreMenu::UpdateMenu()
 {
+	if( !m_nextFlow.empty() ){
+		// 次の遷移先が決まったのでなにもしない
+		return;
+	}
+
 	CallPadEvent();
 }
 
-void ViewScore2D::DrawUpdate()
+/* ================================================ */
+/**
+ * @brief	パッド操作関数
+ */
+/* ================================================ */
+void ViewScoreMenu::PadEventCancel()
 {
-	// 背景描画
-	if( m_textureHeadline.m_pTex2D ){
-		m_textureHeadline.m_pTex2D->DrawUpdate2D();
-	}
+	// キャンセルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cancel");
+	m_nextFlow = "return";
 }

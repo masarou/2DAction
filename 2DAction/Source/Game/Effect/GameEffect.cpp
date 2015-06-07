@@ -32,7 +32,7 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 
 	// 描画クラスセットアップ
 	m_textureEffect.Init();
-	m_textureEffect.m_pTex2D = NEW Game2DBase( readFileStr.c_str() );
+	m_textureEffect.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
 	m_textureEffect.m_texInfo.m_fileName = readFileStr;
 	m_textureEffect.m_texInfo.m_posOrigin = pos;
 	m_textureEffect.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
@@ -136,7 +136,7 @@ GameEffectWithCollision::GameEffectWithCollision( const Common::OWNER_TYPE &owne
 
 	// 描画クラスセットアップ
 	m_drawTexture.Init();
-	m_drawTexture.m_pTex2D = NEW Game2DBase( readFileStr.c_str() );
+	m_drawTexture.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
 	m_drawTexture.m_texInfo.m_fileName = readFileStr;
 	m_drawTexture.m_texInfo.m_posOrigin = pos;
 	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
@@ -287,7 +287,7 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 	for(;damageInfo.m_array2D.size() < digitNum;){
 		Texture2D tex;
 		tex.Init();
-		tex.m_pTex2D = NEW Game2DBase("DamageNum.json");
+		tex.m_pTex2D = Game2DBase::Create("DamageNum.json");
 		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("DamageNum.json");
 		basePos.x -= texInfo.m_sizeWidth;
 		tex.m_texInfo.m_posOrigin		= basePos;

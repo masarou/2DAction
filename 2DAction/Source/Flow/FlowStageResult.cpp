@@ -138,7 +138,7 @@ bool Result2D::Init()
 	// ステータスメニューのパーツ情報取得
 	Utility::GetPartsInfoFromJson( fileStr.c_str(), m_partsMap );
 
-	m_textureResult.m_pTex2D = NEW Game2DBase( fileStr.c_str() );
+	m_textureResult.m_pTex2D = Game2DBase::Create( fileStr.c_str() );
 	m_textureResult.m_texInfo.m_fileName = fileStr;
 	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
