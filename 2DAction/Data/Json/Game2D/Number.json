@@ -1,7 +1,7 @@
 {
 	"basicInfo":[
 		{"fileName":"number.png"
-		, "animDefault":""
+		, "animDefault":"9"
 		, "sizeW": 42
 		, "sizeH": 32
 		, "splitW": 10
@@ -20,5 +20,8 @@
 		{"animTag":"7",	"frameSpeed":10,	"animIndex":[7],	"nextAnim":"7"},
 		{"animTag":"8",	"frameSpeed":10,	"animIndex":[8],	"nextAnim":"8"},
 		{"animTag":"9",	"frameSpeed":10,	"animIndex":[9],	"nextAnim":"9"}
-	]	
+	],
+	
+	"partsInfo":[
+	]
 }

@@ -30,12 +30,13 @@ StageTimer::StageTimer( uint32_t startTime )
 	//!初期位置セット
 	std::string jsonStr = "StageTimer.json";
 	m_plateStageTimer.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
-	m_plateStageTimer.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_plateStageTimer.m_texInfo.m_fileName = jsonStr;
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_fileName = jsonStr;
 	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( jsonStr.c_str() );
-	m_plateStageTimer.m_texInfo.m_posOrigin = math::Vector2( texInfo.m_sizeWidth/2.0f, texInfo.m_sizeHeight/2.0f );
-	m_plateStageTimer.m_texInfo.m_usePlayerOffset = false;
-	m_plateStageTimer.m_pTex2D->SetDrawInfo(m_plateStageTimer.m_texInfo);
+	drawInfo.m_posOrigin = math::Vector2( texInfo.m_sizeWidth/2.0f, texInfo.m_sizeHeight/2.0f );
+	drawInfo.m_usePlayerOffset = false;
+	m_plateStageTimer.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
 StageTimer::~StageTimer(void)
@@ -51,18 +52,24 @@ bool StageTimer::DieMain()
 
 bool StageTimer::Init()
 {
+	if( !m_plateStageTimer.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作られていない" );
+		return true;
+	}
+
 	// ステータスメニューのパーツ情報取得
-	Utility::GetPartsInfoFromJson( m_plateStageTimer.m_texInfo.m_fileName, m_partsMap );
+	Utility::GetPartsInfoFromJson( m_plateStageTimer.m_pTex2D->GetDrawInfo().m_fileName, m_partsMap );
 
 	// 時計画像
+	TEX_DRAW_INFO drawInfo;
 	std::string jsonStr = "ClockTimer.json";
 	m_animClock.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
-	m_animClock.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_animClock.m_texInfo.m_fileName = jsonStr;
+	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_fileName = jsonStr;
 	const Common::PARTS_INFO &clockInfo = GetPartsInfo("timeIcon");
-	m_animClock.m_texInfo.m_posOrigin = clockInfo.m_pos;
-	m_animClock.m_texInfo.m_usePlayerOffset = false;
-	m_animClock.m_pTex2D->SetDrawInfo(m_animClock.m_texInfo);
+	drawInfo.m_posOrigin = clockInfo.m_pos;
+	drawInfo.m_usePlayerOffset = false;
+	m_animClock.m_pTex2D->SetDrawInfo( drawInfo );
 
 	// 時間クラス用意
 	m_pCountDown = GameCountDownTimer::CreateBySec( m_startTime );
@@ -93,9 +100,14 @@ void StageTimer::DrawUpdate()
 
 const math::Vector2 StageTimer::GetPartsPos( const std::string name ) const
 {
+	if( !m_plateStageTimer.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作られていない" );
+		return math::Vector2();
+	}
+
 	// ステータスメニューの左上座標取得
-	const TEX_INIT_INFO &statusMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_plateStageTimer.m_texInfo.m_fileName.c_str() );
-	math::Vector2 retPos = m_plateStageTimer.m_texInfo.m_posOrigin;
+	const TEX_INIT_INFO &statusMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_plateStageTimer.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
+	math::Vector2 retPos = m_plateStageTimer.m_pTex2D->GetDrawInfo().m_posOrigin;
 	retPos -= math::Vector2( statusMenuInfo.m_sizeWidth / 2.0f, statusMenuInfo.m_sizeHeight / 2.0f );
 
 	// そこからパーツの位置を足し算

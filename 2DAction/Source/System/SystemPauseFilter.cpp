@@ -33,20 +33,24 @@ PauseFilter::PauseFilter()
 	// 描画クラスセットアップ
 	m_drawTexture.Init();
 	m_drawTexture.m_pTex2D = Game2DBase::Create( "PauseFilter.json" );
-	m_drawTexture.m_texInfo.m_prioity			= PRIORITY_HIGH;
-	const TEX_INIT_INFO &info					= TextureResourceManager::GetInstance()->GetLoadTextureInfo( "PauseFilter.json" );
-	m_drawTexture.m_texInfo.m_scale				= math::Vector2( (WINDOW_WIDTH / info.m_sizeWidth) + 1.0f, (WINDOW_HEIGHT / info.m_sizeHeight) + 1.0f );
-	m_drawTexture.m_texInfo.m_arrangeOrigin		= math::Vector2( 0.0f, 0.0f );
-	m_drawTexture.m_texInfo.m_posOrigin			= math::Vector2( 0.0f, 0.0f );
-	m_drawTexture.m_texInfo.m_usePlayerOffset	= false;
-	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.Init();
+	const TEX_INIT_INFO &info	= TextureResourceManager::GetInstance()->GetLoadTextureInfo( "PauseFilter.json" );
+	drawInfo.m_prioity			= PRIORITY_HIGH;
+	drawInfo.m_scale			= math::Vector2( (WINDOW_WIDTH / info.m_sizeWidth) + 1.0f, (WINDOW_HEIGHT / info.m_sizeHeight) + 1.0f );
+	drawInfo.m_arrangeOrigin	= math::Vector2( 0.0f, 0.0f );
+	drawInfo.m_posOrigin		= math::Vector2( 0.0f, 0.0f );
+	drawInfo.m_usePlayerOffset	= false;
+	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 	
 	m_drawPauseStr.Init();
 	m_drawPauseStr.m_pTex2D = Game2DBase::Create( "PauseStr.json" );
-	m_drawPauseStr.m_texInfo.m_prioity			= PRIORITY_HIGH;
-	m_drawPauseStr.m_texInfo.m_posOrigin		= math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
-	m_drawPauseStr.m_texInfo.m_usePlayerOffset	= false;
-	m_drawPauseStr.m_pTex2D->SetDrawInfo(m_drawPauseStr.m_texInfo);
+	TEX_DRAW_INFO drawInfoPause;
+	drawInfoPause.Init();
+	drawInfoPause.m_prioity			= PRIORITY_HIGH;
+	drawInfoPause.m_posOrigin		= math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	drawInfoPause.m_usePlayerOffset	= false;
+	m_drawPauseStr.m_pTex2D->SetDrawInfo( drawInfoPause );
 }
 
 

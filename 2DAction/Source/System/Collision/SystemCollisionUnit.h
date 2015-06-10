@@ -31,8 +31,8 @@ public:
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 
 	// 当たり判定周りの情報取得
-	const uint32_t &GetBelongLv() const{ return m_drawTexture.m_texInfo.m_belongLv; }
-	const uint32_t &GetBelongIndex() const{ return m_drawTexture.m_texInfo.m_belongIndex; }
+	const uint32_t &GetBelongLv() const;
+	const uint32_t &GetBelongIndex() const;
 
 	// 双方向リストに指定クラスを登録
 	void ClearChainList(){ m_nextUnit = NULL; m_prevUnit = NULL; }

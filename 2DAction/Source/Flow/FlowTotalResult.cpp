@@ -137,12 +137,13 @@ bool TotalResult2D::Init()
 
 	// 画面フレームセット
 	m_textureResult.Init();
+	TEX_DRAW_INFO drawInfo;
 	m_textureResult.m_pTex2D = Game2DBase::Create("GameResult.json");
-	m_textureResult.m_texInfo.m_fileName = "GameResult.json";
-	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	m_textureResult.m_texInfo.m_usePlayerOffset = false;
-	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
+	drawInfo.m_fileName = "GameResult.json";
+	drawInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	drawInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
+	drawInfo.m_usePlayerOffset = false;
+	m_textureResult.m_pTex2D->SetDrawInfo( drawInfo );
 
 	// 数字表示用画像情報
 	m_numberInfo.Init();
@@ -250,9 +251,14 @@ void TotalResult2D::PadEventDecide()
 
 const math::Vector2 TotalResult2D::GetPartsPos( const std::string name ) const
 {
+	if( !m_textureResult.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作成されていない");
+		return math::Vector2();
+	}
+
 	// ステータスメニューの左上座標取得
-	const TEX_INIT_INFO &resultMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureResult.m_texInfo.m_fileName.c_str() );
-	math::Vector2 retPos = m_textureResult.m_texInfo.m_posOrigin;
+	const TEX_INIT_INFO &resultMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureResult.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
+	math::Vector2 retPos = m_textureResult.m_pTex2D->GetDrawInfo().m_posOrigin;
 	retPos -= math::Vector2( resultMenuInfo.m_sizeWidth / 2.0f, resultMenuInfo.m_sizeHeight / 2.0f );
 
 	// そこからパーツの位置を足し算

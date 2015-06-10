@@ -22,7 +22,8 @@ ItemObject::ItemObject( const Common::ITEM_KIND &kind, math::Vector2 pos )
 , m_kindItem(kind)
 , m_liveTime(0)
 {
-	m_drawTexture.m_texInfo.m_posOrigin = pos;
+	m_drawTexture.m_pTex2D = Game2DBase::Create( GetItemFilePath().c_str() );
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = pos;
 }
 
 
@@ -32,15 +33,14 @@ ItemObject::~ItemObject(void)
 
 bool ItemObject::Init()
 {
-	m_drawTexture.m_pTex2D = Game2DBase::Create( GetItemFilePath().c_str() );
-
 	//!初期位置セット
-	m_drawTexture.m_texInfo.m_fileName = GetItemFilePath().c_str();
-	if( m_drawTexture.m_texInfo.m_posOrigin == DEFAULT_VECTOR2 ){
-		m_drawTexture.m_texInfo.m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.m_fileName = GetItemFilePath().c_str();
+	if( drawInfo.m_posOrigin == DEFAULT_VECTOR2 ){
+		drawInfo.m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
 	}
-	m_drawTexture.m_texInfo.m_prioity = PRIORITY_BELOW_NORMAL;
-	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
+	drawInfo.m_prioity = PRIORITY_BELOW_NORMAL;
+	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 
 	return true;
 }

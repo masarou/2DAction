@@ -55,7 +55,18 @@ Collision2DUnit::~Collision2DUnit(void)
 
 const TEX_DRAW_INFO &Collision2DUnit::GetDrawInfo() const
 {
-	return m_drawTexture.m_texInfo;
+	if( !m_drawTexture.m_pTex2D ){ DEBUG_ASSERT( 0, "m_drawTexture.m_pTex2D is NULL"); }
+	return m_drawTexture.m_pTex2D->GetDrawInfo();
+}
+
+const uint32_t &Collision2DUnit::GetBelongLv() const{
+	if( !m_drawTexture.m_pTex2D ){ DEBUG_ASSERT( 0, "m_drawTexture.m_pTex2D is NULL"); }
+	return m_drawTexture.m_pTex2D->GetDrawInfo().m_belongLv;
+}
+
+const uint32_t &Collision2DUnit::GetBelongIndex() const{
+	if( !m_drawTexture.m_pTex2D ){ DEBUG_ASSERT( 0, "m_drawTexture.m_pTex2D is NULL"); }
+	return m_drawTexture.m_pTex2D->GetDrawInfo().m_belongIndex;
 }
 
 void Collision2DUnit::SetNextUnit( Collision2DUnit *pUnit )

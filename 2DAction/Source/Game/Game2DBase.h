@@ -39,6 +39,7 @@ public:
 	const uint32_t &GetCurrentAnimFrame() const{ return m_animCounter; }
 
 	const TEX_DRAW_INFO &GetDrawInfo() const{ return m_drawInfo; }
+	TEX_DRAW_INFO &UpdateDrawInfo(){ return m_drawInfo; }
 	
 private:
 
@@ -52,7 +53,6 @@ private:
 	// デフォルトアニメ、jsonファイル名、アニメの種類数
 
 	uint32_t						m_animCounter;		//!<アニメの際に使用するカウンタ
-	std::string						m_jsonFile;			// 読み込んだjsonファイル名
 	TEX_DRAW_INFO					m_drawInfo;
 
 	std::string						m_currentAnimTag;	//!<再生中のアニメ
@@ -63,15 +63,15 @@ private:
 
 struct Texture2D{
 	Game2DBase			*m_pTex2D;			// 画像管理
-	TEX_DRAW_INFO		m_texInfo;			// 描画情報
+	//TEX_DRAW_INFO		m_texInfo;			// 描画情報
 
 	void Init(){
 		m_pTex2D = NULL;
-		m_texInfo.Init();
+		//m_texInfo.Init();
 	}
 	void DeleteAndInit(){
 		SAFE_DELETE(m_pTex2D);
-		m_texInfo.Init();
+		//m_texInfo.Init();
 	}
 };
 

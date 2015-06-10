@@ -33,11 +33,12 @@ PlayerStatusMenu::PlayerStatusMenu()
 	m_textureStatus.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 
 	//!初期位置セット
-	m_textureStatus.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_textureStatus.m_texInfo.m_fileName = jsonStr;
-	m_textureStatus.m_texInfo.m_posOrigin = math::Vector2( 240, WINDOW_HEIGHT - 35 );
-	m_textureStatus.m_texInfo.m_usePlayerOffset = false;
-	m_textureStatus.m_pTex2D->SetDrawInfo(m_textureStatus.m_texInfo);
+	TEX_DRAW_INFO drawInfoStatus;
+	drawInfoStatus.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfoStatus.m_fileName = jsonStr;
+	drawInfoStatus.m_posOrigin = math::Vector2( 240, WINDOW_HEIGHT - 35 );
+	drawInfoStatus.m_usePlayerOffset = false;
+	m_textureStatus.m_pTex2D->SetDrawInfo( drawInfoStatus );
 }
 
 PlayerStatusMenu::~PlayerStatusMenu(void)
@@ -55,36 +56,44 @@ bool PlayerStatusMenu::DieMain()
 
 bool PlayerStatusMenu::Init()
 {
+	if( !m_textureStatus.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作られていない" );
+		return true;
+	}
+
 	// ステータスメニューのパーツ情報取得
-	Utility::GetPartsInfoFromJson( m_textureStatus.m_texInfo.m_fileName, m_partsMap );
+	Utility::GetPartsInfoFromJson( m_textureStatus.m_pTex2D->GetDrawInfo().m_fileName, m_partsMap );
 
 	// 各種パーツセット
+	TEX_DRAW_INFO drawInfo;
 	m_lifeGauge.Init();
 	m_lifeGauge.m_pTex2D = Game2DBase::Create("LifeGauge.json");
-	m_lifeGauge.m_texInfo.m_fileName = "LifeGauge.json";
-	m_lifeGauge.m_texInfo.m_prioity = PRIORITY_HIGH;
-	m_lifeGauge.m_texInfo.m_posOrigin = GetPartsPos("lifeBarPos");
-	m_lifeGauge.m_texInfo.m_usePlayerOffset = false;
-	m_lifeGauge.m_texInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );	// 拡大縮小する画像なのでセットしておく
-	m_lifeGauge.m_pTex2D->SetDrawInfo(m_lifeGauge.m_texInfo);
+	drawInfo.m_fileName = "LifeGauge.json";
+	drawInfo.m_prioity = PRIORITY_HIGH;
+	drawInfo.m_posOrigin = GetPartsPos("lifeBarPos");
+	drawInfo.m_usePlayerOffset = false;
+	drawInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );	// 拡大縮小する画像なのでセットしておく
+	m_lifeGauge.m_pTex2D->SetDrawInfo( drawInfo );
 
 	// 連射速度レベル
+	drawInfo.Init();
 	m_rapidLevel.Init();
 	m_rapidLevel.m_pTex2D = Game2DBase::Create("NumberLv.json");
-	m_rapidLevel.m_texInfo.m_fileName = "NumberLv.json";
-	m_rapidLevel.m_texInfo.m_prioity = PRIORITY_HIGH;
-	m_rapidLevel.m_texInfo.m_posOrigin = GetPartsPos("itemLevel01");
-	m_rapidLevel.m_texInfo.m_usePlayerOffset = false;
-	m_rapidLevel.m_pTex2D->SetDrawInfo(m_rapidLevel.m_texInfo);
+	drawInfo.m_fileName = "NumberLv.json";
+	drawInfo.m_prioity = PRIORITY_HIGH;
+	drawInfo.m_posOrigin = GetPartsPos("itemLevel01");
+	drawInfo.m_usePlayerOffset = false;
+	m_rapidLevel.m_pTex2D->SetDrawInfo( drawInfo );
 
 	// 攻撃力レベル
+	drawInfo.Init();
 	m_danageLevel.Init();
 	m_danageLevel.m_pTex2D = Game2DBase::Create("NumberLv.json");
-	m_danageLevel.m_texInfo.m_fileName = "NumberLv.json";
-	m_danageLevel.m_texInfo.m_prioity = PRIORITY_HIGH;
-	m_danageLevel.m_texInfo.m_posOrigin = GetPartsPos("itemLevel02");
-	m_danageLevel.m_texInfo.m_usePlayerOffset = false;
-	m_danageLevel.m_pTex2D->SetDrawInfo(m_danageLevel.m_texInfo);
+	drawInfo.m_fileName = "NumberLv.json";
+	drawInfo.m_prioity = PRIORITY_HIGH;
+	drawInfo.m_posOrigin = GetPartsPos("itemLevel02");
+	drawInfo.m_usePlayerOffset = false;
+	m_danageLevel.m_pTex2D->SetDrawInfo( drawInfo );
 
 	return true;
 }
@@ -164,17 +173,17 @@ void PlayerStatusMenu::DrawUpdate()
 
 		// ライフゲージ描画
 		if( m_lifeGauge.m_pTex2D ){
-			const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_lifeGauge.m_texInfo.m_fileName.c_str() );
+			TEX_DRAW_INFO &drawInfo = m_lifeGauge.m_pTex2D->UpdateDrawInfo();
+			const TEX_INIT_INFO &lifeTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( drawInfo.m_fileName.c_str() );
 			float ratio = static_cast<float>(m_playerLife)/static_cast<float>(m_playerLifeMax);
 			float lifeValue = ( 450 / lifeTexInfo.m_sizeWidth) * ratio; // 450はライフバーの長さ
-		
-			if( math::Absf( m_lifeGauge.m_texInfo.m_scale.x - lifeValue ) > 0.3f ){
-				m_lifeGauge.m_texInfo.m_scale.x *= (m_lifeGauge.m_texInfo.m_scale.x - lifeValue < 0.0f) ? 1.02f : 0.98f ;
+
+			if( math::Absf( drawInfo.m_scale.x - lifeValue ) > 0.3f ){
+				drawInfo.m_scale.x *= (drawInfo.m_scale.x - lifeValue < 0.0f) ? 1.02f : 0.98f ;
 			}
 			else{
-				m_lifeGauge.m_texInfo.m_scale.x = lifeValue;
+				drawInfo.m_scale.x = lifeValue;
 			}
-			m_lifeGauge.m_pTex2D->SetDrawInfo(m_lifeGauge.m_texInfo);
 			m_lifeGauge.m_pTex2D->DrawUpdate2D();
 		}
 
@@ -194,9 +203,14 @@ void PlayerStatusMenu::DrawUpdate()
 
 const math::Vector2 PlayerStatusMenu::GetPartsPos( const std::string name ) const
 {
+	if( !m_textureStatus.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作られていない" );
+		return math::Vector2();
+	}
+
 	// ステータスメニューの左上座標取得
-	const TEX_INIT_INFO &statusMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureStatus.m_texInfo.m_fileName.c_str() );
-	math::Vector2 retPos = m_textureStatus.m_texInfo.m_posOrigin;
+	const TEX_INIT_INFO &statusMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureStatus.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
+	math::Vector2 retPos = m_textureStatus.m_pTex2D->GetDrawInfo().m_posOrigin;
 	retPos -= math::Vector2( statusMenuInfo.m_sizeWidth / 2.0f, statusMenuInfo.m_sizeHeight / 2.0f );
 
 	// そこからパーツの位置を足し算

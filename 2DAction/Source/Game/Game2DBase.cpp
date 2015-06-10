@@ -44,18 +44,17 @@ Game2DBase *Game2DBase::CreateWithCheck( const char *jsonFile )
 
 Game2DBase::Game2DBase(const char *jsonFile)
 : m_animCounter(0)
-, m_jsonFile(jsonFile)
 , m_currentAnimTag("")
 {
 	m_drawInfo.Init();
-
 	//!jsonから情報取得
-	LoadTextureInfo(m_jsonFile.c_str());
+	m_drawInfo.m_fileName = jsonFile;
+	LoadTextureInfo(m_drawInfo.m_fileName.c_str());
 }
 
 Game2DBase::~Game2DBase(void)
 {
-	DeleteTextureInfo(m_jsonFile.c_str());
+	DeleteTextureInfo(m_drawInfo.m_fileName.c_str());
 }
 
 /* ================================================ */
@@ -71,7 +70,7 @@ void Game2DBase::DrawUpdate2D()
 	}
 
 	// 描画の要素番号取得
-	uint32_t drawIndex = TextureResourceManager::GetInstance()->GetAnimHandleIndex( m_jsonFile.c_str(), m_currentAnimTag, m_animCounter);
+	uint32_t drawIndex = TextureResourceManager::GetInstance()->GetAnimHandleIndex( m_drawInfo.m_fileName.c_str(), m_currentAnimTag, m_animCounter);
 
 	// 無効値が帰ってきた場合はアニメになにもセットしない(デフォルトアニメになにもセットされていない等)
 	if( drawIndex == INVALID_VALUE ){
@@ -84,6 +83,9 @@ void Game2DBase::DrawUpdate2D()
 		DEBUG_ASSERT( 0, "m_vTexHandle.size() <= drawIndex");
 		return;
 	}
+
+	// 位置情報から空間当たり判定をセットしておく
+	Utility::GetBelongAreaInMap( m_drawInfo );
 
 	// 無事取得できたなら描画するようにpushしておく
 	if(drawIndex != INVALID_VALUE){
@@ -125,11 +127,11 @@ void Game2DBase::SetAnim( const std::string &animTag )
 void Game2DBase::SetDrawInfo( TEX_DRAW_INFO &info)
 {
 	if( info.m_fileName.compare("") == 0 ){
-		info.m_fileName = m_jsonFile;
+		info.m_fileName = m_drawInfo.m_fileName;
 	}
 	
 	// 位置情報から空間当たり判定をセットしておく
-	Utility::GetBelongAreaInMap( info );
+	//Utility::GetBelongAreaInMap( info );
 
 	m_drawInfo = info;
 }

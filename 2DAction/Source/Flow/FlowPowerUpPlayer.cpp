@@ -91,6 +91,8 @@ void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
 
 
 	// 所持ポイントセット
+
+
 }
 
 bool PowerUpMenu::InitMenu()
@@ -100,6 +102,27 @@ bool PowerUpMenu::InitMenu()
 	SetPadButtonState( InputWatcher::BUTTON_DOWN,	InputWatcher::EVENT_PUSH );
 	SetPadButtonState( InputWatcher::BUTTON_RIGHT,	InputWatcher::EVENT_PUSH );
 	SetPadButtonState( InputWatcher::BUTTON_LEFT,	InputWatcher::EVENT_PUSH );
+
+	// パーツの準備
+	MenuParts *pParts = GetParts( "frame" );
+	if( pParts ){
+		// 外枠は表示優先度を低くする
+		TEX_DRAW_INFO &drawInfo = pParts->GetTexDrawInfo();
+		drawInfo.m_prioity = PRIORITY_LOW;
+	}
+
+	static std::string s_partsStr[] = {
+		"levelMax",		// 最大レベル数値
+		"currLevel",	// 現在レベル数値
+		"nextPoint",	// 次のレベルへのポイント
+		"currPoint",	// 現在の所持ポイント
+	};
+	for( uint32_t i = 0; i < NUMBEROF(s_partsStr) ; ++i ){
+		PartsCounter *pCounter = GetPartsCounter( s_partsStr[i] );
+		if( pCounter ){
+			pCounter->AddValue( 99 );
+		}
+	}
 
 	return true;
 }

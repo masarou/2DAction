@@ -79,8 +79,6 @@ bool ViewScoreMenu::InitMenu()
 		partsStr += '0' + i;
 		PartsCounter *pCounter = GetPartsCounter( partsStr );
 		if( pCounter ){
-			TEX_DRAW_INFO &aaa = pCounter->GetTexDrawInfo();
-			aaa.m_prioity = PRIORITY_HIGHEST;
 			pCounter->AddValue( m_saveData.m_scoreRanking[i] );
 		}
 	}

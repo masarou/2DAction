@@ -29,7 +29,10 @@ public:
 	bool SetPartsAnim( const std::string &partsName, const std::string &animStr );
 
 	// 描画情報取得＆更新
-	TEX_DRAW_INFO &GetTexDrawInfo(){ return m_texMine.m_texInfo; }
+	TEX_DRAW_INFO &GetTexDrawInfo(){
+		if( !m_texMine.m_pTex2D ){ DEBUG_ASSERT( 0, "m_drawTexture.m_pTex2D is NULL"); }
+		return m_texMine.m_pTex2D->UpdateDrawInfo();
+	}
 
 	// 各派生先で必要になるUpdate
 	void UpdatePartsRecursive();

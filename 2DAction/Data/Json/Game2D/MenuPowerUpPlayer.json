@@ -1,5 +1,9 @@
 {
 	"partsInfo":[
-		{"partsName":"frame",		"loadJson":"PowerUpMenu.json",	"x": 640,	"y": 360}
+		{"partsName":"frame",		"loadJson":"PowerUpMenu.json",	"x": 640,	"y": 360},
+		{"partsName":"levelMax",	"loadJson":"NumberLarge.json",	"x": 960,	"y": 270},
+		{"partsName":"currLevel",	"loadJson":"NumberLarge.json",	"x": 800,	"y": 270},
+		{"partsName":"nextPoint",	"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 940,	"y": 365},
+		{"partsName":"currPoint",	"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 660}
 	]
 }

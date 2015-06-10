@@ -20,5 +20,8 @@
 		{"animTag":"7",	"frameSpeed":1000,	"animIndex":[7],	"nextAnim":"7"},
 		{"animTag":"8",	"frameSpeed":1000,	"animIndex":[8],	"nextAnim":"8"},
 		{"animTag":"9",	"frameSpeed":1000,	"animIndex":[9],	"nextAnim":"9"}
-	]	
+	],
+	
+	"partsInfo":[
+	]
 }

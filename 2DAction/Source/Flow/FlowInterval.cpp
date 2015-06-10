@@ -126,12 +126,13 @@ Interval2D::Interval2D()
 	}
 
 	// 描画クラスセットアップ
+	TEX_DRAW_INFO drawInfoRetry;
 	m_textureRetry.m_pTex2D = Game2DBase::Create( readBgJsonStr.c_str() );
-	m_textureRetry.m_texInfo.m_fileName = readBgJsonStr;
-	m_textureRetry.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	m_textureRetry.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	m_textureRetry.m_texInfo.m_usePlayerOffset = false;
-	m_textureRetry.m_pTex2D->SetDrawInfo(m_textureRetry.m_texInfo);
+	drawInfoRetry.m_fileName = readBgJsonStr;
+	drawInfoRetry.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	drawInfoRetry.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
+	drawInfoRetry.m_usePlayerOffset = false;
+	m_textureRetry.m_pTex2D->SetDrawInfo( drawInfoRetry );
 
 	m_texInfo.Init();
 	m_texInfo.m_usePlayerOffset = false;

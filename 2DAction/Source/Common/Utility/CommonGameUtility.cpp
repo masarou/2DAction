@@ -467,9 +467,13 @@ void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Co
 	picojson::parse( root, ifs);
 
 	// 各種パーツ情報を取得
+	picojson::value null;
 	picojson::value partsData = root.get("partsInfo");
+	if( partsData == null ){
+		// パーツ情報なし
+		return;
+	}
 	for( uint32_t i = 0;;++i){
-		picojson::value null;
 		if( partsData.get(i) == null ){
 			break;
 		}

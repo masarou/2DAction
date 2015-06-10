@@ -32,8 +32,8 @@ bool EnemyBoss::InitMain()
 		math::Vector2 candidatePos = Utility::GetMapRandamPos( /*allowInWindow=*/false );
 		// ƒ}ƒbƒvã‚Ì“®‚¯‚é‚‚³‚È‚ç¶¬
 		if( Utility::GetMapHeight( candidatePos ) <= GetWalkHeight() ){
-			m_drawTexture.m_texInfo.m_posOrigin = candidatePos;
-			DEBUG_PRINT( "“G¶¬ x = %f, y = %f\n", m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y );
+			m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = candidatePos;
+			DEBUG_PRINT( "“G¶¬ x = %f, y = %f\n", candidatePos.x, candidatePos.y );
 			break;
 		}
 	}

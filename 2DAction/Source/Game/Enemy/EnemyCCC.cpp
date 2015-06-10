@@ -32,8 +32,8 @@ bool EnemyCCC::InitMain()
 		math::Vector2 candidatePos = Utility::GetMapRandamPos( /*allowInWindow=*/false );
 		// É}ÉbÉvè„ÇÃìÆÇØÇÈçÇÇ≥Ç»ÇÁê∂ê¨
 		if( Utility::GetMapHeight( candidatePos ) <= GetWalkHeight() ){
-			m_drawTexture.m_texInfo.m_posOrigin = candidatePos;
-			DEBUG_PRINT( "ìGê∂ê¨ x = %f, y = %f\n", m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y );
+			m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = candidatePos;
+			DEBUG_PRINT( "ìGê∂ê¨ x = %f, y = %f\n", candidatePos.x, candidatePos.y );
 			break;
 		}
 	}

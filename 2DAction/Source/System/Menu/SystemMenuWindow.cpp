@@ -32,13 +32,23 @@ void MenuWindow::SetAnim( const std::string &partsStr, const std::string &animSt
 	}
 }
 
-PartsCounter *MenuWindow::GetPartsCounter( const std::string &partsStr )
+MenuParts	*MenuWindow::GetParts( const std::string &partsStr )
 {
 	if( m_pMainParts ){
 		MenuParts *pParts = m_pMainParts->GetPartsRecursive( partsStr );
 		if( pParts ){
-			return dynamic_cast<PartsCounter*>(pParts);
+			return pParts;
 		}
+	}
+	DEBUG_ASSERT( 0, "指定されたMenuパーツは見つかりませんでした");
+	return NULL;
+}
+
+PartsCounter *MenuWindow::GetPartsCounter( const std::string &partsStr )
+{
+	MenuParts *pParts = GetParts( partsStr );
+	if( pParts ){
+		return dynamic_cast<PartsCounter*>(pParts);
 	}
 
 	DEBUG_ASSERT( 0, "指定されたMenuパーツは見つかりませんでした");

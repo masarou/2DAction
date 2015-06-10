@@ -138,12 +138,13 @@ bool Result2D::Init()
 	// ステータスメニューのパーツ情報取得
 	Utility::GetPartsInfoFromJson( fileStr.c_str(), m_partsMap );
 
+	TEX_DRAW_INFO drawInfo;
 	m_textureResult.m_pTex2D = Game2DBase::Create( fileStr.c_str() );
-	m_textureResult.m_texInfo.m_fileName = fileStr;
-	m_textureResult.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	m_textureResult.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	m_textureResult.m_texInfo.m_usePlayerOffset = false;
-	m_textureResult.m_pTex2D->SetDrawInfo(m_textureResult.m_texInfo);
+	drawInfo.m_fileName = fileStr;
+	drawInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+	drawInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
+	drawInfo.m_usePlayerOffset = false;
+	m_textureResult.m_pTex2D->SetDrawInfo( drawInfo );
 
 	// 数字カウンタの初期化
 	m_pNumCounterResult = NumberCounter::Create("NumberLarge.json");
@@ -287,9 +288,14 @@ uint32_t Result2D::GetStageClearBonus() const
 
 const math::Vector2 Result2D::GetPartsPos( const std::string name ) const
 {
+	if( !m_textureResult.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作成されていない");
+		return math::Vector2();
+	}
+
 	// ステータスメニューの左上座標取得
-	const TEX_INIT_INFO &resultMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureResult.m_texInfo.m_fileName.c_str() );
-	math::Vector2 retPos = m_textureResult.m_texInfo.m_posOrigin;
+	const TEX_INIT_INFO &resultMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureResult.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
+	math::Vector2 retPos = m_textureResult.m_pTex2D->GetDrawInfo().m_posOrigin;
 	retPos -= math::Vector2( resultMenuInfo.m_sizeWidth / 2.0f, resultMenuInfo.m_sizeHeight / 2.0f );
 
 	// そこからパーツの位置を足し算

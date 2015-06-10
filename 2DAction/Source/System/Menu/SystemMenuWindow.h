@@ -42,7 +42,8 @@ protected:
 	void SetAnim( const std::string &partsStr, const std::string &animStr );
 
 	// 各パーツクラス取得
-	PartsCounter *GetPartsCounter( const std::string &partsStr );
+	MenuParts		*GetParts( const std::string &partsStr );
+	PartsCounter	*GetPartsCounter( const std::string &partsStr );
 
 private:
 	

@@ -168,11 +168,12 @@ void MenuParts::SetupParts()
 		// 作られないこともあるのでNULLチェックも行う
 		m_texMine.m_pTex2D = Game2DBase::CreateWithCheck( m_readJsonStr.c_str() );
 		if( m_texMine.m_pTex2D ){
-			m_texMine.m_texInfo.m_fileName = m_readJsonStr.c_str();
-			m_texMine.m_texInfo.m_posOrigin.x = m_originPos.x;
-			m_texMine.m_texInfo.m_posOrigin.y = m_originPos.y;
-			m_texMine.m_texInfo.m_usePlayerOffset = false;
-			m_texMine.m_pTex2D->SetDrawInfo(m_texMine.m_texInfo);
+			TEX_DRAW_INFO drawInfo;
+			drawInfo.m_fileName = m_readJsonStr.c_str();
+			drawInfo.m_posOrigin.x = m_originPos.x;
+			drawInfo.m_posOrigin.y = m_originPos.y;
+			drawInfo.m_usePlayerOffset = false;
+			m_texMine.m_pTex2D->SetDrawInfo( drawInfo );
 		}
 	}
 

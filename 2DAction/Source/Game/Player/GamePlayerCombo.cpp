@@ -32,12 +32,13 @@ PlayerCombo::PlayerCombo()
 	m_textureFrame.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 
 	//!初期位置セット
-	m_textureFrame.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_textureFrame.m_texInfo.m_fileName = jsonStr;
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_fileName = jsonStr;
 	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( jsonStr.c_str() );
-	m_textureFrame.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH - static_cast<float>(texInfo.m_sizeWidth/2), WINDOW_HEIGHT - static_cast<float>(texInfo.m_sizeHeight/2) );
-	m_textureFrame.m_texInfo.m_usePlayerOffset = false;
-	m_textureFrame.m_pTex2D->SetDrawInfo(m_textureFrame.m_texInfo);
+	drawInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH - static_cast<float>(texInfo.m_sizeWidth/2), WINDOW_HEIGHT - static_cast<float>(texInfo.m_sizeHeight/2) );
+	drawInfo.m_usePlayerOffset = false;
+	m_textureFrame.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
 PlayerCombo::~PlayerCombo(void)
@@ -54,17 +55,23 @@ bool PlayerCombo::DieMain()
 
 bool PlayerCombo::Init()
 {
+	if( !m_textureFrame.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作られていない" );
+		return true;
+	}
+
 	// ステータスメニューのパーツ情報取得
-	Utility::GetPartsInfoFromJson( m_textureFrame.m_texInfo.m_fileName, m_partsMap );
+	Utility::GetPartsInfoFromJson( m_textureFrame.m_pTex2D->GetDrawInfo().m_fileName, m_partsMap );
 
 	// 各種パーツセット
+	TEX_DRAW_INFO drawInfoCombo;
 	m_textureCombo.Init();
 	m_textureCombo.m_pTex2D = Game2DBase::Create("ComboHitStr.json");
-	m_textureCombo.m_texInfo.m_fileName = "ComboHitStr.json";
-	m_textureCombo.m_texInfo.m_prioity = PRIORITY_HIGH;
-	m_textureCombo.m_texInfo.m_posOrigin = GetPartsPos("comboStr");
-	m_textureCombo.m_texInfo.m_usePlayerOffset = false;
-	m_textureCombo.m_pTex2D->SetDrawInfo(m_textureCombo.m_texInfo);
+	drawInfoCombo.m_fileName = "ComboHitStr.json";
+	drawInfoCombo.m_prioity = PRIORITY_HIGH;
+	drawInfoCombo.m_posOrigin = GetPartsPos("comboStr");
+	drawInfoCombo.m_usePlayerOffset = false;
+	m_textureCombo.m_pTex2D->SetDrawInfo( drawInfoCombo );
 	
 	// コンボ数
 	m_pNumCounterCombo = NumberCounter::Create("NumberLarge.json");
@@ -80,15 +87,16 @@ bool PlayerCombo::Init()
 	m_pNumCounterComboRed->SetDrawInfo( comboInfo );
 
 	// コンボの継続時間を表すコンボゲージ
+	TEX_DRAW_INFO drawInfoGauge;
 	m_textureComboGauge.Init();
 	m_textureComboGauge.m_pTex2D = Game2DBase::Create("ComboGauge.json");
-	m_textureComboGauge.m_texInfo.m_fileName = "ComboGauge.json";
-	m_textureComboGauge.m_texInfo.m_prioity = PRIORITY_HIGH;
-	m_textureComboGauge.m_texInfo.m_posOrigin = GetPartsPos("comboGauge");
-	m_textureComboGauge.m_texInfo.m_usePlayerOffset = false;
-	const TEX_INIT_INFO &texInfoComboGauge = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureComboGauge.m_texInfo.m_fileName.c_str() );
-	m_textureComboGauge.m_texInfo.m_arrangeOrigin = math::Vector2( static_cast<float>(texInfoComboGauge.m_sizeWidth), 0.0f );
-	m_textureComboGauge.m_pTex2D->SetDrawInfo(m_textureCombo.m_texInfo);
+	drawInfoGauge.m_fileName = "ComboGauge.json";
+	drawInfoGauge.m_prioity = PRIORITY_HIGH;
+	drawInfoGauge.m_posOrigin = GetPartsPos("comboGauge");
+	drawInfoGauge.m_usePlayerOffset = false;
+	const TEX_INIT_INFO &texInfoComboGauge = TextureResourceManager::GetInstance()->GetLoadTextureInfo( drawInfoGauge.m_fileName.c_str() );
+	drawInfoGauge.m_arrangeOrigin = math::Vector2( static_cast<float>(texInfoComboGauge.m_sizeWidth), 0.0f );
+	m_textureComboGauge.m_pTex2D->SetDrawInfo( drawInfoGauge );
 
 	return true;
 }
@@ -138,17 +146,23 @@ void PlayerCombo::DrawUpdate()
 		uint32_t leftTime = GameRecorder::GetInstance()->GetLeftTimeOfCombo();
 		float scale = 10.0f;
 		scale = 10.0f * ( static_cast<float>(leftTime) / static_cast<float>(GameRecorder::COMBO_COUNT_MAX) );
-		m_textureComboGauge.m_texInfo.m_scale.x = scale;
-		m_textureComboGauge.m_pTex2D->SetDrawInfo( m_textureComboGauge.m_texInfo );
+		TEX_DRAW_INFO updateDrawInfo = m_textureComboGauge.m_pTex2D->GetDrawInfo();
+		updateDrawInfo.m_scale.x = scale;
+		m_textureComboGauge.m_pTex2D->SetDrawInfo( updateDrawInfo );
 		m_textureComboGauge.m_pTex2D->DrawUpdate2D();
 	}
 }
 
 const math::Vector2 PlayerCombo::GetPartsPos( const std::string name ) const
 {
+	if( !m_textureFrame.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作成されていない");
+		return math::Vector2();
+	}
+
 	// ステータスメニューの左上座標取得
-	const TEX_INIT_INFO &statusMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureFrame.m_texInfo.m_fileName.c_str() );
-	math::Vector2 retPos = m_textureFrame.m_texInfo.m_posOrigin;
+	const TEX_INIT_INFO &statusMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureFrame.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
+	math::Vector2 retPos = m_textureFrame.m_pTex2D->GetDrawInfo().m_posOrigin;
 	retPos -= math::Vector2( statusMenuInfo.m_sizeWidth / 2.0f, statusMenuInfo.m_sizeHeight / 2.0f );
 
 	// そこからパーツの位置を足し算

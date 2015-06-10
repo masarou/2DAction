@@ -31,16 +31,18 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	std::string readFileStr = SelectEffectFile();
 
 	// 描画クラスセットアップ
+	TEX_DRAW_INFO drawInfo;
 	m_textureEffect.Init();
 	m_textureEffect.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
-	m_textureEffect.m_texInfo.m_fileName = readFileStr;
-	m_textureEffect.m_texInfo.m_posOrigin = pos;
-	m_textureEffect.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_fileName = readFileStr;
+	drawInfo.m_posOrigin = pos;
+	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
 	if( m_kind == EFFECT_SLASHING_HIT ){
 		// 斬撃HITはランダムに回転
 		uint32_t rotate = Utility::GetRandamValue( 360, 0 );
-		m_textureEffect.m_texInfo.m_rot = rotate;
+		drawInfo.m_rot = rotate;
 	}
+	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
 GameEffect::~GameEffect(void)
@@ -55,7 +57,6 @@ bool GameEffect::DieMain()
 
 bool GameEffect::Init()
 {
-	m_textureEffect.m_pTex2D->SetDrawInfo( m_textureEffect.m_texInfo );
 	return true;
 }
 
@@ -70,7 +71,7 @@ void GameEffect::DrawUpdate()
 		TaskStartDie();
 
 		if( m_kind == EFFECT_PRE_EXPLOSION ){
-			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_EXPLOSION, m_textureEffect.m_texInfo.m_posOrigin );
+			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_EXPLOSION, m_textureEffect.m_pTex2D->GetDrawInfo().m_posOrigin );
 		}
 		return;
 	}
@@ -137,9 +138,9 @@ GameEffectWithCollision::GameEffectWithCollision( const Common::OWNER_TYPE &owne
 	// 描画クラスセットアップ
 	m_drawTexture.Init();
 	m_drawTexture.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
-	m_drawTexture.m_texInfo.m_fileName = readFileStr;
-	m_drawTexture.m_texInfo.m_posOrigin = pos;
-	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_fileName = readFileStr;
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = pos;
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = PRIORITY_ABOVE_NORMAL;
 }
 
 GameEffectWithCollision::~GameEffectWithCollision(void)
@@ -148,8 +149,6 @@ GameEffectWithCollision::~GameEffectWithCollision(void)
 
 bool GameEffectWithCollision::Init()
 {
-	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
-
 	// エフェクトに適した効果音再生
 	switch( m_kind ){
 	default:
@@ -290,9 +289,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 		tex.m_pTex2D = Game2DBase::Create("DamageNum.json");
 		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("DamageNum.json");
 		basePos.x -= texInfo.m_sizeWidth;
-		tex.m_texInfo.m_posOrigin		= basePos;
-		tex.m_texInfo.m_prioity	= PRIORITY_HIGH;
-		tex.m_pTex2D->SetDrawInfo( tex.m_texInfo );
+		tex.m_pTex2D->UpdateDrawInfo().m_posOrigin		= basePos;
+		tex.m_pTex2D->UpdateDrawInfo().m_prioity	= PRIORITY_HIGH;
 		damageInfo.m_array2D.push_back( tex );
 	}
 
@@ -337,8 +335,7 @@ void GameEffectDamage::DrawUpdate()
 	// 描画
 	for( uint32_t i = 0; i < m_damageArray.size() ; ++i ){
 		for( uint32_t j = 0; j < m_damageArray.at(i).m_array2D.size(); ++j){
-			m_damageArray.at(i).m_array2D.at(j).m_texInfo.m_posOrigin.y -= static_cast<float>( 2 );
-			m_damageArray.at(i).m_array2D.at(j).m_pTex2D->SetDrawInfo( m_damageArray.at(i).m_array2D.at(j).m_texInfo );
+			m_damageArray.at(i).m_array2D.at(j).m_pTex2D->UpdateDrawInfo().m_posOrigin.y -= static_cast<float>( 2 );
 			m_damageArray.at(i).m_array2D.at(j).m_pTex2D->DrawUpdate2D();
 		}
 	}

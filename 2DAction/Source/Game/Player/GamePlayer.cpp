@@ -73,11 +73,12 @@ GamePlayer::~GamePlayer(void)
 bool GamePlayer::Init()
 {
 	// 描画クラスセットアップ
-	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_drawTexture.m_texInfo.m_usePlayerOffset = false;
-	m_drawTexture.m_texInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
-	m_drawTexture.m_texInfo.m_fileName = "Player.json";
-	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_usePlayerOffset = false;
+	drawInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	drawInfo.m_fileName = "Player.json";
+	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 
 
 	// 遠距離攻撃マシンガンクラスセット
@@ -90,7 +91,7 @@ bool GamePlayer::Init()
 	SetupInitPlayerState();
 
 	// 画像の真ん中がオフセット位置になるように調整しておく(プレイヤーの初期位置セット)
-	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
 	math::Vector2 vec = math::Vector2( static_cast<float>(DEFAULT_POS_X), static_cast<float>(DEFAULT_POS_Y) );
 	GameAccesser::GetInstance()->AddPlayerOffSet( vec );
@@ -153,7 +154,8 @@ void GamePlayer::Update()
 
 	// 攻撃判定
 	if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
-		math::Vector2 pos = math::Vector2( m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
+		const TEX_DRAW_INFO &drawInfo = m_drawTexture.m_pTex2D->GetDrawInfo();
+		math::Vector2 pos = math::Vector2( drawInfo.m_posOrigin.x, drawInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
 		math::Vector2 vec = GetStickInfoRight().m_vec;
 		vec.Normalize();
 		m_attackGun->ShootBullet( pos, vec );
@@ -166,7 +168,7 @@ void GamePlayer::DrawUpdate()
 	}
 	else{
 		// プレイヤー描画	
-		m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+		//m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 		m_drawTexture.m_pTex2D->DrawUpdate2D();
 	}
 }
@@ -418,7 +420,7 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const
 {
 	bool ret = false;
 
-	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_texInfo.m_fileName.c_str() );
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
 
 	math::Vector2 nextFlamePos;
 	GameAccesser::GetInstance()->GetPlayerOffSet( nextFlamePos.x, nextFlamePos.y );

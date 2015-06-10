@@ -28,8 +28,8 @@ EnemyBBB::~EnemyBBB(void)
 bool EnemyBBB::InitMain()
 {
 	// ‰ŠúˆÊ’uƒZƒbƒg
-	m_drawTexture.m_texInfo.m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
-	DEBUG_PRINT( "“G¶¬ x = %f, y = %f\n", m_drawTexture.m_texInfo.m_posOrigin.x, m_drawTexture.m_texInfo.m_posOrigin.y );
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
+	DEBUG_PRINT( "“G¶¬ x = %f, y = %f\n", m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.x, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.y );
 
 	return true;
 }

@@ -78,6 +78,9 @@ struct TEX_DRAW_INFO{
 	PRIORITY		m_prioity;			//!<•`‰æ—Dæ“x
 	uint32_t		m_belongLv;			// ƒ}ƒbƒvã‚Å‚ÌŠ‘®‹óŠÔ(“–‚½‚è”»’è)
 	uint32_t		m_belongIndex;		// Š‘®‹óŠÔ‚Ì”Ô†(“–‚½‚è”»’è)
+	TEX_DRAW_INFO::TEX_DRAW_INFO(){
+		Init();
+	}
 	void Init(){
 		m_fileName = "";
 		m_scale = math::Vector2( 1.0f, 1.0f );

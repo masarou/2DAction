@@ -125,12 +125,14 @@ void BgManager::Update()
 				// 描画クラスセットアップ
 				std::string fileName = GetBgJsonName( m_currBGID );
 				m_drawTexture.m_pTex2D = Game2DBase::Create( fileName.c_str() );
-				m_drawTexture.m_texInfo.m_fileName = fileName;
-				m_drawTexture.m_texInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-				m_drawTexture.m_texInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-				m_drawTexture.m_texInfo.m_usePlayerOffset = false;
-				m_drawTexture.m_texInfo.m_prioity = PRIORITY_LOWEST;
-				m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+				TEX_DRAW_INFO drawInfo;
+				drawInfo.Init();
+				drawInfo.m_fileName = fileName;
+				drawInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
+				drawInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
+				drawInfo.m_usePlayerOffset = false;
+				drawInfo.m_prioity = PRIORITY_LOWEST;
+				m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 			}
 
 			SetNextStep( STEP_WAIT );

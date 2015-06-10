@@ -51,11 +51,11 @@ Slashing::Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &typ
 	m_drawTexture.m_pTex2D->SetAnim( setAnim );
 	
 	//!初期位置セット
-	m_drawTexture.m_texInfo.Init();
-	m_drawTexture.m_texInfo.m_fileName = jsonStr;
-	m_drawTexture.m_texInfo.m_posOrigin = pos + vecOffset;
-	m_drawTexture.m_texInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
-	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.m_fileName = jsonStr;
+	drawInfo.m_posOrigin = pos + vecOffset;
+	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
 Slashing::~Slashing(void)
@@ -101,7 +101,6 @@ void Slashing::Update()
 	}
 	SetInvalidCollisionFlag( !needCollision );
 
-	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 	++m_liveTime;
 }
 
@@ -171,7 +170,7 @@ const Common::TYPE_OBJECT Slashing::GetTypeObject() const
 void Slashing::GetHitFrame()
 {
 	std::string path = JSON_GAME2D_PATH;
-	path += m_drawTexture.m_texInfo.m_fileName;
+	path += m_drawTexture.m_pTex2D->GetDrawInfo().m_fileName;
 	std::ifstream ifs(path.c_str());
 
 	picojson::value root;

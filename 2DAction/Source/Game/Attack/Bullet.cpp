@@ -28,10 +28,11 @@ Bullet::Bullet( const Common::OWNER_TYPE ownerType, const math::Vector2 &pos, co
 	m_drawTexture.m_pTex2D = Game2DBase::Create( jsonStr.c_str() );
 
 	//!初期位置セット
-	m_drawTexture.m_texInfo.Init();
-	m_drawTexture.m_texInfo.m_fileName = jsonStr;
-	m_drawTexture.m_texInfo.m_posOrigin = pos;
-	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.Init();
+	drawInfo.m_fileName = jsonStr;
+	drawInfo.m_posOrigin = pos;
+	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 
 	if( m_ownerType == Common::OWNER_PLAYER ){
 		m_liveTimeMax = BULLET_LIVE_TIME_PLAYER;
@@ -71,8 +72,7 @@ const TEX_DRAW_INFO &Bullet::GetDrawInfo() const
 /* ================================================ */
 void Bullet::Update()
 {
-	m_drawTexture.m_texInfo.m_posOrigin += m_bulletVec * static_cast<float>(m_speed);
-	m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin += m_bulletVec * static_cast<float>(m_speed);
 	++m_liveTime;
 
 	if( m_liveTime >= m_liveTimeMax ){

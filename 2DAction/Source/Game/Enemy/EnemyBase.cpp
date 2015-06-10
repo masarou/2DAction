@@ -32,14 +32,11 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_prevAI( Common::AI_NONE )
 {
 	m_actionInfoAI.Init();
-
-	m_drawTexture.m_texInfo.m_fileName = jsonName;
-	m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_fileName = jsonName;
 
 	m_textureLife.Init();
 	m_textureLife.m_pTex2D = Game2DBase::Create( "EnemyGauge.json" );
-	m_textureLife.m_texInfo.m_fileName = "EnemyGauge.json";
-	m_textureLife.m_pTex2D->SetDrawInfo( m_textureLife.m_texInfo );
+	m_textureLife.m_pTex2D->UpdateDrawInfo().m_fileName = "EnemyGauge.json";
 
 	// 敵の強さを求める
 	uint32_t enemyLv = 0;
@@ -122,11 +119,11 @@ void EnemyBase::Update()
 		}
 
 		if( m_pEnemyAI ){
-			m_pEnemyAI->Exec( m_drawTexture.m_texInfo, m_actionInfoAI );
+			m_pEnemyAI->Exec( m_drawTexture.m_pTex2D->UpdateDrawInfo(), m_actionInfoAI );
 		}
 
 		// AIによって更新された値を反映
-		m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
+		//m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
 
 		// AIによって設定された行動を設定
 		RefrectAIAction();
@@ -137,10 +134,11 @@ void EnemyBase::Update()
 	}
 
 	// HP描画準備
-	m_textureLife.m_texInfo.m_posOrigin.x = m_drawTexture.m_texInfo.m_posOrigin.x;
-	m_textureLife.m_texInfo.m_posOrigin.y = m_drawTexture.m_texInfo.m_posOrigin.y + 30.0f;
-	m_textureLife.m_texInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
-	m_textureLife.m_pTex2D->SetDrawInfo( m_textureLife.m_texInfo );
+	TEX_DRAW_INFO drawInfo;
+	drawInfo.m_posOrigin.x = m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.x;
+	drawInfo.m_posOrigin.y = m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.y + 30.0f;
+	drawInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
+	m_textureLife.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
 void EnemyBase::DrawUpdate()
@@ -178,7 +176,10 @@ void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
 /* ================================================ */
 const TEX_DRAW_INFO &EnemyBase::GetDrawInfo() const
 {
-	return m_drawTexture.m_texInfo;
+	if( !m_drawTexture.m_pTex2D ){
+		DEBUG_ASSERT( 0, "必要なクラスが作成されていない");
+	}
+	return m_drawTexture.m_pTex2D->GetDrawInfo();
 }
 
 const uint32_t &EnemyBase::GetEnemyLevel() const
@@ -201,7 +202,7 @@ void EnemyBase::HitPlayreBullet( const uint32_t &damageValue )
 void EnemyBase::HitPlayreSlashing( const uint32_t &damageValue )
 {
 	m_stunTime = 10;
-	GameEffect::CreateEffect( GameEffect::EFFECT_SLASHING_HIT, m_drawTexture.m_texInfo.m_posOrigin );
+	GameEffect::CreateEffect( GameEffect::EFFECT_SLASHING_HIT, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 	UpdateEnemyDamage( damageValue );
 }
 
@@ -247,8 +248,8 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 
 	//ダメージエフェクト作成
 	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
-		, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.x)
-		, static_cast<uint32_t>(m_drawTexture.m_texInfo.m_posOrigin.y));
+		, static_cast<uint32_t>(m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.x)
+		, static_cast<uint32_t>(m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.y));
 
 	if( m_HP <= 0 ){
 		// スコア追加
@@ -270,11 +271,11 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 
 		if( Utility::GetRandamValue( 10, 0 ) == 0 ){
 			Common::ITEM_KIND itemKind = static_cast<Common::ITEM_KIND>( Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 ) );
-			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_texInfo.m_posOrigin );
+			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 		}
 
 		// 爆破エフェクトを出す
-		GameEffect::CreateEffect( GameEffect::EFFECT_BOMB, m_drawTexture.m_texInfo.m_posOrigin );
+		GameEffect::CreateEffect( GameEffect::EFFECT_BOMB, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 
 		// 爆発SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Death");
