@@ -6,14 +6,15 @@
  *		
  */
 /* ====================================================================== */
-#ifndef __FLOW_RETRY__
-#define __FLOW_RETRY__
+#ifndef __FLOW_INTERVAL__
+#define __FLOW_INTERVAL__
 
 #include "FlowBase.h"
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"
+#include "System/Menu/SystemMenuWindow.h"
 
-class Interval2D;
+class IntervalMenu;
 
 class FlowInterval : public FlowBase 
 {
@@ -24,16 +25,17 @@ public:
 protected:
 	
 	virtual bool Init() override;
-	virtual void PadEventDecide() override;
+	virtual void UpdateFlowAfterChildTask();
 
 private:
 
 	std::string GetNextFadeStr();
 
+
 	FlowInterval( const std::string &fileName );
-	~FlowInterval(void);
-	
-	Interval2D	*m_pRetryTex;
+	virtual ~FlowInterval(void);
+
+	IntervalMenu	*m_pMenuWindow;
 };
 
 /* ====================================================================== */
@@ -44,7 +46,7 @@ private:
  *		
  */
 /* ====================================================================== */
-class Interval2D : public TaskUnit, InputWatcher
+class IntervalMenu : public MenuWindow
 {
 public:
 	
@@ -55,32 +57,34 @@ public:
 		SELECT_RETRY_MAX,
 	};
 
-	static Interval2D *CreateRetry2D();
+	static IntervalMenu *CreateIntervalMenu( const std::string &readMenuJson );
 
 	const uint32_t &GetSelectedNo() const{ return m_selectNo; }
 
+	const std::string GetNextFlowStr() const{ return m_nextFlow; }
+
 protected:
 	
-	virtual bool Init() override;
-	virtual void Update() override;
-	virtual void DrawUpdate() override;		// ï`âÊçXêV
-	
-	virtual void PadEventUp() override;
-	virtual void PadEventDown() override;
+	virtual bool InitMenu() override;
+	virtual void UpdateMenu() override;
+	virtual void PadEventDecide() override;
 	virtual void PadEventRight() override;
 	virtual void PadEventLeft() override;
 
 private:
 
-	Interval2D();
-	virtual ~Interval2D(void);
-	
-	Texture2D			m_textureRetry;	// É^ÉCÉgÉãàÍñáäG
-	
+	enum{
+		SELECT_NEXT_GAME,
+		SELECT_TO_TITLE,
+
+		SELECT_MAX,
+	};
+
+	IntervalMenu( const std::string &readMenuJson );
+	virtual ~IntervalMenu(void);
+
 	uint32_t			m_selectNo;
-	Game2DBase			*m_pTexChoiceArray[SELECT_RETRY_MAX];	// ëIëéà
-	Game2DBase			*m_pTexChoiceBGArray[SELECT_RETRY_MAX];	// ëIëéàîwåi
-	TEX_DRAW_INFO		m_texInfo;								// ëIëéàï`âÊèÓïÒ
+	std::string			m_nextFlow;
 };
 
 #endif

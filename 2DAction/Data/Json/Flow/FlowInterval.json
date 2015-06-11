@@ -1,10 +1,10 @@
 {
 	"eventdata":[
-		{"event":"nextgame02", "path":"FlowGameStage02.json"},
-		{"event":"nextgame03", "path":"FlowGameStage03.json"},
-		{"event":"title", "path":"FlowTitle.json"}
+		{"event":"nextgame02",	"path":"FlowGameStage02.json"},
+		{"event":"nextgame03",	"path":"FlowGameStage03.json"},
+		{"event":"title", 		"path":"FlowTitle.json"}
 	],
 	"bgdata":[
-		{"bgid":"BGID_NONE"}
+		{"bgid":"BGID_TITLE"}
 	]
 }
