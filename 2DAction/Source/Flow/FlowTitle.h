@@ -9,14 +9,11 @@
 #ifndef __FLOW_TITLE__
 #define __FLOW_TITLE__
 
-#include "FlowBase.h"
+#include "Flow/FlowMenuBase.h"
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"
-#include "System/Menu/SystemMenuWindow.h"
 
-class TitleMenu;
-
-class FlowTitle : public FlowBase
+class FlowTitle : public FlowMenuBase
 {
 public:
 
@@ -32,7 +29,6 @@ private:
 	FlowTitle( const std::string &fileName );
 	virtual ~FlowTitle(void);
 
-	TitleMenu	*m_pMenuWindow;
 };
 
 /* ====================================================================== */
@@ -48,10 +44,6 @@ class TitleMenu : public MenuWindow
 public:
 
 	static TitleMenu *Create( const std::string &readMenuJson );
-
-	const uint32_t &GetSelectedNo() const{ return m_selectNo; }
-
-	const std::string GetNextFlowStr() const{ return m_nextFlow; }
 
 protected:
 
@@ -78,8 +70,6 @@ private:
 	TitleMenu( const std::string &readMenuJson );
 	virtual ~TitleMenu(void);
 	
-	uint32_t			m_selectNo;
-	std::string			m_nextFlow;
 };
 #endif
 

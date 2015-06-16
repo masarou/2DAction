@@ -16,7 +16,7 @@ FlowBase *FlowViewScore::Create( const std::string &fileName )
 }
 
 FlowViewScore::FlowViewScore( const std::string &fileName )
-: FlowBase(fileName)
+: FlowMenuBase(fileName)
 {
 	DEBUG_PRINT("FlowViewScore¶¬II\n");
 }
@@ -36,10 +36,6 @@ bool FlowViewScore::Init()
 
 void FlowViewScore::UpdateFlowAfterChildTask()
 {
-	// ŽŸ‚Ì‘JˆÚæ‚ðí‚ÉŠÄŽ‹
-	if( m_pMenuWindow && !m_pMenuWindow->GetNextFlowStr().empty() ){
-		StartFade( m_pMenuWindow->GetNextFlowStr().c_str() );
-	}
 }
 
 
@@ -89,7 +85,7 @@ bool ViewScoreMenu::InitMenu()
 
 void ViewScoreMenu::UpdateMenu()
 {
-	if( !m_nextFlow.empty() ){
+	if( !GetNextFlowStr().empty() ){
 		// ŽŸ‚Ì‘JˆÚæ‚ªŒˆ‚Ü‚Á‚½‚Ì‚Å‚È‚É‚à‚µ‚È‚¢
 		return;
 	}
@@ -106,5 +102,5 @@ void ViewScoreMenu::PadEventCancel()
 {
 	// ƒLƒƒƒ“ƒZƒ‹SE–Â‚ç‚·
 	SoundManager::GetInstance()->PlaySE("Cancel");
-	m_nextFlow = "return";
+	SetNextFlowStr( "return" );
 }

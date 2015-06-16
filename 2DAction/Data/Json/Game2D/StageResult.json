@@ -14,9 +14,5 @@
 	],
 	
 	"partsInfo":[
-		{"partsName":"strNumber01",		"loadJson":"NumberLarge.json",	"x": 1100,	"y": 243},
-		{"partsName":"strNumber02",		"loadJson":"NumberLarge.json",	"x": 1100,	"y": 332},
-		{"partsName":"strNumber03",		"loadJson":"NumberLarge.json",	"x": 1100,	"y": 410},
-		{"partsName":"strNumber04",		"loadJson":"NumberLarge.json",	"x": 1100,	"y": 560}
 	]
 }

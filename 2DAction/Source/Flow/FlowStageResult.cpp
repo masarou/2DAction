@@ -21,8 +21,7 @@ FlowBase *FlowStageResult::Create( const std::string &fileName )
 }
 
 FlowStageResult::FlowStageResult( const std::string &fileName )
-: FlowBase(fileName)
-, m_pResultTex(NULL)
+: FlowMenuBase( fileName )
 {
 	DEBUG_PRINT("FlowStageResult生成！！\n");
 }
@@ -36,50 +35,18 @@ FlowStageResult::~FlowStageResult(void)
 bool FlowStageResult::Init()
 {
 	// 背景一枚絵作成
-	m_pResultTex = Result2D::CreateResult2D();
+	if( GameRecorder::GetInstance()->IsUserClear() ){
+		m_pMenuWindow = ResultStageMenu::CreateResultStageMenu( "MenuStageResult.json" );
+	}
+	else{
+		m_pMenuWindow = ResultStageMenu::CreateResultStageMenu( "MenuStageResultGameOver.json" );
+	}
 	return true;
 }
 
-/* ================================================ */
-/**
- * @brief	パッド操作関数
- */
-/* ================================================ */
-void FlowStageResult::PadEventDecide()
+void FlowStageResult::UpdateFlowAfterChildTask()
 {
-	if( m_pResultTex && m_pResultTex->ProceedNext() ){
-		// 次に進む
-		GameRecorder *pRecorder = GameRecorder::GetInstance();
-		if( !pRecorder ){
-			DEBUG_ASSERT( 0, "GameRecorder is NULL");
-			return;
-		}
-		
-		// プレイヤーライフが0になったのでゲームオーバー
-		if( !GameRecorder::GetInstance()->IsUserClear() ){
-			StartFade( "totalresult" );
-			return;
-		}
 
-		// 次のステージor画面へ
-		switch( pRecorder->GetGameStateOfProgress() ){
-		case GameRecorder::STATE_TITLE:
-		default:
-			DEBUG_ASSERT( 0, "想定外のフロー" );
-			// とりあえずタイトルへ
-			StartFade( "title" );
-			break;
-		case GameRecorder::STATE_STAGE01:
-		case GameRecorder::STATE_STAGE02:
-			StartFade( "interval" );
-			break;
-		case GameRecorder::STATE_STAGE03:
-			StartFade( "totalresult" );	// すべてのステージ終了
-			break;
-		}	
-		// 決定SE鳴らす
-		SoundManager::GetInstance()->PlaySE("Decide");
-	}
 }
 
 /* ====================================================================== */
@@ -90,106 +57,65 @@ void FlowStageResult::PadEventDecide()
  *		
  */
 /* ====================================================================== */
-Result2D *Result2D::CreateResult2D()
+ResultStageMenu *ResultStageMenu::CreateResultStageMenu( const std::string &readMenuJson )
 {
-	return NEW Result2D();
+	return NEW ResultStageMenu( readMenuJson );
 }
 
-Result2D::Result2D()
-: TaskUnit("Result2D")
+ResultStageMenu::ResultStageMenu(  const std::string &readMenuJson  )
+: MenuWindow( readMenuJson )
 , m_dispState(DISP_RESULT)
-, m_pNumCounterResult( NULL )
-, m_pNumCounterBonus( NULL )
-, m_pNumCounterTotal( NULL )
 {
 }
 
-Result2D::~Result2D(void)
+ResultStageMenu::~ResultStageMenu(void)
 {
-	m_textureResult.DeleteAndInit();
 }
 
-bool Result2D::DieMain()
-{
-	if( m_pNumCounterBonus ){
-		// ここで求めたボーナスをステージスコアに加算
-		GameRecorder::GetInstance()->AddScoreBonus( m_pNumCounterBonus->GetValue() );
-	}
-	return true;
-}
-
-bool Result2D::Init()
+bool ResultStageMenu::InitMenu()
 {
 	// BGM再生開始
 	SoundManager::GetInstance()->PlayBGM( "interval" );
 
-	// 画面フレームセット
-	m_textureResult.Init();
-	std::string fileStr = "";
-	if( GameRecorder::GetInstance()->IsUserClear() ){
-		// 通常フレーム
-		fileStr = "StageResult.json";
-	}
-	else{
-		// ゲームオーバーフレーム
-		fileStr = "StageResultGameOver.json";
-	}
-	
-	// ステータスメニューのパーツ情報取得
-	Utility::GetPartsInfoFromJson( fileStr.c_str(), m_partsMap );
-
-	TEX_DRAW_INFO drawInfo;
-	m_textureResult.m_pTex2D = Game2DBase::Create( fileStr.c_str() );
-	drawInfo.m_fileName = fileStr;
-	drawInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
-	drawInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
-	drawInfo.m_usePlayerOffset = false;
-	m_textureResult.m_pTex2D->SetDrawInfo( drawInfo );
-
-	// 数字カウンタの初期化
-	m_pNumCounterResult = NumberCounter::Create("NumberLarge.json");
-	m_pNumCounterBonus = NumberCounter::Create("NumberLarge.json");
-	m_pNumCounterTotal = NumberCounter::Create("NumberLarge.json");
-
-	// 数字表示用画像情報
-	m_numberInfo.Init();
-	m_numberInfo.m_usePlayerOffset = false;
-
-	// 数字表示用画像情報セット
-	m_numberInfo.m_posOrigin = GetPartsPos( "strNumber01" );
-	m_pNumCounterResult->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_posOrigin = GetPartsPos( "strNumber02" );
-	m_pNumCounterBonus->SetDrawInfo( m_numberInfo );
-	m_numberInfo.m_posOrigin = GetPartsPos( "strNumber04" );
-	m_pNumCounterTotal->SetDrawInfo( m_numberInfo );
-
 	// 敵を倒して得た得点をセット
-	m_pNumCounterResult->AddValue( GameRecorder::GetInstance()->GetScore() );
+	PartsCounter *pCounter = GetPartsCounter( "result" );
+	if( pCounter ){
+		pCounter->AddValue( GameRecorder::GetInstance()->GetScore() );
+	}
 
 	return true;
 }
 
-void Result2D::Update()
+void ResultStageMenu::UpdateMenu()
 {
 	CallPadEvent();
 
 	// アニメカウントが終わっているなら次のステップに進む
 	switch(m_dispState){
 	case DISP_RESULT:
-		if( !m_pNumCounterResult->IsPlayCountAnim() ){
-			m_dispState = DISP_BONUS;
-			m_pNumCounterBonus->AddValue( GetStageClearBonus() );		
+		{
+			PartsCounter *pCounterResult = GetPartsCounter( "result" );
+			if( pCounterResult && !pCounterResult->IsPlayCountAnim() ){
+				pCounterResult->CountAnimEnd();
+				ChangeDispStateNext();
+			}
 		}
 		break;
 	case DISP_BONUS:
-		if( !m_pNumCounterBonus->IsPlayCountAnim() ){
-			m_dispState = DISP_TOTAL;
-			m_pNumCounterTotal->AddValue( m_pNumCounterResult->GetValue() + m_pNumCounterBonus->GetValue() );
+		{
+			PartsCounter *pCounterBonus = GetPartsCounter( "bonus" );
+			if( pCounterBonus && !pCounterBonus->IsPlayCountAnim() ){
+				pCounterBonus->CountAnimEnd();
+				ChangeDispStateNext();
+			}
 		}
 		break;
 	case DISP_TOTAL:
-		if( !m_pNumCounterTotal->IsPlayCountAnim() ){
-			m_dispState = DISP_ALL;
+		{
+			PartsCounter *pCounterTotal = GetPartsCounter( "total" );
+			if( pCounterTotal && !pCounterTotal->IsPlayCountAnim() ){
+				m_dispState = DISP_ALL;
+			}
 		}
 		break;
 	case DISP_ALL:
@@ -199,42 +125,44 @@ void Result2D::Update()
 
 }
 
-void Result2D::DrawUpdate()
+void ResultStageMenu::PadEventDecide()
 {
-	if( m_textureResult.m_pTex2D ){
-		m_textureResult.m_pTex2D->DrawUpdate2D();
+	if( ChangeDispStateNext() ){
+		// 次に進む
+		GameRecorder *pRecorder = GameRecorder::GetInstance();
+		if( !pRecorder ){
+			DEBUG_ASSERT( 0, "GameRecorder is NULL");
+			return;
+		}
+		
+		// プレイヤーライフが0になったのでゲームオーバー
+		if( !GameRecorder::GetInstance()->IsUserClear() ){
+			SetNextFlowStr( "totalresult" );
+			return;
+		}
+
+		// 次のステージor画面へ
+		switch( pRecorder->GetGameStateOfProgress() ){
+		case GameRecorder::STATE_TITLE:
+		default:
+			DEBUG_ASSERT( 0, "想定外のフロー" );
+			// とりあえずタイトルへ
+			SetNextFlowStr( "title" );
+			break;
+		case GameRecorder::STATE_STAGE01:
+		case GameRecorder::STATE_STAGE02:
+			SetNextFlowStr( "interval" );
+			break;
+		case GameRecorder::STATE_STAGE03:
+			SetNextFlowStr( "totalresult" );	// すべてのステージ終了
+			break;
+		}	
+		// 決定SE鳴らす
+		SoundManager::GetInstance()->PlaySE("Decide");
 	}
 }
 
-void Result2D::PadEventDecide()
-{
-	switch(m_dispState){
-	case DISP_RESULT:
-		// カウントアニメ終了
-		m_pNumCounterResult->CountAnimEnd();
-		m_dispState = DISP_BONUS;
-
-		m_pNumCounterBonus->AddValue( GetStageClearBonus() );
-		break;
-	case DISP_BONUS:
-		// カウントアニメ終了
-		m_pNumCounterBonus->CountAnimEnd();
-		m_dispState = DISP_TOTAL;
-
-		m_pNumCounterTotal->AddValue( m_pNumCounterResult->GetValue() + m_pNumCounterBonus->GetValue() );
-		break;
-	case DISP_TOTAL:
-		// カウントアニメ終了
-		m_pNumCounterTotal->CountAnimEnd();
-		m_dispState = DISP_ALL;
-		break;
-	case DISP_ALL:
-
-		break;
-	}
-}
-
-uint32_t Result2D::GetStageClearBonus() const
+uint32_t ResultStageMenu::GetStageClearBonus() const
 {
 	// ボーナス算出方法
 	// コンボ数×ユーザーの残りライフ = Bonus
@@ -286,30 +214,73 @@ uint32_t Result2D::GetStageClearBonus() const
 	return retVal;
 }
 
-const math::Vector2 Result2D::GetPartsPos( const std::string name ) const
+bool ResultStageMenu::ChangeDispStateNext()
 {
-	if( !m_textureResult.m_pTex2D ){
-		DEBUG_ASSERT( 0, "必要なクラスが作成されていない");
-		return math::Vector2();
+	switch(m_dispState){
+	case DISP_RESULT:
+		{
+			// カウントアニメ終了
+			PartsCounter *pCounterResult = GetPartsCounter( "result" );
+			if( pCounterResult ){
+				pCounterResult->CountAnimEnd();
+			}
+
+			PartsCounter *pCounterBonus = GetPartsCounter( "bonus" );
+			if( pCounterBonus ){
+				pCounterBonus->AddValue( GetStageClearBonus() );
+				m_dispState = DISP_BONUS;
+			}
+			else{
+				DEBUG_ASSERT( 0, "目的のパーツがない！" );
+			}
+		}
+		break;
+	case DISP_BONUS:
+		{
+			// カウントアニメ終了
+			PartsCounter *pCounterResult = GetPartsCounter( "result" );
+			PartsCounter *pCounterBonus = GetPartsCounter( "bonus" );
+			if( pCounterBonus ){
+				pCounterBonus->CountAnimEnd();
+			}
+
+			uint32_t totalValue = 0;
+			if( pCounterResult && pCounterBonus ){
+				uint32_t totalValue = pCounterResult->GetValue() + pCounterBonus->GetValue();
+			}
+
+			PartsCounter *pCounterTotal = GetPartsCounter( "total" );
+			if( pCounterTotal ){
+				pCounterTotal->AddValue( totalValue );
+				m_dispState = DISP_TOTAL;
+			}
+			else{
+				DEBUG_ASSERT( 0, "目的のパーツがない！" );
+			}
+		}
+		break;
+	case DISP_TOTAL:
+		{
+			// カウントアニメ終了
+			PartsCounter *pCounterTotal = GetPartsCounter( "total" );
+			if( pCounterTotal ){
+				pCounterTotal->CountAnimEnd();
+			}
+
+			// ここで求めたボーナスをステージスコアに加算
+			PartsCounter *pCounterBonus = GetPartsCounter( "bonus" );
+			if( pCounterBonus ){
+				GameRecorder::GetInstance()->AddScoreBonus( pCounterBonus->GetValue() );
+			}
+
+			// 表示完了
+			m_dispState = DISP_ALL;
+			return true;
+		}
+		break;
+	case DISP_ALL:
+		return true;
+		break;
 	}
-
-	// ステータスメニューの左上座標取得
-	const TEX_INIT_INFO &resultMenuInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_textureResult.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
-	math::Vector2 retPos = m_textureResult.m_pTex2D->GetDrawInfo().m_posOrigin;
-	retPos -= math::Vector2( resultMenuInfo.m_sizeWidth / 2.0f, resultMenuInfo.m_sizeHeight / 2.0f );
-
-	// そこからパーツの位置を足し算
-	Common::PARTS_INFO info = GetPartsInfo(name);
-	retPos += info.m_pos;
-	return retPos;
-}
-
-const Common::PARTS_INFO &Result2D::GetPartsInfo( const std::string name ) const
-{
-	auto it = m_partsMap.find( name.c_str() );
-	if( it != m_partsMap.end() ){
-		return (*it).second;
-	}
-	DEBUG_ASSERT( 0, "パーツが見つかりません\n" );
-	return (*m_partsMap.begin()).second;
+	return false;
 }

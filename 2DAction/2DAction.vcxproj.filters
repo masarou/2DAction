@@ -301,6 +301,9 @@
     <ClInclude Include="Source\System\Menu\SystemMenuPartsFactory.h">
       <Filter>System\Menu</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Flow\FlowMenuBase.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -510,6 +513,9 @@
     </ClCompile>
     <ClCompile Include="Source\System\Menu\SystemMenuPartsCounter.cpp">
       <Filter>System\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowMenuBase.cpp">
+      <Filter>Flow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

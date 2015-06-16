@@ -9,14 +9,14 @@
 #ifndef __FLOW_INTERVAL__
 #define __FLOW_INTERVAL__
 
-#include "FlowBase.h"
+#include "FlowMenuBase.h"
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/Menu/SystemMenuWindow.h"
 
 class IntervalMenu;
 
-class FlowInterval : public FlowBase 
+class FlowInterval : public FlowMenuBase 
 {
 public:
 
@@ -35,7 +35,6 @@ private:
 	FlowInterval( const std::string &fileName );
 	virtual ~FlowInterval(void);
 
-	IntervalMenu	*m_pMenuWindow;
 };
 
 /* ====================================================================== */
@@ -59,10 +58,6 @@ public:
 
 	static IntervalMenu *CreateIntervalMenu( const std::string &readMenuJson );
 
-	const uint32_t &GetSelectedNo() const{ return m_selectNo; }
-
-	const std::string GetNextFlowStr() const{ return m_nextFlow; }
-
 protected:
 	
 	virtual bool InitMenu() override;
@@ -82,9 +77,6 @@ private:
 
 	IntervalMenu( const std::string &readMenuJson );
 	virtual ~IntervalMenu(void);
-
-	uint32_t			m_selectNo;
-	std::string			m_nextFlow;
 };
 
 #endif

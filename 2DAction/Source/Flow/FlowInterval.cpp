@@ -15,7 +15,7 @@ FlowBase *FlowInterval::Create( const std::string &fileName )
 }
 
 FlowInterval::FlowInterval( const std::string &fileName )
-: FlowBase(fileName)
+: FlowMenuBase(fileName)
 {
 	DEBUG_PRINT("FlowInterval生成！！\n");
 }
@@ -40,10 +40,6 @@ bool FlowInterval::Init()
 /* ================================================ */
 void FlowInterval::UpdateFlowAfterChildTask()
 {
-	// 次の遷移先を常に監視
-	if( m_pMenuWindow && !m_pMenuWindow->GetNextFlowStr().empty() ){
-		StartFade( m_pMenuWindow->GetNextFlowStr().c_str() );
-	}
 }
 
 
@@ -62,7 +58,6 @@ IntervalMenu *IntervalMenu::CreateIntervalMenu( const std::string &readMenuJson 
 
 IntervalMenu::IntervalMenu( const std::string &readMenuJson )
 : MenuWindow( readMenuJson )
-, m_selectNo( 0 )
 {
 }
 
@@ -106,8 +101,8 @@ void IntervalMenu::PadEventDecide()
 	// 決定SE鳴らす
 	SoundManager::GetInstance()->PlaySE("Decide");
 
-	if( m_selectNo == IntervalMenu::SELECT_TITLE ){
-		m_nextFlow = "title";
+	if( GetSelectedNo() == IntervalMenu::SELECT_TITLE ){
+		SetNextFlowStr( "title" );
 	}
 	else{
 		GameRecorder *pRecorder = GameRecorder::GetInstance();
@@ -119,13 +114,13 @@ void IntervalMenu::PadEventDecide()
 			default:
 				DEBUG_ASSERT( 0, "想定外のフロー" );
 				// とりあえずタイトルへ
-				m_nextFlow = "title";
+				SetNextFlowStr( "title" );
 				break;
 			case GameRecorder::STATE_STAGE01:
-				m_nextFlow = "nextgame02";
+				SetNextFlowStr( "nextgame02" );
 				break;
 			case GameRecorder::STATE_STAGE02:
-				m_nextFlow = "nextgame03";
+				SetNextFlowStr( "nextgame03" );
 				break;
 			}
 		}
@@ -136,18 +131,22 @@ void IntervalMenu::PadEventRight()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
-	m_selectNo = (m_selectNo+1) % SELECT_RETRY_MAX;
+
+	uint32_t selectNo = ( GetSelectedNo() + 1 ) % SELECT_RETRY_MAX;
+	SetSelectNum( selectNo );
 }
 void IntervalMenu::PadEventLeft()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
-	m_selectNo = (m_selectNo+(SELECT_RETRY_MAX - 1)) % SELECT_RETRY_MAX;
+
+	uint32_t selectNo = ( GetSelectedNo() + (SELECT_RETRY_MAX - 1) ) % SELECT_MAX;
+	SetSelectNum( selectNo );
 }
 
 void IntervalMenu::UpdateMenu()
 {
-	if( !m_nextFlow.empty() ){
+	if( !GetNextFlowStr().empty() ){
 		// 次の遷移先が決まったのでなにもしない
 		return;
 	}
@@ -156,7 +155,7 @@ void IntervalMenu::UpdateMenu()
 	for( uint32_t i = 0; i < SELECT_MAX; ++i){
 		// カーソルが当たっていたらアニメ変更
 		std::string anim = "default";
-		if( m_selectNo == i ){
+		if( GetSelectedNo() == i ){
 			anim = "spot";
 		}
 		std::string partStr = "choiceBG";

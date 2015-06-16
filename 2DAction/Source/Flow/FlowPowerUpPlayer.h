@@ -9,14 +9,14 @@
 #ifndef __FLOW_POWER_UP__
 #define __FLOW_POWER_UP__
 
-#include "FlowBase.h"
+#include "FlowMenuBase.h"
 #include "Game/Game2DBase.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/Menu/SystemMenuWindow.h"
 
 class PowerUpMenu;
 
-class FlowPowerUpPlayer : public FlowBase
+class FlowPowerUpPlayer : public FlowMenuBase
 {
 public:
 
@@ -34,8 +34,7 @@ private:
 
 	FlowPowerUpPlayer( const std::string &fileName );
 	~FlowPowerUpPlayer(void);
-	
-	PowerUpMenu		*m_pMenuWindow;
+
 };
 
 /* ====================================================================== */
@@ -64,9 +63,6 @@ private:
 
 	PowerUpMenu( const std::string &fileName );
 	virtual ~PowerUpMenu(void);
-
-	std::string		m_nextFlow;
-
 };
 
 #endif

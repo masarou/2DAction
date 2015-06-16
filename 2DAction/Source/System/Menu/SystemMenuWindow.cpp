@@ -17,6 +17,8 @@ MenuWindow::MenuWindow( const std::string &readMenuJson )
 : TaskUnit("MenuWindow")
 , m_pMainParts( NULL )
 , m_readMenuFile( readMenuJson )
+, m_selectNo( 0 )
+, m_nextFlow( "" )
 {
 }
 
@@ -40,7 +42,7 @@ MenuParts	*MenuWindow::GetParts( const std::string &partsStr )
 			return pParts;
 		}
 	}
-	DEBUG_ASSERT( 0, "指定されたMenuパーツは見つかりませんでした");
+	DEBUG_ASSERT( 0, "指定されたMenuパーツは見つかりませんでした\n");
 	return NULL;
 }
 
@@ -51,7 +53,7 @@ PartsCounter *MenuWindow::GetPartsCounter( const std::string &partsStr )
 		return dynamic_cast<PartsCounter*>(pParts);
 	}
 
-	DEBUG_ASSERT( 0, "指定されたMenuパーツは見つかりませんでした");
+	DEBUG_ASSERT( 0, "指定されたMenuパーツは見つかりませんでした\n");
 	return NULL;
 }
 

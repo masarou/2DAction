@@ -22,6 +22,9 @@ class MenuWindow : public TaskUnit, public InputWatcher
 
 public:
 
+	const uint32_t &GetSelectedNo() const{ return m_selectNo; }
+	const std::string GetNextFlowStr() const{ return m_nextFlow; }
+
 protected:
 
 	MenuWindow( const std::string &readMenuJson );
@@ -40,6 +43,8 @@ protected:
 
 	// 継承先各Menu画面からアニメイベントセット
 	void SetAnim( const std::string &partsStr, const std::string &animStr );
+	void SetSelectNum( const uint32_t &selNum ){ m_selectNo = selNum; }
+	void SetNextFlowStr( const std::string &nextFlowStr ){ m_nextFlow = nextFlowStr; }
 
 	// 各パーツクラス取得
 	MenuParts		*GetParts( const std::string &partsStr );
@@ -49,6 +54,9 @@ private:
 	
 	std::string	m_readMenuFile;
 	MenuParts	*m_pMainParts;
+	
+	uint32_t			m_selectNo;	// 選択肢番号(画面によっては使用しないこともあり)
+	std::string			m_nextFlow; // 次の遷移先
 
 };
 #endif // __MENU_WINDOW__

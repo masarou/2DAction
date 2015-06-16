@@ -16,8 +16,7 @@ FlowBase *FlowTitle::Create( const std::string &fileName )
 }
 
 FlowTitle::FlowTitle( const std::string &fileName )
-: FlowBase( fileName )
-, m_pMenuWindow( NULL )
+: FlowMenuBase( fileName )
 {
 	DEBUG_PRINT("FlowTitle生成！！\n");
 }
@@ -44,10 +43,7 @@ bool FlowTitle::Init()
 
 void FlowTitle::UpdateFlowAfterChildTask()
 {
-	// 次の遷移先を常に監視
-	if( m_pMenuWindow && !m_pMenuWindow->GetNextFlowStr().empty() ){
-		StartFade( m_pMenuWindow->GetNextFlowStr().c_str() );
-	}
+
 }
 
 /* ====================================================================== */
@@ -65,7 +61,6 @@ TitleMenu *TitleMenu::Create( const std::string &readMenuJson )
 
 TitleMenu::TitleMenu( const std::string &readMenuJson )
 : MenuWindow( readMenuJson )
-, m_selectNo( 0 )
 {
 }
 
@@ -106,7 +101,7 @@ bool TitleMenu::InitMenu()
 
 void TitleMenu::UpdateMenu()
 {
-	if( !m_nextFlow.empty() ){
+	if( !GetNextFlowStr().empty() ){
 		// 次の遷移先が決まったのでなにもしない
 		return;
 	}
@@ -115,7 +110,7 @@ void TitleMenu::UpdateMenu()
 	for( uint32_t i = 0; i < SELECT_MAX; ++i){
 		// カーソルが当たっていたらアニメ変更
 		std::string anim = "default";
-		if( m_selectNo == i ){
+		if( GetSelectedNo() == i ){
 			anim = "spot";
 		}
 		std::string partStr = "choiceBG";
@@ -130,17 +125,17 @@ void TitleMenu::PadEventDecide()
 	// 決定SE鳴らす
 	SoundManager::GetInstance()->PlaySE("Decide");
 
-	switch( m_selectNo ){
+	switch( GetSelectedNo() ){
 	default:
 		break;
 	case SELECT_START:
-	m_nextFlow = "startgame";
+	SetNextFlowStr( "startgame" );
 		break;
 	case SELECT_SCORE:
-	m_nextFlow = "score";
+	SetNextFlowStr( "score" );
 		break;
 	case SELECT_EXIT:
-	m_nextFlow = "exit";
+	SetNextFlowStr( "exit" );
 		break;
 	}
 }
@@ -157,11 +152,15 @@ void TitleMenu::PadEventRight()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
-	m_selectNo = (m_selectNo+1) % SELECT_MAX;
+
+	uint32_t selectNo = ( GetSelectedNo() + 1 ) % SELECT_MAX;
+	SetSelectNum( selectNo );
 }
 void TitleMenu::PadEventLeft()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
-	m_selectNo = (m_selectNo+(SELECT_MAX - 1)) % SELECT_MAX;
+
+	uint32_t selectNo = ( GetSelectedNo() + (SELECT_MAX - 1) ) % SELECT_MAX;
+	SetSelectNum( selectNo );
 }

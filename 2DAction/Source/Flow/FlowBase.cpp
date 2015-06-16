@@ -17,7 +17,7 @@
 #include "System/Collision/SystemCollisionManager.h"
 
 
-FlowBase::FlowBase(std::string fileName)
+FlowBase::FlowBase( const std::string &fileName)
 : m_filePath(fileName)
 , m_isInvalidPadCtrl( false )
 {
@@ -134,6 +134,9 @@ void FlowBase::UpdateFlow()
 
 	// 派生先の子タスク更新後Update
 	UpdateFlowAfterChildTask();
+	
+	// 遷移先のチェック
+	CheckNextFlow();
 }
 
 

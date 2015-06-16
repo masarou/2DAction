@@ -9,14 +9,14 @@
 #ifndef __FLOW_VIEW_SCORE__
 #define __FLOW_VIEW_SCORE__
 
-#include "FlowBase.h"
+#include "FlowMenuBase.h"
 #include "Game/Game2DBase.h"
 #include "Common/CmnNumberCounter.h"
 #include "System/Menu/SystemMenuWindow.h"
 
 class ViewScoreMenu;
 
-class FlowViewScore : public FlowBase
+class FlowViewScore : public FlowMenuBase
 {
 public:
 
@@ -29,9 +29,7 @@ private:
 
 	FlowViewScore( const std::string &fileName );
 	~FlowViewScore(void);
-	
 
-	ViewScoreMenu	*m_pMenuWindow;
 };
 
 
@@ -49,8 +47,6 @@ public:
 
 	static ViewScoreMenu *CreateViewScore2D( const std::string &readMenuJson );
 	
-	const std::string GetNextFlowStr(){ return m_nextFlow; }
-
 protected:
 	
 	virtual bool InitMenu() override;
@@ -63,6 +59,5 @@ private:
 	virtual ~ViewScoreMenu(void);
 	
 	Common::SAVE_DATA	m_saveData;
-	std::string			m_nextFlow;
 };
 #endif

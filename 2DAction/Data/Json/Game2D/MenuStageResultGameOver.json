@@ -1,0 +1,8 @@
+{
+	"partsInfo":[
+		{"partsName":"frame",		"loadJson":"StageResultGameOver.json",		"partsType":"PARTS_SINGLE_DRAW",	"x": 640,	"y": 360},
+		{"partsName":"result",		"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 243},
+		{"partsName":"bonus",		"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 332},
+		{"partsName":"total",		"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 560}
+	]
+}

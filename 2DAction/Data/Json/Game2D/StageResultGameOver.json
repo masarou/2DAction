@@ -14,9 +14,5 @@
 	],
 	
 	"partsInfo":[
-		{"partsName":"strNumber01",	"x": 1100,	"y": 243},
-		{"partsName":"strNumber02",	"x": 1100,	"y": 332},
-		{"partsName":"strNumber03",	"x": 1100,	"y": 410},
-		{"partsName":"strNumber04",	"x": 1100,	"y": 560}
 	]
 }

@@ -111,7 +111,7 @@ void PartsCounter::UpdateScore( const uint32_t &score )
 			continue;
 		}
 
-		if( rest != 0 ){
+		if( rest != 0 || i == 0 ){
 			pParts->SetDrawFlag( true );
 			SetPartsAnim( partsName.c_str(), anim.c_str() );
 		}

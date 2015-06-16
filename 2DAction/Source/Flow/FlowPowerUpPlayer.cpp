@@ -17,7 +17,7 @@ FlowBase *FlowPowerUpPlayer::Create( const std::string &fileName )
 }
 
 FlowPowerUpPlayer::FlowPowerUpPlayer( const std::string &fileName )
-: FlowBase(fileName)
+: FlowMenuBase(fileName)
 {
 	DEBUG_PRINT("FlowPowerUpPlayerê∂ê¨ÅIÅI\n");
 }

@@ -1,0 +1,14 @@
+{
+	"partsInfo":[
+		{"partsName":"0",	"loadJson":"NumberLargeRed.json",	"x": -42,	"y": 0},
+		{"partsName":"1",	"loadJson":"NumberLargeRed.json",	"x": -126,	"y": 0},
+		{"partsName":"2",	"loadJson":"NumberLargeRed.json",	"x": -210,	"y": 0},
+		{"partsName":"3",	"loadJson":"NumberLargeRed.json",	"x": -294,	"y": 0},
+		{"partsName":"4",	"loadJson":"NumberLargeRed.json",	"x": -378,	"y": 0},
+		{"partsName":"5",	"loadJson":"NumberLargeRed.json",	"x": -462,	"y": 0},
+		{"partsName":"6",	"loadJson":"NumberLargeRed.json",	"x": -546,	"y": 0},
+		{"partsName":"7",	"loadJson":"NumberLargeRed.json",	"x": -630,	"y": 0},
+		{"partsName":"8",	"loadJson":"NumberLargeRed.json",	"x": -714,	"y": 0},
+		{"partsName":"9",	"loadJson":"NumberLargeRed.json",	"x": -798,	"y": 0}
+	]
+}

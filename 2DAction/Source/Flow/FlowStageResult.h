@@ -9,14 +9,13 @@
 #ifndef __FLOW_STAGE_RESULT__
 #define __FLOW_STAGE_RESULT__
 
-#include "FlowBase.h"
+#include "FlowMenuBase.h"
 #include "Game/Game2DBase.h"
 #include "Common/CmnNumberCounter.h"
 #include "System/Task/SystemTaskUnit.h"
+#include "System/Menu/SystemMenuWindow.h"
 
-class Result2D;
-
-class FlowStageResult : public FlowBase
+class FlowStageResult : public FlowMenuBase
 {
 public:
 
@@ -25,12 +24,11 @@ public:
 private:
 
 	virtual bool Init() override;
-	virtual void PadEventDecide() override;
+	virtual void UpdateFlowAfterChildTask();
 	
 	FlowStageResult( const std::string &fileName );
 	~FlowStageResult(void);
 
-	Result2D	*m_pResultTex;
 };
 
 
@@ -42,20 +40,19 @@ private:
  *		
  */
 /* ====================================================================== */
-class Result2D : public TaskUnit, InputWatcher
+class ResultStageMenu : public MenuWindow
 {
 public:
 
-	static Result2D *CreateResult2D();
+	static ResultStageMenu *CreateResultStageMenu( const std::string &readMenuJson );
 
 	bool ProceedNext(){ return m_dispState == DISP_ALL ? true : false ;}		// 全て表示し終えて次に進んでいいかどうか
 
 protected:
 	
-	virtual bool Init() override;
-	virtual bool DieMain()override;
-	virtual void Update() override;
-	virtual void DrawUpdate() override;		// 描画更新
+	virtual bool InitMenu() override;
+	virtual void UpdateMenu() override;
+
 	virtual void PadEventDecide() override;
 
 private:
@@ -69,21 +66,14 @@ private:
 		DISP_MAX,
 	};
 
-	Result2D();
-	virtual ~Result2D(void);
+	ResultStageMenu( const std::string &readMenuJson );
+	virtual ~ResultStageMenu(void);
 	uint32_t GetStageClearBonus() const;
-	const math::Vector2 GetPartsPos( const std::string name ) const;
-	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
+
+	// カウント項目を次へ(trueで全部表示しきった)
+	bool	ChangeDispStateNext();
 
 	DISP_STATE			m_dispState;						// どこまで表示しているか
-	Texture2D			m_textureResult;					// 画面フレーム
-	TEX_DRAW_INFO		m_numberInfo;						// 描画関係情報
-	
-	NumberCounter		*m_pNumCounterResult;				// スコア表示
-	NumberCounter		*m_pNumCounterBonus;				// スコア表示
-	NumberCounter		*m_pNumCounterTotal;				// スコア表示
-
-	std::map< std::string, Common::PARTS_INFO >	m_partsMap;	// パーツマップ
 };
 
 

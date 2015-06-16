@@ -24,7 +24,7 @@ class FlowBase : public TaskManagerBase, public InputWatcher
 
 protected:
 
-	FlowBase(std::string fileName);
+	FlowBase( const std::string &fileName);
 	virtual ~FlowBase(void);
 	
 	//! 初期化処理記入
@@ -32,6 +32,7 @@ protected:
 
 	//! 派生先での更新関数
 	virtual void UpdateFlowPreChildTask(){}
+	virtual void CheckNextFlow(){}
 	virtual void UpdateFlowAfterChildTask(){}
 
 	//! 派生先終了処理記入
