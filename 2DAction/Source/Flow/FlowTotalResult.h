@@ -9,14 +9,14 @@
 #ifndef __FLOW_TOTAL_RESULT__
 #define __FLOW_TOTAL_RESULT__
 
-#include "FlowBase.h"
+#include "FlowMenuBase.h"
 #include "Game/Game2DBase.h"
 #include "Common/CmnNumberCounter.h"
 #include "System/Task/SystemTaskUnit.h"
 
-class TotalResult2D;
+class PartsCounter;
 
-class FlowTotalResult : public FlowBase
+class FlowTotalResult : public FlowMenuBase
 {
 public:
 
@@ -26,15 +26,14 @@ private:
 
 	virtual bool Init() override;
 	virtual bool FinishFlow() override;
-	virtual void PadEventDecide() override;
 
 	// 引数に今回のプレイデータを反映したランキングをセット
+	void RecordGameResult();
 	void UpdateSortRanking( Common::SAVE_DATA &scoreData );
 	
 	FlowTotalResult( const std::string &fileName );
 	~FlowTotalResult(void);
 
-	TotalResult2D	*m_pResultTex;
 };
 
 
@@ -46,19 +45,18 @@ private:
  *		表示するスコアそのもの
  */
 /* ====================================================================== */
-class TotalResult2D : public TaskUnit, InputWatcher
+class TotalResult2D : public MenuWindow
 {
 public:
 
-	static TotalResult2D *CreateTotalResult2D();
+	static TotalResult2D *CreateTotalResult2D( const std::string &readMenuJson );
 
 	bool ProceedNext(){ return m_dispState == DISP_MAX ? true : false ;}		// 全て表示し終えて次に進んでいいかどうか
 
 protected:
 	
-	virtual bool Init() override;
-	virtual void Update() override;
-	virtual void DrawUpdate() override;		// 描画更新
+	virtual bool InitMenu() override;
+	virtual void UpdateMenu() override;
 	virtual void PadEventDecide() override;
 
 private:
@@ -72,18 +70,11 @@ private:
 		DISP_MAX,
 	};
 
-	TotalResult2D();
+	TotalResult2D( const std::string &readMenuJson );
 	virtual ~TotalResult2D(void);
-	const math::Vector2 GetPartsPos( const std::string name ) const;
-	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
 
 	DISP_STATE			m_dispState;						// どこまで表示しているか
-	Texture2D			m_textureResult;					// 背景フレーム
-	TEX_DRAW_INFO		m_numberInfo;						// 描画関係情報
-	
-	NumberCounter		*m_pNumCounter[DISP_MAX];			// スコア表示
-
-	std::map< std::string, Common::PARTS_INFO >	m_partsMap;	// パーツマップ
+	PartsCounter		*m_pNumCounter[DISP_MAX];			// スコア表示
 };
 
 

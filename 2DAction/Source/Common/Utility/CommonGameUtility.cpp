@@ -452,6 +452,18 @@ bool GetSaveData( Common::SAVE_DATA &saveData )
 	return true;
 }
 
+bool OverWriteSaveData( Common::SAVE_DATA &saveData )
+{
+	// プレイログ書き出し
+	FILE *fpWrite = fopen( "playLog.dat", "wb" );
+	if( fpWrite == NULL ){
+		return false;
+	}
+	fwrite( &saveData, sizeof(saveData), 1, fpWrite );
+	fclose( fpWrite );
+	return true;
+}
+
 /* ================================================ */
 /**
  * @brief	画面のjsonからパーツ情報を取得("partsInfo")

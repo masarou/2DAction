@@ -147,10 +147,9 @@ namespace Common{
 		BASE_STATE_LIFE,		// ライフの最大値を決める
 		BASE_STATE_MOVE_SPEED,	// ダッシュ時間
 		BASE_STATE_DEFFENCE,	// 被ダメージを決める
-		BASE_STATE_BLADE_SPD,	// 斬撃のインターバル
 		BASE_STATE_BULLET_SPD,	// マシンガンの間隔
-		BASE_STATE_BLADE_DMG,	// 斬撃のダメージ
 		BASE_STATE_BULLET_DMG,	// マシンガンのダメージ
+		BASE_STATE_BLADE_LEVEL,	// 斬撃のダメージ
 
 		BASE_STATE_MAX,
 	};

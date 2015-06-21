@@ -12,6 +12,8 @@
 #include <assert.h>
 #include <time.h>
 #include <fstream>
+#include <sstream>
+#include <iostream>
 #include "Common/CmnGameAccesser.h"
 /* マクロ==================================================================== */
 #define int8_t		char
@@ -44,6 +46,7 @@ static const char *TEXTURE_PATH				= "Data/Texture/";
 //定数
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
+#define FONT_DEFAULT_SIZE 25
 
 //リークチェック用
 #define _CRTDBG_MAP_ALLOC

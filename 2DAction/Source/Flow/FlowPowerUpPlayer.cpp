@@ -34,24 +34,6 @@ bool FlowPowerUpPlayer::Init()
 	return true;
 }
 
-
-void FlowPowerUpPlayer::UpdateFlowPreChildTask()
-{
-	CallPadEvent();
-}
-
-/* ================================================ */
-/**
- * @brief	パッド操作関数
- */
-/* ================================================ */
-void FlowPowerUpPlayer::PadEventDecide()
-{
-	// 決定SE鳴らす
-	SoundManager::GetInstance()->PlaySE("Decide");
-	StartFade( "proceed" );
-}
-
 /* ====================================================================== */
 /**
  * @brief  
@@ -67,8 +49,11 @@ PowerUpMenu *PowerUpMenu::CreatePowerUp2D( const std::string &fileName )
 
 PowerUpMenu::PowerUpMenu( const std::string &fileName )
 : MenuWindow( fileName )
+, m_selectStateKind( Common::BASE_STATE_LIFE )
 {
-
+	// セーブデータロード
+	Utility::GetSaveData( m_loadData );
+	m_loadData.m_battlePoint += 1000;
 }
 
 PowerUpMenu::~PowerUpMenu(void)
@@ -76,25 +61,11 @@ PowerUpMenu::~PowerUpMenu(void)
 
 }
 
-
-// 描画する強化項目説明更新
-void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
-{
-	// 項目画像表示
-	// auto texInfo = m_partsMap.find( "itemTex" );
-
-	// 現在レベルセット
-
-	// 次のLvまでのポイントセット
-
-	// 説明文セット
-
-
-	// 所持ポイントセット
-
-
-}
-
+/* ================================================ */
+/**
+ * @brief	画面準備
+ */
+/* ================================================ */
 bool PowerUpMenu::InitMenu()
 {
 	// 方向キーのパッドイベントはPUSHで呼ぶように設定
@@ -111,23 +82,303 @@ bool PowerUpMenu::InitMenu()
 		drawInfo.m_prioity = PRIORITY_LOW;
 	}
 
-	static std::string s_partsStr[] = {
-		"levelMax",		// 最大レベル数値
-		"currLevel",	// 現在レベル数値
-		"nextPoint",	// 次のレベルへのポイント
-		"currPoint",	// 現在の所持ポイント
-	};
-	for( uint32_t i = 0; i < NUMBEROF(s_partsStr) ; ++i ){
-		PartsCounter *pCounter = GetPartsCounter( s_partsStr[i] );
-		if( pCounter ){
-			pCounter->AddValue( 99 );
-		}
+	pParts = GetParts( "decisionUp" );
+	if( pParts ){
+		TEX_DRAW_INFO &drawInfo = pParts->GetTexDrawInfo();
+		drawInfo.m_prioity = PRIORITY_LOW;
 	}
+
+	// 固定値の最大Lvだけセットしておく
+	PartsCounter *pCounter = GetPartsCounter( "levelMax" );
+	if( pCounter ){
+		pCounter->AddValue( 9 );
+	}
+
+	// 画面描画更新
+	ChangeDispState( m_selectStateKind );
+	UpdateCursorMove();
 
 	return true;
 }
 
+/* ================================================ */
+/**
+ * @brief	死亡前処理
+ */
+/* ================================================ */
+bool PowerUpMenu::DieMainMenu()
+{
+	// 余ったポイントはなくす
+	m_loadData.m_battlePoint = 0;
+
+	// ここで行ったパワーアップをセーブデータに反映
+	Utility::OverWriteSaveData( m_loadData );
+	return true;
+}
+
+/* ================================================ */
+/**
+ * @brief	描画する強化項目説明更新
+ */
+/* ================================================ */
+void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
+{
+	std::string	setAnimStr		= "";	// セットする画像アニメ文字列
+	uint32_t	currentLv		= m_loadData.m_playerBaseStateLv[kind];	// 現在のLv
+	uint32_t	pointToNextLv	= GetPointToNextLevel( kind, currentLv );	// 次のLvまでの必要ポイント
+	
+	switch( kind ){
+	case Common::BASE_STATE_LIFE:		// ライフの最大値を決める
+		setAnimStr = "life";
+		break;
+
+	case Common::BASE_STATE_MOVE_SPEED:	// ダッシュ(移動速度)時間
+		setAnimStr = "movespd";
+		break;
+
+	case Common::BASE_STATE_DEFFENCE:	// 被ダメージを決める
+		setAnimStr = "defence";
+		break;
+
+	case Common::BASE_STATE_BULLET_SPD:	// マシンガンの間隔
+		setAnimStr = "bulletspd";
+		break;
+
+	case Common::BASE_STATE_BULLET_DMG:	// マシンガンのダメージ
+		setAnimStr = "bulletdamage";
+		break;
+	
+	case Common::BASE_STATE_BLADE_LEVEL:	// 斬撃のダメージ
+		setAnimStr = "bladelv";
+		break;
+	}
+
+	// 項目画像表示
+	SetAnim( "itemImage", setAnimStr );
+
+	// 表示箇所の描画
+	for( uint32_t i = 0; i < Common::BASE_STATE_MAX ; ++i ){
+		std::string animStr = "idle";
+		if( i == static_cast<uint32_t>(kind) ){
+			animStr = "select";
+		}
+		std::string pointPartsStr = "point";
+		pointPartsStr += '0' + i;
+		SetAnim( pointPartsStr, animStr );
+	}
+
+	// 現在レベルセット
+	SetAnim( "currLevel", currentLv+1 );
+
+	// 次のLvまでのポイントセット
+	PartsCounter *pPartsPointToNext = GetPartsCounter("nextPoint");
+	if( pPartsPointToNext ){
+		pPartsPointToNext->SetValue( pointToNextLv );
+	}
+
+	// 所持ポイントセット
+	PartsCounter *pPartsCurrPoint = GetPartsCounter("currPoint");
+	if( pPartsCurrPoint ){
+		pPartsCurrPoint->SetValue( m_loadData.m_battlePoint );
+	}
+
+	// レベルアップ可能かどうか
+	MenuParts *pPartsDecision = GetParts( "decisionUp" );
+	if( pPartsDecision ){
+		if( pointToNextLv <= m_loadData.m_battlePoint ){
+			// LvUp可能
+			SetAnim( "decisionUp", "possible" );
+		}
+		else{
+			SetAnim( "decisionUp", "inpossible" );
+		}
+	}
+
+	// 説明文更新
+	m_explanationStr = GetExplanationStr( kind );
+}
+
+/* ================================================ */
+/**
+ * @brief	カーソル移動の処理まとめ
+ */
+/* ================================================ */
+void PowerUpMenu::UpdateCursorMove()
+{
+	if( GetSelectedNo() == SEELCT_ITEM ){
+		SetAnim( "selectStart", "default" );
+		SetAnim( "frame", "spot" );
+	}
+	else{
+		SetAnim( "selectStart", "spot" );
+		SetAnim( "frame", "idle" );
+	}
+}
+
 void PowerUpMenu::UpdateMenu()
 {
+	CallPadEvent();
 	
+	// 説明文セット
+	Draw2DManager::GetInstance()->PushDrawString( m_explanationStr, math::Vector2( 300.0f, 430.0f ) );
+}
+
+/* ================================================ */
+/**
+ * @brief	パッド操作関数
+ */
+/* ================================================ */
+void PowerUpMenu::PadEventDecide()
+{
+	if( GetSelectedNo() == SELECT_GAME_START ){
+		// 決定SE鳴らす
+		SoundManager::GetInstance()->PlaySE("Decide");
+		SetNextFlowStr( "proceed" );
+	}
+	else{
+
+		uint32_t needPoint = GetPointToNextLevel( m_selectStateKind, m_loadData.m_playerBaseStateLv[m_selectStateKind] );
+		if( m_loadData.m_battlePoint < needPoint )
+		{
+			// ポイントが足りない
+			// エラー音
+			//SoundManager::GetInstance()->PlaySE("");
+			return;
+		}
+
+		// LvUp効果音
+		SoundManager::GetInstance()->PlaySE("LearningAction");
+
+		// 必要ポイント分を差っぴく
+		m_loadData.m_battlePoint -= needPoint;
+		
+		// 項目のパワーアップ
+		m_loadData.m_playerBaseStateLv[m_selectStateKind] += 1;
+
+		// 表示更新
+		ChangeDispState( m_selectStateKind );
+	}
+}
+
+void PowerUpMenu::PadEventUp()
+{
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+
+	uint32_t selectNo = ( GetSelectedNo() + 1 ) % SELECT_MAX;
+	SetSelectNum( selectNo );
+
+	// 描画更新
+	UpdateCursorMove();
+}
+
+void PowerUpMenu::PadEventDown()
+{
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+
+	uint32_t selectNo = ( GetSelectedNo() + (SELECT_MAX - 1) ) % SELECT_MAX;
+	SetSelectNum( selectNo );
+
+	// 描画更新
+	UpdateCursorMove();
+}
+
+void PowerUpMenu::PadEventRight()
+{
+	if( GetSelectedNo() != SEELCT_ITEM ){
+		// カーソルがGameStartにあるので何もしない
+		return;
+	}
+
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+
+	uint32_t selectNo = ( static_cast<uint32_t>(m_selectStateKind) + 1 ) % Common::BASE_STATE_MAX;
+	m_selectStateKind = static_cast<Common::PLAYER_BASE_STATE>(selectNo);
+	ChangeDispState( m_selectStateKind );
+}
+
+void PowerUpMenu::PadEventLeft()
+{
+	if( GetSelectedNo() != SEELCT_ITEM ){
+		// カーソルがGameStartにあるので何もしない
+		return;
+	}
+
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+
+	uint32_t selectNo = ( static_cast<uint32_t>(m_selectStateKind) + (Common::BASE_STATE_MAX - 1) ) % Common::BASE_STATE_MAX;
+	m_selectStateKind = static_cast<Common::PLAYER_BASE_STATE>(selectNo);
+	ChangeDispState( m_selectStateKind );
+}
+
+/* ================================================ */
+/**
+ * @brief	項目ごとの説明文取得
+ */
+/* ================================================ */
+std::string PowerUpMenu::GetExplanationStr( const Common::PLAYER_BASE_STATE &kind )
+{
+	std::string retStr = "";
+	switch( kind ){
+	case Common::BASE_STATE_LIFE:		// ライフの最大値を決める
+		retStr = "ゲーム中のライフの最大値が増えます。";
+		break;
+
+	case Common::BASE_STATE_MOVE_SPEED:	// ダッシュ(移動速度)時間
+		retStr = "L1もしくはR1を押すことでダッシュを使用することができる\nようになります。";
+		retStr += "Levelが上がるとダッシュ時間が増加します。";
+		break;
+
+	case Common::BASE_STATE_DEFFENCE:	// 被ダメージを決める
+		retStr = "敵から受けるダメージを軽減します。";
+		break;
+
+	case Common::BASE_STATE_BULLET_SPD:	// マシンガンの間隔
+		retStr = "右スティックで発射する弾丸の発射感覚が短くなり、\nより多くの弾が発射されるようになります。";
+		break;
+
+	case Common::BASE_STATE_BULLET_DMG:	// マシンガンのダメージ
+		retStr = "右スティックで発射する弾丸の威力が増加します。";
+		break;
+	
+	case Common::BASE_STATE_BLADE_LEVEL:	// 斬撃のダメージ
+		retStr = "決定キーで出せる斬撃の威力が増加します。";
+		break;
+	}
+	return retStr;
+}
+
+
+/* ================================================ */
+/**
+ * @brief	次のレベルまでのポイントを取得
+ */
+/* ================================================ */
+uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind, uint32_t currLevel )
+{
+	std::string retStr = "";
+	switch( kind ){
+	case Common::BASE_STATE_LIFE:		// ライフの最大値を決める
+		break;
+
+	case Common::BASE_STATE_MOVE_SPEED:	// ダッシュ(移動速度)時間
+		break;
+
+	case Common::BASE_STATE_DEFFENCE:	// 被ダメージを決める
+		break;
+
+	case Common::BASE_STATE_BULLET_SPD:	// マシンガンの間隔
+		break;
+
+	case Common::BASE_STATE_BULLET_DMG:	// マシンガンのダメージ
+		break;
+	
+	case Common::BASE_STATE_BLADE_LEVEL:	// 斬撃のダメージ
+		break;
+	}
+
+	return (currLevel+1) * 10;
 }

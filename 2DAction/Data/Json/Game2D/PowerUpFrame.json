@@ -1,0 +1,19 @@
+{
+	"basicInfo":[
+		{"fileName":"PowerUpFrame.png"
+		, "animDefault":"idle"
+		, "sizeW": 1280
+		, "sizeH": 720
+		, "splitW": 1
+		, "splitH": 2
+		, "total": 2 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"idle",	"frameSpeed":100,	"animIndex":[0],	"nextAnim":"idle"},
+		{"animTag":"spot",	"frameSpeed":100,	"animIndex":[1],	"nextAnim":"spot"}
+	],
+	
+	"partsInfo":[
+	]
+}

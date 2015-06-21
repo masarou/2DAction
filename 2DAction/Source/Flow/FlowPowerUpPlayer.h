@@ -25,12 +25,8 @@ public:
 protected:
 	
 	virtual bool Init() override;
-	virtual void PadEventDecide() override;
-	virtual void UpdateFlowPreChildTask() override;
 
 private:
-
-	std::string GetNextFadeStr();
 
 	FlowPowerUpPlayer( const std::string &fileName );
 	~FlowPowerUpPlayer(void);
@@ -49,20 +45,48 @@ class PowerUpMenu : public MenuWindow
 {
 public:
 
-	static PowerUpMenu *CreatePowerUp2D( const std::string &fileName );
+	enum{
+		SEELCT_ITEM,
+		SELECT_GAME_START,
 
-	// 描画する強化項目説明更新
-	void ChangeDispState( const Common::PLAYER_BASE_STATE &kind );
+		SELECT_MAX,
+	};
+
+	static PowerUpMenu *CreatePowerUp2D( const std::string &fileName );
 
 protected:
 	
 	virtual bool InitMenu() override;
+	virtual bool DieMainMenu() override;
 	virtual void UpdateMenu() override;
+
+	virtual void PadEventDecide() override;
+	virtual void PadEventUp() override;
+	virtual void PadEventDown() override;
+	virtual void PadEventRight() override;
+	virtual void PadEventLeft() override;
 
 private:
 
 	PowerUpMenu( const std::string &fileName );
 	virtual ~PowerUpMenu(void);
+
+	// 描画する強化項目説明更新
+	void ChangeDispState( const Common::PLAYER_BASE_STATE &kind );
+
+	// カーソル移動の処理まとめ
+	void UpdateCursorMove();
+
+	// 項目ごとの説明文取得
+	std::string GetExplanationStr( const Common::PLAYER_BASE_STATE &kind );
+
+	// 次のレベルまでのポイントを取得
+	uint32_t GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind, uint32_t currLevel );
+
+	Common::SAVE_DATA			m_loadData;
+	Common::PLAYER_BASE_STATE	m_selectStateKind;
+
+	std::string					m_explanationStr;
 };
 
 #endif

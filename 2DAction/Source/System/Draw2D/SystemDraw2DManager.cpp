@@ -133,17 +133,14 @@ void Draw2DManager::Action()
 			if( m_vDrawTask.at(j).m_info.m_prioity == static_cast<PRIORITY>(i) ){
 				DrawTexture(j);
 			}
-		}
-	}
 
-	// —\–ñ•¶š—ñ•`‰æ
-	for( uint32_t i = 0; i < m_vDrawStringTask.size(); ++i ){
-		DrawFormatString( 
-			static_cast<uint32_t>( m_vDrawStringTask.at(i).m_drawPos.x ),
-			static_cast<uint32_t>( m_vDrawStringTask.at(i).m_drawPos.y ),
-			m_vDrawStringTask.at(i).m_color,
-			m_vDrawStringTask.at(i).m_str.c_str()
-			);
+			// •¶š—ñ‚Í—Dæ“xŒÅ’è( PRIORITY_HIGH )
+			if( PRIORITY_HIGH == static_cast<PRIORITY>(i) ){
+				for( uint32_t i = 0; i < m_vDrawStringTask.size(); ++i ){
+					DrawString( m_vDrawStringTask.at(i) );
+				}
+			}
+		}
 	}
 
 #ifdef _DEBUG
@@ -163,6 +160,31 @@ void Draw2DManager::Action()
 
 	m_vDrawTask.clear();
 	m_vDrawStringTask.clear();
+}
+
+/* ================================================ */
+/**
+ * @brief	•`‰æw¦
+ */
+/* ================================================ */
+void Draw2DManager::DrawString( const DRAWSTR &drawTask )
+{
+	std::istringstream iss( drawTask.m_str );
+	std::vector< std::string > strArray;
+
+	std::string tmpStr = "";
+	while( std::getline( iss, tmpStr, '\n' ) ){
+		strArray.push_back( tmpStr );
+	};
+
+	for( uint32_t i = 0; i < strArray.size() ; ++i ){
+		DrawFormatString( 
+			static_cast<uint32_t>( drawTask.m_drawPos.x ),
+			static_cast<uint32_t>( drawTask.m_drawPos.y + (i*FONT_DEFAULT_SIZE+i*10) ),
+			drawTask.m_color,
+			strArray.at(i).c_str()
+			);
+	}
 }
 
 /* ================================================ */

@@ -38,7 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	SetGraphMode( WINDOW_WIDTH, WINDOW_HEIGHT, 32);
 
 	// デフォルトフォント設定
-	SetDefaultFontState( "メイリオ", 25, 6 );
+	SetDefaultFontState( "メイリオ", FONT_DEFAULT_SIZE, 6 );
 
 	//! TaskUnit非継承常駐物
 	GameAccesser::Create();

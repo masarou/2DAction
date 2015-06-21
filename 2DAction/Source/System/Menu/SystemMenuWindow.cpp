@@ -34,6 +34,14 @@ void MenuWindow::SetAnim( const std::string &partsStr, const std::string &animSt
 	}
 }
 
+void MenuWindow::SetAnim( const std::string &partsStr, const uint32_t &num )
+{
+	if( m_pMainParts ){
+		std::string str = std::to_string( static_cast<long double>( num ) );
+		m_pMainParts->SetPartsAnim( partsStr, str );
+	}
+}
+
 MenuParts	*MenuWindow::GetParts( const std::string &partsStr )
 {
 	if( m_pMainParts ){
@@ -59,6 +67,10 @@ PartsCounter *MenuWindow::GetPartsCounter( const std::string &partsStr )
 
 bool MenuWindow::DieMain()
 {
+	if( !DieMainMenu() ){
+		return false;
+	}
+
 	if( m_pMainParts->DeletePartsAll() ){
 		SAFE_DELETE( m_pMainParts );
 		DEBUG_PRINT( "ÅyWindow : %s DieMainèIóπÅz", m_readMenuFile.c_str() );

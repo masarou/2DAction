@@ -91,31 +91,21 @@ void ResultStageMenu::UpdateMenu()
 	CallPadEvent();
 
 	// アニメカウントが終わっているなら次のステップに進む
+	PartsCounter *pCounter = NULL;
 	switch(m_dispState){
 	case DISP_RESULT:
 		{
-			PartsCounter *pCounterResult = GetPartsCounter( "result" );
-			if( pCounterResult && !pCounterResult->IsPlayCountAnim() ){
-				pCounterResult->CountAnimEnd();
-				ChangeDispStateNext();
-			}
+			pCounter = GetPartsCounter( "result" );
 		}
 		break;
 	case DISP_BONUS:
 		{
-			PartsCounter *pCounterBonus = GetPartsCounter( "bonus" );
-			if( pCounterBonus && !pCounterBonus->IsPlayCountAnim() ){
-				pCounterBonus->CountAnimEnd();
-				ChangeDispStateNext();
-			}
+			pCounter = GetPartsCounter( "bonus" );
 		}
 		break;
 	case DISP_TOTAL:
 		{
-			PartsCounter *pCounterTotal = GetPartsCounter( "total" );
-			if( pCounterTotal && !pCounterTotal->IsPlayCountAnim() ){
-				m_dispState = DISP_ALL;
-			}
+			pCounter = GetPartsCounter( "total" );
 		}
 		break;
 	case DISP_ALL:
@@ -123,6 +113,9 @@ void ResultStageMenu::UpdateMenu()
 		break;
 	}
 
+	if( pCounter && !pCounter->IsPlayCountAnim() ){
+		ChangeDispStateNext();
+	}
 }
 
 void ResultStageMenu::PadEventDecide()
@@ -246,7 +239,7 @@ bool ResultStageMenu::ChangeDispStateNext()
 
 			uint32_t totalValue = 0;
 			if( pCounterResult && pCounterBonus ){
-				uint32_t totalValue = pCounterResult->GetValue() + pCounterBonus->GetValue();
+				totalValue = pCounterResult->GetValue() + pCounterBonus->GetValue();
 			}
 
 			PartsCounter *pCounterTotal = GetPartsCounter( "total" );

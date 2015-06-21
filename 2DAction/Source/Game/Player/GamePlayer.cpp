@@ -363,8 +363,8 @@ void GamePlayer::SetupInitPlayerState()
 	// 剣クラスを反映
 	if( m_attackBlade ){
 		AttackBlade::BladeState &bladeState	= m_attackBlade->UpdateBladeState();
-		bladeState.m_damage					= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_DMG, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_DMG] );
-		bladeState.m_interval				= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_SPD, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_SPD] );
+		bladeState.m_damage					= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
+		bladeState.m_interval				= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
 	}
 
 	// アイテム取得数を反映
@@ -395,10 +395,10 @@ uint32_t GamePlayer::ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKin
 	case Common::BASE_STATE_DEFFENCE:
 		retVal = 0;	// まだ未実装
 		break;
-	case Common::BASE_STATE_BLADE_SPD:
-		retVal = SLASHING_INTERBAL_DEFAULT - (level*2);
-		break;
-	case Common::BASE_STATE_BLADE_DMG:
+	//case Common::BASE_STATE_BLADE_LEVEL:
+	//	retVal = SLASHING_INTERBAL_DEFAULT - (level*2);
+	//	break;
+	case Common::BASE_STATE_BLADE_LEVEL:
 		retVal = SLASHING_DAMAGE_DEFAULT + (level*5);
 		break;
 	case Common::BASE_STATE_BULLET_SPD:

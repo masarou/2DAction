@@ -13,9 +13,11 @@
 		{"animTag":"life",			"frameSpeed":100,	"animIndex":[0],	"nextAnim":"life"},
 		{"animTag":"movespd",		"frameSpeed":100,	"animIndex":[1],	"nextAnim":"movespd"},
 		{"animTag":"defence",		"frameSpeed":100,	"animIndex":[2],	"nextAnim":"defence"},
-		{"animTag":"bladespd",		"frameSpeed":100,	"animIndex":[3],	"nextAnim":"bladespd"},
-		{"animTag":"bulletspd",		"frameSpeed":100,	"animIndex":[4],	"nextAnim":"bulletspd"},
-		{"animTag":"bladedamage",	"frameSpeed":100,	"animIndex":[5],	"nextAnim":"bladedamage"},
-		{"animTag":"bulletdamage",	"frameSpeed":100,	"animIndex":[6],	"nextAnim":"bulletdamage"},
-	]	
+		{"animTag":"bulletspd",		"frameSpeed":100,	"animIndex":[3],	"nextAnim":"bulletspd"},
+		{"animTag":"bulletdamage",	"frameSpeed":100,	"animIndex":[4],	"nextAnim":"bulletdamage"},
+		{"animTag":"bladelv",		"frameSpeed":100,	"animIndex":[5],	"nextAnim":"bladelv"}
+	],
+	
+	"partsInfo":[
+	]
 }

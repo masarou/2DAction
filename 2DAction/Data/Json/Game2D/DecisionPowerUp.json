@@ -1,0 +1,19 @@
+{
+	"basicInfo":[
+		{"fileName":"DecisionPowerUp.png"
+		, "animDefault":"possible"
+		, "sizeW": 370
+		, "sizeH": 140
+		, "splitW": 1
+		, "splitH": 2
+		, "total": 2 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"possible",		"frameSpeed":100,	"animIndex":[0],	"nextAnim":"possible"},
+		{"animTag":"inpossible",	"frameSpeed":100,	"animIndex":[1],	"nextAnim":"inpossible"}
+	],
+	
+	"partsInfo":[
+	]
+}

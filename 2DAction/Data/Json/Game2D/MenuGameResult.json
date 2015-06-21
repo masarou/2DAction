@@ -1,0 +1,9 @@
+{
+	"partsInfo":[
+		{"partsName":"frame",			"loadJson":"StageResult.json",				"partsType":"PARTS_SINGLE_DRAW",	"x": 640,	"y": 360},
+		{"partsName":"scoreStage01",	"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 243},
+		{"partsName":"scoreStage02",	"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 332},
+		{"partsName":"scoreStage03",	"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 410},
+		{"partsName":"scoreTotal",		"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 560}
+	]
+}

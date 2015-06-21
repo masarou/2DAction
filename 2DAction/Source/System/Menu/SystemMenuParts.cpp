@@ -30,7 +30,6 @@ MenuParts::MenuParts( const std::string &partsStr, const std::string &jsonStr, c
 
 	// ここでパーツのすべてをセットアップ!!
 	SetupParts();
-
 }
 
 

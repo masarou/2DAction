@@ -38,11 +38,13 @@ protected:
 	
 	// 派生先専用
 	virtual bool InitMenu(){ return true; }
+	virtual bool DieMainMenu(){ return true; }
 	virtual void UpdateMenu(){};
 	virtual void DrawUpdateMenu(){};
 
 	// 継承先各Menu画面からアニメイベントセット
 	void SetAnim( const std::string &partsStr, const std::string &animStr );
+	void SetAnim( const std::string &partsStr, const uint32_t &num );
 	void SetSelectNum( const uint32_t &selNum ){ m_selectNo = selNum; }
 	void SetNextFlowStr( const std::string &nextFlowStr ){ m_nextFlow = nextFlowStr; }
 

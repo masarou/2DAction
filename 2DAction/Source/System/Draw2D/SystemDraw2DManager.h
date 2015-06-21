@@ -27,7 +27,7 @@ public:
 	void Action();
 
 	//! •`‰æ—\–ñ
-	void PushDrawString( const std::string &str, const math::Vector2 &pos, const uint32_t &color );
+	void PushDrawString( const std::string &str, const math::Vector2 &pos, const uint32_t &color = GetColor( 0, 0, 0 ) );
 	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority = PRIORITY_NORMAL );
 
 	//! •`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
@@ -71,7 +71,8 @@ private:
 	Draw2DManager(void);
 	~Draw2DManager(void);
 
-
+	//! •¶š—ñ‚ğ¬Œ`‚µ‚Ä•`‰æ(\n‚ª‚ ‚ê‚Î‰üs‚ğs‚¤)
+	void DrawString( const DRAWSTR &drawTask );
 
 	//! •`‰æw¦
 	void DrawTexture( const uint32_t &drawIndex );
