@@ -33,6 +33,33 @@ GameMap::GameMap( const Common::GAME_FLOW &currentKind )
 	case Common::FLOW_STAGE03:
 		LoadMapInfo("MapStage03.json");
 		break;
+	case Common::FLOW_STAGE04:
+		LoadMapInfo("MapStage04.json");
+		break;
+	case Common::FLOW_STAGE05:
+		LoadMapInfo("MapStage05.json");
+		break;
+	case Common::FLOW_STAGE06:
+		LoadMapInfo("MapStage06.json");
+		break;
+	case Common::FLOW_STAGE07:
+		LoadMapInfo("MapStage07.json");
+		break;
+	case Common::FLOW_STAGE08:
+		LoadMapInfo("MapStage08.json");
+		break;
+	case Common::FLOW_STAGE09:
+		LoadMapInfo("MapStage09.json");
+		break;
+	case Common::FLOW_STAGE10:
+		LoadMapInfo("MapStage10.json");
+		break;
+	case Common::FLOW_STAGE11:
+		LoadMapInfo("MapStage11.json");
+		break;
+	case Common::FLOW_STAGE12:
+		LoadMapInfo("MapStage12.json");
+		break;
 	}
 }
 

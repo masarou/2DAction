@@ -3,8 +3,6 @@
 #include "SystemSoundManager.h"
 
 #define VOLUME_FADE_SPEED 30
-#define BGM_VOLUME_MAX 9600
-#define SE_VOLUME_MAX 9400
 
 SoundManager *SoundManager::m_pInstance = NULL;
 
@@ -57,7 +55,7 @@ void SoundManager::Update()
  * @brief	SE‚Ìˆ—(‚ ‚ç‚©‚¶‚ß“Ç‚İ‚ñ‚Å‚¨‚­‚Ì‚ª‘O’ñ)
  */
 /* ================================================ */
-void SoundManager::PlaySE(const char *tagSE)
+void SoundManager::PlaySE(const char *tagSE, const uint32_t &volume )
 {
 	const uint32_t handle = GetHandleId(tagSE);
 	if(handle == INVALID_VALUE){
@@ -65,7 +63,7 @@ void SoundManager::PlaySE(const char *tagSE)
 		return;
 	}
 	
-	SetVolumeSoundMem( SE_VOLUME_MAX, handle);
+	SetVolumeSoundMem( volume, handle);
 	PlaySoundMem(GetHandleId(tagSE), DX_PLAYTYPE_BACK);
 }
 
@@ -84,7 +82,7 @@ void SoundManager::StopSE(const char *tagSE)
  * @brief	BGM‚Ìˆ—(‚ ‚ç‚©‚¶‚ß“Ç‚İ‚ñ‚Å‚¨‚­‚Ì‚ª‘O’ñ)
  */
 /* ================================================ */
-void SoundManager::PlayBGM(const char *tagBGM)
+void SoundManager::PlayBGM( const char *tagBGM, const uint32_t &volume )
 {
 	uint32_t handle = GetHandleId(tagBGM);
 	if(handle == INVALID_VALUE){
@@ -98,7 +96,7 @@ void SoundManager::PlayBGM(const char *tagBGM)
 			//! ‘¼‚ÌBGM‚Í‚·‚×‚Ä~‚ß‚é
 			StopSoundMem(m_vBGM.at(i).m_soundId);
 		}
-		SetVolumeSoundMem( BGM_VOLUME_MAX, handle);
+		SetVolumeSoundMem( volume, handle);
 		PlaySoundMem(handle, DX_PLAYTYPE_LOOP);
 		m_fadeTag = INVALID_VALUE;
 	}
@@ -124,7 +122,7 @@ void SoundManager::StopBGM(bool isFade)
 	}
 }
 
-void SoundManager::SetBgmVolume(const char *tag, uint32_t volume)
+void SoundManager::SetBgmVolume( const char *tag, const uint32_t &volume )
 {
 	uint32_t handle = GetHandleId(tag);
 	if(handle == INVALID_VALUE){

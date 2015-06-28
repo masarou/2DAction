@@ -41,7 +41,7 @@ public:
 
 protected:
 
-	EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind );
+	EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel );
 
 	virtual bool Init() override;						// 初期化
 	virtual bool InitMain(){ return true; }				// 派生先での初期化
@@ -56,9 +56,10 @@ protected:
 
 	// 派生先でセットする関数
 	virtual uint32_t GetEnemyDefaultHP() const{return 10;}	// 敵クラスのデフォルトHP取得
+	virtual uint32_t GetEnemyDefaultSPD() const{return 1;}	// 敵クラスのデフォルトSPD取得
 
 	// このクラスの種類セット
-	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_EVENMY_AAA; }
+	virtual const Common::TYPE_OBJECT GetTypeObject() const override = 0;
 
 	// このクラスで定義する仮想関数
 	virtual bool DieMainCustom(){ return true; }
@@ -77,6 +78,7 @@ private:
 	Common::ENEMY_KIND	m_enemyKind;					// 敵の種類
 	uint32_t			m_enemyLv;						// 敵の強さ
 	uint32_t			m_HP;							// 敵体力
+	uint32_t			m_speed;						// 敵のベースとなるスピード
 	math::Vector2		m_eye;							// 敵の視線
 	uint32_t			m_walkHeight;					// 敵の歩ける高さ
 	uint32_t			m_stunTime;						// 何かしらの理由によって動けない時間

@@ -11,6 +11,7 @@
 		{"tag":"Cursor", "file":"cursor.mp3"},
 		{"tag":"Decide", "file":"decide.mp3"},
 		{"tag":"Cancel", "file":"cancel.mp3"},
+		{"tag":"Error", "file":"error.mp3"},
 		{"tag":"Count", "file":"count.mp3"},
 		{"tag":"GetItemHeal", "file":"getItemHeal.mp3"},
 		{"tag":"GetItem", "file":"getItem.mp3"},

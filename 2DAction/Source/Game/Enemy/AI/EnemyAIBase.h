@@ -48,6 +48,7 @@ public:
 	Common::ENEMY_KIND GetEnemyKind() const;
 	const std::string &GetEnemyJsonName() const;
 	const uint32_t GetEnemyLevel() const;
+	const uint32_t GetEnemySPD() const;
 
 	// UŒ‚ƒNƒ‰ƒX‰ğ•ú
 	static void ClearAttackMaterial();

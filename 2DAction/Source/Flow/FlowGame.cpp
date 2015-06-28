@@ -52,6 +52,8 @@ bool FlowGame::Init()
 	std::string soundTag = "";
 	switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
 	case GameRecorder::STATE_STAGE01:
+	case GameRecorder::STATE_STAGE02:
+	case GameRecorder::STATE_STAGE03:
 		{
 			// ç≈èâÇÃê‡ñæ
 			ControllDescription *pEffectStage = ControllDescription::Create();
@@ -60,10 +62,27 @@ bool FlowGame::Init()
 			soundTag = "stage01";
 		}
 		break;
-	case GameRecorder::STATE_STAGE02:
+	case GameRecorder::STATE_STAGE04:
 		soundTag = "stage02";
 		break;
-	case GameRecorder::STATE_STAGE03:
+
+	case GameRecorder::STATE_STAGE05:
+	case GameRecorder::STATE_STAGE06:
+	case GameRecorder::STATE_STAGE07:
+		soundTag = "stage02";
+		break;
+
+	case GameRecorder::STATE_STAGE08:
+		soundTag = "stage03";
+		break;
+
+	case GameRecorder::STATE_STAGE09:
+	case GameRecorder::STATE_STAGE10:
+	case GameRecorder::STATE_STAGE11:
+		soundTag = "stage03";
+		break;
+
+	case GameRecorder::STATE_STAGE12:
 		{
 			// É{ÉXêÌèÄîı
 			InitLastStage *pEffectStage = InitLastStage::Create();

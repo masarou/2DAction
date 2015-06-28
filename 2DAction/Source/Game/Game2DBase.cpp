@@ -116,7 +116,7 @@ void Game2DBase::SetAnim( const std::string &animTag )
 		}
 	}
 
-	DEBUG_PRINT("【指定されたアニメタグがありません！】\n");
+	//DEBUG_PRINT("【指定されたアニメタグがありません！】\n");
 }
 
 /* ================================================ */

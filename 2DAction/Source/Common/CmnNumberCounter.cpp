@@ -120,7 +120,7 @@ void NumberCounter::Update()
 	else{
 		if( m_counter%10 == 0 ){	
 			// ƒJƒEƒ“ƒgSE–Â‚ç‚·
-			SoundManager::GetInstance()->PlaySE("Count");
+			SoundManager::GetInstance()->PlaySE("Count", 8500);
 		}
 		++m_counter;
 

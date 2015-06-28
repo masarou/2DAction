@@ -11,13 +11,13 @@
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 
-EnemyBBB *EnemyBBB::Create( const uint32_t &uniqueID )
+EnemyBBB *EnemyBBB::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID )
 {
-	return NEW EnemyBBB( uniqueID );
+	return NEW EnemyBBB( enemyLevel, uniqueID );
 }
 
-EnemyBBB::EnemyBBB( const uint32_t &uniqueID )
-: EnemyBase( "EnemyAhriman.json", uniqueID, Common::ENEMY_KIND_BBB )
+EnemyBBB::EnemyBBB( const uint32_t &enemyLevel, const uint32_t &uniqueID )
+: EnemyBase( "EnemyAhriman.json", uniqueID, Common::ENEMY_KIND_BBB, enemyLevel )
 {
 }
 
@@ -27,10 +27,6 @@ EnemyBBB::~EnemyBBB(void)
 
 bool EnemyBBB::InitMain()
 {
-	// 初期位置セット
-	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
-	DEBUG_PRINT( "敵生成 x = %f, y = %f\n", m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.x, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.y );
-
 	return true;
 }
 
@@ -47,6 +43,10 @@ void EnemyBBB::EventUpdate( const Common::CMN_EVENT &eventId )
 
 uint32_t EnemyBBB::GetEnemyDefaultHP() const
 {
-	// ステージによって最大ライフ変更
 	return 100 + ( 100 * ( GetEnemyLevel() - 1 ) );
+}
+
+uint32_t EnemyBBB::GetEnemyDefaultSPD() const
+{
+	return 1 + ( GetEnemyLevel() / 3 );
 }

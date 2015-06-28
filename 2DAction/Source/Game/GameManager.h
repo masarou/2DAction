@@ -44,7 +44,7 @@ public:
 	// アイテム生成依頼
 	void CreateItem( const Common::ITEM_KIND &kind, const math::Vector2 &pos = math::Vector2() );
 	// 敵生成依頼
-	void CreateEnemy( const Common::ENEMY_KIND &kind );
+	void CreateEnemy( const Common::ENEMY_KIND &kind, const uint32_t &level = 0 );
 
 protected:
 
@@ -54,6 +54,12 @@ protected:
 
 private:
 
+	struct ExistEnemyState{
+		uint32_t			m_level;		// 目安となる強さ
+		uint32_t			m_freequency;	// 出現頻度(すべての敵の中での出現割合%)
+		Common::ENEMY_KIND	m_kind;			// 種類
+	};
+
 	GameManager( const Common::GAME_FLOW &currentKind );
 	
 	void ResetManageValue();										// 初期化
@@ -62,6 +68,7 @@ private:
 	bool IsCreateEnemy( uint32_t enemyLimit	);						// 敵の生成判断(ランダム要素なし)
 	bool IsCreateItem( uint32_t itemLimit, uint32_t frequency );	// アイテムの生成判断
 	bool IsCreateItem( uint32_t enemyLimit );						// アイテムの生成判断(ランダム要素なし)
+	Common::ENEMY_KIND GetEnemyKindFromStr( const std::string str );// 敵の種類を文字列から取得
 
 	STAGE_TYPE		m_type;				// ステージクリアのタイプ
 
@@ -79,6 +86,9 @@ private:
 	uint32_t		m_itemMax;			// 最大出現アイテム数
 	uint32_t		m_itemFrequency;	// アイテムの出現率(10段階0~9)
 	std::string		m_settingFileStr;	// 読み込むステージ設定ファイル
+
+	// 出現する敵情報
+	std::vector<ExistEnemyState>	m_enemyInfoVec;
 };
 
 #endif

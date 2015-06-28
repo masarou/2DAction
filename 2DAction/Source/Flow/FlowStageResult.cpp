@@ -144,12 +144,21 @@ void ResultStageMenu::PadEventDecide()
 			break;
 		case GameRecorder::STATE_STAGE01:
 		case GameRecorder::STATE_STAGE02:
+		case GameRecorder::STATE_STAGE03:
+		case GameRecorder::STATE_STAGE04:
+		case GameRecorder::STATE_STAGE05:
+		case GameRecorder::STATE_STAGE06:
+		case GameRecorder::STATE_STAGE07:
+		case GameRecorder::STATE_STAGE08:
+		case GameRecorder::STATE_STAGE09:
+		case GameRecorder::STATE_STAGE10:
+		case GameRecorder::STATE_STAGE11:
 			SetNextFlowStr( "interval" );
 			break;
-		case GameRecorder::STATE_STAGE03:
+		case GameRecorder::STATE_STAGE12:
 			SetNextFlowStr( "totalresult" );	// すべてのステージ終了
 			break;
-		}	
+		}
 		// 決定SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Decide");
 	}
@@ -268,7 +277,6 @@ bool ResultStageMenu::ChangeDispStateNext()
 
 			// 表示完了
 			m_dispState = DISP_ALL;
-			return true;
 		}
 		break;
 	case DISP_ALL:

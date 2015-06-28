@@ -64,7 +64,7 @@ void AttackGun::ShootBullet( const math::Vector2 &pos, const math::Vector2 &vec,
 		m_magazine.push_back( bul );
 		
 		// ”­Ë‰¹‚ğ–Â‚ç‚·
-		SoundManager::GetInstance()->PlaySE("ShootBullet");
+		SoundManager::GetInstance()->PlaySE("ShootBullet", 9000);
 
 		// ˆê’èŠÔŠu‚ÌŠÔ‚ğİ‚¯‚é
 		m_intervalTime += m_currState.m_shootInterval;

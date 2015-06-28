@@ -121,6 +121,14 @@ const uint32_t EnemyAIBase::GetEnemyLevel() const
 	return 0;
 }
 
+const uint32_t EnemyAIBase::GetEnemySPD() const
+{
+	if( m_enemyMine ){
+		return m_enemyMine->GetEnemyDefaultSPD();
+	}
+	return 0;
+}
+
 void EnemyAIBase::ClearAttackMaterial()
 {
 	// ‹¤—L•¨‚ÉNULLİ’è(‰ğ•ú‚ÍTaskManager‚ªŸè‚É‚â‚é)

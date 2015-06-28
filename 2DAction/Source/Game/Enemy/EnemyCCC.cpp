@@ -11,13 +11,13 @@
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 
-EnemyCCC *EnemyCCC::Create( const uint32_t &uniqueID )
+EnemyCCC *EnemyCCC::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID )
 {
-	return NEW EnemyCCC( uniqueID );
+	return NEW EnemyCCC( enemyLevel, uniqueID );
 }
 
-EnemyCCC::EnemyCCC( const uint32_t &uniqueID )
-	: EnemyBase( "EnemyTough.json", uniqueID, Common::ENEMY_KIND_CCC )
+EnemyCCC::EnemyCCC( const uint32_t &enemyLevel, const uint32_t &uniqueID )
+	: EnemyBase( "EnemyTough.json", uniqueID, Common::ENEMY_KIND_CCC, enemyLevel )
 {
 }
 
@@ -27,15 +27,15 @@ EnemyCCC::~EnemyCCC(void)
 
 bool EnemyCCC::InitMain()
 {
-	// 初期位置セット
-	for(;;){
-		math::Vector2 candidatePos = Utility::GetMapRandamPos( /*allowInWindow=*/false );
-		// マップ上の動ける高さなら生成
-		if( Utility::GetMapHeight( candidatePos ) <= GetWalkHeight() ){
-			m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = candidatePos;
-			DEBUG_PRINT( "敵生成 x = %f, y = %f\n", candidatePos.x, candidatePos.y );
-			break;
-		}
-	}
 	return true;
+}
+
+uint32_t EnemyCCC::GetEnemyDefaultHP() const
+{
+	return 1000 + ( GetEnemyLevel() * 100 );
+}
+
+uint32_t EnemyCCC::GetEnemyDefaultSPD() const
+{
+	return 1 + ( GetEnemyLevel() / 4 );
 }

@@ -62,13 +62,16 @@ protected:
 private:
 
 	enum DISP_STATE{
-		DISP_STAGE01,
-		DISP_STAGE02,
-		DISP_STAGE03,
+		DISP_SCENE01,	// ステージ1~4
+		DISP_SCENE02,	// ステージ5~8
+		DISP_SCENE03,	// ステージ9~12
 		DISP_TOTAL,
 
 		DISP_MAX,
 	};
+
+	// 画面の表示更新項目を次のものへ
+	bool ChangeDispNextState();
 
 	TotalResult2D( const std::string &readMenuJson );
 	virtual ~TotalResult2D(void);

@@ -16,14 +16,16 @@
 #include "Game/Effect/GameEffect.h"
 #include "Game/GameRecorder.h"
 #include "System/Sound/SystemSoundManager.h"
+#include "System/Draw2D/SystemDraw2DResource.h"
 
-EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind )
+EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel )
 : TaskUnit("Enemy")
 , Collision2DUnit( jsonName.c_str() )
 , m_uniqueIdOfEnemyAll( uniqueId )
 , m_enemyKind( kind )
-, m_enemyLv( 0 )
+, m_enemyLv( enemyLevel )
 , m_HP(10)
+, m_speed( 0 )
 , m_eye(math::Vector2( 1.0f, 0.0f ))
 , m_walkHeight( 0 )
 , m_stunTime( 0 )
@@ -38,22 +40,31 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 	m_textureLife.m_pTex2D = Game2DBase::Create( "EnemyGauge.json" );
 	m_textureLife.m_pTex2D->UpdateDrawInfo().m_fileName = "EnemyGauge.json";
 
-	// 敵の強さを求める
-	uint32_t enemyLv = 0;
-	switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
-	default:
-		DEBUG_ASSERT( 0, "想定外のゲームの状態" );
-		/* fall-through */
-	case GameRecorder::STATE_STAGE01:
-		m_enemyLv = 1;
-		break;
-	case GameRecorder::STATE_STAGE02:
-		m_enemyLv = 2;
-		break;
-	case GameRecorder::STATE_STAGE03:
-		m_enemyLv = 3;
-		break;
-	}
+	//// 敵の強さを求める
+	//uint32_t enemyLv = 0;
+	//switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
+	//default:
+	//	DEBUG_ASSERT( 0, "想定外のゲームの状態" );
+	//	/* fall-through */
+	//case GameRecorder::STATE_STAGE01:
+	//case GameRecorder::STATE_STAGE02:
+	//case GameRecorder::STATE_STAGE03:
+	//case GameRecorder::STATE_STAGE04:
+	//	m_enemyLv = 1;
+	//	break;
+	//case GameRecorder::STATE_STAGE05:
+	//case GameRecorder::STATE_STAGE06:
+	//case GameRecorder::STATE_STAGE07:
+	//case GameRecorder::STATE_STAGE08:
+	//	m_enemyLv = 2;
+	//	break;
+	//case GameRecorder::STATE_STAGE09:
+	//case GameRecorder::STATE_STAGE10:
+	//case GameRecorder::STATE_STAGE11:
+	//case GameRecorder::STATE_STAGE12:
+	//	m_enemyLv = 3;
+	//	break;
+	//}
 }
 
 EnemyBase::~EnemyBase()
@@ -63,6 +74,7 @@ EnemyBase::~EnemyBase()
 bool EnemyBase::Init()
 {
 	m_HP		= GetEnemyDefaultHP();
+	m_speed		= GetEnemyDefaultSPD();
 
 	// 直前のAIがないので同じAIにしておく
 	m_prevAI	= Common::AI_SEARCHING;
@@ -73,9 +85,25 @@ bool EnemyBase::Init()
 		m_prevAI	= Common::AI_ATTACK_NEAR;
 		m_nextAI	= Common::AI_ATTACK_NEAR;
 	}
+	// スライムキングAIへ
+	else if( GetKind() == Common::ENEMY_KIND_SLIME_KING ){
+		m_prevAI	= Common::AI_ATTACK_NEAR;
+		m_nextAI	= Common::AI_ATTACK_NEAR;
+	}
 
 	if( !m_pEnemyAI ){
 		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
+	}
+
+	// 初期位置セット
+	for(;;){
+		math::Vector2 candidatePos = Utility::GetMapRandamPos( /*allowInWindow=*/false );
+		// マップ上の動ける高さなら生成
+		if( Utility::GetMapHeight( candidatePos ) <= GetWalkHeight() ){
+			m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = candidatePos;
+			DEBUG_PRINT( "敵生成 x = %f, y = %f\n", candidatePos.x, candidatePos.y );
+			break;
+		}
 	}
 
 	return InitMain();
@@ -134,11 +162,15 @@ void EnemyBase::Update()
 	}
 
 	// HP描画準備
-	TEX_DRAW_INFO drawInfo;
-	drawInfo.m_posOrigin.x = m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.x;
-	drawInfo.m_posOrigin.y = m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.y + 30.0f;
-	drawInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
-	m_textureLife.m_pTex2D->SetDrawInfo( drawInfo );
+	Game2DBase *pTex2D = m_drawTexture.m_pTex2D;
+	if( pTex2D ){
+		TEX_DRAW_INFO drawInfo;
+		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( pTex2D->GetDrawInfo().m_fileName.c_str() );
+		drawInfo.m_posOrigin.x = pTex2D->GetDrawInfo().m_posOrigin.x - 5.0f;
+		drawInfo.m_posOrigin.y = pTex2D->GetDrawInfo().m_posOrigin.y + (texInfo.m_sizeHeight / 2) + 10.0f;
+		drawInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
+		m_textureLife.m_pTex2D->SetDrawInfo( drawInfo );
+	}
 }
 
 void EnemyBase::DrawUpdate()
@@ -266,6 +298,9 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			break;
 		case Common::ENEMY_KIND_BOSS:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BOSS_DEATH );
+			break;
+		case Common::ENEMY_KIND_SLIME_KING:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_KING_DEATH );
 			break;
 		}
 

@@ -173,13 +173,20 @@ void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
 	// 次のLvまでのポイントセット
 	PartsCounter *pPartsPointToNext = GetPartsCounter("nextPoint");
 	if( pPartsPointToNext ){
-		pPartsPointToNext->SetValue( pointToNextLv );
+		if( pointToNextLv == INVALID_VALUE ){
+			pPartsPointToNext->SetValue( 9999 );
+		}
+		else{
+			pPartsPointToNext->SetValue( pointToNextLv );
+		}
+		pPartsPointToNext->SetCountAnimFlg( false );
 	}
 
 	// 所持ポイントセット
 	PartsCounter *pPartsCurrPoint = GetPartsCounter("currPoint");
 	if( pPartsCurrPoint ){
 		pPartsCurrPoint->SetValue( m_loadData.m_battlePoint );
+		pPartsCurrPoint->SetCountAnimFlg( false );
 	}
 
 	// レベルアップ可能かどうか
@@ -238,11 +245,12 @@ void PowerUpMenu::PadEventDecide()
 	else{
 
 		uint32_t needPoint = GetPointToNextLevel( m_selectStateKind, m_loadData.m_playerBaseStateLv[m_selectStateKind] );
-		if( m_loadData.m_battlePoint < needPoint )
+		if( m_loadData.m_battlePoint < needPoint
+			|| needPoint == INVALID_VALUE )
 		{
-			// ポイントが足りない
+			// ポイントが足りない or Lvが最大
 			// エラー音
-			//SoundManager::GetInstance()->PlaySE("");
+			SoundManager::GetInstance()->PlaySE("Error");
 			return;
 		}
 
@@ -360,6 +368,8 @@ std::string PowerUpMenu::GetExplanationStr( const Common::PLAYER_BASE_STATE &kin
 uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind, uint32_t currLevel )
 {
 	std::string retStr = "";
+	uint32_t levelMax = 8; // 表示的には9
+
 	switch( kind ){
 	case Common::BASE_STATE_LIFE:		// ライフの最大値を決める
 		break;
@@ -378,6 +388,11 @@ uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind
 	
 	case Common::BASE_STATE_BLADE_LEVEL:	// 斬撃のダメージ
 		break;
+	}
+
+	if( currLevel >= levelMax ){
+		// 既に最大
+		return INVALID_VALUE;
 	}
 
 	return (currLevel+1) * 10;

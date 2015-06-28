@@ -134,6 +134,33 @@ void FlowManager::Update()
 				case Common::FLOW_STAGE03:
 					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE03 );
 					break;
+				case Common::FLOW_STAGE04:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE04 );
+					break;
+				case Common::FLOW_STAGE05:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE05 );
+					break;
+				case Common::FLOW_STAGE06:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE06 );
+					break;
+				case Common::FLOW_STAGE07:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE07 );
+					break;
+				case Common::FLOW_STAGE08:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE08 );
+					break;
+				case Common::FLOW_STAGE09:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE09 );
+					break;
+				case Common::FLOW_STAGE10:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE10 );
+					break;
+				case Common::FLOW_STAGE11:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE11 );
+					break;
+				case Common::FLOW_STAGE12:
+					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE12 );
+					break;
 				}
 			}
 			m_nextFilePath = "";

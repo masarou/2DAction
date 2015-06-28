@@ -41,9 +41,9 @@ void EnemyAIShoot::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo 
 		math::Vector2 eyeSight = playerPos - enemyInfo.m_posOrigin;
 		eyeSight.Normalize();
 
-		math::Vector2 nextPos = enemyInfo.m_posOrigin + eyeSight * 2.0f;
+		math::Vector2 nextPos = enemyInfo.m_posOrigin + eyeSight * static_cast<float>(GetEnemySPD());
 		if( Utility::GetMapHeight( nextPos ) == 0 ){
-			enemyInfo.m_posOrigin += eyeSight * 2.0f;
+			enemyInfo.m_posOrigin += eyeSight * static_cast<float>(GetEnemySPD());
 	
 			// アニメ更新
 			std::string animTag = "";

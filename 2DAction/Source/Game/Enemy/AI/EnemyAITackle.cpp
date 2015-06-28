@@ -45,9 +45,9 @@ void EnemyAITackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 	targetVec = plPos - enemyInfo.m_posOrigin;
 	targetVec.Normalize();
 
-	math::Vector2 nextPos = enemyInfo.m_posOrigin + (targetVec * 2.0f);
+	math::Vector2 nextPos = enemyInfo.m_posOrigin + ( targetVec * static_cast<float>(GetEnemySPD()) );
 	if( Utility::GetMapHeight( nextPos ) == 0 ){
-		enemyInfo.m_posOrigin += targetVec * 2.0f * static_cast<float>( GetEnemyLevel() );
+		enemyInfo.m_posOrigin += targetVec * static_cast<float>( GetEnemySPD() );
 
 		//// アニメ更新
 		std::string animTag = "";

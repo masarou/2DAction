@@ -80,6 +80,7 @@ private:
 	uint32_t			m_playerLifeMax;// ユーザーライフ最大値
 	uint32_t			m_speedMove;	// 行動速度に倍率をかけた瞬間のスピード
 	uint32_t			m_speedMoveBase;// 基本行動速度
+	float				m_deffenceLate;	// 防御力
 	float				m_speedMultiply;// 行動速度の倍率
 	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
 	uint32_t			m_invalidCtrlTime;// 何らかの理由で操作を受け付けない時間

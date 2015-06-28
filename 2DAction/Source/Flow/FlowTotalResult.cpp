@@ -48,6 +48,11 @@ bool FlowTotalResult::FinishFlow()
 	return true;
 }
 
+/* ====================================================================== */
+/**
+ * @brief セーブデータの更新
+ */
+/* ====================================================================== */
 void FlowTotalResult::RecordGameResult()
 {
 	// 今回のプレイを反映させたランキング作成
@@ -65,12 +70,15 @@ void FlowTotalResult::RecordGameResult()
 	Utility::OverWriteSaveData( updateData );
 }
 
-
+/* ====================================================================== */
+/**
+ * @brief 引数のランキングをソート
+ */
+/* ====================================================================== */
 bool sortScore(const uint32_t &left, const uint32_t &rRight)
 {
 	return left > rRight;
 }
-
 void FlowTotalResult::UpdateSortRanking( Common::SAVE_DATA &scoreData )
 {
 	// 今までのスコアをpush
@@ -106,7 +114,7 @@ TotalResult2D *TotalResult2D::CreateTotalResult2D( const std::string &readMenuJs
 
 TotalResult2D::TotalResult2D( const std::string &readMenuJson )
 : MenuWindow( readMenuJson )
-, m_dispState(DISP_STAGE01)
+, m_dispState(DISP_SCENE01)
 {
 	for( uint32_t i = 0; i < DISP_MAX ; ++i ){
 		m_pNumCounter[i] = NULL;
@@ -120,9 +128,9 @@ TotalResult2D::~TotalResult2D(void)
 bool TotalResult2D::InitMenu()
 {
 	static const char *s_counterName[DISP_MAX] = {
-		"scoreStage01",
-		"scoreStage02",
-		"scoreStage03",
+		"scoreScene01",
+		"scoreScene02",
+		"scoreScene03",
 		"scoreTotal",
 	};
 
@@ -136,7 +144,11 @@ bool TotalResult2D::InitMenu()
 	}
 
 	// 敵を倒して得た得点をセット
-	m_pNumCounter[static_cast<uint32_t>(DISP_STAGE01)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE01 ) );
+	uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE01 )
+						+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE02 )
+						+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE03 )
+						+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE04 );
+	m_pNumCounter[static_cast<uint32_t>(DISP_SCENE01)]->AddValue( sceneScore );
 
 	return true;
 }
@@ -146,70 +158,81 @@ void TotalResult2D::UpdateMenu()
 	CallPadEvent();
 
 	// アニメカウントが終わっているなら次のステップに進む
+	PartsCounter *pCounter = NULL;
 	uint32_t index = static_cast<uint32_t>( m_dispState );
 	switch(m_dispState){
-	case DISP_STAGE01:
-		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
-			m_dispState = DISP_STAGE02;
-			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE02 ) );
-		}
-		break;
-	case DISP_STAGE02:
-		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
-			m_dispState = DISP_STAGE03;
-			m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE03 ) );
-		}
-		break;
-	case DISP_STAGE03:
-		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
-			m_dispState = DISP_TOTAL;
-			m_pNumCounter[static_cast<uint32_t>(DISP_TOTAL)]->AddValue( GameRecorder::GetInstance()->GetTotalScore() );
-		}
-		break;
+	case DISP_SCENE01:
+	case DISP_SCENE02:
+	case DISP_SCENE03:
 	case DISP_TOTAL:
-		if( !m_pNumCounter[index]->IsPlayCountAnim() ){
-			m_dispState = DISP_MAX;
-		}
+		pCounter = m_pNumCounter[index];
 		break;
 	case DISP_MAX:
 
 		break;
+	}
+
+	if( pCounter && !pCounter->IsPlayCountAnim() ){
+		ChangeDispNextState();
 	}
 
 }
 
 void TotalResult2D::PadEventDecide()
 {
+	if( ChangeDispNextState() ){
+		SetNextFlowStr( "title" );
+		// 決定SE鳴らす
+		SoundManager::GetInstance()->PlaySE("Decide");
+	}
+}
+
+/* ====================================================================== */
+/**
+ * @brief 画面の表示更新項目を次のものへ
+ */
+/* ====================================================================== */
+bool TotalResult2D::ChangeDispNextState()
+{
+	if( m_dispState == DISP_MAX ){
+		return true;
+	}
+
 	uint32_t index = static_cast<uint32_t>( m_dispState );
+	m_pNumCounter[index]->CountAnimEnd();
 	switch(m_dispState){
-	case DISP_STAGE01:
-		// カウントアニメ終了
-		m_pNumCounter[index]->CountAnimEnd();
-		m_dispState = DISP_STAGE02;
-
-		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE02)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE02 ) );
+	case DISP_SCENE01:
+		{
+			m_dispState = DISP_SCENE02;
+			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE05 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE06 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE07 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE08 );
+			m_pNumCounter[static_cast<uint32_t>(DISP_SCENE02)]->AddValue( sceneScore );
+		}
 		break;
-	case DISP_STAGE02:
-		// カウントアニメ終了
-		m_pNumCounter[index]->CountAnimEnd();
-		m_dispState = DISP_STAGE03;
-
-		m_pNumCounter[static_cast<uint32_t>(DISP_STAGE03)]->AddValue( GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE03 ) );
+	case DISP_SCENE02:
+		{
+			m_dispState = DISP_SCENE03;		
+			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE09 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE10 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE11 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE12 );
+			m_pNumCounter[static_cast<uint32_t>(DISP_SCENE03)]->AddValue( sceneScore );
+		}
 		break;
-	case DISP_STAGE03:
-		// カウントアニメ終了
-		m_pNumCounter[index]->CountAnimEnd();
+	case DISP_SCENE03:
 		m_dispState = DISP_TOTAL;
-
 		m_pNumCounter[static_cast<uint32_t>(DISP_TOTAL)]->AddValue( GameRecorder::GetInstance()->GetTotalScore() );
 		break;
 	case DISP_TOTAL:
-		// カウントアニメ終了
-		m_pNumCounter[index]->CountAnimEnd();
+		// 表示完了
 		m_dispState = DISP_MAX;
 		break;
 	case DISP_MAX:
-		SetNextFlowStr( "title" );
+		return true;
 		break;
 	}
+	return false;
 }
+

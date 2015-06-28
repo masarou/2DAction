@@ -21,7 +21,7 @@ GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const math::Vecto
 
 GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
 {
-	return NEW GameEffect( kind, math::Vector2( posX, posY ) );
+	return NEW GameEffect( kind, math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
 }
 
 GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
@@ -125,7 +125,7 @@ GameEffectWithCollision *GameEffectWithCollision::CreateEffect( const Common::OW
 
 GameEffectWithCollision *GameEffectWithCollision::CreateEffect( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
 {
-	return NEW GameEffectWithCollision( owner, kind, math::Vector2( posX, posY ) );
+	return NEW GameEffectWithCollision( owner, kind, math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
 }
 
 GameEffectWithCollision::GameEffectWithCollision( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos )

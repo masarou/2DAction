@@ -17,7 +17,7 @@ EnemyBoss *EnemyBoss::Create( const uint32_t &uniqueID )
 }
 
 EnemyBoss::EnemyBoss( const uint32_t &uniqueID )
-	: EnemyBase( "EnemyBoss.json", uniqueID, Common::ENEMY_KIND_BOSS )
+	: EnemyBase( "EnemyBoss.json", uniqueID, Common::ENEMY_KIND_BOSS, 0 )
 {
 }
 
@@ -25,28 +25,20 @@ EnemyBoss::~EnemyBoss(void)
 {
 }
 
-bool EnemyBoss::InitMain()
+
+
+
+
+EnemySlimeKing *EnemySlimeKing::Create( const uint32_t &uniqueID )
 {
-	// 初期位置セット
-	for(;;){
-		math::Vector2 candidatePos = Utility::GetMapRandamPos( /*allowInWindow=*/false );
-		// マップ上の動ける高さなら生成
-		if( Utility::GetMapHeight( candidatePos ) <= GetWalkHeight() ){
-			m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = candidatePos;
-			DEBUG_PRINT( "敵生成 x = %f, y = %f\n", candidatePos.x, candidatePos.y );
-			break;
-		}
-	}
-	return true;
+	return NEW EnemySlimeKing( uniqueID );
 }
 
-/* ================================================ */
-/**
- * @brief	他のクラスからのイベントコール
- */
-/* ================================================ */
-void EnemyBoss::EventUpdate( const Common::CMN_EVENT &eventId )
+EnemySlimeKing::EnemySlimeKing( const uint32_t &uniqueID )
+	: EnemyBase( "EnemySlimeKing.json", uniqueID, Common::ENEMY_KIND_SLIME_KING, 0 )
 {
-	EnemyBase::EventUpdate( eventId );
+}
 
+EnemySlimeKing::~EnemySlimeKing(void)
+{
 }

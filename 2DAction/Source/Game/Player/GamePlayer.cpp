@@ -60,6 +60,7 @@ GamePlayer::GamePlayer(void)
 , m_invalidCtrlTime(0)
 , m_playerLife( LIFE_POINT_DEFAULT_MAX )
 , m_playerLifeMax( LIFE_POINT_DEFAULT_MAX )
+, m_deffenceLate( 1.0f )
 , m_pStatusMenu(NULL)
 {
 	m_pStatusMenu = NEW PlayerStatusMenu();
@@ -352,6 +353,9 @@ void GamePlayer::SetupInitPlayerState()
 	// çsìÆë¨ìxÇîΩâf
 	m_speedMoveBase = ConvertLevelToBaseState( Common::BASE_STATE_MOVE_SPEED, playData.m_playerBaseStateLv[Common::BASE_STATE_MOVE_SPEED] );
 
+	// ñhå‰óÕÇîΩâf
+	m_deffenceLate = ConvertLevelToBaseState( Common::BASE_STATE_DEFFENCE, playData.m_playerBaseStateLv[Common::BASE_STATE_DEFFENCE] ) / 100.0f;
+
 	// É}ÉVÉìÉKÉìÉNÉâÉXÇîΩâf
 	if( m_attackGun ){
 		AttackGun::GunState &gunState	= m_attackGun->UpdateGunState();
@@ -390,10 +394,10 @@ uint32_t GamePlayer::ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKin
 		retVal = LIFE_POINT_DEFAULT_MAX + (level*20);
 		break;
 	case Common::BASE_STATE_MOVE_SPEED:
-		retVal = MOVE_SPEED_DEFAULT + level;
+		retVal = MOVE_SPEED_DEFAULT + static_cast<uint32_t>(level*0.5f);
 		break;
 	case Common::BASE_STATE_DEFFENCE:
-		retVal = 0;	// Ç‹Çæñ¢é¿ëï
+		retVal = 100 - (level*5);
 		break;
 	//case Common::BASE_STATE_BLADE_LEVEL:
 	//	retVal = SLASHING_INTERBAL_DEFAULT - (level*2);
@@ -402,7 +406,7 @@ uint32_t GamePlayer::ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKin
 		retVal = SLASHING_DAMAGE_DEFAULT + (level*5);
 		break;
 	case Common::BASE_STATE_BULLET_SPD:
-		retVal = SHOOT_INTERBAL_DEFAULT + level;
+		retVal = SHOOT_INTERBAL_DEFAULT - level;
 		break;
 	case Common::BASE_STATE_BULLET_DMG:
 		retVal = SHOOT_DAMAGE_DEFAULT + (level*5);
@@ -462,6 +466,8 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_AAA:
 	case Common::EVENT_HIT_ENEMY_BBB:
 	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_ENEMY_BOSS:
+	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 	case Common::EVENT_HIT_BULLET_ENEMY:
 	case Common::EVENT_HIT_BLADE_ENEMY:
 	case Common::EVENT_HIT_EXPLOSION_ENEMY:
@@ -512,9 +518,12 @@ void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint
 		m_invalidCtrlTime = 10;
 	}
 
+	// ñhå‰óÕÇ…âûÇ∂ÇƒÉ_ÉÅÅ[ÉWÇå∏ÇÁÇ∑
+	uint32_t totalDamage = static_cast<uint32_t>( damageValue * m_deffenceLate );
+
 	// ÉâÉCÉtÇå∏ÇÁÇ∑
-	if( m_playerLife > damageValue ){
-		m_playerLife -= damageValue;
+	if( m_playerLife > totalDamage ){
+		m_playerLife -= totalDamage;
 	}
 	else{
 		m_playerLife = 0;

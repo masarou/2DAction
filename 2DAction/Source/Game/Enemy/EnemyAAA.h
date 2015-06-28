@@ -16,16 +16,18 @@ class EnemyAAA : public EnemyBase
 {
 public:
 
-	static EnemyAAA *Create( const uint32_t &uniqueID );
+	static EnemyAAA *Create( const uint32_t &enemyLevel, const uint32_t &uniqueID );
 
 protected:
 	
 	virtual bool InitMain() override;						// 派生先での初期化
-	virtual uint32_t GetEnemyDefaultHP() const override;	// 敵クラスのデフォルトHP取得
+	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_EVENMY_AAA;}
+	virtual uint32_t GetEnemyDefaultHP() const override;	// HP取得
+	virtual uint32_t GetEnemyDefaultSPD() const override;	// SPD取得
 
 private:
 
-	EnemyAAA( const uint32_t &uniqueID );
+	EnemyAAA( const uint32_t &enemyLevel, const uint32_t &uniqueID );
 	~EnemyAAA(void);
 
 };

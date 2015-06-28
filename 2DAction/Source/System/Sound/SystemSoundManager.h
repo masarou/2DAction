@@ -15,6 +15,9 @@
 #include "System/SystemDefine.h"
 #include "System/Task/SystemTaskUnit.h"
 
+#define BGM_VOLUME_MAX 9600
+#define SE_VOLUME_MAX 9400
+
 class SoundManager : public TaskUnit
 {
 public:
@@ -26,13 +29,13 @@ public:
 	virtual void Update();
 
 	//! SEの処理(あらかじめ読み込んでおくのが前提)
-	void PlaySE( const char *tagSE );
+	void PlaySE( const char *tagSE, const uint32_t &volume = SE_VOLUME_MAX );
 	void StopSE( const char *tagSE );
 
 	//! BGMの再生(あらかじめ読み込んでおくのが前提)
-	void PlayBGM( const char *tagBGM );
+	void PlayBGM( const char *tagBGM, const uint32_t &volume = BGM_VOLUME_MAX );
 	void StopBGM( const bool isFade = true );
-	void SetBgmVolume(const char *tag, uint32_t volume );
+	void SetBgmVolume(const char *tag, const uint32_t &volume = BGM_VOLUME_MAX );
 
 	//! ロードするテーブル変更(読み込んでいるものはクリア)
 	void ChangeLoadTableBGM( const std::string &tableStr );

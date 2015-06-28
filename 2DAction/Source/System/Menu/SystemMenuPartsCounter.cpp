@@ -21,6 +21,7 @@ PartsCounter::PartsCounter( const std::string &partsStr, const std::string &json
 , m_counter( 0 )
 , m_value( 0 )
 , m_currDispValue( 0 )
+, m_isInvalidCountAnim( false )
 {
 	Reset();
 	UpdateScore(0);
@@ -78,13 +79,13 @@ void PartsCounter::UpdateParts()
 		// 更新がなければ何もしない
 		return;
 	}
-	else if( math::Abs(diff) < 30 ){
+	else if( m_isInvalidCountAnim || math::Abs(diff) < 30 ){
 		m_currDispValue = m_value;
 	}
 	else{
 		if( m_counter%10 == 0 ){	
 			// カウントSE鳴らす
-			SoundManager::GetInstance()->PlaySE("Count");
+			SoundManager::GetInstance()->PlaySE("Count", 8500);
 		}
 		++m_counter;
 

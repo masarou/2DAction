@@ -37,6 +37,9 @@ public:
 	void SetDrawInfo( const TEX_DRAW_INFO &drawInfo );
 	void SetDrawPos( const math::Vector2 &pos );
 
+	// カウントアニメを行うかどうか
+	void SetCountAnimFlg( bool isCount ){ m_isInvalidCountAnim = !isCount; }
+
 	// カウントアニメをやめる
 	void CountAnimEnd();
 
@@ -58,5 +61,6 @@ private:
 	int32_t		m_value;
 	int32_t		m_currDispValue;
 
+	bool		m_isInvalidCountAnim;	// 数値のカウントアニメを無効にするかどうか
 };
 #endif // __SYSTEM_MENU_PARTS_COUNTER__

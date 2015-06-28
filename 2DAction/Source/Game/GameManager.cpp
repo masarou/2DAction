@@ -47,6 +47,33 @@ GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 		case Common::FLOW_STAGE03:
 			m_settingFileStr = "GameSettings03.json";
 			break;
+		case Common::FLOW_STAGE04:
+			m_settingFileStr = "GameSettings04.json";
+			break;
+		case Common::FLOW_STAGE05:
+			m_settingFileStr = "GameSettings05.json";
+			break;
+		case Common::FLOW_STAGE06:
+			m_settingFileStr = "GameSettings06.json";
+			break;
+		case Common::FLOW_STAGE07:
+			m_settingFileStr = "GameSettings07.json";
+			break;
+		case Common::FLOW_STAGE08:
+			m_settingFileStr = "GameSettings08.json";
+			break;
+		case Common::FLOW_STAGE09:
+			m_settingFileStr = "GameSettings09.json";
+			break;
+		case Common::FLOW_STAGE10:
+			m_settingFileStr = "GameSettings10.json";
+			break;
+		case Common::FLOW_STAGE11:
+			m_settingFileStr = "GameSettings11.json";
+			break;
+		case Common::FLOW_STAGE12:
+			m_settingFileStr = "GameSettings12.json";
+			break;
 	}
 	// マップの環境取得
 	LoadGameSettings( m_settingFileStr.c_str() );
@@ -160,11 +187,11 @@ void GameManager::CreateItem( const Common::ITEM_KIND &kind, const math::Vector2
  * @brief	敵生成依頼
  */
 /* ================================================ */
-void GameManager::CreateEnemy( const Common::ENEMY_KIND &kind )
+void GameManager::CreateEnemy( const Common::ENEMY_KIND &kind, const uint32_t &level )
 {
 	if( IsCreateEnemy( m_enemyMax ) ){
 		EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
-		pEnemyManager->AddEnemy( kind );
+		pEnemyManager->AddEnemy( kind, level );
 	}
 }
 
@@ -179,14 +206,15 @@ void GameManager::Update()
 
 	// 敵の生成
 	if( IsCreateEnemy( m_enemyMax, m_enemyFrequency ) ){
-		Common::ENEMY_KIND kind = Common::ENEMY_KIND_MAX;
-		if( Utility::GetRandamValue( 30, 0 ) != 0 ){
-			kind = Common::ENEMY_KIND_AAA;
+		uint32_t seedRandamValue = Utility::GetRandamValue( 100, 1 );
+		uint32_t ratio = 0;
+		for( uint32_t i = 0; i < m_enemyInfoVec.size() ; ++i ){
+			ratio += m_enemyInfoVec.at(i).m_freequency;
+			if( seedRandamValue < ratio ){
+				CreateEnemy( m_enemyInfoVec.at(i).m_kind, m_enemyInfoVec.at(i).m_level );
+				break;
+			}
 		}
-		else{
-			kind = Common::ENEMY_KIND_BBB;
-		}
-		CreateEnemy( kind );
 	}
 	// アイテムの生成
 	if( IsCreateItem( m_itemMax, m_itemFrequency ) ){
@@ -212,6 +240,7 @@ void GameManager::ResetManageValue()
 	m_itemMax			= 0;	// 最大出現アイテム数
 	m_itemFrequency		= 0;	// アイテムの出現率(10段階0~9)
 	m_settingFileStr	= "";	// 読み込むステージ設定ファイル
+	m_enemyInfoVec.clear();		// 出現する敵情報
 }
 
 /* ================================================ */
@@ -241,6 +270,32 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	m_enemyFrequency	= static_cast<uint32_t>(condData.get(0).get("frequency").get<double>());
 	m_itemMax			= static_cast<uint32_t>(condData.get(1).get("ItemMax").get<double>());
 	m_itemFrequency		= static_cast<uint32_t>(condData.get(1).get("frequency").get<double>());
+
+	// 敵情報
+	picojson::value enemyData = root.get("existEnemy");
+	picojson::value null;
+	uint32_t totalFreequency = 0;	// 出現係数のトータル
+	for( uint32_t i = 0 ;; ++i ){
+		if( enemyData.get(i) == null ){
+			break;
+		}
+		ExistEnemyState eneInfo;
+		eneInfo.m_kind = GetEnemyKindFromStr( enemyData.get(i).get("enemyKind").get<std::string>() );
+		eneInfo.m_level = static_cast<uint32_t>(enemyData.get(i).get("level").get<double>());
+		eneInfo.m_freequency = static_cast<uint32_t>(enemyData.get(i).get("frequency").get<double>());
+		m_enemyInfoVec.push_back( eneInfo );
+
+		totalFreequency += eneInfo.m_freequency;
+	}
+	// 出現係数の合計からそれぞれの敵の出現率を求めてセットしなおす
+	for( uint32_t i = 0; i < m_enemyInfoVec.size() ; ++i ){
+		float ratio =  m_enemyInfoVec.at(i).m_freequency / static_cast<float>( totalFreequency );
+		m_enemyInfoVec.at(i).m_freequency = static_cast<uint32_t>( (ratio * 100.0f) + 0.5f );
+	}
+
+	if( m_enemyInfoVec.size() == 0 ){
+		DEBUG_ASSERT( 0, "敵の情報取得失敗");
+	}
 
 	if( m_enemyFrequency > OBJECT_FREQUECY_MAX ){
 		m_enemyFrequency = OBJECT_FREQUECY_MAX;
@@ -324,5 +379,26 @@ bool GameManager::IsCreateItem( uint32_t itemLimit )
 		}
 	}
 	return isCreate;
+}
+
+Common::ENEMY_KIND GameManager::GetEnemyKindFromStr( const std::string str )
+{
+	static struct enemyKindPair{
+		Common::ENEMY_KIND	kind;
+		std::string			kindStr;
+	} s_enemyTypeStr[] = {
+		{ Common::ENEMY_KIND_AAA,			"ENEMY_KIND_AAA" },
+		{ Common::ENEMY_KIND_BBB,			"ENEMY_KIND_BBB" },
+		{ Common::ENEMY_KIND_CCC,			"ENEMY_KIND_CCC" },
+		{ Common::ENEMY_KIND_BOSS,			"ENEMY_KIND_BOSS" },
+		{ Common::ENEMY_KIND_SLIME_KING,	"ENEMY_KIND_SLIME_KING" },
+	};
+	for( uint32_t i = 0; i < NUMBEROF(s_enemyTypeStr); ++i ){
+		if( s_enemyTypeStr[i].kindStr.compare( str ) == 0 ){
+			return s_enemyTypeStr[i].kind;
+		}
+	}
+	DEBUG_ASSERT( 0, "jsonから読み込んだ敵のタイプが想定外");
+	return Common::ENEMY_KIND_MAX;
 }
 

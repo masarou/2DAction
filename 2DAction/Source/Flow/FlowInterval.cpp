@@ -110,7 +110,7 @@ void IntervalMenu::PadEventDecide()
 			switch( pRecorder->GetGameStateOfProgress() ){
 			case GameRecorder::STATE_TITLE:
 			case GameRecorder::STATE_POWER_UP:
-			case GameRecorder::STATE_STAGE03:
+			case GameRecorder::STATE_STAGE12:
 			default:
 				DEBUG_ASSERT( 0, "想定外のフロー" );
 				// とりあえずタイトルへ
@@ -121,6 +121,33 @@ void IntervalMenu::PadEventDecide()
 				break;
 			case GameRecorder::STATE_STAGE02:
 				SetNextFlowStr( "nextgame03" );
+				break;
+			case GameRecorder::STATE_STAGE03:
+				SetNextFlowStr( "nextgame04" );
+				break;
+			case GameRecorder::STATE_STAGE04:
+				SetNextFlowStr( "nextgame05" );
+				break;
+			case GameRecorder::STATE_STAGE05:
+				SetNextFlowStr( "nextgame06" );
+				break;
+			case GameRecorder::STATE_STAGE06:
+				SetNextFlowStr( "nextgame07" );
+				break;
+			case GameRecorder::STATE_STAGE07:
+				SetNextFlowStr( "nextgame08" );
+				break;
+			case GameRecorder::STATE_STAGE08:
+				SetNextFlowStr( "nextgame09" );
+				break;
+			case GameRecorder::STATE_STAGE09:
+				SetNextFlowStr( "nextgame10" );
+				break;
+			case GameRecorder::STATE_STAGE10:
+				SetNextFlowStr( "nextgame11" );
+				break;
+			case GameRecorder::STATE_STAGE11:
+				SetNextFlowStr( "nextgame12" );
 				break;
 			}
 		}

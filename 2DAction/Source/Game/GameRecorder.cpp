@@ -111,6 +111,9 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
 	case ENEMY_BOSS_DEATH:
 		addValue = 300000;
 		break;
+	case ENEMY_SLIME_KING_DEATH:
+		addValue = 300000;
+		break;
 	}
 	m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userScore += addValue;
 

@@ -12,6 +12,8 @@ namespace Common{
 		TYPE_EVENMY_AAA,
 		TYPE_EVENMY_BBB,
 		TYPE_EVENMY_CCC,
+		TYPE_EVENMY_BOSS,
+		TYPE_EVENMY_SLIME_KING,
 
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
@@ -30,10 +32,12 @@ namespace Common{
 
 	// オブジェクト同士のイベントメッセージ
 	enum EVENT_MESSAGE{
-		EVENT_HIT_PLAYER,		// プレイヤーキャラクタ
-		EVENT_HIT_ENEMY_AAA,	// 敵との接触
-		EVENT_HIT_ENEMY_BBB,	// 敵との接触
-		EVENT_HIT_ENEMY_CCC,	// 敵との接触
+		EVENT_HIT_PLAYER,			// プレイヤーキャラクタ
+		EVENT_HIT_ENEMY_AAA,		// 敵との接触
+		EVENT_HIT_ENEMY_BBB,		// 敵との接触
+		EVENT_HIT_ENEMY_CCC,		// 敵との接触
+		EVENT_HIT_ENEMY_BOSS,		// 敵との接触
+		EVENT_HIT_ENEMY_SLIME_KING,	// 敵との接触
 
 		EVENT_GET_ITEM_BULLET,		// アイテム取得
 		EVENT_GET_ITEM_LIFE,		// アイテム取得
@@ -59,6 +63,15 @@ namespace Common{
 		FLOW_STAGE01,		// ステージ01
 		FLOW_STAGE02,		// ステージ02
 		FLOW_STAGE03,		// ステージ03
+		FLOW_STAGE04,		// ステージ04
+		FLOW_STAGE05,		// ステージ05
+		FLOW_STAGE06,		// ステージ06
+		FLOW_STAGE07,		// ステージ07
+		FLOW_STAGE08,		// ステージ08
+		FLOW_STAGE09,		// ステージ09
+		FLOW_STAGE10,		// ステージ10
+		FLOW_STAGE11,		// ステージ11
+		FLOW_STAGE12,		// ステージ12
 		FLOW_RESULT,		// リザルト
 		FLOW_INTERVAL,		// 休憩
 		FLOW_RESULT_TOTAL,	// すべてのステージを終えてのリザルト
@@ -105,6 +118,7 @@ namespace Common{
 		ENEMY_KIND_BBB,
 		ENEMY_KIND_CCC,
 		ENEMY_KIND_BOSS,
+		ENEMY_KIND_SLIME_KING,
 
 		ENEMY_KIND_MAX,
 	};
