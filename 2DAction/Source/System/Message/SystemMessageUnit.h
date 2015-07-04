@@ -28,7 +28,7 @@ protected:
 	SystemMessageUnit(void);
 	virtual ~SystemMessageUnit(void);
 
-	virtual void EventUpdate( const Common::CMN_EVENT &eventId ){};
+	virtual void EventUpdate( Common::CMN_EVENT &eventId ){};
 
 private:
 
@@ -38,7 +38,7 @@ private:
 
 	uint32_t						m_uniqueUnitId;	// 識別用ID
 	std::vector<Common::CMN_EVENT>	m_eventVec;		// ほかのクラスからのイベント
-
+	std::vector<Common::CMN_EVENT>	m_nextEventVec;	// push待ちのイベント
 };
 
 #endif

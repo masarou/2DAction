@@ -40,7 +40,7 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	if( m_kind == EFFECT_SLASHING_HIT ){
 		// éaåÇHITÇÕÉâÉìÉ_ÉÄÇ…âÒì]
 		uint32_t rotate = Utility::GetRandamValue( 360, 0 );
-		drawInfo.m_rot = rotate;
+		drawInfo.m_rot = static_cast<float>(rotate);
 	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
@@ -280,8 +280,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 	math::Vector2 basePos = math::Vector2( static_cast<float>(posX), static_cast<float>(posY) );
 	// Ç¢Ç¢ä¥Ç∂Ç…à íuí≤êÆ
 	basePos.x += (digitNum/2) * 15.0f + 8.0f;
-	basePos.x += Utility::GetRandamValueFloat( 20, -20 );
-	basePos.y += Utility::GetRandamValueFloat( 20, -20 );
+	basePos.x += Utility::GetRandamValueFloat( 40, -40 );
+	basePos.y += Utility::GetRandamValueFloat( 40, -40 );
 
 	for(;damageInfo.m_array2D.size() < digitNum;){
 		Texture2D tex;
@@ -335,8 +335,9 @@ void GameEffectDamage::DrawUpdate()
 	// ï`âÊ
 	for( uint32_t i = 0; i < m_damageArray.size() ; ++i ){
 		for( uint32_t j = 0; j < m_damageArray.at(i).m_array2D.size(); ++j){
-			m_damageArray.at(i).m_array2D.at(j).m_pTex2D->UpdateDrawInfo().m_posOrigin.y -= static_cast<float>( 2 );
-			m_damageArray.at(i).m_array2D.at(j).m_pTex2D->DrawUpdate2D();
+			Game2DBase *pTex2D = m_damageArray.at(i).m_array2D.at(j).m_pTex2D;
+			pTex2D->UpdateDrawInfo().m_posOrigin.y -= static_cast<float>( 3 );
+			pTex2D->DrawUpdate2D();
 		}
 	}
 }

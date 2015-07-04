@@ -50,7 +50,7 @@ protected:
 	virtual void DrawUpdate() override;					// 描画更新
 
 	// ほかのクラスからのイベント処理
-	virtual void EventUpdate( const Common::CMN_EVENT &eventId ) override;
+	virtual void EventUpdate( Common::CMN_EVENT &eventId ) override;
 	virtual void HitPlayreBullet( const uint32_t &damageValue );// 弾が当たった時の処理
 	virtual void HitPlayreSlashing( const uint32_t &damageValue );// 斬撃が当たった時の処理
 

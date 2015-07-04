@@ -51,7 +51,7 @@ public:
 protected:
 
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_PLAYER; }
-	void EventUpdate( const Common::CMN_EVENT &eventId ) override;
+	void EventUpdate( Common::CMN_EVENT &eventId ) override;
 
 private:
 
@@ -67,7 +67,7 @@ private:
 	uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level );
 
 	// 移動処理
-	void UpdateMove( math::Vector2 &moveVec );
+	void UpdateMove( math::Vector2 &moveVec, bool isForce = false );
 
 	// 引数のベクター分移動ができるかどうかチェック
 	bool CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const;
@@ -76,14 +76,16 @@ private:
 	void EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue );
 	void PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountUp = true );
 
-	uint32_t			m_playerLife;	// ユーザーライフ
-	uint32_t			m_playerLifeMax;// ユーザーライフ最大値
-	uint32_t			m_speedMove;	// 行動速度に倍率をかけた瞬間のスピード
-	uint32_t			m_speedMoveBase;// 基本行動速度
-	float				m_deffenceLate;	// 防御力
-	float				m_speedMultiply;// 行動速度の倍率
-	uint32_t			m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
-	uint32_t			m_invalidCtrlTime;// 何らかの理由で操作を受け付けない時間
+	uint32_t				m_playerLife;	// ユーザーライフ
+	uint32_t				m_playerLifeMax;// ユーザーライフ最大値
+	uint32_t				m_speedMove;	// 行動速度に倍率をかけた瞬間のスピード
+	uint32_t				m_speedMoveBase;// 基本行動速度
+	float					m_deffenceLate;	// 防御力
+	float					m_speedMultiply;// 行動速度の倍率
+	uint32_t				m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
+	uint32_t				m_invalidCtrlTime;	// 何らかの理由で操作を受け付けない時間
+	Common::FORCE_MOVING	m_forceMoveInfo;	// 他のクラスから受ける衝撃
+
 	AttackGun			*m_attackGun;	// マシンガンクラス
 	AttackBlade			*m_attackBlade;	// 近接攻撃(剣)クラス
 

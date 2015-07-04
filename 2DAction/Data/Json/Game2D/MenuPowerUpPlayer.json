@@ -7,8 +7,6 @@
 		{"partsName":"nextPoint",	"loadJson":"NumberCounter.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 955,	"y": 347},
 		{"partsName":"currPoint",	"loadJson":"NumberCounter.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 645},
 		{"partsName":"decisionUp",	"loadJson":"DecisionPowerUp.json",	"x": 990,	"y": 640},
-		{"partsName":"selectKind",	"loadJson":"choiceBG.json",			"x": 1000,	"y": 630},
-		{"partsName":"selectStart",	"loadJson":"choiceBG.json",			"x": 640,	"y": 630},
 		{"partsName":"point0",		"loadJson":"SelectPoint.json",		"x": 480,	"y": 70},
 		{"partsName":"point1",		"loadJson":"SelectPoint.json",		"x": 544,	"y": 70},
 		{"partsName":"point2",		"loadJson":"SelectPoint.json",		"x": 608,	"y": 70},

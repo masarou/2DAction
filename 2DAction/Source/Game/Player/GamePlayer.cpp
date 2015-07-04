@@ -61,8 +61,11 @@ GamePlayer::GamePlayer(void)
 , m_playerLife( LIFE_POINT_DEFAULT_MAX )
 , m_playerLifeMax( LIFE_POINT_DEFAULT_MAX )
 , m_deffenceLate( 1.0f )
+, m_attackGun(NULL)
+, m_attackBlade(NULL)
 , m_pStatusMenu(NULL)
 {
+	m_forceMoveInfo.Init();
 	m_pStatusMenu = NEW PlayerStatusMenu();
 }
 
@@ -148,19 +151,30 @@ void GamePlayer::Update()
 	if( m_invalidCtrlTime == 0 ){
 		// パッドに対応した挙動を設定
 		CallPadEvent();
+		
+		// 攻撃判定
+		if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
+			const TEX_DRAW_INFO &drawInfo = m_drawTexture.m_pTex2D->GetDrawInfo();
+			math::Vector2 pos = math::Vector2( drawInfo.m_posOrigin.x, drawInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
+			math::Vector2 vec = GetStickInfoRight().m_vec;
+			vec.Normalize();
+			m_attackGun->ShootBullet( pos, vec );
+		}
+	}
+
+	// 外からのダメージ等での強制移動
+	if( m_forceMoveInfo.IsNeedMove() ){
+		if( m_forceMoveInfo.m_forcePower <= 1.0f ){
+			m_forceMoveInfo.Init();
+		}
+		else{
+			UpdateMove( m_forceMoveInfo.m_forceDir*m_forceMoveInfo.m_forcePower, /*bool isForce=*/true );
+			m_forceMoveInfo.m_forcePower *= 0.9f;
+		}
 	}
 
 	// 再生アニメタグセット
 	m_drawTexture.m_pTex2D->SetAnim(GetAnimTag());
-
-	// 攻撃判定
-	if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
-		const TEX_DRAW_INFO &drawInfo = m_drawTexture.m_pTex2D->GetDrawInfo();
-		math::Vector2 pos = math::Vector2( drawInfo.m_posOrigin.x, drawInfo.m_posOrigin.y ) + GameAccesser::GetInstance()->GetPlayerOffSet();
-		math::Vector2 vec = GetStickInfoRight().m_vec;
-		vec.Normalize();
-		m_attackGun->ShootBullet( pos, vec );
-	}
 }
 void GamePlayer::DrawUpdate()
 {
@@ -203,10 +217,10 @@ void GamePlayer::PadEventLeft()
 	UpdateMove( moveVal );
 }
 
-void GamePlayer::UpdateMove( math::Vector2 &moveVec )
+void GamePlayer::UpdateMove( math::Vector2 &moveVec, bool isForce )
 {
 	// 斬撃攻撃中なら移動できない
-	if( m_attackBlade && m_attackBlade->IsSlashingAnimPlay() ){
+	if( m_attackBlade && !isForce && m_attackBlade->IsSlashingAnimPlay() ){
 		return;
 	}
 
@@ -368,7 +382,7 @@ void GamePlayer::SetupInitPlayerState()
 	if( m_attackBlade ){
 		AttackBlade::BladeState &bladeState	= m_attackBlade->UpdateBladeState();
 		bladeState.m_damage					= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
-		bladeState.m_interval				= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
+		bladeState.m_interval				= 20;//ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
 	}
 
 	// アイテム取得数を反映
@@ -385,13 +399,70 @@ void GamePlayer::SetupInitPlayerState()
  * @brief	ステータスレベルから実際にセットする値へ変換
  */
 /* ================================================ */
+static const uint32_t STATE_LEVEL_MAX = 9;
 uint32_t GamePlayer::ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level )
 {
+	// ライフのレベルテーブル
+	static uint32_t s_lifeStateTable[] = {
+		0,		// lv1
+		30,		// lv2
+		70,		// lv3
+		120,	// lv4
+		180,	// lv5
+		250,	// lv6
+		330,	// lv7
+		420,	// lv8
+		520,	// lv9
+		650,	// lv10
+	};
+
+	// 斬撃のレベルテーブル
+	static uint32_t s_damageSlashingTable[] = {
+		0,		// lv1
+		30,		// lv2
+		70,		// lv3
+		120,	// lv4
+		180,	// lv5
+		250,	// lv6
+		330,	// lv7
+		420,	// lv8
+		520,	// lv9
+		670,	// lv10
+	};
+
+	// マシンガンのレベルテーブル
+	static uint32_t s_damageBulletTable[] = {
+		0,		// lv1
+		20,		// lv2
+		50,		// lv3
+		70,		// lv4
+		100,	// lv5
+		140,	// lv6
+		180,	// lv7
+		230,	// lv8
+		250,	// lv9
+		300,	// lv10
+	};
+
+	// マシンガンSPDのレベルテーブル
+	static uint32_t s_speedBulletTable[] = {
+		0,		// lv1
+		2,		// lv2
+		4,		// lv3
+		6,		// lv4
+		8,		// lv5
+		10,		// lv6
+		12,		// lv7
+		14,		// lv8
+		16,		// lv9
+		18,		// lv10
+	};
+
 	uint32_t retVal = 0;
 	switch( stateKind ){
 
 	case Common::BASE_STATE_LIFE:
-		retVal = LIFE_POINT_DEFAULT_MAX + (level*20);
+		retVal = LIFE_POINT_DEFAULT_MAX + s_lifeStateTable[level];
 		break;
 	case Common::BASE_STATE_MOVE_SPEED:
 		retVal = MOVE_SPEED_DEFAULT + static_cast<uint32_t>(level*0.5f);
@@ -403,13 +474,13 @@ uint32_t GamePlayer::ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKin
 	//	retVal = SLASHING_INTERBAL_DEFAULT - (level*2);
 	//	break;
 	case Common::BASE_STATE_BLADE_LEVEL:
-		retVal = SLASHING_DAMAGE_DEFAULT + (level*5);
+		retVal = SLASHING_DAMAGE_DEFAULT + s_damageSlashingTable[level];
 		break;
 	case Common::BASE_STATE_BULLET_SPD:
-		retVal = SHOOT_INTERBAL_DEFAULT - level;
+		retVal = SHOOT_INTERBAL_DEFAULT - s_speedBulletTable[level];
 		break;
 	case Common::BASE_STATE_BULLET_DMG:
-		retVal = SHOOT_DAMAGE_DEFAULT + (level*5);
+		retVal = SHOOT_DAMAGE_DEFAULT + s_damageBulletTable[level];
 		break;
 	}
 	return retVal;
@@ -460,7 +531,7 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const
  * @brief	他のクラスからのイベントコール
  */
 /* ================================================ */
-void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
+void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
 	case Common::EVENT_HIT_ENEMY_AAA:
@@ -487,11 +558,16 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_GET_ITEM_BATTLE_POINT:
 		PlayerGetItem( Common::ITEM_KIND_BATTLE_POINT );
 		break;
+	case Common::EVENT_ADD_FORCE_MOVE:
+		// 必要な情報を取り出す
+		memcpy( &m_forceMoveInfo, static_cast<Common::FORCE_MOVING*>(eventId.m_exInfo), sizeof(Common::FORCE_MOVING) );
+		m_invalidCtrlTime	= 10;
+		m_invisibleTime		= 60;
+		break;
 	default:
 
 		break;
 	}
-
 }
 
 /* ================================================ */
@@ -503,19 +579,49 @@ void GamePlayer::EventUpdate( const Common::CMN_EVENT &eventId )
 void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue )
 {
 	// ダメージ音
-	if( eventKind != Common::EVENT_HIT_BULLET_ENEMY ){
-		SoundManager::GetInstance()->PlaySE("DamageDirect");
-	}
-	else{
+	switch( eventKind ){
+	case Common::EVENT_HIT_BULLET_ENEMY:
 		SoundManager::GetInstance()->PlaySE("DamageBullet");
+		break;
+	default:
+		SoundManager::GetInstance()->PlaySE("DamageDirect");
+		break;
 	}
 
 	// ダメージを受けたら一定時間ダメージを受けない
 	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
 
-	// 斬撃攻撃を受けたら一定時間操作不能
-	if( eventKind == Common::EVENT_HIT_BLADE_ENEMY ){
+	// 各ダメージ種類による特殊処理
+	switch( eventKind ){
+	case Common::EVENT_HIT_ENEMY_SLIME_KING:
+		{
+			// 三秒ほど動けずとりこまれる、その後はじき出される
+			Common::CMN_EVENT forceEvent;
+			forceEvent.Init();
+			forceEvent.m_event = Common::EVENT_ADD_FORCE_MOVE;
+			forceEvent.m_delayTime = 180;
+			Common::FORCE_MOVING *pMoveInfo = NEW Common::FORCE_MOVING();
+			pMoveInfo->m_forceDir	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
+			pMoveInfo->m_forceDir.Normalize();
+			pMoveInfo->m_forcePower	= 15.0f;
+			forceEvent.m_exInfo = (void*)(pMoveInfo);
+			AddEvent( forceEvent );
+		}
+		break;
+	default:
+		break;
+	}
+
+	// 特定の攻撃を受けたら一定時間操作不能
+	switch( eventKind ){
+	case Common::EVENT_HIT_BLADE_ENEMY:
 		m_invalidCtrlTime = 10;
+		break;
+	case Common::EVENT_HIT_ENEMY_SLIME_KING:
+		m_invalidCtrlTime = 200;
+		break;
+	default:
+		break;
 	}
 
 	// 防御力に応じてダメージを減らす

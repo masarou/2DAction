@@ -5,11 +5,11 @@
 		{"destroyMax": 0}
 	],
 	"gameCondition":[
-		{"EnemyMax": 100, "frequency":9},
+		{"EnemyMax": 1, "frequency":9},
 		{"ItemMax": 10, "frequency":0}
 	],
 	"existEnemy":[
-		{"enemyKind": "ENEMY_KIND_AAA", "level":9, "frequency":80},
+		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level":9, "frequency":80},
 		{"enemyKind": "ENEMY_KIND_BBB", "level":9, "frequency":20}
 	]
 }

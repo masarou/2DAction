@@ -106,7 +106,6 @@ void CollisionManager::CollisionUpdate()
 			if( Utility::IsInRangeTexture( texA, texB ) ){
 				Common::CMN_EVENT eventInfo;
 				eventInfo.Init();
-
 				Common::EVENT_MESSAGE messageKind = Common::EVENT_MESSAGE_MAX;
 				switch( typeA ){
 				default:
@@ -125,6 +124,15 @@ void CollisionManager::CollisionUpdate()
 					break;
 				case Common::TYPE_EVENMY_CCC:
 					messageKind = Common::EVENT_HIT_ENEMY_CCC;
+					eventInfo.m_eventValue = 10;
+					break;
+				case Common::TYPE_EVENMY_BOSS:
+					messageKind = Common::EVENT_HIT_ENEMY_BOSS;
+					eventInfo.m_eventValue = 10;
+					break;
+				case Common::TYPE_EVENMY_SLIME_KING:
+					messageKind = Common::EVENT_HIT_ENEMY_SLIME_KING;
+					eventInfo.m_eventValue = 20;
 					break;
 				case Common::TYPE_ITEM_BULLET:
 					messageKind = Common::EVENT_GET_ITEM_BULLET;
@@ -260,6 +268,8 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_EVENMY_AAA:
 	case Common::TYPE_EVENMY_BBB:
 	case Common::TYPE_EVENMY_CCC:
+	case Common::TYPE_EVENMY_BOSS:
+	case Common::TYPE_EVENMY_SLIME_KING:
 		if( typeB != Common::TYPE_PLAYER
 			&& typeB != Common::TYPE_BULLET_PLAYER
 			&& typeB != Common::TYPE_BLADE_PLAYER ){

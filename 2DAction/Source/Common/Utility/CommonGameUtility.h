@@ -41,6 +41,9 @@ const bool IsSameBelongArea( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 // 描画位置が重なっているかどうか(当たり判定)
 const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB );
 
+// 第一引数から第二引数までのベクトルを求める(大きさは1)
+math::Vector2 GetDirAToB( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB );
+
 // マップ上での所属空間を求める
 const void GetBelongAreaInMap( TEX_DRAW_INFO &tex );
 

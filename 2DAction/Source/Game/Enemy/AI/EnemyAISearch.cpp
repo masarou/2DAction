@@ -37,7 +37,9 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 {
 	if( SearchPlayer( enemyInfo ) ){
 		// プレイヤー発見!!!
-		if( GetEnemyKind() == Common::ENEMY_KIND_AAA || GetEnemyKind() == Common::ENEMY_KIND_CCC ){
+		if( GetEnemyKind() == Common::ENEMY_KIND_AAA
+			|| GetEnemyKind() == Common::ENEMY_KIND_CCC
+			|| GetEnemyKind() == Common::ENEMY_KIND_SLIME_KING ){
 			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
 			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
 		}
@@ -45,14 +47,13 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 			DEBUG_PRINT("【プレイヤー発見! ステータスをShootに変更】\n");
 			ChangeEnemyAI( Common::AI_SHOOTING );
 		}
-		return;
-	}
-
-	if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
-		if( SearchPlayer( enemyInfo, 600.0f ) ){
-			DEBUG_PRINT("【プレイヤー発見! ステータスをMovingに変更】\n");
-			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+		else if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
+			if( SearchPlayer( enemyInfo, 600.0f ) ){
+				DEBUG_PRINT("【プレイヤー発見! ステータスをMovingに変更】\n");
+				ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+			}
 		}
+		return;
 	}
 
 	// 目標となる地点を設定

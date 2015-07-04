@@ -36,7 +36,7 @@ protected:
 	virtual void Update() override;									// 位置やAIによる数値周りの更新
 	virtual void DrawUpdate() override;								// 描画更新
 	virtual const Common::TYPE_OBJECT GetTypeObject() const;		// 自分が何者なのかを示すタイプ
-	virtual void EventUpdate( const Common::CMN_EVENT &eventId );	// イベント処理関数
+	virtual void EventUpdate( Common::CMN_EVENT &eventId );	// イベント処理関数
 
 private:
 	

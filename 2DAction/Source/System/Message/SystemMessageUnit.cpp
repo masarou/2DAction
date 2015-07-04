@@ -27,6 +27,14 @@ SystemMessageUnit::~SystemMessageUnit(void)
 {
 	// 自分を削除しておく
 	SystemMessageManager::GetInstance()->RemoveMessagTask( this );
+
+	// 保持している実行できなかったイベントが持っているポインタ削除
+	for( uint32_t i = 0; i < m_eventVec.size() ; ++i ){
+		SAFE_DELETE( m_eventVec.at(i).m_exInfo );
+	}
+	for( uint32_t i = 0; i < m_nextEventVec.size() ; ++i ){
+		SAFE_DELETE( m_nextEventVec.at(i).m_exInfo );
+	}
 }
 
 
@@ -38,7 +46,7 @@ SystemMessageUnit::~SystemMessageUnit(void)
 void SystemMessageUnit::PushEvent( const Common::CMN_EVENT &eventInfo )
 {
 	if( eventInfo.m_event != Common::EVENT_MESSAGE_MAX ){
-		m_eventVec.push_back( eventInfo );
+		m_nextEventVec.push_back( eventInfo );
 	}
 }
 
@@ -53,6 +61,7 @@ void SystemMessageUnit::StartEventAction()
 	for( uint32_t i = 0; it != m_eventVec.end() ; ++i ){
 		if( (*it).m_delayTime == 0 ){
 			EventUpdate( (*it) );
+			SAFE_DELETE( it->m_exInfo );
 			it = m_eventVec.erase(it);
 		}
 		else{
@@ -60,4 +69,10 @@ void SystemMessageUnit::StartEventAction()
 			++it;
 		}
 	}
+
+	// 積まれたイベントをこのタイミングでpush
+	for( uint32_t i = 0; i < m_nextEventVec.size() ; ++i ){
+		m_eventVec.push_back( m_nextEventVec.at(i) );
+	}
+	m_nextEventVec.clear();
 }

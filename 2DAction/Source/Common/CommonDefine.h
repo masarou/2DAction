@@ -49,6 +49,7 @@ namespace Common{
 		EVENT_HIT_BULLET_ENEMY,		// 敵の攻撃弾に当たった
 		EVENT_HIT_EXPLOSION_PLAYER,	// プレイヤーの爆発攻撃に当たった
 		EVENT_HIT_EXPLOSION_ENEMY,	// 敵の爆発攻撃に当たった
+		EVENT_ADD_FORCE_MOVE,		// ダメージ等でのふっとび
 
 		// その他
 
@@ -87,9 +88,22 @@ namespace Common{
 		void			*m_exInfo;		// 他に必要な情報があれば
 		void Init(){
 			m_event			= EVENT_MESSAGE_MAX;
-			m_eventValue	= INVALID_VALUE;
+			m_eventValue	= 0;
 			m_delayTime		= 0;
 			m_exInfo		= NULL;
+		}
+	};
+
+	// 他のクラスから受けるダメージなどの吹っ飛び情報
+	struct FORCE_MOVING{
+		math::Vector2	m_forceDir;		// 強制移動の方向
+		float			m_forcePower;	// 強制移動の大きさ
+		void Init(){
+			m_forceDir = math::Vector2();
+			m_forcePower = 0.0f;
+		}
+		bool IsNeedMove(){
+			return (m_forceDir == math::Vector2()) ? false : true ;
 		}
 	};
 

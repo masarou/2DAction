@@ -39,32 +39,6 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 	m_textureLife.Init();
 	m_textureLife.m_pTex2D = Game2DBase::Create( "EnemyGauge.json" );
 	m_textureLife.m_pTex2D->UpdateDrawInfo().m_fileName = "EnemyGauge.json";
-
-	//// 敵の強さを求める
-	//uint32_t enemyLv = 0;
-	//switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
-	//default:
-	//	DEBUG_ASSERT( 0, "想定外のゲームの状態" );
-	//	/* fall-through */
-	//case GameRecorder::STATE_STAGE01:
-	//case GameRecorder::STATE_STAGE02:
-	//case GameRecorder::STATE_STAGE03:
-	//case GameRecorder::STATE_STAGE04:
-	//	m_enemyLv = 1;
-	//	break;
-	//case GameRecorder::STATE_STAGE05:
-	//case GameRecorder::STATE_STAGE06:
-	//case GameRecorder::STATE_STAGE07:
-	//case GameRecorder::STATE_STAGE08:
-	//	m_enemyLv = 2;
-	//	break;
-	//case GameRecorder::STATE_STAGE09:
-	//case GameRecorder::STATE_STAGE10:
-	//case GameRecorder::STATE_STAGE11:
-	//case GameRecorder::STATE_STAGE12:
-	//	m_enemyLv = 3;
-	//	break;
-	//}
 }
 
 EnemyBase::~EnemyBase()
@@ -79,17 +53,6 @@ bool EnemyBase::Init()
 	// 直前のAIがないので同じAIにしておく
 	m_prevAI	= Common::AI_SEARCHING;
 	m_nextAI	= Common::AI_SEARCHING;
-
-	// ボスなら専用AIへ
-	if( GetKind() == Common::ENEMY_KIND_BOSS ){
-		m_prevAI	= Common::AI_ATTACK_NEAR;
-		m_nextAI	= Common::AI_ATTACK_NEAR;
-	}
-	// スライムキングAIへ
-	else if( GetKind() == Common::ENEMY_KIND_SLIME_KING ){
-		m_prevAI	= Common::AI_ATTACK_NEAR;
-		m_nextAI	= Common::AI_ATTACK_NEAR;
-	}
 
 	if( !m_pEnemyAI ){
 		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
@@ -184,7 +147,7 @@ void EnemyBase::DrawUpdate()
  * @brief	他クラスからのイベント処理
  */
 /* ================================================ */
-void EnemyBase::EventUpdate( const Common::CMN_EVENT &eventId )
+void EnemyBase::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
 	default:
@@ -278,8 +241,12 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		m_HP -= damageValue;
 	}
 
+	uint32_t totalDamage = damageValue;
+	float rate = Utility::GetRandamValue( 125, 75 ) / 100.0f;
+	totalDamage *= rate;
+
 	//ダメージエフェクト作成
-	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
+	GameEffectDamage::GetInstance()->CreateEffectDamage( totalDamage
 		, static_cast<uint32_t>(m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.x)
 		, static_cast<uint32_t>(m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin.y));
 

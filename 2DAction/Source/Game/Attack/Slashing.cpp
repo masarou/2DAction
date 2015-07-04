@@ -123,7 +123,7 @@ void Slashing::DrawUpdate()
  * @brief	他クラスからのイベント処理
  */
 /* ================================================ */
-void Slashing::EventUpdate( const Common::CMN_EVENT &eventId )
+void Slashing::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
 	default:

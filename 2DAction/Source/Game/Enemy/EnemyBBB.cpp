@@ -35,7 +35,7 @@ bool EnemyBBB::InitMain()
  * @brief	他のクラスからのイベントコール
  */
 /* ================================================ */
-void EnemyBBB::EventUpdate( const Common::CMN_EVENT &eventId )
+void EnemyBBB::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	EnemyBase::EventUpdate( eventId );
 

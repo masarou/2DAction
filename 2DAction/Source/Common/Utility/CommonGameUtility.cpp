@@ -168,6 +168,18 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 
 /* ================================================ */
 /**
+ * @brief	第一引数から第二引数までのベクトルを求める(大きさは1)
+ */
+/* ================================================ */
+math::Vector2 GetDirAToB( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
+{
+	math::Vector2 vec = texB.m_posOrigin - texB.m_posOrigin;
+	vec.Normalize();
+	return vec;
+}
+
+/* ================================================ */
+/**
  * @brief	マップ上での所属空間を求める
  */
 /* ================================================ */

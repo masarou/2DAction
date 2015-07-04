@@ -124,7 +124,7 @@ const Common::TYPE_OBJECT ItemObject::GetTypeObject() const
  * @brief	ÉCÉxÉìÉgèàóù
  */
 /* ================================================ */
-void ItemObject::EventUpdate( const Common::CMN_EVENT &eventId )
+void ItemObject::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
 	case Common::EVENT_HIT_PLAYER:

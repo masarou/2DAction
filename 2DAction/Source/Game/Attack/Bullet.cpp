@@ -92,7 +92,7 @@ void Bullet::DrawUpdate()
  * @brief	他クラスからのイベント処理
  */
 /* ================================================ */
-void Bullet::EventUpdate( const Common::CMN_EVENT &eventId )
+void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
 	default:
@@ -102,6 +102,8 @@ void Bullet::EventUpdate( const Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_AAA:	// 敵に当たった
 	case Common::EVENT_HIT_ENEMY_BBB:
 	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_ENEMY_BOSS:
+	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 		if( m_ownerType == Common::OWNER_PLAYER ){
 			m_liveTime = m_liveTimeMax;
 			TaskStartDie();

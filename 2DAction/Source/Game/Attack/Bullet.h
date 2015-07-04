@@ -46,7 +46,7 @@ protected:
 	virtual void DrawUpdate() override;		// 描画更新
 
 	// ほかのクラスからのイベント処理
-	virtual void EventUpdate( const Common::CMN_EVENT &eventId ) override;
+	virtual void EventUpdate( Common::CMN_EVENT &eventId ) override;
 
 	// このクラスの種類セット
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override;

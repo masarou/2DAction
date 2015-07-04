@@ -213,11 +213,9 @@ void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
 void PowerUpMenu::UpdateCursorMove()
 {
 	if( GetSelectedNo() == SEELCT_ITEM ){
-		SetAnim( "selectStart", "default" );
 		SetAnim( "frame", "spot" );
 	}
 	else{
-		SetAnim( "selectStart", "spot" );
 		SetAnim( "frame", "idle" );
 	}
 }
