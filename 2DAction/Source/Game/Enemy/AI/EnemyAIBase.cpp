@@ -31,6 +31,9 @@ EnemyAIBase::EnemyAIBase(void)
 		AttackBlade::BladeState &bladeStatus = s_pAttackBlade->UpdateBladeState();
 		bladeStatus.m_damage = 20;
 	}
+
+	// AI‚ÌŠJnŠÔ‚ğ•Û‚µ‚Ä‚¨‚­
+	m_thisAIStartTime  = GetNowCount();
 }
 
 EnemyAIBase::~EnemyAIBase(void)
@@ -134,6 +137,11 @@ void EnemyAIBase::ClearAttackMaterial()
 	// ‹¤—L•¨‚ÉNULLİ’è(‰ğ•ú‚ÍTaskManager‚ªŸè‚É‚â‚é)
 	s_pAttackGun = NULL;
 	s_pAttackBlade = NULL;
+}
+
+uint32_t EnemyAIBase::GetSecStartThisAI(){
+	uint32_t retVal = GetNowCount() - m_thisAIStartTime;
+	return retVal / 1000;
 }
 
 /* ================================================ */

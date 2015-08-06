@@ -32,7 +32,7 @@ public:
 
 		void Init(){
 			m_damage	= SLASHING_DAMAGE_DEFAULT;
-			m_interval	= SLASHING_INTERBAL_DEFAULT;
+			m_interval	= 0;//SLASHING_INTERBAL_DEFAULT;
 		}
 	};
 

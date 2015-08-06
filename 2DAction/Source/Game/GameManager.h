@@ -20,6 +20,7 @@ public:
 	enum STAGE_TYPE{
 		TYPE_TIME,
 		TYPE_DESTROY,
+		TYPE_DESTROY_BOSS,
 
 		TYPE_MAX,
 	};
@@ -44,7 +45,7 @@ public:
 	// アイテム生成依頼
 	void CreateItem( const Common::ITEM_KIND &kind, const math::Vector2 &pos = math::Vector2() );
 	// 敵生成依頼
-	void CreateEnemy( const Common::ENEMY_KIND &kind, const uint32_t &level = 0 );
+	void CreateEnemy( const Common::ENEMY_KIND &kind, const uint32_t &level = 0, bool isForce = false, const math::Vector2 &enemyPos = DEFAULT_VECTOR2 );
 
 protected:
 
@@ -58,6 +59,11 @@ private:
 		uint32_t			m_level;		// 目安となる強さ
 		uint32_t			m_freequency;	// 出現頻度(すべての敵の中での出現割合%)
 		Common::ENEMY_KIND	m_kind;			// 種類
+		void Init(){
+			m_level = 0;
+			m_freequency = 0;
+			m_kind = Common::ENEMY_KIND_MAX;
+		}
 	};
 
 	GameManager( const Common::GAME_FLOW &currentKind );
@@ -80,6 +86,9 @@ private:
 	uint32_t		m_destroyNum;		// 現在までの敵殲滅数
 	uint32_t		m_destroyMax;		// ステージ終了までの敵殲滅数
 
+	// ステージがボス殲滅をクリア条件とする場合
+	std::vector<Common::ENEMY_KIND>	m_bossKindVec;	// ボスカウントする敵の種類
+
 	// ステージ環境周り変数
 	uint32_t		m_enemyMax;			// 最大出現敵数
 	uint32_t		m_enemyFrequency;	// 敵の出現率(10段階0~9)
@@ -89,6 +98,9 @@ private:
 
 	// 出現する敵情報
 	std::vector<ExistEnemyState>	m_enemyInfoVec;
+
+	// 最初に配置する敵情報(ボス等)
+	std::vector<ExistEnemyState>	m_initEnemyInfoVec;
 };
 
 #endif

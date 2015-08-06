@@ -110,7 +110,7 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 	picojson::value animData = root.get("animeInfo");
 	picojson::value null;
 	for( uint32_t i = 0;; ++i ){
-		if( animData.get(i) == null ){
+		if( animData == null || animData.get(i) == null ){
 			break;
 		}
 		ANIM_INFO data;

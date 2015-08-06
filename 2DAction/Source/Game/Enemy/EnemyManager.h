@@ -39,7 +39,7 @@ protected:
 
 private:
 
-	void AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel );		// “GƒLƒƒƒ‰¶¬
+	void AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );		// “GƒLƒƒƒ‰¶¬
 
 	EnemyManager(void);
 	~EnemyManager(void);

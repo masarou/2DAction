@@ -78,8 +78,8 @@ bool PlayerStatusMenu::Init()
 	// 連射速度レベル
 	drawInfo.Init();
 	m_rapidLevel.Init();
-	m_rapidLevel.m_pTex2D = Game2DBase::Create("NumberLv.json");
-	drawInfo.m_fileName = "NumberLv.json";
+	m_rapidLevel.m_pTex2D = Game2DBase::Create("NumberRitch.json");
+	drawInfo.m_fileName = "NumberRitch.json";
 	drawInfo.m_prioity = PRIORITY_HIGH;
 	drawInfo.m_posOrigin = GetPartsPos("itemLevel01");
 	drawInfo.m_usePlayerOffset = false;
@@ -88,8 +88,8 @@ bool PlayerStatusMenu::Init()
 	// 攻撃力レベル
 	drawInfo.Init();
 	m_danageLevel.Init();
-	m_danageLevel.m_pTex2D = Game2DBase::Create("NumberLv.json");
-	drawInfo.m_fileName = "NumberLv.json";
+	m_danageLevel.m_pTex2D = Game2DBase::Create("NumberRitch.json");
+	drawInfo.m_fileName = "NumberRitch.json";
 	drawInfo.m_prioity = PRIORITY_HIGH;
 	drawInfo.m_posOrigin = GetPartsPos("itemLevel02");
 	drawInfo.m_usePlayerOffset = false;

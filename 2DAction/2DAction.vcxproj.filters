@@ -68,6 +68,9 @@
     <Filter Include="System\Menu">
       <UniqueIdentifier>{8628adb3-56a3-44b0-84b4-5d668ddfb7e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Enemy\AI\SlimeKing">
+      <UniqueIdentifier>{91641e11-9033-4292-8dee-8be84ed0cf3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -304,6 +307,12 @@
     <ClInclude Include="Source\Flow\FlowMenuBase.h">
       <Filter>Flow</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.h">
+      <Filter>Game\Enemy\AI\SlimeKing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.h">
+      <Filter>Game\Enemy\AI\SlimeKing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -516,6 +525,12 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\FlowMenuBase.cpp">
       <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.cpp">
+      <Filter>Game\Enemy\AI\SlimeKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.cpp">
+      <Filter>Game\Enemy\AI\SlimeKing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

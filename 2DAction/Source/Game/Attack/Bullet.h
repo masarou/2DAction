@@ -18,7 +18,7 @@
 #include "System/Collision/SystemCollisionUnit.h"
 
 // ŒÅ’è’l
-static const uint32_t BULLET_LIVE_TIME_PLAYER	= 60;
+static const uint32_t BULLET_LIVE_TIME_PLAYER	= 40;
 static const uint32_t BULLET_LIVE_TIME_ENEMY	= 120;
 
 class Bullet : public TaskUnit, public Collision2DUnit

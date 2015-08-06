@@ -92,10 +92,10 @@ void FlowBase::LoadFlowFile()
 	picojson::value root;
 	picojson::parse( root, ifs);
 	
+	picojson::value null;
 	picojson::value sceneData = root.get("eventdata");
 	for(uint32_t i = 0;; ++i){
-		picojson::value null;
-		if(sceneData.get(i) == null){
+		if( sceneData == null || sceneData.get(i) == null){
 			break;
 		}
 		FLOW_DATA data;

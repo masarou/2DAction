@@ -90,11 +90,11 @@ const bool GameRecorder::IsUserClear( const STATE_OF_PROGRESS &stage ) const
 	return ( ratio == 0.0f ) ? false : true ;
 }
 
-void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
+void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 {
 	uint32_t addValue = 0;
+	uint32_t rate = tmpInfo + 1;
 	switch( kind ){
-
 	default:
 	case POINT_MAX:
 		DEBUG_ASSERT( 0, "スコア加算の種類がおかしい" );
@@ -112,9 +112,11 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind )
 		addValue = 300000;
 		break;
 	case ENEMY_SLIME_KING_DEATH:
-		addValue = 300000;
+		addValue = 20000;
 		break;
 	}
+	addValue *= rate;
+
 	m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userScore += addValue;
 
 	++m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_scoreDetail[static_cast<uint32_t>(kind)];
@@ -229,6 +231,53 @@ uint32_t GameRecorder::GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage ) c
 		comboNum = m_clearStageInfo[static_cast<uint32_t>(stage)].m_hitComboMaxOfStage;
 	}
 	return comboNum;
+}
+
+
+void GameRecorder::SetClearBattlePoint( const uint32_t &score, const uint32_t &point, const STATE_OF_PROGRESS &stage )
+{
+	BATTLE_POINT_INFO info = { score, point };
+	if( stage == STATE_MAX ){
+		m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_clearPoint.push_back( info );
+	}
+	else{
+		m_clearStageInfo[static_cast<uint32_t>(stage)].m_clearPoint.push_back( info );
+	}
+}
+
+uint32_t GameRecorder::GetClearBattlePoint( const uint32_t &point, const STATE_OF_PROGRESS &stage ) const
+{
+	// 指定されたポイントから、取得できるバトルポイントを求める
+	STATE_OF_PROGRESS flowState = STATE_MAX;
+	if( stage == STATE_MAX ){
+		flowState = m_gameState;
+	}
+	else{
+		flowState = stage;
+	}
+
+	uint32_t diff = 0;
+	uint32_t retVal = 0;
+	for( uint32_t i = 0; i < m_clearStageInfo[static_cast<uint32_t>(flowState)].m_clearPoint.size();++i ){
+		if( m_clearStageInfo[static_cast<uint32_t>(flowState)].m_clearPoint.at(i).m_scoreUnder < point ){
+			uint32_t tmpDiff = point - m_clearStageInfo[static_cast<uint32_t>(flowState)].m_clearPoint.at(i).m_scoreUnder;
+			if( diff == 0 || tmpDiff < diff ){
+				retVal = m_clearStageInfo[static_cast<uint32_t>(flowState)].m_clearPoint.at(i).m_battlePoint;
+				diff = tmpDiff;
+			}
+		}
+	}
+	return retVal;
+}
+
+uint32_t GameRecorder::GetClearBattlePointAll() const
+{
+	uint32_t retVal = 0;
+	for( uint32_t i = 0 ; i < STATE_MAX ; ++i ){
+		STATE_OF_PROGRESS stage = static_cast< STATE_OF_PROGRESS >(i);
+		retVal += GetClearBattlePoint( GetStageScore( stage ), stage );
+	}
+	return retVal;
 }
 
 // コンボ継続有効時間取得

@@ -53,6 +53,9 @@ public:
 	// 攻撃クラス解放
 	static void ClearAttackMaterial();
 
+	// このAIになってからの経過時間を取得( 1000 = 1s )
+	uint32_t GetSecStartThisAI();
+
 protected:
 	
 	EnemyAIBase();
@@ -70,7 +73,8 @@ protected:
 
 private:
 	
-	bool		m_isReady;		// 思考準備が終了したかどうか
-	EnemyBase	*m_enemyMine;	// 現在の自分の状態を知るために保持しておく
+	uint32_t	m_thisAIStartTime;	// このAIに切り替わってからの時間
+	bool		m_isReady;			// 思考準備が終了したかどうか
+	EnemyBase	*m_enemyMine;		// 現在の自分の状態を知るために保持しておく
 };
 #endif

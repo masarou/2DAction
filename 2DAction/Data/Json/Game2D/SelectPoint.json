@@ -10,7 +10,7 @@
 	],
 	
 	"animeInfo":[
-		{"animTag":"idle",		"frameSpeed":10,	"animIndex":[0],	"nextAnim":"idle"},
-		{"animTag":"select",	"frameSpeed":10,	"animIndex":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],	"nextAnim":"select"}
+		{"animTag":"idle",		"frameSpeed":100,	"animIndex":[0],	"nextAnim":"idle"},
+		{"animTag":"select",	"frameSpeed":5,	"animIndex":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],	"nextAnim":"select"}
 	]	
 }

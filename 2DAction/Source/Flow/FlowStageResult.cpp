@@ -108,6 +108,12 @@ void ResultStageMenu::UpdateMenu()
 			pCounter = GetPartsCounter( "total" );
 		}
 		break;
+	case DISP_BATTLEPOINT:
+		
+		{
+			pCounter = GetPartsCounter( "battlepoint" );
+		}
+		break;
 	case DISP_ALL:
 
 		break;
@@ -173,11 +179,11 @@ uint32_t ResultStageMenu::GetStageClearBonus() const
 	uint32_t stageComboMax = GameRecorder::GetInstance()->GetMaxComboNumOfStage();
 
 	enum SCORE_STAGE {
-		SCORE_01 = 100,
-		SCORE_02 = 200,
-		SCORE_03 = 300,
-		SCORE_04 = 400,
-		SCORE_05 = 500,
+		SCORE_01 = 50,
+		SCORE_02 = 100,
+		SCORE_03 = 120,
+		SCORE_04 = 150,
+		SCORE_05 = 200,
 	};
 	SCORE_STAGE scoreStage = SCORE_01;
 	for( uint32_t i = 0; i < stageComboMax ; ++i ){
@@ -269,13 +275,28 @@ bool ResultStageMenu::ChangeDispStateNext()
 				pCounterTotal->CountAnimEnd();
 			}
 
+			PartsCounter *pCounterBP = GetPartsCounter( "battlepoint" );
+			if( pCounterBP ){
+				pCounterBP->AddValue( GameRecorder::GetInstance()->GetClearBattlePoint( pCounterTotal->GetValue() ) );
+			}
+
+			// battlePointの表示へ
+			m_dispState = DISP_BATTLEPOINT;
+		}
+		break;
+	case DISP_BATTLEPOINT:
+		{
+			// カウントアニメ終了
+			PartsCounter *pCounterBP = GetPartsCounter( "battlepoint" );
+			if( pCounterBP ){
+				pCounterBP->CountAnimEnd();
+			}
+
 			// ここで求めたボーナスをステージスコアに加算
 			PartsCounter *pCounterBonus = GetPartsCounter( "bonus" );
 			if( pCounterBonus ){
 				GameRecorder::GetInstance()->AddScoreBonus( pCounterBonus->GetValue() );
 			}
-
-			// 表示完了
 			m_dispState = DISP_ALL;
 		}
 		break;

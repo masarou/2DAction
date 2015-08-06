@@ -177,8 +177,8 @@ void Slashing::GetHitFrame()
 	picojson::parse( root, ifs);
 
 	picojson::value sceneData = root.get("hitInfo");
+	picojson::value null;
 	for( uint32_t i = 0;; ++i ){
-		picojson::value null;
 		if( sceneData.get(0).get("hitFrame").get(i) == null ){
 			break;
 		}

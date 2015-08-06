@@ -1,0 +1,14 @@
+{
+	"partsInfo":[
+		{"partsName":"0",	"loadJson":"NumberMiddle.json",	"x": -32,	"y": 0},
+		{"partsName":"1",	"loadJson":"NumberMiddle.json",	"x": -95,	"y": 0},
+		{"partsName":"2",	"loadJson":"NumberMiddle.json",	"x": -158,	"y": 0},
+		{"partsName":"3",	"loadJson":"NumberMiddle.json",	"x": -221,	"y": 0},
+		{"partsName":"4",	"loadJson":"NumberMiddle.json",	"x": -284,	"y": 0},
+		{"partsName":"5",	"loadJson":"NumberMiddle.json",	"x": -347,	"y": 0},
+		{"partsName":"6",	"loadJson":"NumberMiddle.json",	"x": -410,	"y": 0},
+		{"partsName":"7",	"loadJson":"NumberMiddle.json",	"x": -473,	"y": 0},
+		{"partsName":"8",	"loadJson":"NumberMiddle.json",	"x": -536,	"y": 0},
+		{"partsName":"9",	"loadJson":"NumberMiddle.json",	"x": -599,	"y": 0}
+	]
+}

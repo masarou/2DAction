@@ -171,10 +171,10 @@ void SoundManager::ChangeLoadTableMain( const std::string &tableStr, const bool 
 	picojson::value root;
 	picojson::parse( root, ifs);
 	
+	picojson::value null;
 	picojson::value sceneData = root.get("soundTable");
 	for(uint32_t i = 0;; ++i){
-		picojson::value null;
-		if(sceneData.get(i) == null){
+		if( sceneData == null || sceneData.get(i) == null){
 			break;
 		}
 		SOUND_INFO data;

@@ -221,7 +221,11 @@ void GamePlayer::UpdateMove( math::Vector2 &moveVec, bool isForce )
 {
 	// ŽaŒ‚UŒ‚’†‚È‚çˆÚ“®‚Å‚«‚È‚¢
 	if( m_attackBlade && !isForce && m_attackBlade->IsSlashingAnimPlay() ){
-		return;
+		moveVec /= 2.0f;
+		if( moveVec.GetLength() < pow( static_cast<double>(2), static_cast<double>(2) ) ){
+			moveVec.Normalize();
+			moveVec = moveVec * 2.0f;
+		}
 	}
 
 	//if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){

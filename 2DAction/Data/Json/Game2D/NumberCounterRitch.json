@@ -1,0 +1,14 @@
+{
+	"partsInfo":[
+		{"partsName":"0",	"loadJson":"NumberRitch.json",	"x": -24,	"y": 0},
+		{"partsName":"1",	"loadJson":"NumberRitch.json",	"x": -72,	"y": 0},
+		{"partsName":"2",	"loadJson":"NumberRitch.json",	"x": -120,	"y": 0},
+		{"partsName":"3",	"loadJson":"NumberRitch.json",	"x": -168,	"y": 0},
+		{"partsName":"4",	"loadJson":"NumberRitch.json",	"x": -216,	"y": 0},
+		{"partsName":"5",	"loadJson":"NumberRitch.json",	"x": -264,	"y": 0},
+		{"partsName":"6",	"loadJson":"NumberRitch.json",	"x": -312,	"y": 0},
+		{"partsName":"7",	"loadJson":"NumberRitch.json",	"x": -360,	"y": 0},
+		{"partsName":"8",	"loadJson":"NumberRitch.json",	"x": -408,	"y": 0},
+		{"partsName":"9",	"loadJson":"NumberRitch.json",	"x": -456,	"y": 0}
+	]
+}

@@ -17,6 +17,8 @@
 #include "Game/Enemy/AI/EnemyAITackle.h"
 #include "Game/Enemy/AI/EnemyAIShoot.h"
 #include "Game/Enemy/AI/Boss/AIBossNearAttack.h"
+#include "Game/Enemy/AI/SlimeKing/AISlimeKingSearching.h"
+#include "Game/Enemy/AI/SlimeKing/AISlimeKingTackle.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
@@ -333,6 +335,12 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 		break;
 	case Common::AI_ATTACK_NEAR:	// 遠距離攻撃(遠距離攻撃)
 		pRetAI = AIBossNearAttack::Create();
+		break;
+	case Common::AI_SEARCHING_SLIME_KING:	// スライムキングプレイヤー探索
+		pRetAI = AISlimeKingSearching::Create();
+		break;
+	case Common::AI_MOVE_PLAYER_SLIME_KING:	// スライムキングプレイヤーへ移動
+		pRetAI = AISlimeKingTackle::Create();
 		break;
 	}
 	return pRetAI;

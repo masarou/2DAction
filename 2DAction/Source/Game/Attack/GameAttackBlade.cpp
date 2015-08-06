@@ -48,7 +48,7 @@ void AttackBlade::MessageReceive( const Message &msg )
 
 /* ================================================ */
 /**
-/ * @brief	äeéÌUpdateä÷êî
+/ * @brief	éaåÇê∂ê¨
 / */
 /* ================================================ */
 void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type )

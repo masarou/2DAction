@@ -11,13 +11,13 @@
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 
-EnemyBBB *EnemyBBB::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID )
+EnemyBBB *EnemyBBB::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
 {
-	return NEW EnemyBBB( enemyLevel, uniqueID );
+	return NEW EnemyBBB( enemyLevel, uniqueID, enemyPos );
 }
 
-EnemyBBB::EnemyBBB( const uint32_t &enemyLevel, const uint32_t &uniqueID )
-: EnemyBase( "EnemyAhriman.json", uniqueID, Common::ENEMY_KIND_BBB, enemyLevel )
+EnemyBBB::EnemyBBB( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
+: EnemyBase( "EnemyAhriman.json", uniqueID, Common::ENEMY_KIND_BBB, enemyLevel, enemyPos )
 {
 }
 
@@ -41,12 +41,12 @@ void EnemyBBB::EventUpdate( Common::CMN_EVENT &eventId )
 
 }
 
-uint32_t EnemyBBB::GetEnemyDefaultHP() const
+uint32_t const EnemyBBB::GetEnemyDefaultHP() const
 {
 	return 100 + ( 100 * ( GetEnemyLevel() - 1 ) );
 }
 
-uint32_t EnemyBBB::GetEnemyDefaultSPD() const
+uint32_t const EnemyBBB::GetEnemyDefaultSPD() const
 {
 	return 1 + ( GetEnemyLevel() / 3 );
 }

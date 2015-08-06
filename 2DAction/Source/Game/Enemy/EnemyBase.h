@@ -41,7 +41,7 @@ public:
 
 protected:
 
-	EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel );
+	EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel, const math::Vector2 &enemyPos = DEFAULT_VECTOR2 );
 
 	virtual bool Init() override;						// 初期化
 	virtual bool InitMain(){ return true; }				// 派生先での初期化
@@ -55,8 +55,9 @@ protected:
 	virtual void HitPlayreSlashing( const uint32_t &damageValue );// 斬撃が当たった時の処理
 
 	// 派生先でセットする関数
-	virtual uint32_t GetEnemyDefaultHP() const{return 10;}	// 敵クラスのデフォルトHP取得
-	virtual uint32_t GetEnemyDefaultSPD() const{return 1;}	// 敵クラスのデフォルトSPD取得
+	virtual const uint32_t GetEnemyDefaultHP() const{return 10;}	// 敵クラスのデフォルトHP取得
+	virtual const uint32_t GetEnemyDefaultSPD() const{return 1;}	// 敵クラスのデフォルトSPD取得
+	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING;}	// 敵クラスのデフォルトSPD取得
 
 	// このクラスの種類セット
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override = 0;

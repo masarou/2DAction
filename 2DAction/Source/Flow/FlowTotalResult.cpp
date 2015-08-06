@@ -63,7 +63,7 @@ void FlowTotalResult::RecordGameResult()
 		UpdateSortRanking( updateData );
 
 		// 取得したバトルポイントを反映させる
-		updateData.m_battlePoint = 10*GameRecorder::GetInstance()->GetItemCount( Common::ITEM_KIND_BATTLE_POINT );
+		updateData.m_battlePoint = GameRecorder::GetInstance()->GetClearBattlePointAll();
 	}
 	
 	// セーブデータ上書き

@@ -10,6 +10,7 @@
 #include "System/SystemDefine.h"
 #include "GameManager.h"
 #include "GameRegister.h"
+#include "GameRecorder.h"
 #include "System/picojson.h"
 #include "Common/Utility/CommonGameUtility.h"
 
@@ -90,6 +91,10 @@ bool GameManager::DieMain()
 
 bool GameManager::Init()
 {
+	// 初期配置に設定されている敵キャラを生成
+	for( uint32_t i = 0; i < m_initEnemyInfoVec.size(); ++i ){
+		CreateEnemy( m_initEnemyInfoVec.at(i).m_kind, m_initEnemyInfoVec.at(i).m_kind, true );
+	}
 	return true;
 }
 
@@ -108,6 +113,13 @@ bool GameManager::IsGameOver() const
 	}
 	else if( m_type == TYPE_DESTROY ){
 		if( m_destroyNum >= m_destroyMax ){
+			retVal = true;
+		}
+	}
+	else if( m_type == TYPE_DESTROY_BOSS ){
+		EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
+		if( pEnemyManager
+			&& pEnemyManager->CountEnemy( Common::ENEMY_KIND_BOSS) + pEnemyManager->CountEnemy( Common::ENEMY_KIND_SLIME_KING) == 0 ){
 			retVal = true;
 		}
 	}
@@ -176,10 +188,10 @@ const uint32_t GameManager::GetGameLeftDestroy() const
 /* ================================================ */
 void GameManager::CreateItem( const Common::ITEM_KIND &kind, const math::Vector2 &pos )
 {
-	//if( IsCreateItem( m_itemMax ) ){
+	if( IsCreateItem( m_itemMax ) ){
 		ItemManager *pItemManager = GameRegister::GetInstance()->UpdateManagerItem();
 		pItemManager->CreateItem( kind, pos );
-	//}
+	}
 }
 
 /* ================================================ */
@@ -187,11 +199,11 @@ void GameManager::CreateItem( const Common::ITEM_KIND &kind, const math::Vector2
  * @brief	敵生成依頼
  */
 /* ================================================ */
-void GameManager::CreateEnemy( const Common::ENEMY_KIND &kind, const uint32_t &level )
+void GameManager::CreateEnemy( const Common::ENEMY_KIND &kind, const uint32_t &level, bool isForce, const math::Vector2 &enemyPos )
 {
-	if( IsCreateEnemy( m_enemyMax ) ){
+	if( IsCreateEnemy( m_enemyMax ) || isForce ){
 		EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
-		pEnemyManager->AddEnemy( kind, level );
+		pEnemyManager->AddEnemy( kind, level, enemyPos );
 	}
 }
 
@@ -218,7 +230,7 @@ void GameManager::Update()
 	}
 	// アイテムの生成
 	if( IsCreateItem( m_itemMax, m_itemFrequency ) ){
-		uint32_t kind = Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 );
+		uint32_t kind = Utility::GetRandamValue( Common::ITEM_KIND_BATTLE_POINT-1, 0 );
 		CreateItem( static_cast<Common::ITEM_KIND>(kind) );
 	}
 }
@@ -260,7 +272,38 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	//!基本となる情報取得
 	picojson::value stageData = root.get("stageKind");
 	std::string typeStr = stageData.get(0).get("type").get<std::string>();
-	m_type	= ( typeStr == "DESTROY" ? TYPE_DESTROY : TYPE_TIME );
+	if( typeStr.compare("TIME") == 0 ){
+		m_type = TYPE_TIME;
+	}
+	else if( typeStr.compare("DESTROY") == 0 )
+	{
+		m_type = TYPE_DESTROY;
+	}
+	else if( typeStr.compare("DESTROY_BOSS") == 0 )
+	{
+		m_type = TYPE_DESTROY_BOSS;
+		picojson::value bossData = root.get("bossInfo");
+		picojson::value null;
+		for(uint32_t i = 0;; ++i){
+			if( bossData == null || bossData.get(i) == null){
+				break;
+			}
+			
+			// ボスカウントする敵の種類を取得
+			Common::ENEMY_KIND kind = GetEnemyKindFromStr( bossData.get(i).get("enemyKind").get<std::string>() );
+			m_bossKindVec.push_back( kind );
+
+			// 初期配置するボス情報セット
+			uint32_t enemyIndex = static_cast<uint32_t>( bossData.get(i).get("num").get<double>() );
+			for( uint32_t j = 0; j < enemyIndex; ++j ){
+				ExistEnemyState enemyState;
+				enemyState.Init();
+				enemyState.m_kind = kind;
+				enemyState.m_level = static_cast<uint32_t>( bossData.get(i).get("level").get<double>() );
+				m_initEnemyInfoVec.push_back( enemyState );
+			}
+		}
+	}
 	m_gameTimeMax	= static_cast<uint32_t>(stageData.get(1).get("TimeS").get<double>());
 	m_destroyMax	= static_cast<uint32_t>(stageData.get(2).get("destroyMax").get<double>());
 	m_gameTimeMax *= 60;
@@ -276,7 +319,7 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	picojson::value null;
 	uint32_t totalFreequency = 0;	// 出現係数のトータル
 	for( uint32_t i = 0 ;; ++i ){
-		if( enemyData.get(i) == null ){
+		if( enemyData == null || enemyData.get(i) == null ){
 			break;
 		}
 		ExistEnemyState eneInfo;
@@ -302,6 +345,17 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	}
 	if( m_itemFrequency > OBJECT_FREQUECY_MAX ){
 		m_itemFrequency = OBJECT_FREQUECY_MAX;
+	}
+
+	// 取得できるバトルポイント情報
+	picojson::value pointData = root.get("pointInfo");
+	for( uint32_t i = 0 ;; ++i ){
+		if( pointData == null || pointData.get(i) == null ){
+			break;
+		}
+		uint32_t score = static_cast<uint32_t>(pointData.get(i).get("score").get<double>());
+		uint32_t point = static_cast<uint32_t>(pointData.get(i).get("value").get<double>());
+		GameRecorder::GetInstance()->SetClearBattlePoint( score, point );
 	}
 }
 
@@ -354,7 +408,7 @@ bool GameManager::IsCreateItem( uint32_t itemLimit, uint32_t frequency )
 {
 	bool isCreate = false;
 	ItemManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerItem();	
-	// 敵の生成
+	// アイテムの生成
 	if( pEnemyManager ){
 		uint32_t currItem = pEnemyManager->CountItem();
 		if( currItem <= itemLimit ){

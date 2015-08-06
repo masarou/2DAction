@@ -40,6 +40,8 @@
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAISearch.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIShoot.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAITackle.cpp" />
+    <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.cpp" />
+    <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyBase.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyBBB.cpp" />
@@ -115,6 +117,8 @@
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAISearch.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIShoot.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAITackle.h" />
+    <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.h" />
+    <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAAA.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyBase.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyBBB.h" />

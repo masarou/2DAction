@@ -53,7 +53,6 @@ PowerUpMenu::PowerUpMenu( const std::string &fileName )
 {
 	// セーブデータロード
 	Utility::GetSaveData( m_loadData );
-	m_loadData.m_battlePoint += 1000;
 }
 
 PowerUpMenu::~PowerUpMenu(void)
@@ -89,9 +88,11 @@ bool PowerUpMenu::InitMenu()
 	}
 
 	// 固定値の最大Lvだけセットしておく
-	PartsCounter *pCounter = GetPartsCounter( "levelMax" );
-	if( pCounter ){
-		pCounter->AddValue( 9 );
+	// 現在レベルセット
+	PartsCounter *pPartsMaxLevel = GetPartsCounter("levelMax");
+	if( pPartsMaxLevel ){
+		pPartsMaxLevel->SetValue( 10 );
+		pPartsMaxLevel->SetCountAnimFlg( false );
 	}
 
 	// 画面描画更新
@@ -168,7 +169,11 @@ void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
 	}
 
 	// 現在レベルセット
-	SetAnim( "currLevel", currentLv+1 );
+	PartsCounter *pPartsCurrLevel = GetPartsCounter("currLevel");
+	if( pPartsCurrLevel ){
+		pPartsCurrLevel->SetValue( currentLv+1 );
+		pPartsCurrLevel->SetCountAnimFlg( false );
+	}
 
 	// 次のLvまでのポイントセット
 	PartsCounter *pPartsPointToNext = GetPartsCounter("nextPoint");
@@ -365,8 +370,13 @@ std::string PowerUpMenu::GetExplanationStr( const Common::PLAYER_BASE_STATE &kin
 /* ================================================ */
 uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind, uint32_t currLevel )
 {
-	std::string retStr = "";
-	uint32_t levelMax = 8; // 表示的には9
+	
+	static const uint32_t levelPointTable[] = {
+		10,20,30,40,50,60,70,80,90,100
+	};
+
+	uint32_t retVal = levelPointTable[currLevel];
+	uint32_t levelMax = 9; // 表示的には9
 
 	switch( kind ){
 	case Common::BASE_STATE_LIFE:		// ライフの最大値を決める
@@ -393,5 +403,5 @@ uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind
 		return INVALID_VALUE;
 	}
 
-	return (currLevel+1) * 10;
+	return retVal;
 }

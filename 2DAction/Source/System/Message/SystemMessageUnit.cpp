@@ -57,6 +57,12 @@ void SystemMessageUnit::PushEvent( const Common::CMN_EVENT &eventInfo )
 /* ================================================ */
 void SystemMessageUnit::StartEventAction()
 {
+	// 積まれたイベントをこのタイミングでpush
+	for( uint32_t i = 0; i < m_nextEventVec.size() ; ++i ){
+		m_eventVec.push_back( m_nextEventVec.at(i) );
+	}
+	m_nextEventVec.clear();
+
 	auto it = m_eventVec.begin();
 	for( uint32_t i = 0; it != m_eventVec.end() ; ++i ){
 		if( (*it).m_delayTime == 0 ){
@@ -69,10 +75,4 @@ void SystemMessageUnit::StartEventAction()
 			++it;
 		}
 	}
-
-	// 積まれたイベントをこのタイミングでpush
-	for( uint32_t i = 0; i < m_nextEventVec.size() ; ++i ){
-		m_eventVec.push_back( m_nextEventVec.at(i) );
-	}
-	m_nextEventVec.clear();
 }

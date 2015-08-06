@@ -53,12 +53,23 @@ public:
 		STATE_MAX,
 	};
 
+	struct BATTLE_POINT_INFO{
+		uint32_t m_scoreUnder;
+		uint32_t m_battlePoint;
+
+		void Init(){
+			m_scoreUnder = 0;
+			m_battlePoint = 0;
+		}
+	};
+
 	struct STAGE_CLEAR_INFO{
 		float		m_userLifeRatio;				// ユーザーライフの残り割合
 		uint32_t	m_userScore;					// クリア時のスコア
 		uint32_t	m_bonusScore;					// ボーナススコア
 		uint32_t	m_hitComboMaxOfStage;			// 各ステージの最大Hit数	
 		uint32_t	m_scoreDetail[POINT_MAX];		// スコア詳細
+		std::vector< BATTLE_POINT_INFO > m_clearPoint;				// クリアー時に貰えるバトルポイント
 
 		void Init(){
 			m_userLifeRatio			= 0.0f;
@@ -68,6 +79,7 @@ public:
 			for( uint32_t i = 0; i < NUMBEROF(m_scoreDetail) ;++i ){
 				m_scoreDetail[i] = 0;
 			}
+			m_clearPoint.clear();
 		}
 	};
 
@@ -86,7 +98,7 @@ public:
 	const bool IsUserClear( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
 
 	// スコアの加算と取得 GetScoreは引数なしなら直近のステージスコアを返す
-	void ScoreEvent( const SCORE_KIND &kind );
+	void ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo = 0 );
 	void AddScoreBonus( uint32_t bonusScore, const STATE_OF_PROGRESS &stage = STATE_MAX );
 	const int32_t GetScore( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
 	const int32_t GetScoreBonus( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
@@ -104,6 +116,13 @@ public:
 
 	// 各ステージの最大コンボ数取得
 	uint32_t GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
+
+	// 各ステージクリア時に貰えるバトルポイントの情報
+	void SetClearBattlePoint( const uint32_t &score, const uint32_t &point, const STATE_OF_PROGRESS &stage = STATE_MAX );
+	uint32_t GetClearBattlePoint( const uint32_t &point, const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
+
+	// 保存されているすべてのシーンの取得ポイントを返す
+	uint32_t GetClearBattlePointAll() const;
 
 	// コンボ継続有効時間取得
 	uint32_t GetLeftTimeOfCombo() const;

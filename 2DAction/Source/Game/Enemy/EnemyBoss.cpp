@@ -42,3 +42,11 @@ EnemySlimeKing::EnemySlimeKing( const uint32_t &uniqueID )
 EnemySlimeKing::~EnemySlimeKing(void)
 {
 }
+
+const uint32_t EnemySlimeKing::GetEnemyDefaultSPD() const
+{
+	if( m_pEnemyAI && m_pEnemyAI->GetAIKind() == Common::AI_MOVE_PLAYER_SLIME_KING ){
+		return 3;
+	}
+	return 1;
+}

@@ -1,17 +1,17 @@
 {
 	"partsInfo":[
-		{"partsName":"frame",		"loadJson":"PowerUpFrame.json",		"x": 640,	"y": 360},
-		{"partsName":"itemImage",	"loadJson":"ItemImage.json",		"partsType":"PARTS_SINGLE_DRAW",	"x": 410,	"y": 260},
-		{"partsName":"levelMax",	"loadJson":"NumberLarge.json",		"x": 960,	"y": 256},
-		{"partsName":"currLevel",	"loadJson":"NumberLarge.json",		"x": 800,	"y": 256},
-		{"partsName":"nextPoint",	"loadJson":"NumberCounter.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 955,	"y": 347},
-		{"partsName":"currPoint",	"loadJson":"NumberCounter.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 645},
-		{"partsName":"decisionUp",	"loadJson":"DecisionPowerUp.json",	"x": 990,	"y": 640},
-		{"partsName":"point0",		"loadJson":"SelectPoint.json",		"x": 480,	"y": 70},
-		{"partsName":"point1",		"loadJson":"SelectPoint.json",		"x": 544,	"y": 70},
-		{"partsName":"point2",		"loadJson":"SelectPoint.json",		"x": 608,	"y": 70},
-		{"partsName":"point3",		"loadJson":"SelectPoint.json",		"x": 672,	"y": 70},
-		{"partsName":"point4",		"loadJson":"SelectPoint.json",		"x": 736,	"y": 70},
-		{"partsName":"point5",		"loadJson":"SelectPoint.json",		"x": 800,	"y": 70}
+		{"partsName":"frame",		"loadJson":"PowerUpFrame.json",			"x": 640,	"y": 360},
+		{"partsName":"itemImage",	"loadJson":"ItemImage.json",			"partsType":"PARTS_SINGLE_DRAW",	"x": 410,	"y": 260},
+		{"partsName":"levelMax",	"loadJson":"NumberCounterMiddle.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 1000,	"y": 256},
+		{"partsName":"currLevel",	"loadJson":"NumberCounterMiddle.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 850,	"y": 256},
+		{"partsName":"nextPoint",	"loadJson":"NumberCounter.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 955,	"y": 347},
+		{"partsName":"currPoint",	"loadJson":"NumberCounterRitch.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 1080,	"y": 665},
+		{"partsName":"decisionUp",	"loadJson":"DecisionPowerUp.json",		"x": 990,	"y": 660},
+		{"partsName":"point0",		"loadJson":"SelectPoint.json",			"x": 480,	"y": 70},
+		{"partsName":"point1",		"loadJson":"SelectPoint.json",			"x": 544,	"y": 70},
+		{"partsName":"point2",		"loadJson":"SelectPoint.json",			"x": 608,	"y": 70},
+		{"partsName":"point3",		"loadJson":"SelectPoint.json",			"x": 672,	"y": 70},
+		{"partsName":"point4",		"loadJson":"SelectPoint.json",			"x": 736,	"y": 70},
+		{"partsName":"point5",		"loadJson":"SelectPoint.json",			"x": 800,	"y": 70}
 	]
 }

@@ -48,19 +48,19 @@ bool EnemyManager::DieMain()
  * @brief	ìGÉNÉâÉXÇÃí«â¡Ç∆èúäO
  */
 /* ================================================ */
-void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel )
+void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	static uint32_t currUniqueNo = 0;
 	EnemyBase *pEnemy = NULL;
 	switch( kind ){
 	case Common::ENEMY_KIND_AAA:
-		pEnemy = EnemyAAA::Create( enemyLevel, currUniqueNo );
+		pEnemy = EnemyAAA::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_BBB:
-		pEnemy = EnemyBBB::Create( enemyLevel, currUniqueNo );
+		pEnemy = EnemyBBB::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_CCC:
-		pEnemy = EnemyCCC::Create( enemyLevel, currUniqueNo );
+		pEnemy = EnemyCCC::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_BOSS:
 		pEnemy = EnemyBoss::Create( currUniqueNo );

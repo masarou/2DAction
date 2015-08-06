@@ -153,11 +153,12 @@ namespace Common{
 		AI_SHOOTING,	// 遠距離攻撃(遠距離攻撃)
 
 		// 以下、ボス用AI
-		AI_MOVING_WAYPOINT,	// 目的地に移動
-		AI_ATTACK_NEAR,		// 斬撃(近距離攻撃)
-		AI_ATTACK_MIDDLE,	// 弾発射(中距離攻撃)
-		AI_ATTACK_FAR,		// 爆発魔法(遠距離攻撃)
-		AI_CREATE_ENEMY,	// 敵キャラ生成
+		AI_MOVING_WAYPOINT,		// 目的地に移動
+		AI_ATTACK_NEAR,			// 斬撃(近距離攻撃)
+		AI_ATTACK_MIDDLE,		// 弾発射(中距離攻撃)
+		AI_ATTACK_FAR,			// 爆発魔法(遠距離攻撃)
+		AI_SEARCHING_SLIME_KING,// プレイヤー探索(スライムキング)
+		AI_MOVE_PLAYER_SLIME_KING,// プレイヤーに近づく(スライムキング)
 
 		AI_MAX,
 	};

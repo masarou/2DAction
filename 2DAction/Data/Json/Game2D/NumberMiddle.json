@@ -1,0 +1,27 @@
+{
+	"basicInfo":[
+		{"fileName":"NumberMiddle.png"
+		, "animDefault":"9"
+		, "sizeW": 63
+		, "sizeH": 48
+		, "splitW": 10
+		, "splitH": 1
+		, "total": 10 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"0",	"frameSpeed":10,	"animIndex":[0],	"nextAnim":"0"},
+		{"animTag":"1",	"frameSpeed":10,	"animIndex":[1],	"nextAnim":"1"},
+		{"animTag":"2",	"frameSpeed":10,	"animIndex":[2],	"nextAnim":"2"},
+		{"animTag":"3",	"frameSpeed":10,	"animIndex":[3],	"nextAnim":"3"},
+		{"animTag":"4",	"frameSpeed":10,	"animIndex":[4],	"nextAnim":"4"},
+		{"animTag":"5",	"frameSpeed":10,	"animIndex":[5],	"nextAnim":"5"},
+		{"animTag":"6",	"frameSpeed":10,	"animIndex":[6],	"nextAnim":"6"},
+		{"animTag":"7",	"frameSpeed":10,	"animIndex":[7],	"nextAnim":"7"},
+		{"animTag":"8",	"frameSpeed":10,	"animIndex":[8],	"nextAnim":"8"},
+		{"animTag":"9",	"frameSpeed":10,	"animIndex":[9],	"nextAnim":"9"}
+	],
+	
+	"partsInfo":[
+	]
+}

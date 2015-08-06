@@ -232,7 +232,7 @@ void GameMap::LoadMapInfo(const char *jsonFile)
 	for(uint32_t i = 0;; ++i){
 		std::string indexStr = std::to_string( static_cast<long double>(i) );
 		picojson::value null;
-		if(tileproperties.get(indexStr) == null){
+		if( tileproperties == null || tileproperties.get(indexStr) == null){
 			break;
 		}
 		TILE_INFO tileInfo; 

@@ -18,7 +18,7 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 
-EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel )
+EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 : TaskUnit("Enemy")
 , Collision2DUnit( jsonName.c_str() )
 , m_uniqueIdOfEnemyAll( uniqueId )
@@ -39,6 +39,8 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 	m_textureLife.Init();
 	m_textureLife.m_pTex2D = Game2DBase::Create( "EnemyGauge.json" );
 	m_textureLife.m_pTex2D->UpdateDrawInfo().m_fileName = "EnemyGauge.json";
+
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = enemyPos;
 }
 
 EnemyBase::~EnemyBase()
@@ -51,21 +53,23 @@ bool EnemyBase::Init()
 	m_speed		= GetEnemyDefaultSPD();
 
 	// 直前のAIがないので同じAIにしておく
-	m_prevAI	= Common::AI_SEARCHING;
-	m_nextAI	= Common::AI_SEARCHING;
+	m_prevAI	= GetEnemyDefaultAI();
+	m_nextAI	= GetEnemyDefaultAI();
 
 	if( !m_pEnemyAI ){
 		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
 	}
 
 	// 初期位置セット
-	for(;;){
-		math::Vector2 candidatePos = Utility::GetMapRandamPos( /*allowInWindow=*/false );
-		// マップ上の動ける高さなら生成
-		if( Utility::GetMapHeight( candidatePos ) <= GetWalkHeight() ){
-			m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = candidatePos;
-			DEBUG_PRINT( "敵生成 x = %f, y = %f\n", candidatePos.x, candidatePos.y );
-			break;
+	if( m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin == DEFAULT_VECTOR2 ){
+		for(;;){
+			math::Vector2 candidatePos = Utility::GetMapRandamPos( /*allowInWindow=*/false );
+			// マップ上の動ける高さなら生成
+			if( Utility::GetMapHeight( candidatePos ) <= GetWalkHeight() ){
+				m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = candidatePos;
+				DEBUG_PRINT( "敵生成 x = %f, y = %f\n", candidatePos.x, candidatePos.y );
+				break;
+			}
 		}
 	}
 
@@ -242,7 +246,7 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 	}
 
 	uint32_t totalDamage = damageValue;
-	float rate = Utility::GetRandamValue( 125, 75 ) / 100.0f;
+	float rate = static_cast<float>( Utility::GetRandamValue( 125, 75 ) / 100.0f );
 	totalDamage *= rate;
 
 	//ダメージエフェクト作成
@@ -271,8 +275,8 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			break;
 		}
 
-		if( Utility::GetRandamValue( 10, 0 ) == 0 ){
-			Common::ITEM_KIND itemKind = static_cast<Common::ITEM_KIND>( Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 ) );
+		if( Utility::GetRandamValue( 3, 0 ) == 0 ){
+			Common::ITEM_KIND itemKind = Common::ITEM_KIND_BATTLE_POINT;//static_cast<Common::ITEM_KIND>( Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 ) );
 			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 		}
 
