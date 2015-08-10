@@ -64,6 +64,9 @@ void FlowTotalResult::RecordGameResult()
 
 		// 取得したバトルポイントを反映させる
 		updateData.m_battlePoint = GameRecorder::GetInstance()->GetClearBattlePointAll();
+
+		// 初回起動フラグを下す
+		updateData.m_isFirst = false;
 	}
 	
 	// セーブデータ上書き

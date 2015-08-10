@@ -186,10 +186,10 @@ namespace Common{
 	// 以下、セーブデータとして保持する
 	const uint32_t RANKING_RECORD_MAX = 5;
 	struct SAVE_DATA{
-		uint32_t m_battlePoint;	// ゲームプレイで手にいてたポイント(パワーアップに必要)
-		uint32_t m_scoreRanking[RANKING_RECORD_MAX];
-
-		uint32_t m_playerBaseStateLv[BASE_STATE_MAX];
+		bool		m_isFirst;
+		uint32_t	m_battlePoint;	// ゲームプレイで手にいてたポイント(パワーアップに必要)
+		uint32_t	m_scoreRanking[RANKING_RECORD_MAX];
+		uint32_t	m_playerBaseStateLv[BASE_STATE_MAX];
 	};
 }
 #endif

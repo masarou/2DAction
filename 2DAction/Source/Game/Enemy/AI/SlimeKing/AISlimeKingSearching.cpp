@@ -1,59 +1,71 @@
 /* ====================================================================== */
 /**
- * @brief  敵AIの通常クラス(プレイヤー未発見)
+ * @brief  スライムキングAIの通常クラス(プレイヤー未発見)
  *
  * @note
  *		デフォルトAI
  */
 /* ====================================================================== */
 
-#include "EnemyAISearch.h"
+#include "AISlimeKingSearching.h"
+#include "Game/GameRegister.h"
+#include "Game/GameManager.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 
-EnemyAISearch *EnemyAISearch::Create()
+AISlimeKingSearching *AISlimeKingSearching::Create()
 {
-	EnemyAISearch *tmpAI = NEW EnemyAISearch();
+	AISlimeKingSearching *tmpAI = NEW AISlimeKingSearching();
 	return tmpAI;
 }
 
-EnemyAISearch::EnemyAISearch(void)
+AISlimeKingSearching::AISlimeKingSearching(void)
 : m_circleRadius( 30 )
 , m_circleDistance( 100 )
 {
 }
 
 
-EnemyAISearch::~EnemyAISearch(void)
+AISlimeKingSearching::~AISlimeKingSearching(void)
 {
 }
 
-bool EnemyAISearch::InitAI()
+bool AISlimeKingSearching::InitAI()
 {
 	return true;
 }
 
-void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
+void AISlimeKingSearching::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
-	if( SearchPlayer( enemyInfo ) ){
-		// プレイヤー発見!!!
-		if( GetEnemyKind() == Common::ENEMY_KIND_AAA
-			|| GetEnemyKind() == Common::ENEMY_KIND_CCC
-			|| GetEnemyKind() == Common::ENEMY_KIND_SLIME_KING ){
-			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
-			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+	if( SearchPlayer( enemyInfo, static_cast<float>(DISTANCE_TO_PLAYER_MIDDLE) ) ){
+		// 一定確率で体当たりへ変更
+		if( SearchPlayer( enemyInfo, static_cast<float>(DISTANCE_TO_PLAYER_NEAR) ) ){
+			DEBUG_PRINT("【一定距離以内なのでステータスをタックルに変更】\n");
+			ChangeEnemyAI( Common::AI_MOVE_PLAYER_SLIME_KING );
+			return;
 		}
-		else if( GetEnemyKind() == Common::ENEMY_KIND_BBB ){			
-			DEBUG_PRINT("【プレイヤー発見! ステータスをShootに変更】\n");
-			ChangeEnemyAI( Common::AI_SHOOTING );
+		// 一定確率 or 五秒経過で体当たりへ変更
+		if( Utility::GetRandamValue( 240, 0 ) == 0
+			|| GetSecStartThisAI() >= 5 ){
+			DEBUG_PRINT("【一定確率 or 五秒経過したのでステータスをタックルに変更】\n");
+			ChangeEnemyAI( Common::AI_MOVE_PLAYER_SLIME_KING );
+			return;
 		}
-		else if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
-			if( SearchPlayer( enemyInfo, 600.0f ) ){
-				DEBUG_PRINT("【プレイヤー発見! ステータスをMovingに変更】\n");
-				ChangeEnemyAI( Common::AI_ATTACK_NEAR );
+	}
+
+	// 一定確率で敵を生成
+	if( Utility::GetRandamValue( 30, 0 ) == 0 ){
+		for(;;){
+			math::Vector2 targetPos = enemyInfo.m_posOrigin;
+			math::Vector2 enemyPos = math::Vector2( 
+				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.x + 70 ), static_cast<uint32_t>( targetPos.x - 70 ) ) ),
+				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.y + 70 ), static_cast<uint32_t>( targetPos.y - 70 ) ) )
+				);
+			if( Utility::GetMapHeight( enemyPos ) == 0){
+				GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_AAA, 4, true, enemyPos );
+				break;
 			}
 		}
-		return;
 	}
 
 	// 目標となる地点を設定
@@ -116,7 +128,7 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 }
 
 
-bool EnemyAISearch::SearchPlayer( TEX_DRAW_INFO &enemyInfo, float distance )
+bool AISlimeKingSearching::SearchPlayer( TEX_DRAW_INFO &enemyInfo, float distance )
 {
 	bool retVal = false;
 	if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, distance ) ){

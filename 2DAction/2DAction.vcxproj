@@ -28,6 +28,7 @@
     <ClCompile Include="Source\Flow\FlowViewScore.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessBase.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessControllDescription.cpp" />
+    <ClCompile Include="Source\Flow\Process\FlowProcessFirstManual.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessInitLastStage.cpp" />
     <ClCompile Include="Source\Game\Attack\Bullet.cpp" />
     <ClCompile Include="Source\Game\Attack\GameAttackBlade.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Source\Flow\FlowViewScore.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessBase.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessControllDescription.h" />
+    <ClInclude Include="Source\Flow\Process\FlowProcessFirstManual.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessInitLastStage.h" />
     <ClInclude Include="Source\Game\Attack\Bullet.h" />
     <ClInclude Include="Source\Game\Attack\GameAttackBlade.h" />

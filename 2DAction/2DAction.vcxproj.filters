@@ -313,6 +313,9 @@
     <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.h">
       <Filter>Game\Enemy\AI\SlimeKing</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Flow\Process\FlowProcessFirstManual.h">
+      <Filter>Flow\Process</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -531,6 +534,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.cpp">
       <Filter>Game\Enemy\AI\SlimeKing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Process\FlowProcessFirstManual.cpp">
+      <Filter>Flow\Process</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

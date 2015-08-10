@@ -8,6 +8,7 @@
 /* ====================================================================== */
 #include "FlowPowerUpPlayer.h"
 #include "Game/GameRecorder.h"
+#include "Flow/Process/FlowProcessFirstManual.h"
 
 #include "Common/Utility/CommonGameUtility.h"
 
@@ -31,6 +32,20 @@ FlowPowerUpPlayer::~FlowPowerUpPlayer(void)
 bool FlowPowerUpPlayer::Init()
 {
 	m_pMenuWindow = PowerUpMenu::CreatePowerUp2D( "MenuPowerUpPlayer.json" );
+
+	Common::SAVE_DATA saveData;
+	Utility::GetSaveData( saveData );
+
+	if( saveData.m_isFirst ){
+		// ç≈èâÇÃê‡ñæ
+		FirstManual *pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP );
+		PushStageEffect( pFirstManual );
+		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP2 );
+		PushStageEffect( pFirstManual );
+		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP3 );
+		PushStageEffect( pFirstManual );
+	}
+
 	return true;
 }
 
