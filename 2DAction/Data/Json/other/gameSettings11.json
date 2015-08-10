@@ -1,11 +1,23 @@
 {
 	"stageKind":[
-		{"type": "TIME"},
-		{"TimeS": 10},
-		{"destroyMax": 0}
+		{"type": "DESTROY"},
+		{"TimeS": 0},
+		{"destroyMax": 150}
 	],
 	"gameCondition":[
-		{"EnemyMax": 500, "frequency":9},
-		{"ItemMax": 10, "frequency":3}
+		{"EnemyMax": 5000, "frequency":9},
+		{"ItemMax": 10, "frequency":0}
+	],
+	"existEnemy":[
+		{"enemyKind": "ENEMY_KIND_AAA", "level": 9, "frequency": 40},
+		{"enemyKind": "ENEMY_KIND_BBB", "level": 7, "frequency": 30},
+		{"enemyKind": "ENEMY_KIND_CCC", "level": 7, "frequency": 30}
+	],
+	"bossInfo":[
+	],
+	"pointInfo":[
+		{"score": 10000, "value": 100},
+		{"score": 5000, "value": 50},
+		{"score": 0, "value": 20}
 	]
 }

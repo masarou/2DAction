@@ -2,14 +2,14 @@
 	"stageKind":[
 		{"type": "TIME"},
 		{"TimeS": 5},
-		{"destroyMax": 0}
+		{"destroyMax": 80}
 	],
 	"gameCondition":[
-		{"EnemyMax": 5000, "frequency":9},
+		{"EnemyMax": 200, "frequency":9},
 		{"ItemMax": 10, "frequency":0}
 	],
 	"existEnemy":[
-		{"enemyKind": "ENEMY_KIND_AAA", "level":1, "frequency":100}
+		{"enemyKind": "ENEMY_KIND_AAA", "level":5, "frequency":100}
 	],
 	"bossInfo":[
 	],

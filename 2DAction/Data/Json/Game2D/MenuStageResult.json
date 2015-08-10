@@ -4,6 +4,6 @@
 		{"partsName":"result",		"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 243},
 		{"partsName":"bonus",		"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 333},
 		{"partsName":"total",		"loadJson":"NumberCounterLarge.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 468},
-		{"partsName":"battlepoint",	"loadJson":"NumberCounterRitch.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 608}
+		{"partsName":"battlepoint",	"loadJson":"NumberCounterRitch.json",		"partsType":"PARTS_NUM_COUNTER",	"x": 1100,	"y": 608}
 	]
 }
