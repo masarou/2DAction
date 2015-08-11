@@ -23,6 +23,7 @@
 		{"tag":"ShowResult", "file":"count.mp3"},
 		{"tag":"ShowTotal", "file":"count.mp3"},
 		{"tag":"Gameover", "file":"Gameover.mp3"},
-		{"tag":"explosion", "file":"explosion.mp3"}
+		{"tag":"explosion", "file":"explosion.mp3"},
+		{"tag":"ManualIn", "file":"manualIn.mp3"}
 	]
 }

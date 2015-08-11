@@ -16,9 +16,12 @@ class FirstManual : public ProcessBase
 public:
 
 	enum MANUAL_KIND{
-		KIND_POWERUP,
+		KIND_POWERUP1,
 		KIND_POWERUP2,
 		KIND_POWERUP3,
+		KIND_POWERUP4,
+		KIND_POWERUP5,
+		KIND_POWERUP6,
 
 		KIND_MAX,
 	};

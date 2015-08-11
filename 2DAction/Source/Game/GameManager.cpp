@@ -326,6 +326,10 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 		eneInfo.m_kind = GetEnemyKindFromStr( enemyData.get(i).get("enemyKind").get<std::string>() );
 		eneInfo.m_level = static_cast<uint32_t>(enemyData.get(i).get("level").get<double>());
 		eneInfo.m_freequency = static_cast<uint32_t>(enemyData.get(i).get("frequency").get<double>());
+		if( eneInfo.m_level == 0 ){
+			DEBUG_ASSERT( 0, "eneInfo.m_level is 0" );
+			eneInfo.m_level = 1;
+		}
 		m_enemyInfoVec.push_back( eneInfo );
 
 		totalFreequency += eneInfo.m_freequency;
@@ -373,7 +377,7 @@ bool GameManager::IsCreateEnemy( uint32_t enemyLimit, uint32_t frequency )
 		uint32_t currEnemy = pEnemyManager->CountEnemy();
 		uint32_t under = frequency + 1;
 		if( currEnemy < (enemyLimit / under) || currEnemy == 0 ){
-			// ˆê’è‚ÌŠ„‡ˆÈ‰º‚È‚ç“G¶¬
+			// Œ»İ‚ÌoŒ»“G”‚ªˆê’è‚ÌŠ„‡ˆÈ‰º‚È‚ç“G¶¬
 			isCreate = true;
 		}
 		else if( currEnemy < enemyLimit ){
@@ -381,6 +385,13 @@ bool GameManager::IsCreateEnemy( uint32_t enemyLimit, uint32_t frequency )
 			uint32_t rand = static_cast<uint32_t>( Utility::GetRandamValue( 1000, 0 ) );
 			if( rand < ( 5 + (5*frequency) )){
 				isCreate = true;	
+			}
+		}
+
+		if( m_type == TYPE_DESTROY ){
+			if( m_destroyNum + currEnemy >= m_destroyMax ){
+				// Šù‚É“G‚ªƒXƒe[ƒWƒNƒŠƒAğŒ‚ÌŒ‚”j”•ª¶¬Ï‚İ‚È‚Ì‚Å‚±‚êˆÈãoŒ»‚³‚¹‚È‚¢
+				isCreate = false;
 			}
 		}
 	}

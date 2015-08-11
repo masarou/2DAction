@@ -32,6 +32,7 @@ namespace Utility
  */
 /* ================================================ */
 static bool s_gamePauseFlg = false;
+static bool s_gameStopFlg = false;
 void StartGamePause()
 {
 	s_gamePauseFlg = true;
@@ -47,6 +48,21 @@ void EndGamePause()
 bool IsGamePause()
 {
 	return s_gamePauseFlg;
+}
+
+void StartGameStop()
+{
+	s_gameStopFlg = true;
+}
+
+void EndGameStop()
+{
+	s_gameStopFlg = false;
+}
+
+bool IsGameStop()
+{
+	return s_gameStopFlg;
 }
 
 /* ================================================ */

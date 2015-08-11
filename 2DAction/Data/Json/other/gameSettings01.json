@@ -1,7 +1,7 @@
 {
 	"stageKind":[
 		{"type": "DESTROY"},
-		{"TimeS": 10},
+		{"TimeS": 0},
 		{"destroyMax": 30}
 	],
 	"gameCondition":[

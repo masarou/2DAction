@@ -19,7 +19,7 @@
 
 // ŒÅ’è’l
 static const uint32_t SHOOT_INTERBAL_DEFAULT	= 20;
-static const uint32_t SHOOT_SPEED_DEFAULT		= 15;
+static const uint32_t SHOOT_SPEED_DEFAULT		= 20;
 static const uint32_t SHOOT_DAMAGE_DEFAULT		= 10;
 
 class Bullet;

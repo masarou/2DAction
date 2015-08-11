@@ -33,8 +33,7 @@ bool EnemyAAA::InitMain()
 
  const uint32_t EnemyAAA::GetEnemyDefaultHP() const
 {
-	return 50;
-	// ステージによって最大ライフ変更
+	// Lvによって最大ライフ変更
 	return 50 + ( 100 * ( GetEnemyLevel() - 1 ) );
 }
 

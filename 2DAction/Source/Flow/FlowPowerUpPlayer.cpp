@@ -38,11 +38,17 @@ bool FlowPowerUpPlayer::Init()
 
 	if( saveData.m_isFirst ){
 		// ç≈èâÇÃê‡ñæ
-		FirstManual *pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP );
+		FirstManual *pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP1 );
 		PushStageEffect( pFirstManual );
 		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP2 );
 		PushStageEffect( pFirstManual );
 		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP3 );
+		PushStageEffect( pFirstManual );
+		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP4 );
+		PushStageEffect( pFirstManual );
+		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP5 );
+		PushStageEffect( pFirstManual );
+		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP6 );
 		PushStageEffect( pFirstManual );
 	}
 

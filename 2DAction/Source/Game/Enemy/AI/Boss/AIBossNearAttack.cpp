@@ -136,11 +136,11 @@ bool AIBossNearAttack::ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY 
 	if( Utility::GetRandamValue( 30, 0 ) == 0 ){
 		// スプレッド弾発射
 		for( uint32_t i = 0; i < 10 ; ++i ){
-			// 自キャラとプレイヤーがなす線と左右±30.0度の範囲に発射
+			// 自キャラとプレイヤーがなす線と左右±25.0度の範囲に発射
 			math::Vector2 myPos = enemyInfo.m_posOrigin;
 			math::Vector2 plPos = Utility::GetPlayerPos();
 
-			int32_t randamValue	= Utility::GetRandamValue( 30, -30 );
+			int32_t randamValue	= Utility::GetRandamValue( 25, -25 );
 			uint32_t speed		= Utility::GetRandamValue( 20, 10 );
 			math::Vector2 dir = math::GetRotateVec( plPos - myPos, static_cast<float>(randamValue) );
 			ShootBullet( dir, 20, speed );

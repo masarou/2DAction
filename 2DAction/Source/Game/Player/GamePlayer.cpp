@@ -60,6 +60,7 @@ GamePlayer::GamePlayer(void)
 , m_invalidCtrlTime(0)
 , m_playerLife( LIFE_POINT_DEFAULT_MAX )
 , m_playerLifeMax( LIFE_POINT_DEFAULT_MAX )
+, m_playerState( ABNORMAL_STATE_NONE )
 , m_deffenceLate( 1.0f )
 , m_attackGun(NULL)
 , m_attackBlade(NULL)
@@ -567,6 +568,8 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 		memcpy( &m_forceMoveInfo, static_cast<Common::FORCE_MOVING*>(eventId.m_exInfo), sizeof(Common::FORCE_MOVING) );
 		m_invalidCtrlTime	= 10;
 		m_invisibleTime		= 60;
+		
+		SetPlayerState( ABNORMAL_STATE_MOVE_LOCK, false );
 		break;
 	default:
 
@@ -599,17 +602,25 @@ void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint
 	switch( eventKind ){
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 		{
-			// 三秒ほど動けずとりこまれる、その後はじき出される
-			Common::CMN_EVENT forceEvent;
-			forceEvent.Init();
-			forceEvent.m_event = Common::EVENT_ADD_FORCE_MOVE;
-			forceEvent.m_delayTime = 180;
-			Common::FORCE_MOVING *pMoveInfo = NEW Common::FORCE_MOVING();
-			pMoveInfo->m_forceDir	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
-			pMoveInfo->m_forceDir.Normalize();
-			pMoveInfo->m_forcePower	= 15.0f;
-			forceEvent.m_exInfo = (void*)(pMoveInfo);
-			AddEvent( forceEvent );
+			if( !IsPlayerState( ABNORMAL_STATE_MOVE_LOCK ) ){
+				// 三秒ほど動けずとりこまれる、その後はじき出される
+				Common::CMN_EVENT forceEvent;
+				forceEvent.Init();
+				forceEvent.m_event = Common::EVENT_ADD_FORCE_MOVE;
+				forceEvent.m_delayTime = 180;
+				Common::FORCE_MOVING *pMoveInfo = NEW Common::FORCE_MOVING();
+				pMoveInfo->m_forceDir	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
+				pMoveInfo->m_forceDir.Normalize();
+				pMoveInfo->m_forcePower	= 20.0f;
+				forceEvent.m_exInfo = (void*)(pMoveInfo);
+				AddEvent( forceEvent );
+
+				// 動けないステータスにセット
+				SetPlayerState( ABNORMAL_STATE_MOVE_LOCK, true );
+			}
+			else{
+				// 既にロック状態なのでなにもしない(ダメージ処理だけ)
+			}
 		}
 		break;
 	default:
@@ -731,5 +742,24 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 	// 表示部分に伝える
 	if( m_pStatusMenu && reflectDisp ){
 		m_pStatusMenu->AddItemLevel( itemKind );
+	}
+}
+
+
+bool GamePlayer::IsPlayerState( const PLAYER_ABNORMAL_STATE &checkState ) const
+{
+	if( m_playerState & checkState ){
+		return true;
+	}
+	return false;
+}
+
+void GamePlayer::SetPlayerState( const PLAYER_ABNORMAL_STATE &checkState, const bool &flag )
+{
+	if( flag ){
+		m_playerState |= checkState;
+	}
+	else{
+		m_playerState &= ~checkState;
 	}
 }

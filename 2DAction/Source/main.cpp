@@ -55,6 +55,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	GameRecorder::Create();
 	BgManager::Create();
 
+	//! —”—pˆÓ
+	srand( static_cast<uint32_t>(time(NULL)) );
+
 	while(1){
 
 		//! FPS‚É‚æ‚éXV‘Ò‚¿

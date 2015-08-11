@@ -28,6 +28,11 @@ void StartGamePause();
 void EndGamePause();
 bool IsGamePause();
 
+// ゲームストップ
+void StartGameStop();
+void EndGameStop();
+bool IsGameStop();
+
 // ゲームが一周して終わるとき、タイトルに戻るときなどにプレイ記録リセット
 void GameInitALL();
 

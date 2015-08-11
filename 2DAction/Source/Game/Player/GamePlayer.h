@@ -55,6 +55,14 @@ protected:
 
 private:
 
+	// プレイヤがなりうる異常状態
+	enum PLAYER_ABNORMAL_STATE{
+		ABNORMAL_STATE_NONE			= 0,	// 通常状態
+		ABNORMAL_STATE_MOVE_LOCK	= 1<<0,	// 動けない
+
+		ABNORMAL_STATE_MAX,
+	};
+
 	GamePlayer(void);
 
 	// 現在のプレイヤーの状況から再生するアニメタグ取得
@@ -76,8 +84,13 @@ private:
 	void EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue );
 	void PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountUp = true );
 
+	// プレイヤーが該当のステータス状態かどうか
+	bool IsPlayerState( const PLAYER_ABNORMAL_STATE &checkState ) const;
+	void SetPlayerState( const PLAYER_ABNORMAL_STATE &checkState, const bool &flag );
+
 	uint32_t				m_playerLife;	// ユーザーライフ
 	uint32_t				m_playerLifeMax;// ユーザーライフ最大値
+	uint32_t				m_playerState;	//プレイヤー異常状態ステータス
 	uint32_t				m_speedMove;	// 行動速度に倍率をかけた瞬間のスピード
 	uint32_t				m_speedMoveBase;// 基本行動速度
 	float					m_deffenceLate;	// 防御力

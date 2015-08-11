@@ -180,9 +180,16 @@ void FlowBase::ChildUpdate()
 			ProcessBase *tmp = *it;
 			m_vStageEffect.erase( it );
 			SAFE_DELETE(tmp);
+
+			if( m_vStageEffect.size() == 0 ){
+				// フィルター終了
+				Utility::EndGameStop();
+			}
 		}
 		else{
 			(*it)->Exec();
+			// フィルターを表示し続ける
+			Utility::StartGameStop();
 		}
 	}
 	else{
