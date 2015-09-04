@@ -89,9 +89,10 @@ void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Co
 // •¶Žš—ñ‚Ì•\Ž¦
 void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint32_t color = GetColor( 255, 255, 255 ) );
 
-#ifdef _DEBUG
+// Žw’è‚ÌêŠ‚ÍˆÚ“®‚Å‚«‚éêŠ‚©‚Ç‚¤‚©
+bool IsMovable( const std::string &resourceJson, const math::Vector2 &pos );
+
 void DrawDebugCircle( math::Vector2 drawPos );
-#endif
 
 } // Utility
 

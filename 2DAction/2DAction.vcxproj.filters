@@ -316,6 +316,9 @@
     <ClInclude Include="Source\Flow\Process\FlowProcessFirstManual.h">
       <Filter>Flow\Process</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\EnemyAIDashTackle.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -537,6 +540,9 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\Process\FlowProcessFirstManual.cpp">
       <Filter>Flow\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\EnemyAIDashTackle.cpp">
+      <Filter>Game\Enemy\AI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

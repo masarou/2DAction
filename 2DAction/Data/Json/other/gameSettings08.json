@@ -6,7 +6,7 @@
 	],
 	"gameCondition":[
 		{"EnemyMax": 5000, "frequency":9},
-		{"ItemMax": 10, "frequency":0}
+		{"ItemMax": 0, "frequency":0}
 	],
 	"existEnemy":[
 		{"enemyKind": "ENEMY_KIND_AAA", "level": 5, "frequency": 40},

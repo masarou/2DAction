@@ -38,6 +38,7 @@
     <ClCompile Include="Source\Game\Enemy\AI\Boss\AIBossMoving.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIBase.cpp" />
+    <ClCompile Include="Source\Game\Enemy\AI\EnemyAIDashTackle.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAISearch.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIShoot.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAITackle.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Source\Game\Enemy\AI\Boss\AIBossMoving.h" />
     <ClInclude Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIBase.h" />
+    <ClInclude Include="Source\Game\Enemy\AI\EnemyAIDashTackle.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIDefine.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAISearch.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIShoot.h" />

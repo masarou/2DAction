@@ -16,6 +16,7 @@
 #include "Game/Enemy/AI/EnemyAISearch.h"
 #include "Game/Enemy/AI/EnemyAITackle.h"
 #include "Game/Enemy/AI/EnemyAIShoot.h"
+#include "Game/Enemy/AI/EnemyAIDashTackle.h"
 #include "Game/Enemy/AI/Boss/AIBossNearAttack.h"
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingSearching.h"
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingTackle.h"
@@ -340,13 +341,16 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 {
 	EnemyAIBase *pRetAI = NULL;
 	switch( nextAI ){
-	case Common::AI_SEARCHING:	// ƒvƒŒƒCƒ„[‚ð’T‚µ‚Ä‚¢‚é
+	case Common::AI_SEARCHING:		// ƒvƒŒƒCƒ„[‚ð’T‚µ‚Ä‚¢‚é
 		pRetAI = EnemyAISearch::Create();
 		break;
 	case Common::AI_MOVE_PLAYER:	// ƒvƒŒƒCƒ„[‚É‹ß‚Ã‚­(‘Ì“–‚½‚èUŒ‚)
 		pRetAI = EnemyAITackle::Create();
 		break;
-	case Common::AI_SHOOTING:	// ‰“‹——£UŒ‚(‰“‹——£UŒ‚)
+	case Common::AI_DASH_TACKLE:	// ƒ_ƒbƒVƒ…‘Ì“–‚½‚è
+		pRetAI = EnemyAIDashTackle::Create();
+		break;
+	case Common::AI_SHOOTING:		// ‰“‹——£UŒ‚(‰“‹——£UŒ‚)
 		pRetAI = EnemyAIShoot::Create();
 		break;
 	case Common::AI_ATTACK_NEAR:	// ‰“‹——£UŒ‚(‰“‹——£UŒ‚)
@@ -562,11 +566,34 @@ void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint3
 	Draw2DManager::GetInstance()->PushDrawString( str, pos, color );
 }
 
-#ifdef _DEBUG
+bool IsMovable( const std::string &resourceJson, const math::Vector2 &pos )
+{
+	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( resourceJson.c_str() );
+	math::Vector2 up = pos;
+	up.y += playerTexInfo.m_sizeHeight/2.0f;
+	math::Vector2 down = pos;
+	down.y -= playerTexInfo.m_sizeHeight/2.0f;
+	math::Vector2 left = pos;
+	left.x -= playerTexInfo.m_sizeWidth/2.0f;
+	math::Vector2 right = pos;
+	right.x += playerTexInfo.m_sizeWidth/2.0f;
+
+	if( Utility::GetMapHeight( up ) == 0
+		&& Utility::GetMapHeight( down ) == 0
+		&& Utility::GetMapHeight( left ) == 0
+		&& Utility::GetMapHeight( right ) == 0){
+		return true;
+	}
+	return false;
+}
+
+
 void DrawDebugCircle( math::Vector2 drawPos )
 {
+#ifdef _DEBUG
 	Draw2DManager::GetInstance()->m_drawCircle.push_back( drawPos );
-}
 #endif
+}
+
 
 }

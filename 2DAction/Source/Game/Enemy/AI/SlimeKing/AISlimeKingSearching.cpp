@@ -83,27 +83,12 @@ void AISlimeKingSearching::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 	vec -= enemyInfo.m_posOrigin;
 	vec.Normalize();
 
-	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( GetEnemyJsonName().c_str() );
-	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
-	math::Vector2 up = nextPos;
-	up.y += playerTexInfo.m_sizeHeight/2.0f;
-	math::Vector2 down = nextPos;
-	down.y -= playerTexInfo.m_sizeHeight/2.0f;
-	math::Vector2 left = nextPos;
-	left.x -= playerTexInfo.m_sizeWidth/2.0f;
-	math::Vector2 right = nextPos;
-	right.x += playerTexInfo.m_sizeWidth/2.0f;
-
-	if( Utility::GetMapHeight( up ) == 0
-		&& Utility::GetMapHeight( down ) == 0
-		&& Utility::GetMapHeight( left ) == 0
-		&& Utility::GetMapHeight( right ) == 0){
-		enemyInfo.m_posOrigin += vec * 1.0f;
-	}
-	else{
-		// 壁に当たったら反対を向いてみる
+	// 移動可能かチェック
+	if( !Utility::IsMovable( GetEnemyJsonName(), enemyInfo.m_posOrigin + (vec * 2.0f) ) ){
+		// 移動不可なら反対を向いてみる
 		vec *= -1;
 	}
+	enemyInfo.m_posOrigin += vec * 1.0f;
 
 	// アニメ更新
 	std::string animTag = "";

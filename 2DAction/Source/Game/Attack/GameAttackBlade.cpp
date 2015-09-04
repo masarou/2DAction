@@ -51,11 +51,12 @@ void AttackBlade::MessageReceive( const Message &msg )
 / * @brief	éaåÇê∂ê¨
 / */
 /* ================================================ */
-void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type )
+void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type, const float &damageRate )
 {
 	if( !m_currSlashing && m_intervalTime == 0 ){
 		// TaskUnitåpè≥Ç≈ÉAÉjÉÅèIóπå„Ç…é©éEÇ∑ÇÈÇÃÇ≈ê∂ê¨Ç∑ÇÈÇæÇØ
-		m_currSlashing = NEW Slashing( m_owner, type, pos, vec, m_currState.m_damage );
+		float damage = static_cast<float>(m_currState.m_damage) * damageRate;
+		m_currSlashing = NEW Slashing( m_owner, type, pos, vec, static_cast<uint32_t>(damage) );
 		SetChildUnit( m_currSlashing );
 
 		// éaåÇå¯â âπ

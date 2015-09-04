@@ -23,12 +23,15 @@
 
 #include "Game/Attack/Slashing.h"
 
+#include "System/SystemFPSManager.h"
+
 // 固定値
 static uint32_t DAMAGE_INVISIBLE_TIME	= 60;
 
 static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;
 static uint32_t MOVE_SPEED_DEFAULT		= 3;
-static float DASH_TIME_DEFAULT			= 5.0f;
+static float DASH_MULTIPLY_DEFAULT		= 10.0f;
+static uint32_t DASH_SPEED_MAX			= 15;
 static uint32_t WARNING_LIFE			= 40;
 static uint32_t EMERGENCY_LIFE			= 20;
 
@@ -101,8 +104,8 @@ bool GamePlayer::Init()
 	math::Vector2 vec = math::Vector2( static_cast<float>(DEFAULT_POS_X), static_cast<float>(DEFAULT_POS_Y) );
 	GameAccesser::GetInstance()->AddPlayerOffSet( vec );
 
-	SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PRESS );
-	SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PRESS );
+	SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PUSH );
+	SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PUSH );
 
 	return true;
 }
@@ -124,12 +127,23 @@ void GamePlayer::Update()
 
 	{
 		// 毎フレーム値が変わるような項目はここで
+
+		// ダッシュ関連
 		m_speedMove = m_speedMoveBase * static_cast<uint32_t>(m_speedMultiply + 0.5f);
 		if( m_speedMultiply > 1.0f ){
-			m_speedMultiply *= 0.95f;
+			m_speedMultiply *= 0.94f;
+			
+			// 3フレームに一回残像エフェクト描画
+			if( FpsManager::GetUpdateCounter() % 3 == 0 ){
+				GameEffect::CreateEffect( GameEffect::EFFECT_DASH_SMOKE, Utility::GetPlayerPos() );
+			}
 		}
-		if( m_speedMultiply < 1.0f ){
+		// 一定以下になったら切り捨て(終了)
+		if( m_speedMultiply < 1.2f ){
 			m_speedMultiply = 1.0f;
+		}
+		if( m_speedMove > DASH_SPEED_MAX ){
+			m_speedMove = DASH_SPEED_MAX;
 		}
 
 		// 無敵時間中ならデクリメント
@@ -184,7 +198,6 @@ void GamePlayer::DrawUpdate()
 	}
 	else{
 		// プレイヤー描画	
-		//m_drawTexture.m_pTex2D->SetDrawInfo(m_drawTexture.m_texInfo);
 		m_drawTexture.m_pTex2D->DrawUpdate2D();
 	}
 }
@@ -220,19 +233,10 @@ void GamePlayer::PadEventLeft()
 
 void GamePlayer::UpdateMove( math::Vector2 &moveVec, bool isForce )
 {
-	// 斬撃攻撃中なら移動できない
+	// 斬撃攻撃中なら速度を落とす
 	if( m_attackBlade && !isForce && m_attackBlade->IsSlashingAnimPlay() ){
 		moveVec /= 2.0f;
-		if( moveVec.GetLength() < pow( static_cast<double>(2), static_cast<double>(2) ) ){
-			moveVec.Normalize();
-			moveVec = moveVec * 2.0f;
-		}
 	}
-
-	//if( GetStickInfoRight().m_vec != DEFAULT_VECTOR2 ){
-	//	// 攻撃中なら移動速度半分
-	//	moveVec /= 2.0f;
-	//}
 
 	// 移動先が歩けないならば移動しない
 	if( !CanMoveThisPos( moveVec ) ){
@@ -278,18 +282,31 @@ void GamePlayer::PadEventCancel()
 
 void GamePlayer::PadEventR1()
 {
-	m_speedMultiply = 5.0f;
+	if( GetStickInfoLeft().m_vec == DEFAULT_VECTOR2 ){
+		// 方向キーの入力が入っていないので何もしない
+		return;
+	}
 
-	// ダッシュ効果音
-	//SoundManager::GetInstance()->PlaySE("Dash");
+	if( m_speedMultiply <= 1.0f ){
+		m_speedMultiply = DASH_MULTIPLY_DEFAULT;
+		// ダッシュ効果音
+		SoundManager::GetInstance()->PlaySE("Dash");
+	}
 }
 
 void GamePlayer::PadEventL1()
 {
-	m_speedMultiply = 5.0f;
+	if( GetStickInfoLeft().m_vec == DEFAULT_VECTOR2 ){
+		// 方向キーの入力が入っていないので何もしない
+		return;
+	}
 
-	// ダッシュ効果音
-	//SoundManager::GetInstance()->PlaySE("Dash");
+	if( m_speedMultiply <= 1.0f ){
+		m_speedMultiply = DASH_MULTIPLY_DEFAULT;
+		// ダッシュ効果音
+		SoundManager::GetInstance()->PlaySE("Dash");
+	}
+
 }
 
 /* ================================================ */
@@ -511,20 +528,8 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const
 	nextFlamePos.x += static_cast<float>(WINDOW_WIDTH / 2.0f);
 	nextFlamePos.y += static_cast<float>(WINDOW_HEIGHT / 2.0f);
 
-	math::Vector2 up = nextFlamePos;
-	up.y -= playerTexInfo.m_sizeHeight/2.0f;
-	math::Vector2 down = nextFlamePos;
-	down.y += playerTexInfo.m_sizeHeight/2.0f;
-	math::Vector2 left = nextFlamePos;
-	left.x -= playerTexInfo.m_sizeWidth/2.0f;
-	math::Vector2 right = nextFlamePos;
-	right.x += playerTexInfo.m_sizeWidth/2.0f;
-
 	// 移動先が歩けないならば移動しない
-	if( Utility::GetMapHeight( up ) == 0
-		&& Utility::GetMapHeight( down ) == 0
-		&& Utility::GetMapHeight( left ) == 0
-		&& Utility::GetMapHeight( right ) == 0){
+	if( Utility::IsMovable( m_drawTexture.m_pTex2D->GetDrawInfo().m_fileName, nextFlamePos ) ){
 		ret = true;
 	}
 	return ret;

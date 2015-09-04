@@ -13,6 +13,10 @@
 		{"animTag":"up",	"frameSpeed":16,	"animIndex":[9,10,11],	"nextAnim":"up"},
 		{"animTag":"down",	"frameSpeed":16,	"animIndex":[0,1,2],	"nextAnim":"down"},
 		{"animTag":"right",	"frameSpeed":16,	"animIndex":[6,7,8],	"nextAnim":"right"},
-		{"animTag":"left",	"frameSpeed":16,	"animIndex":[3,4,5],	"nextAnim":"left"}
+		{"animTag":"left",	"frameSpeed":16,	"animIndex":[3,4,5],	"nextAnim":"left"},
+		{"animTag":"upDash",	"frameSpeed":6,	"animIndex":[9,10,11],	"nextAnim":"upDash"},
+		{"animTag":"downDash",	"frameSpeed":6,	"animIndex":[0,1,2],	"nextAnim":"downDash"},
+		{"animTag":"rightDash",	"frameSpeed":6,	"animIndex":[6,7,8],	"nextAnim":"rightDash"},
+		{"animTag":"leftDash",	"frameSpeed":6,	"animIndex":[3,4,5],	"nextAnim":"leftDash"}
 	]	
 }

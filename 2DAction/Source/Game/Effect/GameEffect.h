@@ -25,7 +25,9 @@ public:
 		EFFECT_BOMB,			// 敵がやられた時の爆発
 		EFFECT_PRE_EXPLOSION,	// 爆発予兆
 		EFFECT_DAMAGE,			// ダメージ
+		EFFECT_EXCLAMATION,		// びっくりマーク		
 		EFFECT_SLASHING_HIT,	// 斬撃HIT
+		EFFECT_DASH_SMOKE,		// DASH煙
 	};
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );

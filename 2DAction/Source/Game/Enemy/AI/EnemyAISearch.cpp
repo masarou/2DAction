@@ -10,6 +10,7 @@
 #include "EnemyAISearch.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
+#include "Game/Effect/GameEffect.h"
 
 EnemyAISearch *EnemyAISearch::Create()
 {
@@ -36,9 +37,15 @@ bool EnemyAISearch::InitAI()
 void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
 	if( SearchPlayer( enemyInfo ) ){
+
+		// 発見「!」マーク生成
+		const TEX_INIT_INFO &info = TextureResourceManager::GetInstance()->GetLoadTextureInfo( enemyInfo.m_fileName.c_str() );
+		math::Vector2 dispPos = enemyInfo.m_posOrigin;
+		dispPos.y -= static_cast<float>( (info.m_sizeHeight/2) );
+		GameEffect::CreateEffect( GameEffect::EFFECT_EXCLAMATION, dispPos );
+
 		// プレイヤー発見!!!
 		if( GetEnemyKind() == Common::ENEMY_KIND_AAA
-			|| GetEnemyKind() == Common::ENEMY_KIND_CCC
 			|| GetEnemyKind() == Common::ENEMY_KIND_SLIME_KING ){
 			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
 			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
@@ -46,6 +53,10 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 		else if( GetEnemyKind() == Common::ENEMY_KIND_BBB ){			
 			DEBUG_PRINT("【プレイヤー発見! ステータスをShootに変更】\n");
 			ChangeEnemyAI( Common::AI_SHOOTING );
+		}
+		else if( GetEnemyKind() == Common::ENEMY_KIND_CCC ){			
+			DEBUG_PRINT("【プレイヤー発見! ステータスをDashTackleに変更】\n");
+			ChangeEnemyAI( Common::AI_DASH_TACKLE );
 		}
 		else if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
 			if( SearchPlayer( enemyInfo, 600.0f ) ){
@@ -57,41 +68,17 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 	}
 
 	// 目標となる地点を設定
-	math::Vector2 vec = math::Vector2( Utility::GetRandamValueFloat( 100, -100 ), Utility::GetRandamValueFloat( 100, -100 ) );
-	vec.Normalize();
-	vec *= static_cast<float>(m_circleRadius);
-
-	vec += enemyInfo.m_posOrigin;
-
-	const math::Vector2 &eye = GetEnemyEyeSight();
-	if( eye != DEFAULT_VECTOR2 ){
-		vec += eye * static_cast<float>(m_circleDistance);
-	}
-
-	vec -= enemyInfo.m_posOrigin;
+	int32_t randamValue	= Utility::GetRandamValue( 10, -10 );
+	math::Vector2 eyeDir = GetEnemyEyeSight();
+	math::Vector2 vec = math::GetRotateVec( eyeDir, static_cast<float>(randamValue) );
 	vec.Normalize();
 
-	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( GetEnemyJsonName().c_str() );
 	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
-	math::Vector2 up = nextPos;
-	up.y += playerTexInfo.m_sizeHeight/2.0f;
-	math::Vector2 down = nextPos;
-	down.y -= playerTexInfo.m_sizeHeight/2.0f;
-	math::Vector2 left = nextPos;
-	left.x -= playerTexInfo.m_sizeWidth/2.0f;
-	math::Vector2 right = nextPos;
-	right.x += playerTexInfo.m_sizeWidth/2.0f;
-
-	if( Utility::GetMapHeight( up ) == 0
-		&& Utility::GetMapHeight( down ) == 0
-		&& Utility::GetMapHeight( left ) == 0
-		&& Utility::GetMapHeight( right ) == 0){
-		enemyInfo.m_posOrigin += vec * 1.0f;
-	}
-	else{
+	if( !Utility::IsMovable( GetEnemyJsonName(), nextPos ) ){
 		// 壁に当たったら反対を向いてみる
 		vec *= -1;
 	}
+	enemyInfo.m_posOrigin += vec * 1.0f;
 
 	// アニメ更新
 	std::string animTag = "";
@@ -113,6 +100,9 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 	}
 	SetEnemyAnim( animTag );
 	SetEnemyEyeSight( vec );
+
+	Utility::DrawDebugCircle( (vec*10.0f) + enemyInfo.m_posOrigin );
+
 }
 
 

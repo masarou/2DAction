@@ -42,6 +42,9 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 		uint32_t rotate = Utility::GetRandamValue( 360, 0 );
 		drawInfo.m_rot = static_cast<float>(rotate);
 	}
+	if( m_kind == EFFECT_DASH_SMOKE ){
+		drawInfo.m_prioity = PRIORITY_BELOW_NORMAL;
+	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
@@ -94,7 +97,14 @@ std::string GameEffect::SelectEffectFile() const
 	case EFFECT_SLASHING_HIT:
 		rtn = "SlashingHit.json";
 		break;
-
+		
+	case EFFECT_DASH_SMOKE:
+		rtn = "SmokeDash.json";
+		break;
+		
+	case EFFECT_EXCLAMATION:
+		rtn = "Exclamation.json";
+		break;
 	default:
 		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
 		// とりあえず一番無難なものをセット

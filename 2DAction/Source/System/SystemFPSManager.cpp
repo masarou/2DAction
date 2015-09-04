@@ -13,6 +13,7 @@
 
 FpsManager *FpsManager::s_pInstance = NULL;
 uint32_t FpsManager::m_fps = 60;
+uint32_t FpsManager::m_updateCounter = 0;
 
 // 内部計算用
 namespace{
@@ -93,6 +94,7 @@ bool FpsManager::IsUpdateTiming()
 	if( nowFrame != framePreUpdate ){
 		//! 更新時間を更新
 		s_preUpdateTime = nowTime;
+		++m_updateCounter;
 		return true;
 	}else{
 		//! まだフレーム更新タイミングでない
@@ -128,4 +130,14 @@ const uint32_t &FpsManager::GetFps()
 float FpsManager::GetFpsF()
 {
 	return static_cast<float>(m_fps);
+}
+
+/* ================================================ */
+/**
+ * @brief	ゲームの更新カウンタ取得
+ */
+/* ================================================ */
+const uint32_t FpsManager::GetUpdateCounter()
+{
+	return m_updateCounter;
 }

@@ -117,9 +117,6 @@ void EnemyBase::Update()
 			m_pEnemyAI->Exec( m_drawTexture.m_pTex2D->UpdateDrawInfo(), m_actionInfoAI );
 		}
 
-		// AIによって更新された値を反映
-		//m_drawTexture.m_pTex2D->SetDrawInfo( m_drawTexture.m_texInfo );
-
 		// AIによって設定された行動を設定
 		RefrectAIAction();
 	}
@@ -246,7 +243,7 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 	}
 
 	uint32_t totalDamage = damageValue;
-	float rate = static_cast<float>( Utility::GetRandamValue( 125, 75 ) / 100.0f );
+	float rate = static_cast<float>( static_cast<float>(Utility::GetRandamValue( 120, 80 )) / 100.0f );
 	totalDamage *= rate;
 
 	//ダメージエフェクト作成

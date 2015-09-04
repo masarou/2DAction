@@ -40,7 +40,7 @@ public:
 	~AttackBlade(void);
 
 	// 斬撃生成
-	void CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type = Slashing::TYPE_1ST );
+	void CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type = Slashing::TYPE_1ST, const float &damageRate = 1.0f );
 
 	// 剣のステータス
 	BladeState &UpdateBladeState(){ return m_currState; }

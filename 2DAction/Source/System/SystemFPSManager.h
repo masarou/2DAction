@@ -28,6 +28,8 @@ public:
 	//! FPSの取得
 	static const uint32_t &GetFps();
 	static float GetFpsF();
+	//! 更新回数取得
+	static const uint32_t GetUpdateCounter();
 
 private:
 	FpsManager();
@@ -35,6 +37,7 @@ private:
 
 	static FpsManager *s_pInstance;
 	static uint32_t m_fps;
+	static uint32_t m_updateCounter;	//! ゲーム内カウントアップ(60fps)
 };
 
 #endif

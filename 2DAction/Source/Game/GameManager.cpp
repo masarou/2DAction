@@ -118,9 +118,17 @@ bool GameManager::IsGameOver() const
 	}
 	else if( m_type == TYPE_DESTROY_BOSS ){
 		EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
-		if( pEnemyManager
-			&& pEnemyManager->CountEnemy( Common::ENEMY_KIND_BOSS) + pEnemyManager->CountEnemy( Common::ENEMY_KIND_SLIME_KING) == 0 ){
-			retVal = true;
+		if( pEnemyManager ){
+			// ボスとして指定された敵がいるかどうか確認
+			for( uint32_t i = 0; i < m_bossKindVec.size() ; ++i ){
+				if( pEnemyManager->CountEnemy( m_bossKindVec.at(i) ) == 0 ){
+					retVal = true;
+				}
+				else{
+					retVal = false;
+					break;
+				}
+			}
 		}
 	}
 	return retVal;

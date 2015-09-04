@@ -150,6 +150,7 @@ namespace Common{
 		AI_NONE,		// 何もしない
 		AI_SEARCHING,	// プレイヤーを探している
 		AI_MOVE_PLAYER,	// プレイヤーに近づく(体当たり攻撃)
+		AI_DASH_TACKLE,	// プレイヤーに高速体当たり
 		AI_SHOOTING,	// 遠距離攻撃(遠距離攻撃)
 
 		// 以下、ボス用AI
