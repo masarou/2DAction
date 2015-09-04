@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"SmokeDash.png"
+		, "animDefault":"idle"
+		, "sizeW": 48
+		, "sizeH": 48
+		, "splitW": 1
+		, "splitH": 6
+		, "total": 6 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"idle",	"frameSpeed":3,	"animIndex":[0,1,2,3,4,5],	"nextAnim":""}
+	]	
+}

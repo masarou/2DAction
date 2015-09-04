@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"Exclamation.png"
+		, "animDefault":"default"
+		, "sizeW": 32
+		, "sizeH": 34
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":30,	"animIndex":[0],		"nextAnim":""}
+	]
+}
