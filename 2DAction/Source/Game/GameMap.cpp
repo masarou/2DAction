@@ -107,6 +107,13 @@ void GameMap::DrawUpdate()
 	}
 }
 
+const math::Vector2 GameMap::GetPlayerStartPos() const
+{
+	math::Vector2 pos = math::Vector2( GameRegister::GetInstance()->GetGameMap()->GetMapWidth() / 2.0f
+		, GameRegister::GetInstance()->GetGameMap()->GetMapHeight() / 2.0f );
+	return pos;
+}
+
 const uint32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
 {
 	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){
@@ -213,7 +220,17 @@ void GameMap::LoadMapInfo(const char *jsonFile)
 	// MapTipテクスチャの基本情報取得
 	// 名前と紐付いたjsonファイルを取得(m_texInfoに情報格納)
 	picojson::value tileData = root.get("tilesets");
-	std::string texName	= tileData.get(0).get("image").get<std::string>();		
+	std::string texName	= tileData.get(0).get("image").get<std::string>();
+
+	// 不要なパスを消す
+	std::istringstream iss( texName );
+	std::vector< std::string > strArray;
+	std::string tmpStr = "";
+	while( std::getline( iss, tmpStr, '/' ) ){
+		strArray.push_back( tmpStr );
+	};
+	texName = strArray.back();
+
 	std::string extentionPNG = ".png";
 	std::string extentionJSON = ".json";
 	uint32_t extentionIndex = texName.find( extentionPNG, 0 );

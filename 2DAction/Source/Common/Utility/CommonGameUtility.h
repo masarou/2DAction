@@ -61,7 +61,10 @@ math::Vector2 GetMapRandamPos( bool allowInWindow = true, uint32_t mapHeight = 0
 
 // 画面上に表示しているオブジェクトかどうか
 bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo );
-bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy );
+bool IsPositionInWindowArea( const float &xx, const float &yy );
+
+// プレイヤーに重ならない位置かどうか
+bool IsPositionInPlayerPos( const float &xx, const float &yy );
 
 // 指定のAIクラスの生成
 EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI );

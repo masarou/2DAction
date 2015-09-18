@@ -188,6 +188,8 @@ void CollisionManager::CollisionUpdate()
 					break;
 				}
 				eventInfo.m_event = messageKind;
+				Common::EX_COMMON exCommon = { texB.m_posOrigin.x, texB.m_posOrigin.y };
+				eventInfo.SetExInfoCmn( exCommon );
 
 				// ÚG‚µ‚½‚±‚Æ‚ð“`‚¦‚é
 				SystemMessageManager::GetInstance()->PushMessage( m_vCollisionUnit.at(j)->GetUniqueId(), eventInfo );

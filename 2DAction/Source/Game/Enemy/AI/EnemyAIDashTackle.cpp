@@ -135,7 +135,7 @@ void EnemyAIDashTackle::UpdateAction( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &ac
 
 		// 最後に移動可能かどうかのチェック
 		math::Vector2 nextPos = enemyInfo.m_posOrigin + moveRange;
-		if( Utility::IsMovable( enemyInfo.m_fileName, nextPos ) ){
+		if( Utility::GetMapHeight( nextPos ) == 0 ){
 			enemyInfo.m_posOrigin += moveRange;
 		}
 	}
@@ -157,7 +157,7 @@ void EnemyAIDashTackle::UpdatePreEnd( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &ac
 
 	// 最後に移動可能かどうかのチェック
 	math::Vector2 nextPos = enemyInfo.m_posOrigin + moveRange;
-	if( Utility::IsMovable( enemyInfo.m_fileName, nextPos ) ){
+	if( Utility::GetMapHeight( nextPos ) == 0 ){
 		enemyInfo.m_posOrigin += moveRange;
 	}
 }

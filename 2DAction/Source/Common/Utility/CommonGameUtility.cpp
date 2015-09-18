@@ -281,7 +281,13 @@ math::Vector2 GetMapRandamPos( bool allowInWindow, uint32_t mapHeight )
 		}
 		if( !allowInWindow ){
 			// 画面外かどうかチェック
-			if( IsPositionInWindowArea( static_cast<uint32_t>(pos.x), static_cast<uint32_t>(pos.y) ) ){
+			if( IsPositionInWindowArea( pos.x, pos.y ) ){
+				continue;
+			}
+		}
+		else{
+			// プレイヤーにかぶらないかどうかだけチェック
+			if( IsPositionInPlayerPos( pos.x, pos.y ) ){
 				continue;
 			}
 		}
@@ -303,10 +309,10 @@ bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
 	if( !texInfo.m_usePlayerOffset ){
 		return true;
 	}
-	return IsPositionInWindowArea( static_cast<int32_t>(texInfo.m_posOrigin.x), static_cast<int32_t>(texInfo.m_posOrigin.y) );
+	return IsPositionInWindowArea( texInfo.m_posOrigin.x, texInfo.m_posOrigin.y );
 }
 
-bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
+bool IsPositionInWindowArea( const float &xx, const float &yy )
 {
 	bool retVal = false;
 
@@ -322,14 +328,30 @@ bool IsPositionInWindowArea( const int32_t &xx, const int32_t &yy )
 	int32_t HeightUpper = WINDOW_HEIGHT + 50;
 
 	//!描画しようとしている位置
-	int32_t posY = yy - static_cast<int32_t>(offsety);
-	int32_t posX = xx - static_cast<int32_t>(offsetx);
+	int32_t posY = static_cast<uint32_t>( yy - offsety );
+	int32_t posX = static_cast<uint32_t>( xx - offsetx );
 
 	if(posX < WidthUpper && posX > WidthLower
 	&& posY < HeightUpper && posY > HeightLower){
 		retVal = true;
 	}
 	return retVal;
+}
+
+/* ================================================ */
+/**
+ * @brief	プレイヤーに重なるかどうか
+	true	重なっている
+	false	重なっていない
+ */
+/* ================================================ */
+bool IsPositionInPlayerPos( const float &xx, const float &yy )
+{
+	math::Vector2 otherPos = math::Vector2( xx, yy );
+	if( math::IsInRange( GetPlayerPos(), otherPos, 300.0f ) ){
+		return true;
+	}
+	return false;
 }
 
 /* ================================================ */

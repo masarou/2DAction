@@ -66,18 +66,24 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 		}
 		return;
 	}
-
+	
 	// 目標となる地点を設定
-	int32_t randamValue	= Utility::GetRandamValue( 10, -10 );
-	math::Vector2 eyeDir = GetEnemyEyeSight();
-	math::Vector2 vec = math::GetRotateVec( eyeDir, static_cast<float>(randamValue) );
-	vec.Normalize();
-
-	math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
-	if( !Utility::IsMovable( GetEnemyJsonName(), nextPos ) ){
-		// 壁に当たったら反対を向いてみる
-		vec *= -1;
+	math::Vector2 vec;
+	for( uint32_t i = 1 ;; ++i ){
+		if( i > 100 ){
+			DEBUG_ASSERT( 0, "目標となる位置がない\n");
+		}
+		int32_t randamValue	= Utility::GetRandamValue( 10*i, -10*i );
+		math::Vector2 eyeDir = GetEnemyEyeSight();
+		vec = math::GetRotateVec( eyeDir, static_cast<float>(randamValue) );
+		math::Vector2 nextPos = enemyInfo.m_posOrigin + (vec * 2.0f);
+		if( Utility::GetMapHeight( nextPos ) == 0 ){
+			break;
+			//// 壁に当たったら反対を向いてみる
+			//vec *= -2;
+		}
 	}
+	vec.Normalize();
 	enemyInfo.m_posOrigin += vec * 1.0f;
 
 	// アニメ更新

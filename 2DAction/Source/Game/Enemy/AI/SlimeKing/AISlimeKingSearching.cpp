@@ -84,7 +84,7 @@ void AISlimeKingSearching::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 	vec.Normalize();
 
 	// 移動可能かチェック
-	if( !Utility::IsMovable( GetEnemyJsonName(), enemyInfo.m_posOrigin + (vec * 2.0f) ) ){
+	if( Utility::GetMapHeight( enemyInfo.m_posOrigin + (vec * 2.0f) ) != 0 ){
 		// 移動不可なら反対を向いてみる
 		vec *= -1;
 	}

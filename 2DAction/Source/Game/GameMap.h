@@ -28,6 +28,7 @@ public:
 	virtual void Update();
 	virtual void DrawUpdate();
 
+	const math::Vector2 GetPlayerStartPos() const;	// プライヤーのスタート地点取得
 	const uint32_t GetTileHeight( const math::Vector2 &pos ) const;		// 指定位置の床の高さを取得
 	const uint32_t Get2DMortonNumber( const math::Vector2 &pos ) const;	// 引数が当たり判定を行う空間の何番にいるかを求める
 	const uint32_t GetBelongArea( const math::Vector2 &pos ) const;		// 位置情報から当たり判定空間を求める
@@ -64,6 +65,7 @@ private:
 		}
 	};
 	
+	math::Vector2				m_playerStartPos;	// 開始地点
 	TEX_INIT_INFO				m_texInfo;
 	MAP_INFO					m_mapInfo;			// マップ情報
 	std::vector<TILE_INFO>		m_vTileInfo;		// タイル一枚当たりの情報

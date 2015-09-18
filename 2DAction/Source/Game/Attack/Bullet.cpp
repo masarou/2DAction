@@ -79,6 +79,12 @@ void Bullet::Update()
 		// 生成から一定時間たったなら自殺
 		TaskStartDie();
 	}
+
+	// 厳密に確認する必要ないのでマップの高さだけを見る
+	if( Utility::GetMapHeight( m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin ) != 0 ){
+		// 壁などに当たったので自殺
+		TaskStartDie();
+	}
 }
 
 void Bullet::DrawUpdate()

@@ -81,30 +81,78 @@ namespace Common{
 		FLOW_MAX
 	};
 
+	enum EXTRA_KIND{
+		KIND_ENEMY_POS,
+		KIND_FORCE_MOVE,
+
+		KIND_MAX,
+	};
+
+	struct EX_COMMON{
+		float	m_posX;			// 相手のオブジェクトの位置
+		float	m_posY;			// 相手のオブジェクトの位置
+		void Init(){
+			m_posX = 0.0f;
+			m_posY = 0.0f;
+		}
+	};
+
+	struct EX_FORCE_MOVE{
+		float	m_posX;			// 強制移動の方向
+		float	m_posY;			// 強制移動の方向
+		float	m_forcePower;	// 強制移動の大きさ
+		void Init(){
+			m_posX = 0.0f;
+			m_posY = 0.0f;
+			m_forcePower = 0.0f;
+		}
+	};
+
+	union EXTRA_INFO{
+		EX_COMMON		m_common;
+		EX_FORCE_MOVE	m_forceMove;
+	};
+
 	struct CMN_EVENT{
+	public:
 		EVENT_MESSAGE	m_event;		// 何が起こったか？
 		uint32_t		m_eventValue;	// 汎用番号
 		uint32_t		m_delayTime;	// 実際に実行されるタイミング(0=すぐに実行)
-		void			*m_exInfo;		// 他に必要な情報があれば
 		void Init(){
 			m_event			= EVENT_MESSAGE_MAX;
 			m_eventValue	= 0;
 			m_delayTime		= 0;
-			m_exInfo		= NULL;
+			m_exkind		= KIND_MAX;
 		}
-	};
 
-	// 他のクラスから受けるダメージなどの吹っ飛び情報
-	struct FORCE_MOVING{
-		math::Vector2	m_forceDir;		// 強制移動の方向
-		float			m_forcePower;	// 強制移動の大きさ
-		void Init(){
-			m_forceDir = math::Vector2();
-			m_forcePower = 0.0f;
+		const EXTRA_KIND &GetExInfoKind() const{ return m_exkind; }
+
+		void SetExInfoCmn( const EX_COMMON &info ){
+			m_exkind = KIND_ENEMY_POS;
+			m_exInfo.m_common = info;
 		}
-		bool IsNeedMove(){
-			return (m_forceDir == math::Vector2()) ? false : true ;
+		void SetExInfoForceMove( const EX_FORCE_MOVE &info ){
+			m_exkind = KIND_FORCE_MOVE;
+			m_exInfo.m_forceMove = info;
 		}
+
+		const EX_COMMON &GetExInfoCmn() const{
+			if( m_exkind == KIND_ENEMY_POS ){
+				return m_exInfo.m_common;
+			}
+			DEBUG_ASSERT( 0, "共有体の実体と期待している型が異なります" );
+			return m_exInfo.m_common;
+		}
+		const EX_FORCE_MOVE &GetExInfoForceMove() const{
+			if( m_exkind == KIND_FORCE_MOVE ){
+				return m_exInfo.m_forceMove;
+			}
+			DEBUG_ASSERT( 0, "共有体の実体と期待している型が異なります" );
+			return m_exInfo.m_forceMove;
+		}
+	private:
+		EXTRA_KIND		m_exkind;
+		EXTRA_INFO		m_exInfo;		// その他情報
 	};
 
 	// 画面クラス内のパーツ種類

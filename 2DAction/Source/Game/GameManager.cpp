@@ -93,7 +93,9 @@ bool GameManager::Init()
 {
 	// ‰Šú”z’u‚Éİ’è‚³‚ê‚Ä‚¢‚é“GƒLƒƒƒ‰‚ğ¶¬
 	for( uint32_t i = 0; i < m_initEnemyInfoVec.size(); ++i ){
-		CreateEnemy( m_initEnemyInfoVec.at(i).m_kind, m_initEnemyInfoVec.at(i).m_kind, true );
+		math::Vector2 vec;
+		vec = Utility::GetMapRandamPos( /*bool allowInWindow=*/true );
+		CreateEnemy( m_initEnemyInfoVec.at(i).m_kind, m_initEnemyInfoVec.at(i).m_level, true, vec );
 	}
 	return true;
 }
@@ -346,10 +348,6 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	for( uint32_t i = 0; i < m_enemyInfoVec.size() ; ++i ){
 		float ratio =  m_enemyInfoVec.at(i).m_freequency / static_cast<float>( totalFreequency );
 		m_enemyInfoVec.at(i).m_freequency = static_cast<uint32_t>( (ratio * 100.0f) + 0.5f );
-	}
-
-	if( m_enemyInfoVec.size() == 0 ){
-		DEBUG_ASSERT( 0, "“G‚Ìî•ñæ“¾¸”s");
 	}
 
 	if( m_enemyFrequency > OBJECT_FREQUECY_MAX ){

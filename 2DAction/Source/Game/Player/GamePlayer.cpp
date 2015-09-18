@@ -26,7 +26,7 @@
 #include "System/SystemFPSManager.h"
 
 // 固定値
-static uint32_t DAMAGE_INVISIBLE_TIME	= 60;
+static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
 
 static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;
 static uint32_t MOVE_SPEED_DEFAULT		= 3;
@@ -37,10 +37,6 @@ static uint32_t EMERGENCY_LIFE			= 20;
 
 static uint32_t BULLET_INTERBAL_MIN		= 1;
 static uint32_t BULLET_DAMAGE_MAX		= 100;
-
-static uint32_t DEFAULT_POS_X			= 1000;
-static uint32_t DEFAULT_POS_Y			= 1000;
-
 
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
@@ -101,8 +97,8 @@ bool GamePlayer::Init()
 	// 画像の真ん中がオフセット位置になるように調整しておく(プレイヤーの初期位置セット)
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( m_drawTexture.m_pTex2D->GetDrawInfo().m_fileName.c_str() );
 	GameAccesser::GetInstance()->SetPlayerOffSet( playerTexInfo.m_sizeWidth / 2.0f, playerTexInfo.m_sizeHeight / 2.0f );
-	math::Vector2 vec = math::Vector2( static_cast<float>(DEFAULT_POS_X), static_cast<float>(DEFAULT_POS_Y) );
-	GameAccesser::GetInstance()->AddPlayerOffSet( vec );
+	math::Vector2 startPos = GameRegister::GetInstance()->GetGameMap()->GetPlayerStartPos() - drawInfo.m_posOrigin;
+	GameAccesser::GetInstance()->AddPlayerOffSet( startPos );
 
 	SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PUSH );
 	SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PUSH );
@@ -178,12 +174,14 @@ void GamePlayer::Update()
 	}
 
 	// 外からのダメージ等での強制移動
-	if( m_forceMoveInfo.IsNeedMove() ){
+	if( m_forceMoveInfo.m_posX != 0.0f 
+		&& m_forceMoveInfo.m_posY != 0.0f ){
 		if( m_forceMoveInfo.m_forcePower <= 1.0f ){
 			m_forceMoveInfo.Init();
 		}
 		else{
-			UpdateMove( m_forceMoveInfo.m_forceDir*m_forceMoveInfo.m_forcePower, /*bool isForce=*/true );
+			math::Vector2 forceVec = math::Vector2( m_forceMoveInfo.m_posX, m_forceMoveInfo.m_posY );
+			UpdateMove( forceVec*m_forceMoveInfo.m_forcePower, /*bool isForce=*/true );
 			m_forceMoveInfo.m_forcePower *= 0.9f;
 		}
 	}
@@ -553,7 +551,7 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_BLADE_ENEMY:
 	case Common::EVENT_HIT_EXPLOSION_ENEMY:
 		if( m_invisibleTime == 0 ){
-			EventDamage( eventId.m_event, eventId.m_eventValue );
+			EventDamage( eventId );
 		}
 		break;
 	case Common::EVENT_GET_ITEM_BULLET:
@@ -570,7 +568,7 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 		break;
 	case Common::EVENT_ADD_FORCE_MOVE:
 		// 必要な情報を取り出す
-		memcpy( &m_forceMoveInfo, static_cast<Common::FORCE_MOVING*>(eventId.m_exInfo), sizeof(Common::FORCE_MOVING) );
+		m_forceMoveInfo = eventId.GetExInfoForceMove();
 		m_invalidCtrlTime	= 10;
 		m_invisibleTime		= 60;
 		
@@ -588,8 +586,11 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
  */
 /* ================================================ */
 
-void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue )
+void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 {
+	Common::EVENT_MESSAGE	eventKind	= eventId.m_event;
+	uint32_t				damageValue	= eventId.m_eventValue;
+
 	// ダメージ音
 	switch( eventKind ){
 	case Common::EVENT_HIT_BULLET_ENEMY:
@@ -613,11 +614,13 @@ void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint
 				forceEvent.Init();
 				forceEvent.m_event = Common::EVENT_ADD_FORCE_MOVE;
 				forceEvent.m_delayTime = 180;
-				Common::FORCE_MOVING *pMoveInfo = NEW Common::FORCE_MOVING();
-				pMoveInfo->m_forceDir	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
-				pMoveInfo->m_forceDir.Normalize();
-				pMoveInfo->m_forcePower	= 20.0f;
-				forceEvent.m_exInfo = (void*)(pMoveInfo);
+					Common::EX_FORCE_MOVE moveInfo;
+					math::Vector2 vec	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
+					vec.Normalize();
+					moveInfo.m_posX = vec.x;
+					moveInfo.m_posY = vec.y;
+					moveInfo.m_forcePower	= 20.0f;
+					forceEvent.SetExInfoForceMove( moveInfo );
 				AddEvent( forceEvent );
 
 				// 動けないステータスにセット
@@ -626,6 +629,28 @@ void GamePlayer::EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint
 			else{
 				// 既にロック状態なのでなにもしない(ダメージ処理だけ)
 			}
+		}
+		break;
+	case Common::EVENT_HIT_ENEMY_AAA:
+	case Common::EVENT_HIT_ENEMY_BBB:
+	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_ENEMY_BOSS:
+		{
+			// 吹き飛ぶ方向を設定してイベントとしてセットしておく
+			math::Vector2 plPos		= Utility::GetPlayerPos();
+			math::Vector2 enemyPos	= math::Vector2( eventId.GetExInfoCmn().m_posX, eventId.GetExInfoCmn().m_posY );			
+			math::Vector2 forceAngle = enemyPos - plPos;
+			forceAngle.Normalize();
+
+			Common::CMN_EVENT forceEvent;
+			forceEvent.Init();
+			forceEvent.m_event = Common::EVENT_ADD_FORCE_MOVE;
+			Common::EX_FORCE_MOVE moveInfo;
+			moveInfo.m_posX = forceAngle.x;
+			moveInfo.m_posY = forceAngle.y;
+			moveInfo.m_forcePower	= 10.0f;
+			forceEvent.SetExInfoForceMove( moveInfo );
+			AddEvent( forceEvent );
 		}
 		break;
 	default:

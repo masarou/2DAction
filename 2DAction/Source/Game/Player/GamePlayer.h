@@ -81,7 +81,7 @@ private:
 	bool CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const;
 
 	// 基底からコールされるCommon::CMN_EVENTに対応した関数
-	void EventDamage( const Common::EVENT_MESSAGE &eventKind, const uint32_t &damageValue );
+	void EventDamage( Common::CMN_EVENT &eventId );
 	void PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountUp = true );
 
 	// プレイヤーが該当のステータス状態かどうか
@@ -97,7 +97,7 @@ private:
 	float					m_speedMultiply;// 行動速度の倍率
 	uint32_t				m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
 	uint32_t				m_invalidCtrlTime;	// 何らかの理由で操作を受け付けない時間
-	Common::FORCE_MOVING	m_forceMoveInfo;	// 他のクラスから受ける衝撃
+	Common::EX_FORCE_MOVE	m_forceMoveInfo;	// 他のクラスから受ける衝撃
 
 	AttackGun			*m_attackGun;	// マシンガンクラス
 	AttackBlade			*m_attackBlade;	// 近接攻撃(剣)クラス

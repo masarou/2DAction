@@ -27,14 +27,6 @@ SystemMessageUnit::~SystemMessageUnit(void)
 {
 	// 自分を削除しておく
 	SystemMessageManager::GetInstance()->RemoveMessagTask( this );
-
-	// 保持している実行できなかったイベントが持っているポインタ削除
-	for( uint32_t i = 0; i < m_eventVec.size() ; ++i ){
-		SAFE_DELETE( m_eventVec.at(i).m_exInfo );
-	}
-	for( uint32_t i = 0; i < m_nextEventVec.size() ; ++i ){
-		SAFE_DELETE( m_nextEventVec.at(i).m_exInfo );
-	}
 }
 
 
@@ -67,7 +59,6 @@ void SystemMessageUnit::StartEventAction()
 	for( uint32_t i = 0; it != m_eventVec.end() ; ++i ){
 		if( (*it).m_delayTime == 0 ){
 			EventUpdate( (*it) );
-			SAFE_DELETE( it->m_exInfo );
 			it = m_eventVec.erase(it);
 		}
 		else{
