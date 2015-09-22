@@ -30,11 +30,15 @@ class AttackGun : public TaskUnit
 public:
 
 	struct GunState{
+		uint32_t	m_damageLv;			// マシンガンレベル
+		uint32_t	m_intervalLv;		// マシンガンレベル
 		uint32_t	m_shootInterval;	// 発射間隔
 		uint32_t	m_speed;			// 発射スピード
 		uint32_t	m_damage;			// ダメージ
 
 		void Init(){
+			m_damageLv		= 0;
+			m_intervalLv	= 0;
 			m_shootInterval	= SHOOT_INTERBAL_DEFAULT;
 			m_speed			= SHOOT_SPEED_DEFAULT;
 			m_damage		= SHOOT_DAMAGE_DEFAULT;
@@ -51,8 +55,11 @@ public:
 	// 銃のステート更新
 	GunState &UpdateGunState(){ return m_currState; }
 
-protected:
+	// マシンガンのLv設定とステータス反映
+	void SetGunLevel( const uint32_t &damageLv, const uint32_t &speedLv );
 
+protected:
+	
 	virtual void Update() override;
 	virtual bool DieMain() override;
 

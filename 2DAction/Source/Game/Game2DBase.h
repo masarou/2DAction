@@ -65,6 +65,10 @@ struct Texture2D{
 	Game2DBase			*m_pTex2D;			// ‰æ‘œŠÇ—
 	//TEX_DRAW_INFO		m_texInfo;			// •`‰æî•ñ
 
+	Texture2D(){
+		Init();
+	}
+
 	void Init(){
 		m_pTex2D = NULL;
 		//m_texInfo.Init();

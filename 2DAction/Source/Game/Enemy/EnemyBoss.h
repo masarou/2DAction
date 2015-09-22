@@ -21,7 +21,7 @@ public:
 protected:
 	
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_EVENMY_BOSS; }
-	virtual const uint32_t GetEnemyDefaultHP() const override{return 4000;}	// 敵クラスのデフォルトHP取得
+	virtual const uint32_t GetEnemyDefaultHP() const override{return 120000;}	// 敵クラスのデフォルトHP取得
 	virtual const uint32_t GetEnemyDefaultSPD() const{return 1;}	// 敵クラスのデフォルトSPD取得
 
 private:
@@ -46,6 +46,8 @@ protected:
 	virtual const uint32_t GetEnemyDefaultHP() const override{return 4000;}	// 敵クラスのデフォルトHP取得
 	virtual const uint32_t GetEnemyDefaultSPD() const;	// 敵クラスのデフォルトSPD取得
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING_SLIME_KING;}
+
+	virtual bool DieMainCustom();
 
 private:
 

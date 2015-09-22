@@ -39,6 +39,7 @@ protected:
 	virtual bool Init() = 0;
 	virtual void Update() = 0;
 	virtual bool CanDie(){ return true; }
+	virtual bool IsNeedPauseFilter() const{ return true; }	// ‰‰oÄ¶‚É•”Â‚ª•K—v‚©‚Ç‚¤‚©
 
 	const STATE &GetState() const{ return m_effectState; }
 	void SetStateNext();

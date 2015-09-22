@@ -43,6 +43,7 @@ protected:
 
 	//! ステージエフェクトAdd
 	void PushStageEffect( ProcessBase *pEffect ){ m_vStageEffect.push_back( pEffect ); }
+	bool IsPlaySpecialEffect(){ return ( m_vStageEffect.size() == 0 ) ? false : true ; }
 
 protected:
 	

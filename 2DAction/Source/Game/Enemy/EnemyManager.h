@@ -33,8 +33,12 @@ public:
 	// w’è‚Ì“G‚Ì”‚ğ”‚¦‚é
 	uint32_t CountEnemy( const Common::ENEMY_KIND &kind = Common::ENEMY_KIND_MAX ) const;
 
+	// AI(AI_MOVE_PLAYER)‚Ì“G‚Ì”‚ğ”‚¦‚é
+	uint32_t CountMovePlayerAI() const{ return m_moveToPlayerNum; }
+
 protected:
 	
+	virtual void Update() override;
 	virtual bool DieMain() override;
 
 private:
@@ -44,6 +48,7 @@ private:
 	EnemyManager(void);
 	~EnemyManager(void);
 
+	uint32_t	m_moveToPlayerNum;
 	std::vector<EnemyBase*> m_enemyArray;	// “GŠÇ—
 };
 

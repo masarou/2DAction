@@ -36,7 +36,6 @@ public:
 	virtual void PadEventRight() override;
 	virtual void PadEventLeft() override;
 	virtual void PadEventDecide() override;
-	virtual void PadEventCancel() override;
 	virtual void PadEventR1() override;
 	virtual void PadEventL1() override;
 	
@@ -65,6 +64,9 @@ private:
 
 	GamePlayer(void);
 
+	// ダッシュ周りの処理まとめ関数
+	void ActionPlayerDash();
+
 	// 現在のプレイヤーの状況から再生するアニメタグ取得
 	std::string GetAnimTag();
 
@@ -88,14 +90,19 @@ private:
 	bool IsPlayerState( const PLAYER_ABNORMAL_STATE &checkState ) const;
 	void SetPlayerState( const PLAYER_ABNORMAL_STATE &checkState, const bool &flag );
 
-	uint32_t				m_playerLife;	// ユーザーライフ
-	uint32_t				m_playerLifeMax;// ユーザーライフ最大値
-	uint32_t				m_playerState;	//プレイヤー異常状態ステータス
-	uint32_t				m_speedMove;	// 行動速度に倍率をかけた瞬間のスピード
-	uint32_t				m_speedMoveBase;// 基本行動速度
-	float					m_deffenceLate;	// 防御力
-	float					m_speedMultiply;// 行動速度の倍率
-	uint32_t				m_invisibleTime;// 何らかの理由で敵の攻撃を受けない時間
+	// プレイヤーのステータスLv
+	uint32_t				m_lifeLv;			// HPLevel
+	uint32_t				m_speedLv;			// SPDLevel
+	uint32_t				m_defenceLv;		// DEFLevel
+
+	uint32_t				m_playerLife;		// ユーザーライフ
+	uint32_t				m_playerLifeMax;	// ユーザーライフ最大値
+	uint32_t				m_playerState;		//プレイヤー異常状態ステータス
+	uint32_t				m_speedMove;		// 行動速度に倍率をかけた瞬間のスピード
+	uint32_t				m_speedMoveBase;	// 基本行動速度
+	float					m_deffenceLate;		// 防御力
+	float					m_speedMultiply;	// 行動速度の倍率
+	uint32_t				m_invisibleTime;	// 何らかの理由で敵の攻撃を受けない時間
 	uint32_t				m_invalidCtrlTime;	// 何らかの理由で操作を受け付けない時間
 	Common::EX_FORCE_MOVE	m_forceMoveInfo;	// 他のクラスから受ける衝撃
 

@@ -4,14 +4,16 @@
 		{"TimeS": 0},
 		{"destroyMax": 0}
 	],
+	"bossInfo":[
+		{"enemyKind": "ENEMY_KIND_SLIME_KING", 	"level": 1, "num": 1}
+	],
+	"initEnemy":[
+	],
 	"gameCondition":[
 		{"EnemyMax": 0, "frequency":0},
 		{"ItemMax": 0, "frequency":0}
 	],
-	"existEnemy":[
-	],
-	"bossInfo":[
-		{"enemyKind": "ENEMY_KIND_AAA", "level": 1, "num": 40}
+	"appearEnemy":[
 	],
 	"pointInfo":[
 		{"score": 10000, "value": 100},

@@ -10,6 +10,8 @@
 #include "EnemyBoss.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
+#include "Flow/FlowManager.h"
+#include "Flow/Process/FlowProcessBossEnemyDeath.h"
 
 EnemyBoss *EnemyBoss::Create( const uint32_t &uniqueID )
 {
@@ -49,4 +51,16 @@ const uint32_t EnemySlimeKing::GetEnemyDefaultSPD() const
 		return 3;
 	}
 	return 1;
+}
+
+bool EnemySlimeKing::DieMainCustom()
+{
+	if( GetEnemyHitPoint() == 0 ){
+		ProcessBossEnemyDeath *pDeathEffect = ProcessBossEnemyDeath::Create( m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
+		FlowManager *pFlowMan = FlowManager::GetInstance();
+		if( pFlowMan && pDeathEffect ){
+			pFlowMan->SetupSpecialEffect( pDeathEffect );
+		}
+	}
+	return true;
 }

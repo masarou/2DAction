@@ -72,6 +72,13 @@ bool InputWatcher::IsButtonPress( const BUTTON_KIND &kind )
 	}
 	return false;
 }
+bool InputWatcher::IsPreFrameButtonPress( const BUTTON_KIND &kind )
+{
+	if(m_preButtonState & kind){
+		return true;
+	}
+	return false;
+}
 
 /* ================================================ */
 /**

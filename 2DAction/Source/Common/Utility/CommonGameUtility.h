@@ -29,9 +29,10 @@ void EndGamePause();
 bool IsGamePause();
 
 // ゲームストップ
-void StartGameStop();
+void StartGameStop( bool withFileter = false );	// 引数は黒板(BlackFilter)の有無
 void EndGameStop();
 bool IsGameStop();
+bool IsShowPauseFilter();
 
 // ゲームが一周して終わるとき、タイトルに戻るときなどにプレイ記録リセット
 void GameInitALL();
@@ -85,6 +86,9 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min);
 // セーブデータの情報を取得
 bool GetSaveData( Common::SAVE_DATA &saveData );
 bool OverWriteSaveData( Common::SAVE_DATA &saveData );
+
+// プレイヤーのレベルから実際にセットする値へ変換
+uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level );
 
 // 画面のjsonからパーツ情報を取得("partsInfo")
 void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Common::PARTS_INFO > &vParts );

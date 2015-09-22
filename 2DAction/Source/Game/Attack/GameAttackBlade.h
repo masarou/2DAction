@@ -27,10 +27,12 @@ public:
 
 	struct BladeState{
 
+		uint32_t	m_bladeLv;			// 斬撃Lv
 		uint32_t	m_damage;			// ダメージ
 		uint32_t	m_interval;			// 斬撃間隔
 
 		void Init(){
+			m_bladeLv	= 0;
 			m_damage	= SLASHING_DAMAGE_DEFAULT;
 			m_interval	= 0;//SLASHING_INTERBAL_DEFAULT;
 		}
@@ -44,6 +46,9 @@ public:
 
 	// 剣のステータス
 	BladeState &UpdateBladeState(){ return m_currState; }
+
+	// 剣のLvの設定とステータス反映
+	void SetBladeLevel( const uint32_t &level );
 
 	// 現在攻撃中(斬撃アニメが出ている)かどうか
 	bool IsSlashingAnimPlay(){ return m_currSlashing ? true : false ;}

@@ -17,7 +17,7 @@ EnemyBBB *EnemyBBB::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID
 }
 
 EnemyBBB::EnemyBBB( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
-: EnemyBase( "EnemyAhriman.json", uniqueID, Common::ENEMY_KIND_BBB, enemyLevel, enemyPos )
+: EnemyBase( "EnemyAhriman.json", uniqueID, Common::ENEMY_KIND_AHRIMAN, enemyLevel, enemyPos )
 {
 }
 

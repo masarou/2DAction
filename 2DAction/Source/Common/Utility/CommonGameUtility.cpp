@@ -29,11 +29,14 @@ namespace Utility
 	
 /* ================================================ */
 /**
- * @brief	ゲームが一周して終わるとき、タイトルに戻るときなどにプレイ記録リセット
+ * @brief	ゲームがストップする瞬間周りのフラグ
  */
 /* ================================================ */
-static bool s_gamePauseFlg = false;
-static bool s_gameStopFlg = false;
+static bool s_gamePauseFlg		= false;
+static bool s_gameStopFlg		= false;
+static bool s_showBlackFilter	= false;
+
+// ポーズ画面に入った時
 void StartGamePause()
 {
 	s_gamePauseFlg = true;
@@ -51,19 +54,27 @@ bool IsGamePause()
 	return s_gamePauseFlg;
 }
 
-void StartGameStop()
+// チュートリアル、演出等でゲームが止まった時
+void StartGameStop( bool withFileter )
 {
 	s_gameStopFlg = true;
+	s_showBlackFilter = withFileter;
 }
 
 void EndGameStop()
 {
 	s_gameStopFlg = false;
+	s_showBlackFilter = false;
 }
 
 bool IsGameStop()
 {
 	return s_gameStopFlg;
+}
+
+bool IsShowPauseFilter()
+{
+	return s_showBlackFilter;
 }
 
 /* ================================================ */
@@ -525,6 +536,100 @@ bool OverWriteSaveData( Common::SAVE_DATA &saveData )
 	fwrite( &saveData, sizeof(saveData), 1, fpWrite );
 	fclose( fpWrite );
 	return true;
+}
+
+/* ================================================ */
+/**
+ * @brief	ステータスレベルから実際にセットする値へ変換(0~9の間)
+ */
+/* ================================================ */
+static const uint32_t STATE_LEVEL_MAX = 10;
+uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level )
+{
+	if( level >= STATE_LEVEL_MAX){
+		DEBUG_ASSERT( 0, "指定レベルが想定外");
+		return 0;
+	}
+
+	// ライフのレベルテーブル
+	static uint32_t s_lifeStateTable[STATE_LEVEL_MAX] = {
+		0,		// lv1
+		30,		// lv2
+		70,		// lv3
+		120,	// lv4
+		180,	// lv5
+		250,	// lv6
+		330,	// lv7
+		420,	// lv8
+		520,	// lv9
+		600,	// lv10
+	};
+
+	// 斬撃のレベルテーブル
+	static uint32_t s_damageSlashingTable[STATE_LEVEL_MAX] = {
+		0,		// lv1
+		30,		// lv2
+		70,		// lv3
+		100,	// lv4
+		140,	// lv5
+		180,	// lv6
+		250,	// lv7
+		300,	// lv8
+		350,	// lv9
+		400,	// lv10
+	};
+
+	// マシンガンのレベルテーブル
+	static uint32_t s_damageBulletTable[STATE_LEVEL_MAX] = {
+		0,		// lv1
+		20,		// lv2
+		40,		// lv3
+		60,		// lv4
+		80,	// lv5
+		100,	// lv6
+		120,	// lv7
+		150,	// lv8
+		180,	// lv9
+		200,	// lv10
+	};
+
+	// マシンガンSPDのレベルテーブル
+	static uint32_t s_speedBulletTable[STATE_LEVEL_MAX] = {
+		0,		// lv1
+		2,		// lv2
+		4,		// lv3
+		6,		// lv4
+		8,		// lv5
+		10,		// lv6
+		12,		// lv7
+		14,		// lv8
+		16,		// lv9
+		18,		// lv10
+	};
+
+	uint32_t retVal = 0;
+	switch( stateKind ){
+
+	case Common::BASE_STATE_LIFE:
+		retVal = s_lifeStateTable[level];
+		break;
+	case Common::BASE_STATE_MOVE_SPEED:
+		retVal = static_cast<uint32_t>(level*0.5f);
+		break;
+	case Common::BASE_STATE_DEFFENCE:
+		retVal = level*5;
+		break;
+	case Common::BASE_STATE_BLADE_LEVEL:
+		retVal = s_damageSlashingTable[level];
+		break;
+	case Common::BASE_STATE_BULLET_SPD:
+		retVal = s_speedBulletTable[level];
+		break;
+	case Common::BASE_STATE_BULLET_DMG:
+		retVal = s_damageBulletTable[level];
+		break;
+	}
+	return retVal;
 }
 
 /* ================================================ */

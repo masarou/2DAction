@@ -101,6 +101,7 @@ protected:
 	bool IsButtonPush( const BUTTON_KIND &kind );
 	bool IsButtonPress( const BUTTON_KIND &kind );
 	bool IsButtonRelease( const BUTTON_KIND &kind );
+	bool IsPreFrameButtonPress( const BUTTON_KIND &kind );
 
 	//! ボタンのイベントステータス設定
 	void SetPadButtonState( const BUTTON_KIND &kind, const BUTTON_EVENT_KIND &eventKind );

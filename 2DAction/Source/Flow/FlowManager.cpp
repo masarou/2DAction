@@ -87,6 +87,14 @@ const char *FlowManager::GetCurrentFlow() const
 	return "";
 }
 
+//! ステージエフェクト追加
+void FlowManager::SetupSpecialEffect( ProcessBase *pEffect )
+{
+	if( m_pFlow ){
+		m_pFlow->PushStageEffect( pEffect );
+	}
+}
+
 void FlowManager::Update()
 {
 	if( !m_pFlow ){

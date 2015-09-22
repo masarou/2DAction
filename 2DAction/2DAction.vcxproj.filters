@@ -151,9 +151,6 @@
     <ClInclude Include="Source\Common\Utility\CommonGameUtility.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Enemy\EnemyAAA.h">
-      <Filter>Game\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Enemy\EnemyBase.h">
       <Filter>Game\Enemy</Filter>
     </ClInclude>
@@ -319,6 +316,12 @@
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIDashTackle.h">
       <Filter>Game\Enemy\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemySlime.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\Process\FlowProcessBossEnemyDeath.h">
+      <Filter>Flow\Process</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -420,9 +423,6 @@
     </ClCompile>
     <ClCompile Include="Source\Common\CmnNumberCounter.cpp">
       <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\EnemyAAA.cpp">
-      <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\System\Message\SystemMessageUnit.cpp">
       <Filter>System\Message</Filter>
@@ -543,6 +543,12 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIDashTackle.cpp">
       <Filter>Game\Enemy\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemySlime.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Process\FlowProcessBossEnemyDeath.cpp">
+      <Filter>Flow\Process</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

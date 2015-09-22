@@ -109,7 +109,9 @@ void FlowGame::UpdateFlowAfterChildTask()
 
 	const GamePlayer *pPlayer = GameRegister::GetInstance()->GetPlayer();
 	const GameManager *pGameMan = GameRegister::GetInstance()->GetManagerGame();
-	if( pPlayer->GetCurrentLife() == 0 || pGameMan->IsGameOver() ){
+	if( ( pPlayer->GetCurrentLife() == 0 || pGameMan->IsGameOver() )
+		&& !IsPlaySpecialEffect() ){
+
 		StartFade("gameend");
 
 		// 終了時点でのユーザーライフを格納しておく

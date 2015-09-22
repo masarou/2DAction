@@ -88,6 +88,18 @@ void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 
 
 /* ================================================ */
 /**
+/ * @brief	剣のLvの設定とステータス反映
+/ */
+/* ================================================ */
+void AttackBlade::SetBladeLevel( const uint32_t &level )
+{
+	m_currState.m_bladeLv	= level;
+	m_currState.m_damage	= SLASHING_DAMAGE_DEFAULT + Utility::ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, level );
+	m_currState.m_interval	= 20;//ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
+}
+
+/* ================================================ */
+/**
 / * @brief	各種Update関数
 / */
 /* ================================================ */

@@ -10,6 +10,7 @@
 #include "GameAttackGun.h"
 #include "Bullet.h"
 #include "System/Sound/SystemSoundManager.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 AttackGun *AttackGun::CreateGun( const Common::OWNER_TYPE &ownerType )
 {
@@ -33,6 +34,20 @@ bool AttackGun::DieMain()
 {
 	m_magazine.clear();
 	return true;
+}
+
+/* ================================================ */
+/**
+ * @brief	マシンガンのLv設定とステータス反映
+ */
+/* ================================================ */
+void AttackGun::SetGunLevel( const uint32_t &damageLv, const uint32_t &speedLv )
+{
+	m_currState.m_damage			= damageLv;
+	m_currState.m_intervalLv		= speedLv;
+	m_currState.m_damage			= SHOOT_DAMAGE_DEFAULT + Utility::ConvertLevelToBaseState( Common::BASE_STATE_BULLET_DMG, damageLv );
+	m_currState.m_shootInterval		= SHOOT_INTERBAL_DEFAULT - Utility::ConvertLevelToBaseState( Common::BASE_STATE_BULLET_SPD, speedLv );
+	//m_speed				+= playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_DMG];
 }
 
 /* ================================================ */

@@ -17,7 +17,7 @@ EnemyCCC *EnemyCCC::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID
 }
 
 EnemyCCC::EnemyCCC( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
-	: EnemyBase( "EnemyTough.json", uniqueID, Common::ENEMY_KIND_CCC, enemyLevel, enemyPos )
+	: EnemyBase( "EnemyTough.json", uniqueID, Common::ENEMY_KIND_COW, enemyLevel, enemyPos )
 {
 }
 

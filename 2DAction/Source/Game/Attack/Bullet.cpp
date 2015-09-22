@@ -122,6 +122,11 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 			TaskStartDie();
 		}
 		break;
+
+	case Common::EVENT_HIT_BLADE_PLAYER:
+		// ƒvƒŒƒCƒ„[‚ÌaŒ‚‚É“–‚½‚Á‚½‚ç‚©‚«Á‚³‚ê‚é
+		TaskStartDie();
+		break;
 	}
 }
 

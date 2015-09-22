@@ -3,7 +3,16 @@
  * @brief  プレイヤークラス
  *
  * @note
- *		
+ *		斬撃	Lv1~5	小斬撃
+				Lv6~9	大斬撃
+
+		ダッシュ	Lv2から使用可能
+					Lv4でエフェクトがつく
+					Lv9で押しっぱなしダッシュが可能に
+
+		マシンガン	貫通にする？
+					ため攻撃あり？
+
  */
 /* ====================================================================== */
 
@@ -30,13 +39,15 @@ static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
 
 static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;
 static uint32_t MOVE_SPEED_DEFAULT		= 3;
-static float DASH_MULTIPLY_DEFAULT		= 10.0f;
+static float DASH_MULTIPLY_DEFAULT		= 5.0f;
 static uint32_t DASH_SPEED_MAX			= 15;
 static uint32_t WARNING_LIFE			= 40;
 static uint32_t EMERGENCY_LIFE			= 20;
 
 static uint32_t BULLET_INTERBAL_MIN		= 1;
 static uint32_t BULLET_DAMAGE_MAX		= 100;
+
+static uint32_t STATUS_LEVEL_MAX		= 9;
 
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
@@ -52,15 +63,18 @@ GamePlayer *GamePlayer::CreatePlayer()
 GamePlayer::GamePlayer(void)
 : TaskUnit("Player")
 , Collision2DUnit( "Player.json" )
-, m_speedMove( 0 )
-, m_speedMoveBase( MOVE_SPEED_DEFAULT )
-, m_speedMultiply( 0.0f )
-, m_invisibleTime(0)
-, m_invalidCtrlTime(0)
+, m_lifeLv( 0 )
+, m_speedLv( 0 )
+, m_defenceLv( 0 )
 , m_playerLife( LIFE_POINT_DEFAULT_MAX )
 , m_playerLifeMax( LIFE_POINT_DEFAULT_MAX )
 , m_playerState( ABNORMAL_STATE_NONE )
+, m_speedMove( 0 )
+, m_speedMoveBase( MOVE_SPEED_DEFAULT )
 , m_deffenceLate( 1.0f )
+, m_speedMultiply( 0.0f )
+, m_invisibleTime( 0 )
+, m_invalidCtrlTime( 0 )
 , m_attackGun(NULL)
 , m_attackBlade(NULL)
 , m_pStatusMenu(NULL)
@@ -84,7 +98,6 @@ bool GamePlayer::Init()
 	drawInfo.m_fileName = "Player.json";
 	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 
-
 	// 遠距離攻撃マシンガンクラスセット
 	m_attackGun = AttackGun::CreateGun( Common::OWNER_PLAYER );
 	
@@ -100,9 +113,14 @@ bool GamePlayer::Init()
 	math::Vector2 startPos = GameRegister::GetInstance()->GetGameMap()->GetPlayerStartPos() - drawInfo.m_posOrigin;
 	GameAccesser::GetInstance()->AddPlayerOffSet( startPos );
 
-	SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PUSH );
-	SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PUSH );
-
+	if( m_speedLv == STATUS_LEVEL_MAX ){
+		SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PRESS );
+		SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PRESS );
+	}
+	else{
+		SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PUSH );
+		SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PUSH );
+	}
 	return true;
 }
 
@@ -130,14 +148,15 @@ void GamePlayer::Update()
 			m_speedMultiply *= 0.94f;
 			
 			// 3フレームに一回残像エフェクト描画
-			if( FpsManager::GetUpdateCounter() % 3 == 0 ){
+			if( FpsManager::GetUpdateCounter() % 3 == 0 && m_speedLv >= 3 ){
 				GameEffect::CreateEffect( GameEffect::EFFECT_DASH_SMOKE, Utility::GetPlayerPos() );
 			}
 		}
-		// 一定以下になったら切り捨て(終了)
-		if( m_speedMultiply < 1.2f ){
+		// 一定数になったら切り捨て(終了)
+		if( m_speedMultiply < 1.2f || m_speedLv == STATUS_LEVEL_MAX ){
 			m_speedMultiply = 1.0f;
 		}
+		// 早すぎる場合は切り捨て
 		if( m_speedMove > DASH_SPEED_MAX ){
 			m_speedMove = DASH_SPEED_MAX;
 		}
@@ -274,37 +293,14 @@ void GamePlayer::PadEventDecide()
 	}
 }
 
-void GamePlayer::PadEventCancel()
-{
-}
-
 void GamePlayer::PadEventR1()
 {
-	if( GetStickInfoLeft().m_vec == DEFAULT_VECTOR2 ){
-		// 方向キーの入力が入っていないので何もしない
-		return;
-	}
-
-	if( m_speedMultiply <= 1.0f ){
-		m_speedMultiply = DASH_MULTIPLY_DEFAULT;
-		// ダッシュ効果音
-		SoundManager::GetInstance()->PlaySE("Dash");
-	}
+	ActionPlayerDash();
 }
 
 void GamePlayer::PadEventL1()
 {
-	if( GetStickInfoLeft().m_vec == DEFAULT_VECTOR2 ){
-		// 方向キーの入力が入っていないので何もしない
-		return;
-	}
-
-	if( m_speedMultiply <= 1.0f ){
-		m_speedMultiply = DASH_MULTIPLY_DEFAULT;
-		// ダッシュ効果音
-		SoundManager::GetInstance()->PlaySE("Dash");
-	}
-
+	ActionPlayerDash();
 }
 
 /* ================================================ */
@@ -333,6 +329,39 @@ const uint32_t	&GamePlayer::GetPlayerLifeMax() const
 void GamePlayer::AddEvent( const Common::CMN_EVENT &cmnEvent )
 {
 	SystemMessageManager::GetInstance()->PushMessage( GetUniqueId(), cmnEvent );
+}
+
+/* ================================================ */
+/**
+ * @brief	ダッシュ周りの処理まとめ関数
+ */
+/* ================================================ */
+void GamePlayer::ActionPlayerDash()
+{
+	if( GetStickInfoLeft().m_vec == DEFAULT_VECTOR2 ){
+		// 方向キーの入力が入っていないので何もしない
+		return;
+	}
+
+	if( m_speedLv == 0 ){
+		// ダッシュLvが0なので何もしない
+		return;
+	}
+
+	// ダッシュLvが最大の場合は常に有効
+	if( m_speedLv == STATUS_LEVEL_MAX ){
+		// 効果音は30fに一回鳴らす
+		if( FpsManager::GetUpdateCounter() % 30 == 0 || !IsPreFrameButtonPress( InputWatcher::BUTTON_L1 ) ){
+			SoundManager::GetInstance()->PlaySE("Dash");
+		}
+		// 係数セット
+		m_speedMultiply = DASH_MULTIPLY_DEFAULT + static_cast<uint32_t>( 0.5 * m_speedLv );
+	}
+	else if( m_speedMultiply <= 1.0f ){
+		SoundManager::GetInstance()->PlaySE("Dash");
+		// 係数セット
+		m_speedMultiply = DASH_MULTIPLY_DEFAULT + static_cast<uint32_t>( 0.5 * m_speedLv );
+	}
 }
 
 /* ================================================ */
@@ -381,28 +410,26 @@ void GamePlayer::SetupInitPlayerState()
 	Utility::GetSaveData( playData );
 
 	// ライフを反映
-	m_playerLifeMax = ConvertLevelToBaseState( Common::BASE_STATE_LIFE, playData.m_playerBaseStateLv[Common::BASE_STATE_LIFE] );
-	m_playerLife = m_playerLifeMax;
+	m_lifeLv		= playData.m_playerBaseStateLv[Common::BASE_STATE_LIFE];
+	m_playerLifeMax	= LIFE_POINT_DEFAULT_MAX + Utility::ConvertLevelToBaseState( Common::BASE_STATE_LIFE, m_lifeLv );
+	m_playerLife	= m_playerLifeMax;
 
 	// 行動速度を反映
-	m_speedMoveBase = ConvertLevelToBaseState( Common::BASE_STATE_MOVE_SPEED, playData.m_playerBaseStateLv[Common::BASE_STATE_MOVE_SPEED] );
+	m_speedLv		= playData.m_playerBaseStateLv[Common::BASE_STATE_MOVE_SPEED];
+	m_speedMoveBase = MOVE_SPEED_DEFAULT + Utility::ConvertLevelToBaseState( Common::BASE_STATE_MOVE_SPEED, m_speedLv );
 
 	// 防御力を反映
-	m_deffenceLate = ConvertLevelToBaseState( Common::BASE_STATE_DEFFENCE, playData.m_playerBaseStateLv[Common::BASE_STATE_DEFFENCE] ) / 100.0f;
+	m_defenceLv		= playData.m_playerBaseStateLv[Common::BASE_STATE_DEFFENCE];
+	m_deffenceLate = ( 100.0 - static_cast<float>( Utility::ConvertLevelToBaseState( Common::BASE_STATE_DEFFENCE, m_defenceLv ) ) ) / 100.0f;
 
 	// マシンガンクラスを反映
 	if( m_attackGun ){
-		AttackGun::GunState &gunState	= m_attackGun->UpdateGunState();
-		gunState.m_damage				= ConvertLevelToBaseState( Common::BASE_STATE_BULLET_DMG, playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_DMG] );
-		gunState.m_shootInterval		= ConvertLevelToBaseState( Common::BASE_STATE_BULLET_SPD, playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_SPD] );
-		gunState.m_speed				+= playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_DMG];
+		m_attackGun->SetGunLevel( playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_DMG], playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_SPD] );
 	}
 
 	// 剣クラスを反映
 	if( m_attackBlade ){
-		AttackBlade::BladeState &bladeState	= m_attackBlade->UpdateBladeState();
-		bladeState.m_damage					= ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
-		bladeState.m_interval				= 20;//ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
+		m_attackBlade->SetBladeLevel( playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
 	}
 
 	// アイテム取得数を反映
@@ -412,98 +439,6 @@ void GamePlayer::SetupInitPlayerState()
 			PlayerGetItem( static_cast<Common::ITEM_KIND>(i), /*isCountUp=*/false );
 		}
 	}
-}
-
-/* ================================================ */
-/**
- * @brief	ステータスレベルから実際にセットする値へ変換
- */
-/* ================================================ */
-static const uint32_t STATE_LEVEL_MAX = 9;
-uint32_t GamePlayer::ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level )
-{
-	// ライフのレベルテーブル
-	static uint32_t s_lifeStateTable[] = {
-		0,		// lv1
-		30,		// lv2
-		70,		// lv3
-		120,	// lv4
-		180,	// lv5
-		250,	// lv6
-		330,	// lv7
-		420,	// lv8
-		520,	// lv9
-		650,	// lv10
-	};
-
-	// 斬撃のレベルテーブル
-	static uint32_t s_damageSlashingTable[] = {
-		0,		// lv1
-		30,		// lv2
-		70,		// lv3
-		120,	// lv4
-		180,	// lv5
-		250,	// lv6
-		330,	// lv7
-		420,	// lv8
-		520,	// lv9
-		670,	// lv10
-	};
-
-	// マシンガンのレベルテーブル
-	static uint32_t s_damageBulletTable[] = {
-		0,		// lv1
-		20,		// lv2
-		50,		// lv3
-		70,		// lv4
-		100,	// lv5
-		140,	// lv6
-		180,	// lv7
-		230,	// lv8
-		250,	// lv9
-		300,	// lv10
-	};
-
-	// マシンガンSPDのレベルテーブル
-	static uint32_t s_speedBulletTable[] = {
-		0,		// lv1
-		2,		// lv2
-		4,		// lv3
-		6,		// lv4
-		8,		// lv5
-		10,		// lv6
-		12,		// lv7
-		14,		// lv8
-		16,		// lv9
-		18,		// lv10
-	};
-
-	uint32_t retVal = 0;
-	switch( stateKind ){
-
-	case Common::BASE_STATE_LIFE:
-		retVal = LIFE_POINT_DEFAULT_MAX + s_lifeStateTable[level];
-		break;
-	case Common::BASE_STATE_MOVE_SPEED:
-		retVal = MOVE_SPEED_DEFAULT + static_cast<uint32_t>(level*0.5f);
-		break;
-	case Common::BASE_STATE_DEFFENCE:
-		retVal = 100 - (level*5);
-		break;
-	//case Common::BASE_STATE_BLADE_LEVEL:
-	//	retVal = SLASHING_INTERBAL_DEFAULT - (level*2);
-	//	break;
-	case Common::BASE_STATE_BLADE_LEVEL:
-		retVal = SLASHING_DAMAGE_DEFAULT + s_damageSlashingTable[level];
-		break;
-	case Common::BASE_STATE_BULLET_SPD:
-		retVal = SHOOT_INTERBAL_DEFAULT - s_speedBulletTable[level];
-		break;
-	case Common::BASE_STATE_BULLET_DMG:
-		retVal = SHOOT_DAMAGE_DEFAULT + s_damageBulletTable[level];
-		break;
-	}
-	return retVal;
 }
 
 /* ================================================ */
@@ -613,7 +548,7 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 				Common::CMN_EVENT forceEvent;
 				forceEvent.Init();
 				forceEvent.m_event = Common::EVENT_ADD_FORCE_MOVE;
-				forceEvent.m_delayTime = 180;
+				forceEvent.m_delayTime = 120;
 					Common::EX_FORCE_MOVE moveInfo;
 					math::Vector2 vec	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
 					vec.Normalize();
@@ -639,7 +574,7 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 			// 吹き飛ぶ方向を設定してイベントとしてセットしておく
 			math::Vector2 plPos		= Utility::GetPlayerPos();
 			math::Vector2 enemyPos	= math::Vector2( eventId.GetExInfoCmn().m_posX, eventId.GetExInfoCmn().m_posY );			
-			math::Vector2 forceAngle = enemyPos - plPos;
+			math::Vector2 forceAngle = plPos - enemyPos;
 			forceAngle.Normalize();
 
 			Common::CMN_EVENT forceEvent;

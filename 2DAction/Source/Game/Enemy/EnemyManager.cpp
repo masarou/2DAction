@@ -8,7 +8,7 @@
 /* ====================================================================== */
 
 #include "EnemyManager.h"
-#include "EnemyAAA.h"
+#include "EnemySlime.h"
 #include "EnemyBBB.h"
 #include "EnemyCCC.h"
 #include "EnemyBoss.h"
@@ -25,11 +25,22 @@ EnemyManager *EnemyManager::CreateEnemyManager()
 
 EnemyManager::EnemyManager(void)
 : TaskUnit("EnemyManager")
+, m_moveToPlayerNum( 0 )
 {
 }
 
 EnemyManager::~EnemyManager(void)
 {
+}
+
+void EnemyManager::Update()
+{
+	m_moveToPlayerNum = 0;
+	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+		if( m_enemyArray.at(i)->m_pEnemyAI->GetAIKind() == Common::AI_MOVE_PLAYER ){
+			++m_moveToPlayerNum;
+		}
+	}
 }
 
 bool EnemyManager::DieMain()
@@ -53,13 +64,13 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &ene
 	static uint32_t currUniqueNo = 0;
 	EnemyBase *pEnemy = NULL;
 	switch( kind ){
-	case Common::ENEMY_KIND_AAA:
-		pEnemy = EnemyAAA::Create( enemyLevel, currUniqueNo, enemyPos );
+	case Common::ENEMY_KIND_SLIME:
+		pEnemy = EnemySlime::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
-	case Common::ENEMY_KIND_BBB:
+	case Common::ENEMY_KIND_AHRIMAN:
 		pEnemy = EnemyBBB::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
-	case Common::ENEMY_KIND_CCC:
+	case Common::ENEMY_KIND_COW:
 		pEnemy = EnemyCCC::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_BOSS:
@@ -89,6 +100,11 @@ void EnemyManager::RemoveEnemy( EnemyBase *removeEnemy )
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	指定項目の敵をカウント
+ */
+/* ================================================ */
 uint32_t EnemyManager::CountEnemy( const Common::ENEMY_KIND &kind ) const
 {
 	uint32_t retVal = 0;
@@ -101,8 +117,6 @@ uint32_t EnemyManager::CountEnemy( const Common::ENEMY_KIND &kind ) const
 				++retVal;
 			}
 		}
-
 	}
-
 	return retVal;
 }

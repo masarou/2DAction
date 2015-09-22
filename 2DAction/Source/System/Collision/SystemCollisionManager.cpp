@@ -188,7 +188,7 @@ void CollisionManager::CollisionUpdate()
 					break;
 				}
 				eventInfo.m_event = messageKind;
-				Common::EX_COMMON exCommon = { texB.m_posOrigin.x, texB.m_posOrigin.y };
+				Common::EX_COMMON exCommon = { texA.m_posOrigin.x, texA.m_posOrigin.y };
 				eventInfo.SetExInfoCmn( exCommon );
 
 				// ê⁄êGÇµÇΩÇ±Ç∆Çì`Ç¶ÇÈ
@@ -282,10 +282,15 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ITEM_LIFE:
 	case Common::TYPE_ITEM_DAMAGE:
 	case Common::TYPE_ITEM_BATTLE_POINT:
-	case Common::TYPE_BULLET_ENEMY:
 	case Common::TYPE_BLADE_ENEMY:
 	//case Common::TYPE_EXPLOSION_ENEMY:
 		if( typeB != Common::TYPE_PLAYER ){
+			retVal = false;
+		}
+		break;
+	case Common::TYPE_BULLET_ENEMY:
+		if( typeB != Common::TYPE_PLAYER
+			&& typeB != Common::TYPE_BLADE_PLAYER ){
 			retVal = false;
 		}
 		break;

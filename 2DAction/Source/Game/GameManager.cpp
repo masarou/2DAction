@@ -114,7 +114,8 @@ bool GameManager::IsGameOver() const
 		}
 	}
 	else if( m_type == TYPE_DESTROY ){
-		if( m_destroyNum >= m_destroyMax ){
+		EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
+		if( m_destroyNum >= m_destroyMax && pEnemyManager->CountEnemy() == 0 ){
 			retVal = true;
 		}
 	}
@@ -272,6 +273,7 @@ void GameManager::ResetManageValue()
 /* ================================================ */
 void GameManager::LoadGameSettings( const char *jsonFile )
 {
+	picojson::value null;
 	std::string path = JSON_OTHER_PATH;
 	path += jsonFile;
 	std::ifstream ifs(path.c_str());
@@ -279,93 +281,120 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	picojson::value root;
 	picojson::parse( root, ifs);
 
-	//!基本となる情報取得
-	picojson::value stageData = root.get("stageKind");
-	std::string typeStr = stageData.get(0).get("type").get<std::string>();
-	if( typeStr.compare("TIME") == 0 ){
-		m_type = TYPE_TIME;
-	}
-	else if( typeStr.compare("DESTROY") == 0 )
+	//!基本となる情報取得(ステージのクリア条件)
 	{
-		m_type = TYPE_DESTROY;
+		picojson::value stageData = root.get("stageKind");
+		std::string typeStr = stageData.get(0).get("type").get<std::string>();
+		if( typeStr.compare("TIME") == 0 ){
+			m_type = TYPE_TIME;
+			m_gameTimeMax	= static_cast<uint32_t>(stageData.get(1).get("TimeS").get<double>());
+			m_gameTimeMax *= 60;
+		}
+		else if( typeStr.compare("DESTROY") == 0 )
+		{
+			m_type = TYPE_DESTROY;
+			m_destroyMax	= static_cast<uint32_t>(stageData.get(2).get("destroyMax").get<double>());
+		}
+		else if( typeStr.compare("DESTROY_BOSS") == 0 )
+		{
+			m_type = TYPE_DESTROY_BOSS;
+			picojson::value bossData = root.get("bossInfo");
+			picojson::value null;
+			for(uint32_t i = 0;; ++i){
+				if( bossData == null || bossData.get(i) == null){
+					break;
+				}
+				
+				// ボスカウントする敵の種類を取得
+				Common::ENEMY_KIND kind = GetEnemyKindFromStr( bossData.get(i).get("enemyKind").get<std::string>() );
+				if( kind != Common::ENEMY_KIND_MAX ){
+					m_bossKindVec.push_back( kind );
+				}
+
+				// 初期配置するボス情報セット
+				uint32_t enemyIndex = static_cast<uint32_t>( bossData.get(i).get("num").get<double>() );
+				for( uint32_t j = 0; j < enemyIndex; ++j ){
+					ExistEnemyState enemyState;
+					enemyState.Init();
+					enemyState.m_kind = kind;
+					enemyState.m_level = static_cast<uint32_t>( bossData.get(i).get("level").get<double>() );
+					m_initEnemyInfoVec.push_back( enemyState );
+				}
+			}
+		}
 	}
-	else if( typeStr.compare("DESTROY_BOSS") == 0 )
+
+	// 初期配置の敵設定
 	{
-		m_type = TYPE_DESTROY_BOSS;
-		picojson::value bossData = root.get("bossInfo");
-		picojson::value null;
-		for(uint32_t i = 0;; ++i){
-			if( bossData == null || bossData.get(i) == null){
+		picojson::value initEnemy = root.get("initEnemy");
+		for( uint32_t i = 0 ;; ++i ){
+			if( initEnemy == null || initEnemy.get(i) == null ){
 				break;
 			}
-			
-			// ボスカウントする敵の種類を取得
-			Common::ENEMY_KIND kind = GetEnemyKindFromStr( bossData.get(i).get("enemyKind").get<std::string>() );
-			m_bossKindVec.push_back( kind );
-
-			// 初期配置するボス情報セット
-			uint32_t enemyIndex = static_cast<uint32_t>( bossData.get(i).get("num").get<double>() );
-			for( uint32_t j = 0; j < enemyIndex; ++j ){
+			uint32_t enemyIndex = static_cast<uint32_t>( initEnemy.get(i).get("num").get<double>() );
+			for( uint32_t j = 0; j < enemyIndex ; ++j ){
 				ExistEnemyState enemyState;
 				enemyState.Init();
-				enemyState.m_kind = kind;
-				enemyState.m_level = static_cast<uint32_t>( bossData.get(i).get("level").get<double>() );
+				enemyState.m_kind = GetEnemyKindFromStr( initEnemy.get(i).get("enemyKind").get<std::string>() );
+				enemyState.m_level = static_cast<uint32_t>( initEnemy.get(i).get("level").get<double>() );
 				m_initEnemyInfoVec.push_back( enemyState );
 			}
 		}
 	}
-	m_gameTimeMax	= static_cast<uint32_t>(stageData.get(1).get("TimeS").get<double>());
-	m_destroyMax	= static_cast<uint32_t>(stageData.get(2).get("destroyMax").get<double>());
-	m_gameTimeMax *= 60;
-	
-	picojson::value condData = root.get("gameCondition");
-	m_enemyMax			= static_cast<uint32_t>(condData.get(0).get("EnemyMax").get<double>());
-	m_enemyFrequency	= static_cast<uint32_t>(condData.get(0).get("frequency").get<double>());
-	m_itemMax			= static_cast<uint32_t>(condData.get(1).get("ItemMax").get<double>());
-	m_itemFrequency		= static_cast<uint32_t>(condData.get(1).get("frequency").get<double>());
 
-	// 敵情報
-	picojson::value enemyData = root.get("existEnemy");
-	picojson::value null;
-	uint32_t totalFreequency = 0;	// 出現係数のトータル
-	for( uint32_t i = 0 ;; ++i ){
-		if( enemyData == null || enemyData.get(i) == null ){
-			break;
+	// 出現敵の頻度
+	{
+		picojson::value enemyData = root.get("appearEnemy");
+		uint32_t totalFreequency = 0;	// 出現係数のトータル
+		for( uint32_t i = 0 ;; ++i ){
+			if( enemyData == null || enemyData.get(i) == null ){
+				break;
+			}
+			ExistEnemyState eneInfo;
+			eneInfo.m_kind = GetEnemyKindFromStr( enemyData.get(i).get("enemyKind").get<std::string>() );
+			eneInfo.m_level = static_cast<uint32_t>(enemyData.get(i).get("level").get<double>());
+			eneInfo.m_freequency = static_cast<uint32_t>(enemyData.get(i).get("frequency").get<double>());
+			if( eneInfo.m_level == 0 ){
+				DEBUG_ASSERT( 0, "eneInfo.m_level is 0" );
+				eneInfo.m_level = 1;
+			}
+			m_enemyInfoVec.push_back( eneInfo );
+
+			totalFreequency += eneInfo.m_freequency;
 		}
-		ExistEnemyState eneInfo;
-		eneInfo.m_kind = GetEnemyKindFromStr( enemyData.get(i).get("enemyKind").get<std::string>() );
-		eneInfo.m_level = static_cast<uint32_t>(enemyData.get(i).get("level").get<double>());
-		eneInfo.m_freequency = static_cast<uint32_t>(enemyData.get(i).get("frequency").get<double>());
-		if( eneInfo.m_level == 0 ){
-			DEBUG_ASSERT( 0, "eneInfo.m_level is 0" );
-			eneInfo.m_level = 1;
+		// 出現係数の合計からそれぞれの敵の出現率を求めてセットしなおす
+		for( uint32_t i = 0; i < m_enemyInfoVec.size() ; ++i ){
+			float ratio =  m_enemyInfoVec.at(i).m_freequency / static_cast<float>( totalFreequency );
+			m_enemyInfoVec.at(i).m_freequency = static_cast<uint32_t>( (ratio * 100.0f) + 0.5f );
 		}
-		m_enemyInfoVec.push_back( eneInfo );
-
-		totalFreequency += eneInfo.m_freequency;
-	}
-	// 出現係数の合計からそれぞれの敵の出現率を求めてセットしなおす
-	for( uint32_t i = 0; i < m_enemyInfoVec.size() ; ++i ){
-		float ratio =  m_enemyInfoVec.at(i).m_freequency / static_cast<float>( totalFreequency );
-		m_enemyInfoVec.at(i).m_freequency = static_cast<uint32_t>( (ratio * 100.0f) + 0.5f );
 	}
 
-	if( m_enemyFrequency > OBJECT_FREQUECY_MAX ){
-		m_enemyFrequency = OBJECT_FREQUECY_MAX;
-	}
-	if( m_itemFrequency > OBJECT_FREQUECY_MAX ){
-		m_itemFrequency = OBJECT_FREQUECY_MAX;
+	// 敵、アイテムの出現頻度
+	{
+		picojson::value condData = root.get("gameCondition");
+		m_enemyMax			= static_cast<uint32_t>(condData.get(0).get("EnemyMax").get<double>());
+		m_enemyFrequency	= static_cast<uint32_t>(condData.get(0).get("frequency").get<double>());
+		m_itemMax			= static_cast<uint32_t>(condData.get(1).get("ItemMax").get<double>());
+		m_itemFrequency		= static_cast<uint32_t>(condData.get(1).get("frequency").get<double>());
+		if( m_enemyFrequency > OBJECT_FREQUECY_MAX ){
+			m_enemyFrequency = OBJECT_FREQUECY_MAX;
+		}
+		if( m_itemFrequency > OBJECT_FREQUECY_MAX ){
+			m_itemFrequency = OBJECT_FREQUECY_MAX;
+		}
 	}
 
 	// 取得できるバトルポイント情報
-	picojson::value pointData = root.get("pointInfo");
-	for( uint32_t i = 0 ;; ++i ){
-		if( pointData == null || pointData.get(i) == null ){
-			break;
+	{
+		picojson::value pointData = root.get("pointInfo");
+		for( uint32_t i = 0 ;; ++i ){
+			if( pointData == null || pointData.get(i) == null ){
+				break;
+			}
+			uint32_t score = static_cast<uint32_t>(pointData.get(i).get("score").get<double>());
+			uint32_t point = static_cast<uint32_t>(pointData.get(i).get("value").get<double>());
+			GameRecorder::GetInstance()->SetClearBattlePoint( score, point );
 		}
-		uint32_t score = static_cast<uint32_t>(pointData.get(i).get("score").get<double>());
-		uint32_t point = static_cast<uint32_t>(pointData.get(i).get("value").get<double>());
-		GameRecorder::GetInstance()->SetClearBattlePoint( score, point );
 	}
 }
 
@@ -458,9 +487,9 @@ Common::ENEMY_KIND GameManager::GetEnemyKindFromStr( const std::string str )
 		Common::ENEMY_KIND	kind;
 		std::string			kindStr;
 	} s_enemyTypeStr[] = {
-		{ Common::ENEMY_KIND_AAA,			"ENEMY_KIND_AAA" },
-		{ Common::ENEMY_KIND_BBB,			"ENEMY_KIND_BBB" },
-		{ Common::ENEMY_KIND_CCC,			"ENEMY_KIND_CCC" },
+		{ Common::ENEMY_KIND_SLIME,			"ENEMY_KIND_SLIME" },
+		{ Common::ENEMY_KIND_AHRIMAN,		"ENEMY_KIND_AHRIMAN" },
+		{ Common::ENEMY_KIND_COW,			"ENEMY_KIND_COW" },
 		{ Common::ENEMY_KIND_BOSS,			"ENEMY_KIND_BOSS" },
 		{ Common::ENEMY_KIND_SLIME_KING,	"ENEMY_KIND_SLIME_KING" },
 	};

@@ -7,6 +7,9 @@
  */
 /* ====================================================================== */
 
+#include "Game/GameRegister.h"
+#include "Game/Enemy/EnemyManager.h"
+
 #include "EnemyAISearch.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
@@ -36,34 +39,38 @@ bool EnemyAISearch::InitAI()
 
 void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
+	// 
 	if( SearchPlayer( enemyInfo ) ){
+
+		// プレイヤー発見!!!
+		if( GetEnemyKind() == Common::ENEMY_KIND_SLIME ){
+			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
+			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+		}
+		else if( GetEnemyKind() == Common::ENEMY_KIND_SLIME_KING ){
+			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
+			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
+		}
+		else if( GetEnemyKind() == Common::ENEMY_KIND_AHRIMAN ){			
+			DEBUG_PRINT("【プレイヤー発見! ステータスをShootに変更】\n");
+			ChangeEnemyAI( Common::AI_SHOOTING );
+		}
+		else if( GetEnemyKind() == Common::ENEMY_KIND_COW ){			
+			DEBUG_PRINT("【プレイヤー発見! ステータスをDashTackleに変更】\n");
+			ChangeEnemyAI( Common::AI_DASH_TACKLE );
+		}
+		else if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
+			if( SearchPlayer( enemyInfo, 600.0f ) ){
+				DEBUG_PRINT("【プレイヤー発見! ステータスをAttackに変更】\n");
+				ChangeEnemyAI( Common::AI_ATTACK_NEAR );
+			}
+		}
 
 		// 発見「!」マーク生成
 		const TEX_INIT_INFO &info = TextureResourceManager::GetInstance()->GetLoadTextureInfo( enemyInfo.m_fileName.c_str() );
 		math::Vector2 dispPos = enemyInfo.m_posOrigin;
 		dispPos.y -= static_cast<float>( (info.m_sizeHeight/2) );
 		GameEffect::CreateEffect( GameEffect::EFFECT_EXCLAMATION, dispPos );
-
-		// プレイヤー発見!!!
-		if( GetEnemyKind() == Common::ENEMY_KIND_AAA
-			|| GetEnemyKind() == Common::ENEMY_KIND_SLIME_KING ){
-			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
-			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
-		}
-		else if( GetEnemyKind() == Common::ENEMY_KIND_BBB ){			
-			DEBUG_PRINT("【プレイヤー発見! ステータスをShootに変更】\n");
-			ChangeEnemyAI( Common::AI_SHOOTING );
-		}
-		else if( GetEnemyKind() == Common::ENEMY_KIND_CCC ){			
-			DEBUG_PRINT("【プレイヤー発見! ステータスをDashTackleに変更】\n");
-			ChangeEnemyAI( Common::AI_DASH_TACKLE );
-		}
-		else if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
-			if( SearchPlayer( enemyInfo, 600.0f ) ){
-				DEBUG_PRINT("【プレイヤー発見! ステータスをMovingに変更】\n");
-				ChangeEnemyAI( Common::AI_ATTACK_NEAR );
-			}
-		}
 		return;
 	}
 	
@@ -114,9 +121,17 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 
 bool EnemyAISearch::SearchPlayer( TEX_DRAW_INFO &enemyInfo, float distance )
 {
-	bool retVal = false;
-	if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, distance ) ){
-		retVal = true;
+	// スライムで敵に体当たり中が一定数以上いるなら状態変化なし
+	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
+	if( GetEnemyKind() == Common::ENEMY_KIND_SLIME && pEnemyManager->CountMovePlayerAI() > 3 ){
+		return false;
 	}
-	return retVal;
+	
+	// プレイヤーが一定の範囲内がどうかチェック
+	if( !math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, distance ) ){
+		// 一定の範囲外
+		return false;
+	}
+
+	return true;
 }

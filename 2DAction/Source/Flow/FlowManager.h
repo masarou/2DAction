@@ -12,6 +12,7 @@
 #include "Common/CommonDefine.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "FlowBase.h"
+#include "Process/FlowProcessBase.h"
 
 class FlowManager : public TaskUnit
 {
@@ -31,6 +32,9 @@ public:
 	//! 現在のゲームフローの種類取得
 	const Common::GAME_FLOW &GetCurrentFlowKind() const{ return m_currFlow; }
 	const Common::GAME_FLOW &GetPreFlowKind() const{ return m_preFlow; }
+
+	//! ステージエフェクト追加
+	void SetupSpecialEffect( ProcessBase *pEffect );
 
 private:
 

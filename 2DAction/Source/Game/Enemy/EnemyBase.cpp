@@ -89,8 +89,10 @@ bool EnemyBase::DieMain()
 	m_textureLife.DeleteAndInit();
 	SAFE_DELETE( m_pEnemyAI );
 
-	// 倒された敵をカウントしておく
-	GameRegister::GetInstance()->UpdateManagerGame()->AddDestroyCount();
+	if( GetEnemyHitPoint() == 0 ){
+		// 倒された敵をカウントしておく
+		GameRegister::GetInstance()->UpdateManagerGame()->AddDestroyCount();
+	}
 
 	return true;
 };
@@ -178,9 +180,28 @@ const TEX_DRAW_INFO &EnemyBase::GetDrawInfo() const
 	return m_drawTexture.m_pTex2D->GetDrawInfo();
 }
 
+/* ================================================ */
+/**
+ * @brief	レベル取得
+ */
+/* ================================================ */
 const uint32_t &EnemyBase::GetEnemyLevel() const
 {
 	return m_enemyLv;
+}
+
+/* ================================================ */
+/**
+ * @brief	現在のAI取得
+ */
+/* ================================================ */
+const Common::ENEMY_AI EnemyBase::GetCurrentAIKind() const
+{
+	Common::ENEMY_AI ai = Common::AI_MAX;
+	if( m_pEnemyAI ){
+		ai = m_pEnemyAI->GetAIKind();
+	}
+	return ai;
 }
 
 /* ================================================ */
@@ -217,15 +238,6 @@ void EnemyBase::RefrectAIAction()
 		SystemMessageManager::GetInstance()->PushMessage( GetUniqueId(), eventInfo );
 	}
 	m_actionInfoAI.m_pushEventArray.clear();
-
-	//switch( m_actionInfoAI.m_AItype ){
-	//default:
-
-	//	break;
-	//case AI_SHOOT_BULLET:
-	//	// m_actionInfoAI.m_AIInfoから情報を取り出していろいろ行う
-	//	break;
-	//}
 }
 
 /* ================================================ */
@@ -255,13 +267,13 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		// スコア追加
 		Common::ENEMY_KIND kind = GetKind();
 		switch( kind ){
-		case Common::ENEMY_KIND_AAA:
+		case Common::ENEMY_KIND_SLIME:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AAA_DEATH );
 			break;
-		case Common::ENEMY_KIND_BBB:
+		case Common::ENEMY_KIND_AHRIMAN:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BBB_DEATH );
 			break;
-		case Common::ENEMY_KIND_CCC:
+		case Common::ENEMY_KIND_COW:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_CCC_DEATH );
 			break;
 		case Common::ENEMY_KIND_BOSS:

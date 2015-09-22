@@ -73,8 +73,8 @@ void PauseFilter::DrawUpdate()
 		m_drawTexture.m_pTex2D->DrawUpdate2D();
 		m_drawPauseStr.m_pTex2D->DrawUpdate2D();
 	}
-	else if( Utility::IsGameStop() ){
-		// 何らかの演出中
+	else if( Utility::IsShowPauseFilter() ){
+		// 何らかの演出中で黒板のみ必要
 		m_drawTexture.m_pTex2D->DrawUpdate2D();
 	}
 }

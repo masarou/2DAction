@@ -12,11 +12,11 @@
 
 #include "EnemyBase.h"
 
-class EnemyAAA : public EnemyBase
+class EnemySlime : public EnemyBase
 {
 public:
 
-	static EnemyAAA *Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	static EnemySlime *Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
 
 protected:
 	
@@ -27,8 +27,8 @@ protected:
 
 private:
 
-	EnemyAAA( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
-	~EnemyAAA(void);
+	EnemySlime( const std::string &fileName, const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	~EnemySlime(void);
 
 };
 

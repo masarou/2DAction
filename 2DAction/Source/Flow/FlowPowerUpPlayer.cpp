@@ -74,6 +74,8 @@ PowerUpMenu::PowerUpMenu( const std::string &fileName )
 {
 	// セーブデータロード
 	Utility::GetSaveData( m_loadData );
+
+	//m_loadData.m_battlePoint = 9999;
 }
 
 PowerUpMenu::~PowerUpMenu(void)

@@ -4,15 +4,20 @@
 		{"TimeS": 0},
 		{"destroyMax": 0}
 	],
+	"bossInfo":[
+		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 1, "num": 1}
+	],
+	"initEnemy":[
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 1, "num": 10},
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 2, "num": 20}
+	],
 	"gameCondition":[
-		{"EnemyMax": 10, "frequency":6},
+		{"EnemyMax": 50, "frequency":4},
 		{"ItemMax": 0, "frequency":0}
 	],
-	"existEnemy":[
-		{"enemyKind": "ENEMY_KIND_BBB", "level": 1, "frequency": 100}
-	],
-	"bossInfo":[
-		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 0, "num": 2}
+	"appearEnemy":[
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level":1, "frequency":70},
+		{"enemyKind": "ENEMY_KIND_SLIME",	"level":2, "frequency":100}
 	],
 	"pointInfo":[
 		{"score": 10000, "value": 100},

@@ -189,7 +189,7 @@ void FlowBase::ChildUpdate()
 		else{
 			(*it)->Exec();
 			// フィルターを表示し続ける
-			Utility::StartGameStop();
+			Utility::StartGameStop( /*bool withFilter=*/(*it)->IsNeedPauseFilter() );
 		}
 	}
 	else{

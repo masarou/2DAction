@@ -38,6 +38,7 @@ public:
 	const math::Vector2 &GetEnemyEyeSight() const{ return m_eye; }
 	const uint32_t &GetWalkHeight() const{ return m_walkHeight; }
 	const uint32_t &GetEnemyLevel() const;
+	const Common::ENEMY_AI GetCurrentAIKind() const;
 
 protected:
 
