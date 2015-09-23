@@ -69,12 +69,6 @@ GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 		case Common::FLOW_STAGE10:
 			m_settingFileStr = "GameSettings10.json";
 			break;
-		case Common::FLOW_STAGE11:
-			m_settingFileStr = "GameSettings11.json";
-			break;
-		case Common::FLOW_STAGE12:
-			m_settingFileStr = "GameSettings12.json";
-			break;
 	}
 	// ƒ}ƒbƒv‚ÌŠÂ‹«Žæ“¾
 	LoadGameSettings( m_settingFileStr.c_str() );

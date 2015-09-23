@@ -9,10 +9,15 @@
 
 #include "SystemCollisionManager.h"
 #include "System/Message/SystemMessageManager.h"
-#include "Game/Attack/Bullet.h"
-#include "Game/Attack/Slashing.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/GameMap.h"
+
+#include "Game/Attack/Bullet.h"
+#include "Game/Attack/Slashing.h"
+#include "Game/Enemy/EnemySlime.h"
+#include "Game/Enemy/EnemyAhriman.h"
+#include "Game/Enemy/EnemyCow.h"
+#include "Game/Enemy/EnemyBoss.h"
 
 CollisionManager *CollisionManager::s_pInstance	= NULL;
 
@@ -114,25 +119,40 @@ void CollisionManager::CollisionUpdate()
 				case Common::TYPE_PLAYER:
 					messageKind = Common::EVENT_HIT_PLAYER;
 					break;
-				case Common::TYPE_EVENMY_AAA:
-					messageKind = Common::EVENT_HIT_ENEMY_AAA;
-					eventInfo.m_eventValue = 10;
+				case Common::TYPE_EVENMY_SLIME:
+					{
+						messageKind = Common::EVENT_HIT_ENEMY_SLIME;
+						EnemySlime *pEnemySlime = static_cast<EnemySlime*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemySlime->GetPlayerHitDamage();
+					}
 					break;
-				case Common::TYPE_EVENMY_BBB:
-					messageKind = Common::EVENT_HIT_ENEMY_BBB;
-					eventInfo.m_eventValue = 10;
+				case Common::TYPE_EVENMY_AHRIMAN:
+					{
+						messageKind = Common::EVENT_HIT_ENEMY_AHRIMAN;
+						EnemyBBB *pEnemyAhriman = static_cast<EnemyBBB*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemyAhriman->GetPlayerHitDamage();
+					}
 					break;
-				case Common::TYPE_EVENMY_CCC:
-					messageKind = Common::EVENT_HIT_ENEMY_CCC;
-					eventInfo.m_eventValue = 10;
+				case Common::TYPE_EVENMY_COW:
+					{
+						messageKind = Common::EVENT_HIT_ENEMY_COW;
+						EnemyCCC *pEnemyCow = static_cast<EnemyCCC*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemyCow->GetPlayerHitDamage();
+					}
 					break;
 				case Common::TYPE_EVENMY_BOSS:
-					messageKind = Common::EVENT_HIT_ENEMY_BOSS;
-					eventInfo.m_eventValue = 10;
+					{
+						messageKind = Common::EVENT_HIT_ENEMY_BOSS;
+						EnemyBoss *pEnemyBoss = static_cast<EnemyBoss*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemyBoss->GetPlayerHitDamage();
+					}
 					break;
 				case Common::TYPE_EVENMY_SLIME_KING:
-					messageKind = Common::EVENT_HIT_ENEMY_SLIME_KING;
-					eventInfo.m_eventValue = 20;
+					{
+						messageKind = Common::EVENT_HIT_ENEMY_SLIME_KING;
+						EnemySlimeKing *pEnemySlimeKing = static_cast<EnemySlimeKing*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemySlimeKing->GetPlayerHitDamage();
+					}
 					break;
 				case Common::TYPE_ITEM_BULLET:
 					messageKind = Common::EVENT_GET_ITEM_BULLET;
@@ -267,9 +287,9 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 			retVal = false;
 		}
 		break;
-	case Common::TYPE_EVENMY_AAA:
-	case Common::TYPE_EVENMY_BBB:
-	case Common::TYPE_EVENMY_CCC:
+	case Common::TYPE_EVENMY_SLIME:
+	case Common::TYPE_EVENMY_AHRIMAN:
+	case Common::TYPE_EVENMY_COW:
 	case Common::TYPE_EVENMY_BOSS:
 	case Common::TYPE_EVENMY_SLIME_KING:
 		if( typeB != Common::TYPE_PLAYER
@@ -446,16 +466,16 @@ void CollisionManager::RemoveUnitFromTree( const uint32_t &treeIndex, Collision2
 //		case Common::TYPE_PLAYER:
 //			messageKind = Common::EVENT_HIT_PLAYER;
 //			break;
-//		case Common::TYPE_EVENMY_AAA:
-//			messageKind = Common::EVENT_HIT_ENEMY_AAA;
+//		case Common::TYPE_EVENMY_SLIME:
+//			messageKind = Common::EVENT_HIT_ENEMY_SLIME;
 //			eventInfo.m_eventValue = 20;
 //			break;
-//		case Common::TYPE_EVENMY_BBB:
-//			messageKind = Common::EVENT_HIT_ENEMY_BBB;
+//		case Common::TYPE_EVENMY_AHRIMAN:
+//			messageKind = Common::EVENT_HIT_ENEMY_AHRIMAN;
 //			eventInfo.m_eventValue = 20;
 //			break;
-//		case Common::TYPE_EVENMY_CCC:
-//			messageKind = Common::EVENT_HIT_ENEMY_CCC;
+//		case Common::TYPE_EVENMY_COW:
+//			messageKind = Common::EVENT_HIT_ENEMY_COW;
 //			break;
 //		case Common::TYPE_ITEM_BULLET:
 //			messageKind = Common::EVENT_GET_ITEM_BULLET;

@@ -555,14 +555,14 @@ uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t 
 	static uint32_t s_lifeStateTable[STATE_LEVEL_MAX] = {
 		0,		// lv1
 		30,		// lv2
-		70,		// lv3
-		120,	// lv4
-		180,	// lv5
-		250,	// lv6
-		330,	// lv7
-		420,	// lv8
-		520,	// lv9
-		600,	// lv10
+		50,		// lv3
+		80,		// lv4
+		100,	// lv5
+		130,	// lv6
+		160,	// lv7
+		200,	// lv8
+		250,	// lv9
+		300,	// lv10
 	};
 
 	// 斬撃のレベルテーブル
@@ -585,12 +585,12 @@ uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t 
 		20,		// lv2
 		40,		// lv3
 		60,		// lv4
-		80,	// lv5
-		100,	// lv6
-		120,	// lv7
-		150,	// lv8
-		180,	// lv9
-		200,	// lv10
+		80,		// lv5
+		90,		// lv6
+		100,	// lv7
+		110,	// lv8
+		130,	// lv9
+		150,	// lv10
 	};
 
 	// マシンガンSPDのレベルテーブル
@@ -601,10 +601,10 @@ uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t 
 		6,		// lv4
 		8,		// lv5
 		10,		// lv6
-		12,		// lv7
-		14,		// lv8
-		16,		// lv9
-		18,		// lv10
+		11,		// lv7
+		13,		// lv8
+		14,		// lv9
+		17,		// lv10
 	};
 
 	uint32_t retVal = 0;

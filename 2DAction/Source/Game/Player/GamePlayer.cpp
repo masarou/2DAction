@@ -477,9 +477,9 @@ bool GamePlayer::CanMoveThisPos( const math::Vector2 &nextFlameAddValue ) const
 void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
-	case Common::EVENT_HIT_ENEMY_AAA:
-	case Common::EVENT_HIT_ENEMY_BBB:
-	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_ENEMY_SLIME:
+	case Common::EVENT_HIT_ENEMY_AHRIMAN:
+	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 	case Common::EVENT_HIT_BULLET_ENEMY:
@@ -566,9 +566,9 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 			}
 		}
 		break;
-	case Common::EVENT_HIT_ENEMY_AAA:
-	case Common::EVENT_HIT_ENEMY_BBB:
-	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_ENEMY_SLIME:
+	case Common::EVENT_HIT_ENEMY_AHRIMAN:
+	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
 		{
 			// 吹き飛ぶ方向を設定してイベントとしてセットしておく

@@ -118,11 +118,6 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 	}
 	SetEnemyAnim( animTag );
 	SetEnemyEyeSight( vec );
-
-	// プレイヤーに向かって弾を発射
-	if( Utility::GetRandamValue( 120, 0 ) == 0 ){
-		ShootBullet();
-	}
 }
 
 void AIBossNearAttack::ChangeActionType( const ACTION_TYPE &nextType )
@@ -191,7 +186,7 @@ bool AIBossNearAttack::ExecSlashing( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 		int32_t randamValue		= Utility::GetRandamValue( 160, -160 );
 		int32_t awayDistance	= Utility::GetRandamValue( 300, 700 );
 
-		// 次の目的地をいい感じに求める
+		// 次の目的地を求める
 		nextTargetVec = math::GetRotateVec( nextTargetVec, static_cast<float>(randamValue) );
 
 		// 目的地に視線をセット

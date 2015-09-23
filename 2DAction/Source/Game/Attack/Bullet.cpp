@@ -105,9 +105,9 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 
 		break;
 
-	case Common::EVENT_HIT_ENEMY_AAA:	// ìGÇ…ìñÇΩÇ¡ÇΩ
-	case Common::EVENT_HIT_ENEMY_BBB:
-	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_ENEMY_SLIME:	// ìGÇ…ìñÇΩÇ¡ÇΩ
+	case Common::EVENT_HIT_ENEMY_AHRIMAN:
+	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 		if( m_ownerType == Common::OWNER_PLAYER ){
@@ -125,7 +125,7 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 
 	case Common::EVENT_HIT_BLADE_PLAYER:
 		// ÉvÉåÉCÉÑÅ[ÇÃéaåÇÇ…ìñÇΩÇ¡ÇΩÇÁÇ©Ç´è¡Ç≥ÇÍÇÈ
-		TaskStartDie();
+		//TaskStartDie();
 		break;
 	}
 }

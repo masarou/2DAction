@@ -41,6 +41,15 @@ bool PlayerStatusMenu::InitMenu()
 	drawInfo.m_usePlayerOffset = false;
 	drawInfo.m_arrangeOrigin = math::Vector2( 0.0f, 0.0f );	// 拡大縮小する画像なのでセットしておく
 	m_lifeGauge.m_pTex2D->SetDrawInfo( drawInfo );
+
+	// カウントアップアニメは行わない
+	PartsCounter *pPartsHPCurr = GetPartsCounter("lifeCurr");
+	PartsCounter *pPartsHPMax = GetPartsCounter("lifeMax");
+	if( pPartsHPCurr && pPartsHPMax ){
+		pPartsHPCurr->SetCountAnimFlg( false );
+		pPartsHPMax->SetCountAnimFlg( false );
+	}
+
 	return true;
 }
 

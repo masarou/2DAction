@@ -9,8 +9,8 @@
 
 #include "EnemyManager.h"
 #include "EnemySlime.h"
-#include "EnemyBBB.h"
-#include "EnemyCCC.h"
+#include "EnemyAhriman.h"
+#include "EnemyCow.h"
 #include "EnemyBoss.h"
 #include "AI/EnemyAIBase.h"
 #include "Game/Attack/Bullet.h"
@@ -119,4 +119,19 @@ uint32_t EnemyManager::CountEnemy( const Common::ENEMY_KIND &kind ) const
 		}
 	}
 	return retVal;
+}
+
+/* ================================================ */
+/**
+ * @brief	SystemMessageUnitのユニークIDから敵クラスを取得
+ */
+/* ================================================ */
+const EnemyBase *EnemyManager::GetEnemyBymessageUniqueID( uint32_t messageUnitID )
+{
+	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+		if( m_enemyArray.at(i)->GetUniqueId() == messageUnitID){
+			return m_enemyArray.at(i);
+		}
+	}
+	return NULL;
 }

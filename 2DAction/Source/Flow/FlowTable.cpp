@@ -45,8 +45,6 @@ static FLOW_DATA s_flowTablse[] =
 	{	FlowGame::Create,			"FlowGameStage08.json",		Common::FLOW_STAGE08},
 	{	FlowGame::Create,			"FlowGameStage09.json",		Common::FLOW_STAGE09},
 	{	FlowGame::Create,			"FlowGameStage10.json",		Common::FLOW_STAGE10},
-	{	FlowGame::Create,			"FlowGameStage11.json",		Common::FLOW_STAGE11},
-	{	FlowGame::Create,			"FlowGameStage12.json",		Common::FLOW_STAGE12},
 	{	FlowStageResult::Create,	"FlowStageResult.json",		Common::FLOW_RESULT},
 	{	FlowInterval::Create,		"FlowInterval.json",		Common::FLOW_INTERVAL},
 	{	FlowTotalResult::Create,	"FlowTotalResult.json",		Common::FLOW_RESULT_TOTAL},

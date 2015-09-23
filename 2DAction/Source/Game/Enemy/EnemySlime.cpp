@@ -65,3 +65,8 @@ bool EnemySlime::InitMain()
 {
 	return 1 + ( GetEnemyLevel() / 3 );
 }
+
+const uint32_t EnemySlime::GetPlayerHitDamage() const
+{
+	return 10 + ( 5 * GetEnemyLevel() );
+}

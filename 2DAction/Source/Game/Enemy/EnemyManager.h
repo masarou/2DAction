@@ -36,6 +36,9 @@ public:
 	// AI(AI_MOVE_PLAYER)の敵の数を数える
 	uint32_t CountMovePlayerAI() const{ return m_moveToPlayerNum; }
 
+	// SystemMessageUnitのユニークIDから敵クラスを取得
+	const EnemyBase *GetEnemyBymessageUniqueID( uint32_t messageUnitID );
+
 protected:
 	
 	virtual void Update() override;

@@ -8,16 +8,17 @@
 	],
 	"initEnemy":[
 		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 4, "num": 20},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 5, "num": 40},
-		{"enemyKind": "ENEMY_KIND_COW", 	"level": 1, "num": 10}
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 6, "num": 40},
+		{"enemyKind": "ENEMY_KIND_COW", 	"level": 4, "num": 10},
+		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 1, "num": 2}
 	],
 	"gameCondition":[
 		{"EnemyMax": 80, "frequency":5},
 		{"ItemMax": 0, "frequency":0}
 	],
 	"appearEnemy":[
-		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 4, "frequency":30},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 5, "frequency":70}
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 4, "num": 40},
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 7, "num": 70}
 	],
 	"pointInfo":[
 		{"score": 10000, "value": 100},

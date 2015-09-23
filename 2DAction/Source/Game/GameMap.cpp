@@ -54,12 +54,6 @@ GameMap::GameMap( const Common::GAME_FLOW &currentKind )
 	case Common::FLOW_STAGE10:
 		LoadMapInfo("MapStage10.json");
 		break;
-	case Common::FLOW_STAGE11:
-		LoadMapInfo("MapStage11.json");
-		break;
-	case Common::FLOW_STAGE12:
-		LoadMapInfo("MapStage12.json");
-		break;
 	}
 }
 

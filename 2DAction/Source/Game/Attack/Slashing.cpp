@@ -130,9 +130,9 @@ void Slashing::EventUpdate( Common::CMN_EVENT &eventId )
 
 		break;
 
-	case Common::EVENT_HIT_ENEMY_AAA:	// “G‚É“–‚½‚Á‚½
-	case Common::EVENT_HIT_ENEMY_BBB:
-	case Common::EVENT_HIT_ENEMY_CCC:
+	case Common::EVENT_HIT_ENEMY_SLIME:	// “G‚É“–‚½‚Á‚½
+	case Common::EVENT_HIT_ENEMY_AHRIMAN:
+	case Common::EVENT_HIT_ENEMY_COW:
 		if( m_ownerType == Common::OWNER_PLAYER ){
 			//m_liveTime = BULLET_LIVE_TIME;
 			//TaskStartDie();

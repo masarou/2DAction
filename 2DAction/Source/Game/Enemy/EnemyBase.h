@@ -32,6 +32,7 @@ public:
 
 	// 情報取得関数
 	const Common::ENEMY_KIND &GetKind() const{ return m_enemyKind; }
+	const uint32_t &GetEnemyLv() const{ return m_enemyLv; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }
@@ -58,6 +59,7 @@ protected:
 	// 派生先でセットする関数
 	virtual const uint32_t GetEnemyDefaultHP() const{return 10;}	// 敵クラスのデフォルトHP取得
 	virtual const uint32_t GetEnemyDefaultSPD() const{return 1;}	// 敵クラスのデフォルトSPD取得
+	virtual const uint32_t GetPlayerHitDamage() const{return 10;}	// プレイヤー衝突時のダメージ
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING;}	// 敵クラスのデフォルトSPD取得
 	virtual void  EnemyDeath();										// HPがなくなり倒されたときに呼ばれる
 

@@ -9,9 +9,9 @@ namespace Common{
 	// 当たり判定が絡んでくる表示物
 	enum TYPE_OBJECT{
 		TYPE_PLAYER,
-		TYPE_EVENMY_AAA,
-		TYPE_EVENMY_BBB,
-		TYPE_EVENMY_CCC,
+		TYPE_EVENMY_SLIME,
+		TYPE_EVENMY_AHRIMAN,
+		TYPE_EVENMY_COW,
 		TYPE_EVENMY_BOSS,
 		TYPE_EVENMY_SLIME_KING,
 
@@ -33,9 +33,9 @@ namespace Common{
 	// オブジェクト同士のイベントメッセージ
 	enum EVENT_MESSAGE{
 		EVENT_HIT_PLAYER,			// プレイヤーキャラクタ
-		EVENT_HIT_ENEMY_AAA,		// 敵との接触
-		EVENT_HIT_ENEMY_BBB,		// 敵との接触
-		EVENT_HIT_ENEMY_CCC,		// 敵との接触
+		EVENT_HIT_ENEMY_SLIME,		// 敵との接触
+		EVENT_HIT_ENEMY_AHRIMAN,		// 敵との接触
+		EVENT_HIT_ENEMY_COW,		// 敵との接触
 		EVENT_HIT_ENEMY_BOSS,		// 敵との接触
 		EVENT_HIT_ENEMY_SLIME_KING,	// 敵との接触
 
@@ -71,8 +71,6 @@ namespace Common{
 		FLOW_STAGE08,		// ステージ08
 		FLOW_STAGE09,		// ステージ09
 		FLOW_STAGE10,		// ステージ10
-		FLOW_STAGE11,		// ステージ11
-		FLOW_STAGE12,		// ステージ12
 		FLOW_RESULT,		// リザルト
 		FLOW_INTERVAL,		// 休憩
 		FLOW_RESULT_TOTAL,	// すべてのステージを終えてのリザルト

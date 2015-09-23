@@ -196,9 +196,6 @@
     <ClInclude Include="Source\Game\GameManager.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Enemy\EnemyBBB.h">
-      <Filter>Game\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Source\System\Collision\SystemCollisionManager.h">
       <Filter>System\Collision</Filter>
     </ClInclude>
@@ -243,9 +240,6 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Attack\Slashing.h">
       <Filter>Game\Attack</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Enemy\EnemyCCC.h">
-      <Filter>Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\Enemy\EnemyBoss.h">
       <Filter>Game\Enemy</Filter>
@@ -321,6 +315,12 @@
     </ClInclude>
     <ClInclude Include="Source\Flow\Process\FlowProcessBossEnemyDeath.h">
       <Filter>Flow\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAhriman.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyCow.h">
+      <Filter>Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -433,9 +433,6 @@
     <ClCompile Include="Source\Game\GameManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\EnemyBBB.cpp">
-      <Filter>Game\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Source\System\Collision\SystemCollisionManager.cpp">
       <Filter>System\Collision</Filter>
     </ClCompile>
@@ -480,9 +477,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Attack\Slashing.cpp">
       <Filter>Game\Attack</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\EnemyCCC.cpp">
-      <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\EnemyBoss.cpp">
       <Filter>Game\Enemy</Filter>
@@ -549,6 +543,12 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\Process\FlowProcessBossEnemyDeath.cpp">
       <Filter>Flow\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAhriman.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyCow.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

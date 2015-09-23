@@ -8,7 +8,7 @@
 		{"enemyKind": "ENEMY_KIND_BOSS", "level": 1, "num": 1}
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 4, "num": 0}
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 4, "num": 4}
 	],
 	"gameCondition":[
 		{"EnemyMax": 0, "frequency":0},
