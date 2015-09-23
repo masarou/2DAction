@@ -28,7 +28,7 @@ public:
 
 	//! •`‰æ—\–ñ
 	void PushDrawString( const std::string &str, const math::Vector2 &pos, const uint32_t &color = GetColor( 0, 0, 0 ) );
-	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority = PRIORITY_NORMAL );
+	void PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const Common::PRIORITY &priority = Common::PRIORITY_NORMAL );
 
 	//! •`‰æ—\–ñƒLƒƒƒ“ƒZƒ‹
 	void DeleteDrawInfo( const int32_t &handle );
@@ -76,7 +76,7 @@ private:
 
 	//! •`‰æŽwŽ¦
 	void DrawTexture( const uint32_t &drawIndex );
-	void PushDrawInfoMain( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority = PRIORITY_NORMAL );
+	void PushDrawInfoMain( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const Common::PRIORITY &priority = Common::PRIORITY_NORMAL );
 
 	static Draw2DManager	*s_pInstance;
 

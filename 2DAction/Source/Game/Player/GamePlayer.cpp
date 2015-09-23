@@ -92,7 +92,7 @@ bool GamePlayer::Init()
 {
 	// 描画クラスセットアップ
 	TEX_DRAW_INFO drawInfo;
-	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	drawInfo.m_usePlayerOffset = false;
 	drawInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
 	drawInfo.m_fileName = "Player.json";

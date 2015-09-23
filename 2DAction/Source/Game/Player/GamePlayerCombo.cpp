@@ -33,7 +33,7 @@ PlayerCombo::PlayerCombo()
 
 	//!初期位置セット
 	TEX_DRAW_INFO drawInfo;
-	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	drawInfo.m_fileName = jsonStr;
 	const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( jsonStr.c_str() );
 	drawInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH - static_cast<float>(texInfo.m_sizeWidth/2), WINDOW_HEIGHT - static_cast<float>(texInfo.m_sizeHeight/2) );
@@ -68,7 +68,7 @@ bool PlayerCombo::Init()
 	m_textureCombo.Init();
 	m_textureCombo.m_pTex2D = Game2DBase::Create("ComboHitStr.json");
 	drawInfoCombo.m_fileName = "ComboHitStr.json";
-	drawInfoCombo.m_prioity = PRIORITY_HIGH;
+	drawInfoCombo.m_prioity = Common::PRIORITY_HIGH;
 	drawInfoCombo.m_posOrigin = GetPartsPos("comboStr");
 	drawInfoCombo.m_usePlayerOffset = false;
 	m_textureCombo.m_pTex2D->SetDrawInfo( drawInfoCombo );
@@ -79,7 +79,7 @@ bool PlayerCombo::Init()
 	m_pNumCounterComboRed = NumberCounter::Create("NumberLargeRed.json");
 	TEX_DRAW_INFO comboInfo;
 	comboInfo.Init();
-	comboInfo.m_prioity = PRIORITY_HIGH;
+	comboInfo.m_prioity = Common::PRIORITY_HIGH;
 	comboInfo.m_posOrigin = GetPartsPos("count");
 	comboInfo.m_usePlayerOffset = false;
 	m_pNumCounterCombo->SetDrawInfo( comboInfo );
@@ -91,7 +91,7 @@ bool PlayerCombo::Init()
 	m_textureComboGauge.Init();
 	m_textureComboGauge.m_pTex2D = Game2DBase::Create("ComboGauge.json");
 	drawInfoGauge.m_fileName = "ComboGauge.json";
-	drawInfoGauge.m_prioity = PRIORITY_HIGH;
+	drawInfoGauge.m_prioity = Common::PRIORITY_HIGH;
 	drawInfoGauge.m_posOrigin = GetPartsPos("comboGauge");
 	drawInfoGauge.m_usePlayerOffset = false;
 	const TEX_INIT_INFO &texInfoComboGauge = TextureResourceManager::GetInstance()->GetLoadTextureInfo( drawInfoGauge.m_fileName.c_str() );

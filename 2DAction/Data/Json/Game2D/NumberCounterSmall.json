@@ -1,0 +1,14 @@
+{
+	"partsInfo":[
+		{"partsName":"0",	"loadJson":"NumberSmall.json",	"x": -11,	"y": 0},
+		{"partsName":"1",	"loadJson":"NumberSmall.json",	"x": -34,	"y": 0},
+		{"partsName":"2",	"loadJson":"NumberSmall.json",	"x": -57,	"y": 0},
+		{"partsName":"3",	"loadJson":"NumberSmall.json",	"x": -80,	"y": 0},
+		{"partsName":"4",	"loadJson":"NumberSmall.json",	"x": -103,	"y": 0},
+		{"partsName":"5",	"loadJson":"NumberSmall.json",	"x": -126,	"y": 0},
+		{"partsName":"6",	"loadJson":"NumberSmall.json",	"x": -149,	"y": 0},
+		{"partsName":"7",	"loadJson":"NumberSmall.json",	"x": -172,	"y": 0},
+		{"partsName":"8",	"loadJson":"NumberSmall.json",	"x": -195,	"y": 0},
+		{"partsName":"9",	"loadJson":"NumberSmall.json",	"x": -218,	"y": 0}
+	]
+}

@@ -131,7 +131,7 @@ void BgManager::Update()
 				drawInfo.m_posOrigin.x = WINDOW_WIDTH / 2.0f;
 				drawInfo.m_posOrigin.y = WINDOW_HEIGHT / 2.0f;
 				drawInfo.m_usePlayerOffset = false;
-				drawInfo.m_prioity = PRIORITY_LOWEST;
+				drawInfo.m_prioity = Common::PRIORITY_LOWEST;
 				m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 			}
 

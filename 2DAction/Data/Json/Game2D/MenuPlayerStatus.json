@@ -1,0 +1,5 @@
+{
+	"partsInfo":[
+		{"partsName":"statusFrame",	"loadJson":"PlayerStatus.json",	"x": 0,		"y": 0}
+	]
+}

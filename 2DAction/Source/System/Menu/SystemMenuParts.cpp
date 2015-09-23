@@ -13,16 +13,17 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-MenuParts *MenuParts::Create( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos )
+MenuParts *MenuParts::Create( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos )
 {
-	return NEW MenuParts( partsStr, jsonStr, originalPos );
+	return NEW MenuParts( partsStr, jsonStr, priority, originalPos );
 }
 
-MenuParts::MenuParts( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos )
+MenuParts::MenuParts( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos )
 : m_invalidDraw( false )
 , m_partsNameStr( partsStr )
 , m_readJsonStr( jsonStr )
 , m_originPos( originalPos )
+, m_priority( priority )
 {
 	m_texMine.Init();
 	m_partsArray.clear();
@@ -47,7 +48,7 @@ void MenuParts::UpdatePartsRecursive()
 	UpdateParts();
 
 	for( uint32_t i = 0; i < m_partsArray.size() ; ++i ){
-		m_partsArray.at(i)->UpdateParts();
+		m_partsArray.at(i)->UpdatePartsRecursive();
 	}
 }
 
@@ -169,8 +170,9 @@ void MenuParts::SetupParts()
 		if( m_texMine.m_pTex2D ){
 			TEX_DRAW_INFO drawInfo;
 			drawInfo.m_fileName = m_readJsonStr.c_str();
-			drawInfo.m_posOrigin.x = m_originPos.x;
-			drawInfo.m_posOrigin.y = m_originPos.y;
+			drawInfo.m_posOrigin.x	= m_originPos.x;
+			drawInfo.m_posOrigin.y	= m_originPos.y;
+			drawInfo.m_prioity		= m_priority;
 			drawInfo.m_usePlayerOffset = false;
 			m_texMine.m_pTex2D->SetDrawInfo( drawInfo );
 		}
@@ -184,7 +186,7 @@ void MenuParts::SetupParts()
 		if( it == m_partsMap.end() ){
 			break;
 		}
-		MenuParts *parts = CreatePartsFactory( it->second.m_type, it->first, it->second.m_jsonStr, it->second.m_pos + m_originPos );
+		MenuParts *parts = CreatePartsFactory( it->second.m_type, it->first, it->second.m_jsonStr, m_priority, it->second.m_pos + m_originPos );
 		m_partsArray.push_back(parts);
 		++it;
 	}

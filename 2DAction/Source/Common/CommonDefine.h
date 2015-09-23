@@ -81,6 +81,20 @@ namespace Common{
 		FLOW_MAX
 	};
 
+	//描画の種類 優先
+	enum PRIORITY{
+		PRIORITY_LOWEST,
+		PRIORITY_LOW,
+		PRIORITY_BELOW_NORMAL,	// 標準以下
+		PRIORITY_NORMAL,		// 標準
+		PRIORITY_ABOVE_NORMAL,	// 標準以上
+		PRIORITY_HIGH,
+		PRIORITY_HIGHEST,
+		PRIORITY_SCENE_FADE,
+	
+		PRIORITY_MAX,
+	};
+
 	enum EXTRA_KIND{
 		KIND_ENEMY_POS,
 		KIND_FORCE_MOVE,
@@ -166,11 +180,13 @@ namespace Common{
 	// 画面クラスで使用するパーツの情報構造体
 	struct PARTS_INFO{
 		std::string		m_jsonStr;
+		Common::PRIORITY		m_priority;
 		math::Vector2	m_pos;
 		PARTS_TYPE_MENU	m_type;
 		void Init(){
 			m_jsonStr = "";
 			m_pos = math::Vector2(0,0);
+			m_priority = PRIORITY_NORMAL;
 			m_type = PARTS_SINGLE_DRAW;
 		}
 	};

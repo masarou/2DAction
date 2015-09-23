@@ -13,7 +13,7 @@
 #include "System/Menu/SystemMenuParts.h"
 #include "System/Menu/SystemMenuPartsCounter.h"
 
-typedef MenuParts *(*pFunkRetMenuParts)( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos );
+typedef MenuParts *(*pFunkRetMenuParts)( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos );
 
 struct PARTS_MAP{
 	pFunkRetMenuParts			pCallFunction;
@@ -25,11 +25,11 @@ static const PARTS_MAP s_partsTable[] = {
 	{ PartsCounter::Create,		Common::PARTS_NUM_COUNTER },
 };
 
-static MenuParts *CreatePartsFactory( const Common::PARTS_TYPE_MENU &type, const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos = math::Vector2() )
+static MenuParts *CreatePartsFactory( const Common::PARTS_TYPE_MENU &type, const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos = math::Vector2() )
 {
 	for( uint32_t i = 0; i < NUMBEROF(s_partsTable); ++i ){
 		if( type == s_partsTable[i].typeKey ){
-			return (*s_partsTable[i].pCallFunction)( partsStr, jsonStr, originalPos );
+			return (*s_partsTable[i].pCallFunction)( partsStr, jsonStr, priority, originalPos );
 		}
 	}
 

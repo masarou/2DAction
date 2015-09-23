@@ -65,7 +65,7 @@ void Draw2DManager::PushDrawString( const std::string &str, const math::Vector2 
 }
 
 
-void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )
+void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const Common::PRIORITY &priority )
 {
 	if( texInfo.m_fileName.compare("") == 0 ){
 		DEBUG_ASSERT( 0,"jsonファイル名がNULL");
@@ -78,7 +78,7 @@ void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &h
 	}
 }
 
-void Draw2DManager::PushDrawInfoMain( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const PRIORITY &priority )
+void Draw2DManager::PushDrawInfoMain( const TEX_DRAW_INFO &texInfo, const int32_t &handle, const Common::PRIORITY &priority )
 {
 	DRAW2D task;
 
@@ -128,17 +128,16 @@ void Draw2DManager::DeleteDrawInfo( const char *jsonFile )
 void Draw2DManager::Action()
 {
 	// 予約テクスチャ描画
-	for( uint32_t i = 0; i < PRIORITY_MAX; ++i ){
+	for( uint32_t i = 0; i < Common::PRIORITY_MAX; ++i ){
 		for( uint32_t j = 0; j < m_vDrawTask.size(); ++j ){
-			if( m_vDrawTask.at(j).m_info.m_prioity == static_cast<PRIORITY>(i) ){
+			if( m_vDrawTask.at(j).m_info.m_prioity == static_cast<Common::PRIORITY>(i) ){
 				DrawTexture(j);
 			}
-
-			// 文字列は優先度固定( PRIORITY_HIGH )
-			if( PRIORITY_HIGH == static_cast<PRIORITY>(i) ){
-				for( uint32_t i = 0; i < m_vDrawStringTask.size(); ++i ){
-					DrawString( m_vDrawStringTask.at(i) );
-				}
+		}
+		// 文字列は優先度固定( PRIORITY_HIGH )
+		if( Common::PRIORITY_HIGH == static_cast<Common::PRIORITY>(i) ){
+			for( uint32_t i = 0; i < m_vDrawStringTask.size(); ++i ){
+				DrawString( m_vDrawStringTask.at(i) );
 			}
 		}
 	}

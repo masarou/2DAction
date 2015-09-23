@@ -13,10 +13,9 @@
 #include "Common/CommonDefine.h"
 #include "Game/Game2DBase.h"
 #include "Game/Item/ItemObject.h"
-#include "System/Task/SystemTaskUnit.h"
-#include "System/Collision/SystemCollisionUnit.h"
+#include "System/Menu/SystemMenuWindow.h"
 
-class PlayerStatusMenu : public TaskUnit
+class PlayerStatusMenu : public MenuWindow
 {
 
 public:
@@ -30,23 +29,17 @@ public:
 	void SetPlayerHP( const uint32_t &val, const uint32_t &lifeMax );
 
 protected:
-
-	virtual bool Init() override;
-	virtual bool DieMain() override;
-	virtual void Update() override;			// 移動等の内部数値の更新
-	virtual void DrawUpdate() override;		// 描画更新
+	
+	virtual bool InitMenu() override;
+	virtual void UpdateMenu() override;
+	virtual void DrawUpdateMenu() override;
+	virtual bool DieMainMenu() override;
 
 private:
-
-	// 指定パーツの情報取得
-	const math::Vector2 GetPartsPos( const std::string name ) const;
-	const Common::PARTS_INFO &GetPartsInfo( const std::string name ) const;
 
 	// 描画
 	Texture2D		m_textureStatus;		// ステータス画像
 	Texture2D		m_lifeGauge;			// ライフゲージ
-	Texture2D		m_danageLevel;			// 攻撃力レベル数字
-	Texture2D		m_rapidLevel;			// 連射速度レベル数字
 
 	// プレイヤーライフ
 	uint32_t		m_playerLife;

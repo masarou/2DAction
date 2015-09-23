@@ -11,13 +11,13 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-MenuParts *PartsCounter::Create( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos )
+MenuParts *PartsCounter::Create( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos )
 {
-	return NEW PartsCounter( partsStr, jsonStr, originalPos );
+	return NEW PartsCounter( partsStr, jsonStr, priority, originalPos );
 }
 
-PartsCounter::PartsCounter( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos )
-: MenuParts( partsStr, jsonStr, originalPos )
+PartsCounter::PartsCounter( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos )
+: MenuParts( partsStr, jsonStr, priority, originalPos )
 , m_counter( 0 )
 , m_value( 0 )
 , m_currDispValue( 0 )
@@ -37,11 +37,6 @@ void PartsCounter::Reset()
 	m_counter		= 0;
 	m_currDispValue	= 0;
 	m_value		= 0;
-
-	for( uint32_t i = 0; i < m_partsArray.size() ; ++i ){
-		TEX_DRAW_INFO &info = m_partsArray.at(i)->GetTexDrawInfo();
-		info.m_prioity = PRIORITY_ABOVE_NORMAL;
-	}
 }
 
 void PartsCounter::AddValue( const int32_t &addValue )

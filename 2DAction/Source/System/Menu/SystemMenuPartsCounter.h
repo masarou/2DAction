@@ -18,9 +18,9 @@ class PartsCounter : public MenuParts
 
 public:
 
-	static MenuParts *Create( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos );
+	static MenuParts *Create( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos );
 
-	PartsCounter( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos );
+	PartsCounter( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos );
 	~PartsCounter(void);
 
 	// èâä˙âª

@@ -13,23 +13,10 @@
 #include "Math/MathCommon.h"
 #include "Math/MathVector.h"
 #include "Math/MathAngle.h"
+#include "Common/CommonDefine.h"
 #include "System/SystemDefine.h"
 
 #define SPLIT_MAX 1024
-
-//描画の種類 優先
-enum PRIORITY{
-	PRIORITY_LOWEST,
-	PRIORITY_LOW,
-	PRIORITY_BELOW_NORMAL,	// 標準以下
-	PRIORITY_NORMAL,		// 標準
-	PRIORITY_ABOVE_NORMAL,	// 標準以上
-	PRIORITY_HIGH,
-	PRIORITY_HIGHEST,
-	PRIORITY_SCENE_FADE,
-
-	PRIORITY_MAX,
-};
 
 //!アニメーションの情報構造体
 struct ANIM_INFO{
@@ -69,16 +56,16 @@ struct TEX_INIT_INFO{
 
 //描画更新の際の情報
 struct TEX_DRAW_INFO{
-	std::string		m_fileName;
-	math::Vector2	m_scale;			//!<拡大率
-	math::Vector2	m_posOrigin;		//!<位置情報(左上座標)
-	math::Vector2	m_arrangeOrigin;	//!<拡大、回転時の原点
-	bool			m_usePlayerOffset;	//!<位置補正の使用有無
-	math::Angle		m_rot;				//!<回転情報
-	uint32_t		m_alpha;			//!<透過情報
-	PRIORITY		m_prioity;			//!<描画優先度
-	uint32_t		m_belongLv;			// マップ上での所属空間(当たり判定)
-	uint32_t		m_belongIndex;		// 所属空間の番号(当たり判定)
+	std::string			m_fileName;
+	math::Vector2		m_scale;			//!<拡大率
+	math::Vector2		m_posOrigin;		//!<位置情報(左上座標)
+	math::Vector2		m_arrangeOrigin;	//!<拡大、回転時の原点
+	bool				m_usePlayerOffset;	//!<位置補正の使用有無
+	math::Angle			m_rot;				//!<回転情報
+	uint32_t			m_alpha;			//!<透過情報
+	Common::PRIORITY	m_prioity;			//!<描画優先度
+	uint32_t			m_belongLv;			// マップ上での所属空間(当たり判定)
+	uint32_t			m_belongIndex;		// 所属空間の番号(当たり判定)
 	TEX_DRAW_INFO::TEX_DRAW_INFO(){
 		Init();
 	}
@@ -90,7 +77,7 @@ struct TEX_DRAW_INFO{
 		m_usePlayerOffset = true;
 		m_rot = math::Angle();
 		m_alpha = 255;
-		m_prioity = PRIORITY_NORMAL;
+		m_prioity = Common::PRIORITY_NORMAL;
 		m_belongLv = INVALID_VALUE;
 		m_belongIndex = INVALID_VALUE;
 	}

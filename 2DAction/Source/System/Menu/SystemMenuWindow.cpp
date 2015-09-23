@@ -13,10 +13,12 @@
 #include "System/Menu/SystemMenuParts.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-MenuWindow::MenuWindow( const std::string &readMenuJson )
+MenuWindow::MenuWindow( const std::string &readMenuJson, const Common::PRIORITY &priority, const math::Vector2 &partsPos )
 : TaskUnit("MenuWindow")
 , m_pMainParts( NULL )
 , m_readMenuFile( readMenuJson )
+, m_priority( priority )
+, m_posMainParts( partsPos )
 , m_selectNo( 0 )
 , m_nextFlow( "" )
 {
@@ -82,7 +84,7 @@ bool MenuWindow::DieMain()
 bool MenuWindow::Init()
 {
 	if( !m_pMainParts ){
-		m_pMainParts = MenuParts::Create( "root", m_readMenuFile, math::Vector2() );
+		m_pMainParts = MenuParts::Create( "root", m_readMenuFile, m_priority, m_posMainParts );
 	}
 	return InitMenu();
 }

@@ -14,8 +14,7 @@
 	],
 	
 	"partsInfo":[
-		{"partsName":"lifeBarPos",	"loadJson":"LifeGauge.json",	"x": 22,	"y": 46},
-		{"partsName":"itemLevel01",	"loadJson":"NumberRitch.json",	"x": 120,	"y": 10},
-		{"partsName":"itemLevel02",	"loadJson":"NumberRitch.json",	"x": 270,	"y": 10}
+		{"partsName":"lifeCurr",	"loadJson":"NumberCounter.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 145,	"y": -5},
+		{"partsName":"lifeMax",		"loadJson":"NumberCounterSmall.json",	"partsType":"PARTS_NUM_COUNTER",	"x": 235,	"y": 0}
 	]
 }

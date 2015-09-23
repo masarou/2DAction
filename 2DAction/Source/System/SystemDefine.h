@@ -37,6 +37,7 @@
 //各データフォルダのパス
 static const char *JSON_FLOW_PATH			= "Data/Json/Flow/";
 static const char *JSON_GAME2D_PATH			= "Data/Json/Game2D/";
+static const char *JSON_GAME2D_MAP_PATH		= "Data/Json/Game2D/Map/";
 static const char *JSON_SOUND_PATH			= "Data/Json/Sound/";
 static const char *JSON_OTHER_PATH			= "Data/Json/Other/";
 static const char *BGM_PATH					= "Data/Sound/BGM/";

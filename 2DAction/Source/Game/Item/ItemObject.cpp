@@ -39,7 +39,7 @@ bool ItemObject::Init()
 	if( drawInfo.m_posOrigin == DEFAULT_VECTOR2 ){
 		drawInfo.m_posOrigin = Utility::GetMapRandamPos( /*allowInWindow=*/false );
 	}
-	drawInfo.m_prioity = PRIORITY_BELOW_NORMAL;
+	drawInfo.m_prioity = Common::PRIORITY_BELOW_NORMAL;
 	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 
 	return true;

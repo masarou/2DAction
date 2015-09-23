@@ -36,14 +36,14 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	m_textureEffect.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
 	drawInfo.m_fileName = readFileStr;
 	drawInfo.m_posOrigin = pos;
-	drawInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	drawInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	if( m_kind == EFFECT_SLASHING_HIT ){
 		// ŽaŒ‚HIT‚Íƒ‰ƒ“ƒ_ƒ€‚É‰ñ“]
 		uint32_t rotate = Utility::GetRandamValue( 360, 0 );
 		drawInfo.m_rot = static_cast<float>(rotate);
 	}
 	if( m_kind == EFFECT_DASH_SMOKE ){
-		drawInfo.m_prioity = PRIORITY_BELOW_NORMAL;
+		drawInfo.m_prioity = Common::PRIORITY_BELOW_NORMAL;
 	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
@@ -150,7 +150,7 @@ GameEffectWithCollision::GameEffectWithCollision( const Common::OWNER_TYPE &owne
 	m_drawTexture.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
 	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_fileName = readFileStr;
 	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = pos;
-	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 }
 
 GameEffectWithCollision::~GameEffectWithCollision(void)
@@ -299,8 +299,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 		tex.m_pTex2D = Game2DBase::Create("DamageNum.json");
 		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("DamageNum.json");
 		basePos.x -= texInfo.m_sizeWidth;
-		tex.m_pTex2D->UpdateDrawInfo().m_posOrigin		= basePos;
-		tex.m_pTex2D->UpdateDrawInfo().m_prioity	= PRIORITY_HIGH;
+		tex.m_pTex2D->UpdateDrawInfo().m_posOrigin	= basePos;
+		tex.m_pTex2D->UpdateDrawInfo().m_prioity	= Common::PRIORITY_HIGH;
 		damageInfo.m_array2D.push_back( tex );
 	}
 

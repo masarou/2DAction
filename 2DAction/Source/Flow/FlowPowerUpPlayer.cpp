@@ -101,13 +101,13 @@ bool PowerUpMenu::InitMenu()
 	if( pParts ){
 		// 外枠は表示優先度を低くする
 		TEX_DRAW_INFO &drawInfo = pParts->GetTexDrawInfo();
-		drawInfo.m_prioity = PRIORITY_LOW;
+		drawInfo.m_prioity = Common::PRIORITY_LOW;
 	}
 
 	pParts = GetParts( "decisionUp" );
 	if( pParts ){
 		TEX_DRAW_INFO &drawInfo = pParts->GetTexDrawInfo();
-		drawInfo.m_prioity = PRIORITY_LOW;
+		drawInfo.m_prioity = Common::PRIORITY_LOW;
 	}
 
 	// 固定値の最大Lvだけセットしておく

@@ -18,7 +18,7 @@ class MenuParts
 
 public:
 
-	static MenuParts *Create( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos );
+	static MenuParts *Create( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos );
 
 	~MenuParts(void);
 
@@ -53,7 +53,7 @@ public:
 
 protected:
 
-	MenuParts( const std::string &partsStr, const std::string &jsonStr, const math::Vector2 &originalPos );
+	MenuParts( const std::string &partsStr, const std::string &jsonStr, const Common::PRIORITY &priority, const math::Vector2 &originalPos );
 
 private:
 
@@ -66,6 +66,7 @@ protected:
 	std::string									m_partsNameStr;	// 親に名づけられたパーツ名
 	std::string									m_readJsonStr;	// 読み込んだjsonファイル名
 	math::Vector2								m_originPos;	// 親クラスに指定された位置情報
+	Common::PRIORITY							m_priority;		// 描画優先度
 
 	Texture2D									m_texMine;		// 自身のテクスチャクラス
 

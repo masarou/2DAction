@@ -192,7 +192,7 @@ const uint32_t GameMap::GetMapHeight() const
 
 void GameMap::LoadMapInfo(const char *jsonFile)
 {
-	std::string path = JSON_GAME2D_PATH;
+	std::string path = JSON_GAME2D_MAP_PATH;
 	path += jsonFile;
 	std::ifstream ifs(path.c_str());
 
@@ -263,7 +263,7 @@ void GameMap::LoadMapInfo(const char *jsonFile)
 
 void GameMap::LoadTextureInfo(const char *jsonFile)
 {
-	std::string path = JSON_GAME2D_PATH;
+	std::string path = JSON_GAME2D_MAP_PATH;
 	path += jsonFile;
 	std::ifstream ifs(path.c_str());
 

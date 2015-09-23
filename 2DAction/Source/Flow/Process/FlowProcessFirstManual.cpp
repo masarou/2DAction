@@ -40,7 +40,7 @@ bool FirstManual::Init()
 	m_controllTex.m_pTex2D = Game2DBase::Create( GetFilePath().c_str() );
 
 	const TEX_INIT_INFO &texInfo	= TextureResourceManager::GetInstance()->GetLoadTextureInfo( GetFilePath().c_str() );
-	drawInfo.m_prioity			= PRIORITY_HIGHEST;
+	drawInfo.m_prioity			= Common::PRIORITY_HIGHEST;
 	drawInfo.m_posOrigin		= math::Vector2( 0.0f, texInfo.m_sizeHeight / 2.0f );
 	drawInfo.m_arrangeOrigin	= math::Vector2( 0.0f, texInfo.m_sizeHeight / 2.0f );
 	drawInfo.m_usePlayerOffset	= false;

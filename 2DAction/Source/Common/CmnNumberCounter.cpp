@@ -25,7 +25,7 @@ NumberCounter::NumberCounter( const char *readJson )
 , m_value( 0 )
 {
 	m_numberInfo.Init();
-	m_numberInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_numberInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	m_numberInfo.m_posOrigin.x = WINDOW_WIDTH;
 	m_numberInfo.m_posOrigin.y = 16;
 	m_numberInfo.m_usePlayerOffset = false;
@@ -51,7 +51,7 @@ void NumberCounter::Reset()
 	m_value		= 0;
 
 	m_numberInfo.Init();
-	m_numberInfo.m_prioity = PRIORITY_ABOVE_NORMAL;
+	m_numberInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	//m_numberInfo.m_posOrigin.x = WINDOW_WIDTH;
 	//m_numberInfo.m_posOrigin.y = 16;
 	m_numberInfo.m_usePlayerOffset = false;

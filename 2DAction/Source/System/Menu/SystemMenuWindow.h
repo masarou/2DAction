@@ -14,6 +14,7 @@
 #include "SystemMenuPartsCounter.h"
 #include "System/Task/SystemTaskUnit.h"
 #include "System/Input/SystemInputWatcher.h"
+#include "System/Draw2D/SystemDraw2DDefine.h"
 
 class MenuParts;
 
@@ -27,7 +28,7 @@ public:
 
 protected:
 
-	MenuWindow( const std::string &readMenuJson );
+	MenuWindow( const std::string &readMenuJson, const Common::PRIORITY &priority = Common::PRIORITY_NORMAL, const math::Vector2 &partsPos = math::Vector2() );
 	virtual ~MenuWindow(void);
 	
 	// 継承禁止!!!
@@ -57,8 +58,10 @@ private:
 	std::string	m_readMenuFile;
 	MenuParts	*m_pMainParts;
 	
-	uint32_t			m_selectNo;	// 選択肢番号(画面によっては使用しないこともあり)
-	std::string			m_nextFlow; // 次の遷移先
+	math::Vector2		m_posMainParts;	// 画面全体の位置情報
+	Common::PRIORITY			m_priority;		// 描画優先順位
+	uint32_t			m_selectNo;		// 選択肢番号(画面によっては使用しないこともあり)
+	std::string			m_nextFlow;		// 次の遷移先
 
 };
 #endif // __MENU_WINDOW__
