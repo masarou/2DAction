@@ -3,7 +3,7 @@
  * @brief  
  *
  * @note
- *		操作説明演出クラス
+ *		ボスクラス死亡時演出クラス
  */
 /* ====================================================================== */
 
@@ -14,6 +14,8 @@
 #include "Common/Utility/CommonGameUtility.h"
 #include "Game/Effect/GameEffect.h"
 
+#define EFFECT_TIME 200
+
 ProcessBossEnemyDeath *ProcessBossEnemyDeath::Create( const math::Vector2 &centerPos )
 {
 	return NEW ProcessBossEnemyDeath( centerPos );
@@ -21,6 +23,7 @@ ProcessBossEnemyDeath *ProcessBossEnemyDeath::Create( const math::Vector2 &cente
 
 ProcessBossEnemyDeath::ProcessBossEnemyDeath( const math::Vector2 &centerPos )
 : m_centerPos( centerPos )
+, m_effectCounter( 0 )
 {
 }
 
@@ -43,20 +46,23 @@ bool ProcessBossEnemyDeath::Init()
 
 void ProcessBossEnemyDeath::Update()
 {
-	static uint32_t timer = 0;
-	if( Utility::GetRandamValue( 3, 0 ) == 0 && FpsManager::GetUpdateCounter() % 10 == 0 )
+	if( Utility::GetRandamValue( EFFECT_TIME, 0 ) < static_cast<int>( m_effectCounter/2 ) )
 	{
 		math::Vector2 pos = m_centerPos;
-		pos.x += Utility::GetRandamValue( 30, -30 );
-		pos.y += Utility::GetRandamValue( 30, -30 );
+		pos.x += Utility::GetRandamValue( 150, -150 );
+		pos.y += Utility::GetRandamValue( 150, -150 );
 		GameEffect::CreateEffect( GameEffect::EFFECT_BOMB, pos );
+
+		// 効果音
+		SoundManager::GetInstance()->PlaySE("Death");
 	}
 	
-	++timer;
+	++m_effectCounter;
 
-	if( timer < 600 ){
+	if( m_effectCounter < EFFECT_TIME ){
 		return;
 	}
 
+	// エフェクト終了
 	SetStateNext();
 }

@@ -126,7 +126,7 @@ void FlowManager::Update()
 
 			// 現在のフローを更新
 			m_preFlow = m_currFlow;
-			m_currFlow = FlowTable::GetGameFlowKind(  m_nextFilePath.c_str() );
+			m_currFlow = FlowTable::GetGameFlowKind( m_nextFilePath.c_str() );
 			GameRecorder *pRecorder = GameRecorder::GetInstance();
 			if( pRecorder ){
 				switch( m_currFlow ){

@@ -59,6 +59,7 @@ protected:
 	virtual const uint32_t GetEnemyDefaultHP() const{return 10;}	// 敵クラスのデフォルトHP取得
 	virtual const uint32_t GetEnemyDefaultSPD() const{return 1;}	// 敵クラスのデフォルトSPD取得
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING;}	// 敵クラスのデフォルトSPD取得
+	virtual void  EnemyDeath();										// HPがなくなり倒されたときに呼ばれる
 
 	// このクラスの種類セット
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override = 0;

@@ -191,6 +191,16 @@ void FlowBase::ChildUpdate()
 			// フィルターを表示し続ける
 			Utility::StartGameStop( /*bool withFilter=*/(*it)->IsNeedPauseFilter() );
 		}
+
+		// Effectクラスが作られたときにInitだけは処理しないと描画されないのでここで処理
+		for(uint32_t i = 0; i < m_vTaskUnit.size(); ++i){
+			TaskUnit *pTask = m_vTaskUnit.at(i);
+			if( pTask->GetStatus() == TaskUnit::TASK_INIT ){
+				if(pTask->Init()){
+					pTask->SetStatus(TaskUnit::TASK_ALIVE);
+				}
+			}
+		}
 	}
 	else{
 		Exec();				//! 位置等の更新

@@ -3,7 +3,7 @@
  * @brief  
  *
  * @note
- *		操作説明演出クラス
+ *		ボスクラス死亡時演出クラス
  */
 /* ====================================================================== */
 #ifndef __FLOW_PROCESS_BOSSENEMY_DEATH__
@@ -29,7 +29,9 @@ protected:
 
 	ProcessBossEnemyDeath(void);
 
+	uint32_t			m_effectCounter;// エフェクト再生時間
 	math::Vector2		m_centerPos;	// エフェクトの基準位置
+
 };
 
 #endif

@@ -47,7 +47,8 @@ protected:
 	virtual const uint32_t GetEnemyDefaultSPD() const;	// 敵クラスのデフォルトSPD取得
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING_SLIME_KING;}
 
-	virtual bool DieMainCustom();
+	virtual void  EnemyDeath() override; // HPがなくなり倒されたときに呼ばれる
+
 
 private:
 

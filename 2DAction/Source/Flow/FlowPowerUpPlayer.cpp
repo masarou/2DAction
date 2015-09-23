@@ -135,6 +135,9 @@ bool PowerUpMenu::DieMainMenu()
 	// 余ったポイントはなくす
 	m_loadData.m_battlePoint = 0;
 
+	// 解説終了
+	m_loadData.m_isFirst = false;
+
 	// ここで行ったパワーアップをセーブデータに反映
 	Utility::OverWriteSaveData( m_loadData );
 	return true;

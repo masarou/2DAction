@@ -137,6 +137,11 @@ void EnemyBase::Update()
 		drawInfo.m_scale.x = ( m_HP/static_cast<float>(GetEnemyDefaultHP()) )*10.0f;
 		m_textureLife.m_pTex2D->SetDrawInfo( drawInfo );
 	}
+
+	// HPがないなら死亡
+	if( m_HP <= 0 ){
+		TaskStartDie();
+	}
 }
 
 void EnemyBase::DrawUpdate()
@@ -225,6 +230,23 @@ void EnemyBase::HitPlayreSlashing( const uint32_t &damageValue )
 
 /* ================================================ */
 /**
+ * @brief	HPがなくなり倒されたときに呼ばれる
+ */
+/* ================================================ */
+void EnemyBase::EnemyDeath()
+{
+	// 爆破エフェクトを出す
+	GameEffect::CreateEffect( GameEffect::EFFECT_BOMB, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
+
+	// 爆発SE鳴らす
+	SoundManager::GetInstance()->PlaySE("Death");
+
+	// 死亡
+	TaskStartDie();
+}
+
+/* ================================================ */
+/**
  * @brief	AI結果を反映
  */
 /* ================================================ */
@@ -289,14 +311,8 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 		}
 
-		// 爆破エフェクトを出す
-		GameEffect::CreateEffect( GameEffect::EFFECT_BOMB, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
-
-		// 爆発SE鳴らす
-		SoundManager::GetInstance()->PlaySE("Death");
-
 		// 死亡
-		TaskStartDie();
+		EnemyDeath();
 	}
 
 	// 連続Hit数加算

@@ -53,14 +53,15 @@ const uint32_t EnemySlimeKing::GetEnemyDefaultSPD() const
 	return 1;
 }
 
-bool EnemySlimeKing::DieMainCustom()
+void EnemySlimeKing::EnemyDeath()
 {
-	if( GetEnemyHitPoint() == 0 ){
-		ProcessBossEnemyDeath *pDeathEffect = ProcessBossEnemyDeath::Create( m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
-		FlowManager *pFlowMan = FlowManager::GetInstance();
-		if( pFlowMan && pDeathEffect ){
-			pFlowMan->SetupSpecialEffect( pDeathEffect );
-		}
+	// Ž€–S‚µ‚½‚Ì‚Åê—p‰‰oÄ¶
+	ProcessBossEnemyDeath *pDeathEffect = ProcessBossEnemyDeath::Create( m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
+	FlowManager *pFlowMan = FlowManager::GetInstance();
+	if( pFlowMan && pDeathEffect ){
+		pFlowMan->SetupSpecialEffect( pDeathEffect );
 	}
-	return true;
+	if( m_drawTexture.m_pTex2D ){
+		m_drawTexture.m_pTex2D->SetAnim( "death" );
+	}
 }
