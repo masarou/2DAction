@@ -24,7 +24,7 @@ public:
 private:
 
 	virtual bool Init() override;
-	virtual void UpdateFlowAfterChildTask();
+	virtual void UpdateFlowAfterChildTask() override;
 
 	FlowGame( const std::string &fileName );
 	virtual ~FlowGame(void);

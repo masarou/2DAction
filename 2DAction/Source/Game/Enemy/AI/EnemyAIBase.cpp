@@ -132,6 +132,11 @@ const uint32_t EnemyAIBase::GetEnemySPD() const
 	return 0;
 }
 
+const EnemyBase *const EnemyAIBase::GetEnemeyMine() const
+{
+	return m_enemyMine;
+}
+
 void EnemyAIBase::ClearAttackMaterial()
 {
 	// 共有物にNULL設定(解放はTaskManagerが勝手にやる)
@@ -150,16 +155,21 @@ uint32_t EnemyAIBase::GetSecStartThisAI(){
  */
 /* ================================================ */
 // 攻撃弾生成
-void EnemyAIBase::ShootBullet( const math::Vector2 &vec, const uint32_t &damage, const uint32_t &speed )
+void EnemyAIBase::ShootBullet( const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const uint32_t &speed )
 {
 	if( s_pAttackGun && m_enemyMine ){
+		math::Vector2 fromPos = pos;
 		math::Vector2 direction = vec;
 		if( vec == math::Vector2() ){
 			// 方向が指定されていなかったらプレイヤーに向かって飛ばす
-			direction = Utility::GetPlayerPos() - m_enemyMine->GetDrawInfo().m_posOrigin;
+			direction = Utility::GetPlayerPos() - ( pos == math::Vector2() ? m_enemyMine->GetDrawInfo().m_posOrigin : pos );
+		}
+		if( fromPos == math::Vector2() ){
+			// 発射位置が指定されていなかったら自身の位置から発射
+			fromPos = m_enemyMine->GetDrawInfo().m_posOrigin;
 		}
 		direction.Normalize();
-		s_pAttackGun->ShootBullet( m_enemyMine->GetDrawInfo().m_posOrigin, direction, damage, speed );
+		s_pAttackGun->ShootBullet( fromPos, direction, damage, speed );
 	}
 }
 

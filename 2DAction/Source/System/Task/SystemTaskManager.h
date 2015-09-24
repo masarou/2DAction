@@ -17,7 +17,6 @@
 
 #include <vector>
 #include "System/SystemDefine.h"
-#include "System/SystemMessage.h"
 
 class TaskUnit;
 

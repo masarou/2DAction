@@ -1,6 +1,6 @@
 {
 	"basicInfo":[
-		{"fileName":"enemyBoss.png"
+		{"fileName":"enemyWizard.png"
 		, "animDefault":"down"
 		, "sizeW": 48
 		, "sizeH": 48
@@ -14,5 +14,5 @@
 		{"animTag":"down",	"frameSpeed":16,	"animIndex":[0,1,2],	"nextAnim":"down"},
 		{"animTag":"right",	"frameSpeed":16,	"animIndex":[6,7,8],	"nextAnim":"right"},
 		{"animTag":"left",	"frameSpeed":16,	"animIndex":[3,4,5],	"nextAnim":"left"}
-	]	
+	]
 }

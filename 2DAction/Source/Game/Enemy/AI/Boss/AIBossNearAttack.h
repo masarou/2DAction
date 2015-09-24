@@ -19,7 +19,7 @@ public:
 	static AIBossNearAttack *Create();
 
 	// AI‚Ìí—Ş‚ğ”h¶æ‚ÅƒZƒbƒg‚µ‚Ä‚¨‚­
-	virtual const Common::ENEMY_AI GetAIKind() const{ return Common::AI_SEARCHING; }
+	virtual const Common::ENEMY_AI GetAIKind() const{ return Common::AI_ATTACK_NEAR; }
 
 protected:
 	

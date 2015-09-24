@@ -7,8 +7,8 @@
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 1, "num": 10},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 2, "num": 20}
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 2, "num": 10},
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 3, "num": 20}
 	],
 	"gameCondition":[
 		{"EnemyMax": 40, "frequency":4},

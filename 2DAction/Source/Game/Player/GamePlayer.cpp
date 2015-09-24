@@ -482,6 +482,8 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
+	case Common::EVENT_HIT_ENEMY_WIZARD:
+	case Common::EVENT_HIT_WIZARD_CRYSTAL:
 	case Common::EVENT_HIT_BULLET_ENEMY:
 	case Common::EVENT_HIT_BLADE_ENEMY:
 	case Common::EVENT_HIT_EXPLOSION_ENEMY:
@@ -549,13 +551,13 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 				forceEvent.Init();
 				forceEvent.m_event = Common::EVENT_ADD_FORCE_MOVE;
 				forceEvent.m_delayTime = 120;
-					Common::EX_FORCE_MOVE moveInfo;
-					math::Vector2 vec	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
-					vec.Normalize();
-					moveInfo.m_posX = vec.x;
-					moveInfo.m_posY = vec.y;
-					moveInfo.m_forcePower	= 20.0f;
-					forceEvent.SetExInfoForceMove( moveInfo );
+				Common::EX_FORCE_MOVE moveInfo;
+				math::Vector2 vec	= math::Vector2( Utility::GetRandamValueFloat( 100, -100 ) / 100.0f, Utility::GetRandamValueFloat( 100, -100 ) / 100.0f );
+				vec.Normalize();
+				moveInfo.m_posX = vec.x;
+				moveInfo.m_posY = vec.y;
+				moveInfo.m_forcePower	= 20.0f;
+				forceEvent.SetExInfoForceMove( moveInfo );
 				AddEvent( forceEvent );
 
 				// 動けないステータスにセット
@@ -570,6 +572,8 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_AHRIMAN:
 	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
+	case Common::EVENT_HIT_ENEMY_WIZARD:
+	case Common::EVENT_HIT_WIZARD_CRYSTAL:
 		{
 			// 吹き飛ぶ方向を設定してイベントとしてセットしておく
 			math::Vector2 plPos		= Utility::GetPlayerPos();
@@ -583,7 +587,7 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 			Common::EX_FORCE_MOVE moveInfo;
 			moveInfo.m_posX = forceAngle.x;
 			moveInfo.m_posY = forceAngle.y;
-			moveInfo.m_forcePower	= 10.0f;
+			moveInfo.m_forcePower	= ( eventKind == Common::EVENT_HIT_ENEMY_COW ) ? 25.0f : 10.0f ;
 			forceEvent.SetExInfoForceMove( moveInfo );
 			AddEvent( forceEvent );
 		}

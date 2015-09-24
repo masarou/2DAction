@@ -21,10 +21,11 @@ public:
 
 protected:
 	
-	virtual bool InitMain() override;						// ”h¶æ‚Å‚Ì‰Šú‰»
-	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_EVENMY_SLIME;}
-	virtual const uint32_t GetEnemyDefaultHP() const override;	// HPæ“¾
-	virtual const uint32_t GetEnemyDefaultSPD() const override;	// SPDæ“¾
+	virtual bool InitMain() override;									// ”h¶æ‚Å‚Ì‰Šú‰»
+	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_ENEMY_SLIME;}
+	virtual const uint32_t GetEnemyDefaultHP() const override;			// HPæ“¾
+	virtual const uint32_t GetEnemyDefaultSPD() const override;			// SPDæ“¾
+	virtual void  ReduceDamage( Common::CMN_EVENT &eventId ) override;	// “G‚Ìí—ŞAƒŒƒxƒ‹“™‚Åƒ_ƒ[ƒWŒyŒ¸ˆ—
 
 private:
 

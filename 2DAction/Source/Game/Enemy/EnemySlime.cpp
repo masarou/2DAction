@@ -17,20 +17,18 @@ EnemySlime *EnemySlime::Create( const uint32_t &enemyLevel, const uint32_t &uniq
 	switch(enemyLevel){
 	case 1:
 	case 2:
+	case 3:
 		fileStr = "EnemySlime01.json";
 		break;
-	case 3:
 	case 4:
-		fileStr = "EnemySlime02.json";
-		break;
 	case 5:
 	case 6:
-		fileStr = "EnemySlime03.json";
+		fileStr = "EnemySlime02.json";
 		break;
 	case 7:
 	case 8:
 	case 9:
-		fileStr = "EnemySlime04.json";
+		fileStr = "EnemySlime03.json";
 		break;
 	default:
 		DEBUG_ASSERT( 0, "スライムのレベルが想定外");
@@ -58,7 +56,7 @@ bool EnemySlime::InitMain()
  const uint32_t EnemySlime::GetEnemyDefaultHP() const
 {
 	// Lvによって最大ライフ変更
-	return 50 + ( 100 * ( GetEnemyLevel() - 1 ) );
+	return 50 + ( 150 * ( GetEnemyLevel() - 1 ) );
 }
 
  const uint32_t EnemySlime::GetEnemyDefaultSPD() const
@@ -69,4 +67,18 @@ bool EnemySlime::InitMain()
 const uint32_t EnemySlime::GetPlayerHitDamage() const
 {
 	return 10 + ( 5 * GetEnemyLevel() );
+}
+
+void EnemySlime::ReduceDamage( Common::CMN_EVENT &eventId )
+{
+	switch( eventId.m_event ){
+	case Common::EVENT_HIT_BULLET_PLAYER:
+		// マシンガン攻撃は効きにくい( 0.9~4.5 )
+		eventId.m_eventValue *= 0.9f - ( static_cast<float>( GetEnemyLevel()*0.05f ) );
+		break;
+	case Common::EVENT_HIT_BLADE_PLAYER:
+		// 斬撃はダメージを増やす
+		eventId.m_eventValue *= 1.2f;
+		break;
+	}
 }

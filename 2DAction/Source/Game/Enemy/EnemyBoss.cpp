@@ -27,7 +27,19 @@ EnemyBoss::~EnemyBoss(void)
 {
 }
 
-
+void EnemyBoss::ReduceDamage( Common::CMN_EVENT &eventId )
+{
+	switch( eventId.m_event ){
+	case Common::EVENT_HIT_BULLET_PLAYER:
+		// マシンガン攻撃は効きにくい( 0.9~4.5 )
+		eventId.m_eventValue *= 0.7f - ( static_cast<float>( GetEnemyLevel()*0.02f ) );
+		break;
+	case Common::EVENT_HIT_BLADE_PLAYER:
+		// 斬撃はダメージを増やす
+		eventId.m_eventValue *= 1.5f;
+		break;
+	}
+}
 
 
 
@@ -63,5 +75,19 @@ void EnemySlimeKing::EnemyDeath()
 	}
 	if( m_drawTexture.m_pTex2D ){
 		m_drawTexture.m_pTex2D->SetAnim( "death" );
+	}
+}
+
+void EnemySlimeKing::ReduceDamage( Common::CMN_EVENT &eventId )
+{
+	switch( eventId.m_event ){
+	case Common::EVENT_HIT_BULLET_PLAYER:
+		// マシンガン攻撃は効きにくい( 0.9~4.5 )
+		eventId.m_eventValue *= 0.9f - ( static_cast<float>( GetEnemyLevel()*0.05f ) );
+		break;
+	case Common::EVENT_HIT_BLADE_PLAYER:
+		// 斬撃はダメージを増やす
+		eventId.m_eventValue *= 1.2f;
+		break;
 	}
 }

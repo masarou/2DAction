@@ -12,6 +12,7 @@
 #include "EnemyAhriman.h"
 #include "EnemyCow.h"
 #include "EnemyBoss.h"
+#include "EnemyWizard.h"
 #include "AI/EnemyAIBase.h"
 #include "Game/Attack/Bullet.h"
 #include "Game/Player/GamePlayer.h"
@@ -78,6 +79,9 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &ene
 		break;
 	case Common::ENEMY_KIND_SLIME_KING:
 		pEnemy = EnemySlimeKing::Create( currUniqueNo );
+		break;
+	case Common::ENEMY_KIND_WIZARD:
+		pEnemy = EnemyWizard::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 
 	default:

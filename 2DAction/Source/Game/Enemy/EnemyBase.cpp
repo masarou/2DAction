@@ -163,10 +163,12 @@ void EnemyBase::EventUpdate( Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_BULLET_PLAYER:	// Player‚Ì’e‚É“–‚½‚Á‚½
+		ReduceDamage( eventId );
 		HitPlayreBullet( eventId.m_eventValue );
 		break;
 
 	case Common::EVENT_HIT_BLADE_PLAYER:	// Player‚ÌaŒ‚‚É“–‚½‚Á‚½
+		ReduceDamage( eventId );
 		HitPlayreSlashing( eventId.m_eventValue );
 		break;
 	}
@@ -311,8 +313,10 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 		}
 
-		// €–S
-		EnemyDeath();
+		if( GetStatus() != TASK_PRE_DIE ){
+			// €–S
+			EnemyDeath();
+		}
 	}
 
 	// ˜A‘±Hit”‰ÁZ

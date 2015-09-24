@@ -9,11 +9,13 @@ namespace Common{
 	// 当たり判定が絡んでくる表示物
 	enum TYPE_OBJECT{
 		TYPE_PLAYER,
-		TYPE_EVENMY_SLIME,
-		TYPE_EVENMY_AHRIMAN,
-		TYPE_EVENMY_COW,
-		TYPE_EVENMY_BOSS,
-		TYPE_EVENMY_SLIME_KING,
+		TYPE_ENEMY_SLIME,
+		TYPE_ENEMY_AHRIMAN,
+		TYPE_ENEMY_COW,
+		TYPE_ENEMY_BOSS,
+		TYPE_ENEMY_SLIME_KING,
+		TYPE_ENEMY_WIZARD,
+		TYPE_WIZARD_CRYSTAL,
 
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
@@ -34,10 +36,12 @@ namespace Common{
 	enum EVENT_MESSAGE{
 		EVENT_HIT_PLAYER,			// プレイヤーキャラクタ
 		EVENT_HIT_ENEMY_SLIME,		// 敵との接触
-		EVENT_HIT_ENEMY_AHRIMAN,		// 敵との接触
+		EVENT_HIT_ENEMY_AHRIMAN,	// 敵との接触
 		EVENT_HIT_ENEMY_COW,		// 敵との接触
 		EVENT_HIT_ENEMY_BOSS,		// 敵との接触
 		EVENT_HIT_ENEMY_SLIME_KING,	// 敵との接触
+		EVENT_HIT_ENEMY_WIZARD,		// 敵との接触
+		EVENT_HIT_WIZARD_CRYSTAL,	// 敵との接触
 
 		EVENT_GET_ITEM_BULLET,		// アイテム取得
 		EVENT_GET_ITEM_LIFE,		// アイテム取得
@@ -195,6 +199,7 @@ namespace Common{
 		ENEMY_KIND_COW,
 		ENEMY_KIND_BOSS,
 		ENEMY_KIND_SLIME_KING,
+		ENEMY_KIND_WIZARD,
 
 		ENEMY_KIND_MAX,
 	};
@@ -216,12 +221,11 @@ namespace Common{
 		AI_SHOOTING,	// 遠距離攻撃(遠距離攻撃)
 
 		// 以下、ボス用AI
-		AI_MOVING_WAYPOINT,		// 目的地に移動
-		AI_ATTACK_NEAR,			// 斬撃(近距離攻撃)
-		AI_ATTACK_MIDDLE,		// 弾発射(中距離攻撃)
-		AI_ATTACK_FAR,			// 爆発魔法(遠距離攻撃)
-		AI_SEARCHING_SLIME_KING,// プレイヤー探索(スライムキング)
-		AI_MOVE_PLAYER_SLIME_KING,// プレイヤーに近づく(スライムキング)
+		AI_MOVING_WAYPOINT,			// 目的地に移動
+		AI_ATTACK_NEAR,				// 斬撃(近距離攻撃)
+		AI_SEARCHING_SLIME_KING,	// プレイヤー探索(スライムキング)
+		AI_MOVE_PLAYER_SLIME_KING,	// プレイヤーに近づく(スライムキング)
+		AI_ATTACK_WIZARD,			// 多彩な遠距離攻撃1
 
 		AI_MAX,
 	};

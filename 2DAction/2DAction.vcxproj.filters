@@ -82,9 +82,6 @@
     <ClInclude Include="Source\System\Task\SystemTaskUnit.h">
       <Filter>System\Task</Filter>
     </ClInclude>
-    <ClInclude Include="Source\System\SystemMessage.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Flow\FlowBase.h">
       <Filter>Flow</Filter>
     </ClInclude>
@@ -322,6 +319,15 @@
     <ClInclude Include="Source\Game\Enemy\EnemyCow.h">
       <Filter>Game\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\SystemMessage.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyWizard.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\EnemyAIWizard.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -330,9 +336,6 @@
     </ClCompile>
     <ClCompile Include="Source\System\Task\SystemTaskUnit.cpp">
       <Filter>System\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\System\SystemMessage.cpp">
-      <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="Source\Flow\FlowBase.cpp">
       <Filter>Flow</Filter>
@@ -549,6 +552,15 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\EnemyCow.cpp">
       <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\SystemMessage.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyWizard.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\EnemyAIWizard.cpp">
+      <Filter>Game\Enemy\AI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

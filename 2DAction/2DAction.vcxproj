@@ -43,6 +43,7 @@
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAISearch.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIShoot.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAITackle.cpp" />
+    <ClCompile Include="Source\Game\Enemy\AI\EnemyAIWizard.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAhriman.cpp" />
@@ -51,6 +52,7 @@
     <ClCompile Include="Source\Game\Enemy\EnemyCow.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemySlime.cpp" />
+    <ClCompile Include="Source\Game\Enemy\EnemyWizard.cpp" />
     <ClCompile Include="Source\Game\Game2DBase.cpp" />
     <ClCompile Include="Source\Game\GameManager.cpp" />
     <ClCompile Include="Source\Game\GameMap.cpp" />
@@ -123,6 +125,7 @@
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAISearch.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIShoot.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAITackle.h" />
+    <ClInclude Include="Source\Game\Enemy\AI\EnemyAIWizard.h" />
     <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.h" />
     <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAhriman.h" />
@@ -131,6 +134,7 @@
     <ClInclude Include="Source\Game\Enemy\EnemyCow.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyManager.h" />
     <ClInclude Include="Source\Game\Enemy\EnemySlime.h" />
+    <ClInclude Include="Source\Game\Enemy\EnemyWizard.h" />
     <ClInclude Include="Source\Game\Game2DBase.h" />
     <ClInclude Include="Source\Game\GameManager.h" />
     <ClInclude Include="Source\Game\GameMap.h" />

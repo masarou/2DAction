@@ -20,6 +20,7 @@
 #include "Game/Enemy/AI/Boss/AIBossNearAttack.h"
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingSearching.h"
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingTackle.h"
+#include "Game/Enemy/AI/EnemyAIWizard.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
@@ -395,6 +396,9 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 	case Common::AI_MOVE_PLAYER_SLIME_KING:	// スライムキングプレイヤーへ移動
 		pRetAI = AISlimeKingTackle::Create();
 		break;
+	case Common::AI_ATTACK_WIZARD:
+		pRetAI = AIWizard::Create();
+		break;
 	}
 	return pRetAI;
 }
@@ -484,7 +488,7 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min)
 
 /* ================================================ */
 /**
- * @brief	セーブデータの情報を取得
+ * @brief	セーブ、ロード関数
  */
 /* ================================================ */
 bool GetSaveData( Common::SAVE_DATA &saveData )
@@ -571,12 +575,12 @@ uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t 
 		30,		// lv2
 		70,		// lv3
 		100,	// lv4
-		140,	// lv5
-		180,	// lv6
-		250,	// lv7
-		300,	// lv8
-		350,	// lv9
-		400,	// lv10
+		130,	// lv5
+		160,	// lv6
+		200,	// lv7
+		240,	// lv8
+		280,	// lv9
+		320,	// lv10
 	};
 
 	// マシンガンのレベルテーブル
@@ -688,11 +692,11 @@ void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Co
 	}
 }
 
-void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint32_t color )
-{
-	Draw2DManager::GetInstance()->PushDrawString( str, pos, color );
-}
-
+/* ================================================ */
+/**
+ * @brief	画像サイズを考慮して指定位置に移動できるか
+ */
+/* ================================================ */
 bool IsMovable( const std::string &resourceJson, const math::Vector2 &pos )
 {
 	const TEX_INIT_INFO &playerTexInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( resourceJson.c_str() );
@@ -714,6 +718,15 @@ bool IsMovable( const std::string &resourceJson, const math::Vector2 &pos )
 	return false;
 }
 
+/* ================================================ */
+/**
+ * @brief	デバッグ用文字列描画
+ */
+/* ================================================ */
+void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint32_t color )
+{
+	Draw2DManager::GetInstance()->PushDrawString( str, pos, color );
+}
 
 void DrawDebugCircle( math::Vector2 drawPos )
 {

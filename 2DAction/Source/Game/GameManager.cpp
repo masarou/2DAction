@@ -486,6 +486,7 @@ Common::ENEMY_KIND GameManager::GetEnemyKindFromStr( const std::string str )
 		{ Common::ENEMY_KIND_COW,			"ENEMY_KIND_COW" },
 		{ Common::ENEMY_KIND_BOSS,			"ENEMY_KIND_BOSS" },
 		{ Common::ENEMY_KIND_SLIME_KING,	"ENEMY_KIND_SLIME_KING" },
+		{ Common::ENEMY_KIND_WIZARD,		"ENEMY_KIND_WIZARD" },
 	};
 	for( uint32_t i = 0; i < NUMBEROF(s_enemyTypeStr); ++i ){
 		if( s_enemyTypeStr[i].kindStr.compare( str ) == 0 ){

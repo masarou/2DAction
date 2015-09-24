@@ -1,9 +1,9 @@
 /* ====================================================================== */
 /**
- * @brief  敵AIの通常クラス(プレイヤー未発見)
+ * @brief BOSSAIの攻撃クラス
  *
  * @note
- *		デフォルトAI
+ *		敵発見時に遷移
  */
 /* ====================================================================== */
 
@@ -32,14 +32,8 @@ AIBossNearAttack::~AIBossNearAttack(void)
 
 bool AIBossNearAttack::InitAI()
 {
-	//if( Utility::GetRandamValue( 1, 0 ) == 1 ){
-		// ショットガン
-		ChangeActionType( ACTION_SPREAD_BULLET );
-	//}
-	//else{
-		// 斬撃
-		ChangeActionType( ACTION_SLASHING );
-	//}
+	// 斬撃
+	ChangeActionType( ACTION_SLASHING );
 
 	return true;
 }
@@ -48,7 +42,7 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 {
 	if( !math::IsInRange( enemyInfo.m_posOrigin, Utility::GetPlayerPos(), DISTANCE_TO_PLAYER_FAR ) ){
 		// 一定距離離れた
-		if( Utility::GetRandamValue( 60, 0 ) == 0 ){
+		if( Utility::GetRandamValue( 120, 0 ) == 0 ){
 			GameEffect::CreateEffect( GameEffect::EFFECT_PRE_EXPLOSION, Utility::GetPlayerPos() );
 		}
 		return;
@@ -60,7 +54,7 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 	}
 
 	if( m_targetPlace != math::Vector2() ){
-		// もし、目的地がセットされていたらそこまで移動してから以下の行動関数を実行する
+		// 目的地がセットされていたらそこまで移動してから以下の行動関数を実行する
 		math::Vector2 moveVec = m_targetPlace - enemyInfo.m_posOrigin;
 		if( moveVec.GetLengthSquare() < 10.0f*10.0f ){
 			// 移動終了
@@ -98,7 +92,7 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 
 
 	// アニメ更新
-	math::Vector2 vec = GetEnemyEyeSight();
+	math::Vector2 vec = Utility::GetPlayerPos() - enemyInfo.m_posOrigin;
 	std::string animTag = "";
 	switch( Utility::GetDirection( vec.x, vec.y ) ){
 	default:
@@ -117,7 +111,6 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 		break;
 	}
 	SetEnemyAnim( animTag );
-	SetEnemyEyeSight( vec );
 }
 
 void AIBossNearAttack::ChangeActionType( const ACTION_TYPE &nextType )
@@ -138,7 +131,7 @@ bool AIBossNearAttack::ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY 
 			int32_t randamValue	= Utility::GetRandamValue( 25, -25 );
 			uint32_t speed		= Utility::GetRandamValue( 20, 10 );
 			math::Vector2 dir = math::GetRotateVec( plPos - myPos, static_cast<float>(randamValue) );
-			ShootBullet( dir, 20, speed );
+			ShootBullet( enemyInfo.m_posOrigin, dir, 20, speed );
 		}
 
 		if( Utility::GetRandamValue( 3, 0 ) == 0 ){
