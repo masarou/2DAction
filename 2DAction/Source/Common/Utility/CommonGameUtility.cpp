@@ -503,6 +503,7 @@ bool GetSaveData( Common::SAVE_DATA &saveData )
 		// デフォルトの値を詰めておく
 		Common::SAVE_DATA scoreLog = {
 			true,
+			true,
 			0,
 			{ 1000, 500, 300, 100, 0},
 			{ 0 }

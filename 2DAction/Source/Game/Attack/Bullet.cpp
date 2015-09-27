@@ -81,7 +81,8 @@ void Bullet::Update()
 	}
 
 	// 厳密に確認する必要ないのでマップの高さだけを見る
-	if( Utility::GetMapHeight( m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin ) != 0 ){
+	if( m_ownerType == Common::OWNER_PLAYER
+		&& Utility::GetMapHeight( m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin ) != 0 ){
 		// 壁などに当たったので自殺
 		TaskStartDie();
 	}
@@ -110,6 +111,8 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
+	case Common::EVENT_HIT_ENEMY_WIZARD:
+	case Common::EVENT_HIT_WIZARD_CRYSTAL:
 		if( m_ownerType == Common::OWNER_PLAYER ){
 			m_liveTime = m_liveTimeMax;
 			TaskStartDie();
@@ -124,8 +127,10 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_BLADE_PLAYER:
-		// プレイヤーの斬撃に当たったらかき消される
-		//TaskStartDie();
+		// 敵の弾がプレイヤーの斬撃に当たったらかき消される
+		if( m_ownerType == Common::OWNER_ENEMY ){
+			TaskStartDie();
+		}
 		break;
 	}
 }

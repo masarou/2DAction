@@ -157,11 +157,9 @@ void ResultStageMenu::PadEventDecide()
 		case GameRecorder::STATE_STAGE07:
 		case GameRecorder::STATE_STAGE08:
 		case GameRecorder::STATE_STAGE09:
-		case GameRecorder::STATE_STAGE10:
-		case GameRecorder::STATE_STAGE11:
 			SetNextFlowStr( "interval" );
 			break;
-		case GameRecorder::STATE_STAGE12:
+		case GameRecorder::STATE_STAGE10:
 			SetNextFlowStr( "totalresult" );	// すべてのステージ終了
 			break;
 		}

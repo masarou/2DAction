@@ -51,12 +51,15 @@ void AttackBlade::MessageReceive( const Message &msg )
 / * @brief	斬撃生成
 / */
 /* ================================================ */
-void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type, const float &damageRate )
+void AttackBlade::CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type, const uint32_t &damage )
+{
+	CreateSlashingMain( pos, vec, type, ( damage == 0 ) ? m_currState.m_damage : damage );
+}
+void AttackBlade::CreateSlashingMain( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type, const uint32_t &damage )
 {
 	if( !m_currSlashing && m_intervalTime == 0 ){
 		// TaskUnit継承でアニメ終了後に自殺するので生成するだけ
-		float damage = static_cast<float>(m_currState.m_damage) * damageRate;
-		m_currSlashing = NEW Slashing( m_owner, type, pos, vec, static_cast<uint32_t>(damage) );
+		m_currSlashing = NEW Slashing( m_owner, type, pos, vec, damage, m_currState.m_deleteBullet );
 		SetChildUnit( m_currSlashing );
 
 		// 斬撃効果音
@@ -96,6 +99,10 @@ void AttackBlade::SetBladeLevel( const uint32_t &level )
 	m_currState.m_bladeLv	= level;
 	m_currState.m_damage	= SLASHING_DAMAGE_DEFAULT + Utility::ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, level );
 	m_currState.m_interval	= 20;//ConvertLevelToBaseState( Common::BASE_STATE_BLADE_LEVEL, playData.m_playerBaseStateLv[Common::BASE_STATE_BLADE_LEVEL] );
+	if( m_owner == Common::OWNER_PLAYER && m_currState.m_bladeLv == Common::STATUS_LEVEL_MAX ){
+		// プレイヤーの所持クラスでレベルが最大なら弾をかき消せるようにする
+		m_currState.m_deleteBullet = true;
+	}
 }
 
 /* ================================================ */

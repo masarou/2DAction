@@ -2,15 +2,15 @@
 	"stageKind":[
 		{"type": "DESTROY"},
 		{"TimeS": 0},
-		{"destroyMax": 1}
+		{"destroyMax": 30}
 	],
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_WIZARD", "level": 1, "num": 1}
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 1, "num": 30}
 	],
 	"gameCondition":[
-		{"EnemyMax": 80, "frequency":5},
+		{"EnemyMax": 0, "frequency":0},
 		{"ItemMax": 0, "frequency":0}
 	],
 	"appearEnemy":[

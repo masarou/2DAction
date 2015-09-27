@@ -60,6 +60,9 @@ GameMap::GameMap( const Common::GAME_FLOW &currentKind )
 
 GameMap::~GameMap(void)
 {
+	for( uint32_t i = 0; i < m_vTileInfo.size() ; ++i ){
+		DeleteGraph( m_vTileInfo.at( i ).m_tileHandle );
+	}
 }
 
 void GameMap::Update()

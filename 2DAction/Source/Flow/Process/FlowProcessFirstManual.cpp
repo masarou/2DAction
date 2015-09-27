@@ -93,6 +93,25 @@ void FirstManual::PadEventDecide()
 	ChangeAnimeStepNext();
 }
 
+bool FirstManual::IsNeedPauseFilter() const
+{
+	bool retValue = true;
+	switch( m_kind ){
+	case KIND_POWERUP1:
+	case KIND_POWERUP2:
+	case KIND_POWERUP3:
+	case KIND_POWERUP4:
+	case KIND_POWERUP5:
+		retValue = true;
+		break;
+	case KIND_GAMEPLAY01:
+	case KIND_GAMEPLAY02:
+		retValue = false;
+		break;
+	}
+	return retValue;
+}
+
 const std::string FirstManual::GetFilePath() const
 {
 	std::string retStr = "";
@@ -114,8 +133,11 @@ const std::string FirstManual::GetFilePath() const
 	case KIND_POWERUP5:
 		retStr = "FirstManual05.json";
 		break;
-	case KIND_POWERUP6:
-		retStr = "FirstManual06.json";
+	case KIND_GAMEPLAY01:
+		retStr = "FirstManualGamePlay01.json";
+		break;
+	case KIND_GAMEPLAY02:
+		retStr = "FirstManualGamePlay02.json";
 		break;
 	}
 

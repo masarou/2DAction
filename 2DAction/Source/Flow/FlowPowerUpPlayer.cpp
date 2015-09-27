@@ -48,8 +48,6 @@ bool FlowPowerUpPlayer::Init()
 		PushStageEffect( pFirstManual );
 		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP5 );
 		PushStageEffect( pFirstManual );
-		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP6 );
-		PushStageEffect( pFirstManual );
 	}
 
 	return true;
@@ -402,7 +400,6 @@ uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind
 	};
 
 	uint32_t retVal = levelPointTable[currLevel];
-	uint32_t levelMax = 9; // 表示的には9
 
 	switch( kind ){
 	case Common::BASE_STATE_LIFE:		// ライフの最大値を決める
@@ -424,7 +421,7 @@ uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind
 		break;
 	}
 
-	if( currLevel >= levelMax ){
+	if( currLevel >= Common::STATUS_LEVEL_MAX ){
 		// 既に最大
 		return INVALID_VALUE;
 	}

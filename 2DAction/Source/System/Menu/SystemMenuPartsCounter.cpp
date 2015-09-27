@@ -1,6 +1,6 @@
 /* ====================================================================== */
 /**
- * @brief  各画面パーツクラス
+ * @brief  パーツクラスのひとつ(数値カウンター)
  *
  * @note
  *		
@@ -32,6 +32,11 @@ PartsCounter::~PartsCounter(void)
 {
 }
 
+/* ================================================ */
+/**
+ * @brief	初期化
+ */
+/* ================================================ */
 void PartsCounter::Reset()
 {
 	m_counter		= 0;
@@ -39,6 +44,11 @@ void PartsCounter::Reset()
 	m_value		= 0;
 }
 
+/* ================================================ */
+/**
+ * @brief	スコア追加,セット
+ */
+/* ================================================ */
 void PartsCounter::AddValue( const int32_t &addValue )
 {
 	// 表示スコアを保持しておく
@@ -46,18 +56,27 @@ void PartsCounter::AddValue( const int32_t &addValue )
 
 	m_counter = 0;
 }
-
 void PartsCounter::SetValue( const uint32_t &setValue )
 {
 	m_value = setValue;
 }
 
+/* ================================================ */
+/**
+ * @brief	カウントアニメ中断,終了
+ */
+/* ================================================ */
 void PartsCounter::CountAnimEnd()
 {
 	// 近い値にしておけば次の更新でアニメが終了する
 	m_currDispValue = m_value + 1;
 }
 
+/* ================================================ */
+/**
+ * @brief	カウントアニメ中かどうか
+ */
+/* ================================================ */
 bool PartsCounter::IsPlayCountAnim()
 {
 	if( m_currDispValue == m_value ){
@@ -66,6 +85,11 @@ bool PartsCounter::IsPlayCountAnim()
 	return true;
 }
 
+/* ================================================ */
+/**
+ * @brief	毎フレーム呼ばれるクラス更新の起点
+ */
+/* ================================================ */
 void PartsCounter::UpdateParts()
 {
 	int32_t diff = m_value-m_currDispValue;
@@ -90,7 +114,11 @@ void PartsCounter::UpdateParts()
 	// 表示更新
 	UpdateScore( m_currDispValue );
 }
-
+/* ================================================ */
+/**
+ * @brief	表示スコアアニメ更新
+ */
+/* ================================================ */
 void PartsCounter::UpdateScore( const uint32_t &score )
 {
 	uint32_t rest = score;

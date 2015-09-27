@@ -239,6 +239,7 @@ namespace Common{
 	};
 
 	// バトルポイントを使用してあげることのできるプレイヤーステータス
+	const uint32_t STATUS_LEVEL_MAX = 9;
 	enum PLAYER_BASE_STATE{
 		BASE_STATE_LIFE,		// ライフの最大値を決める
 		BASE_STATE_MOVE_SPEED,	// ダッシュ時間
@@ -253,7 +254,8 @@ namespace Common{
 	// 以下、セーブデータとして保持する
 	const uint32_t RANKING_RECORD_MAX = 5;
 	struct SAVE_DATA{
-		bool		m_isFirst;
+		bool		m_isFirst;			// 初めてのパワーアップ画面かどうか
+		bool		m_isFirstGamePlay;	// 初めてのゲームプレイかどうか
 		uint32_t	m_battlePoint;	// ゲームプレイで手にいてたポイント(パワーアップに必要)
 		uint32_t	m_scoreRanking[RANKING_RECORD_MAX];
 		uint32_t	m_playerBaseStateLv[BASE_STATE_MAX];

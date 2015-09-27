@@ -67,6 +67,8 @@ private:
 		SELECT_MAX,
 	};
 
+	void SetChoiceSelect( uint32_t choiceIndex );
+
 	TitleMenu( const std::string &readMenuJson );
 	virtual ~TitleMenu(void);
 	

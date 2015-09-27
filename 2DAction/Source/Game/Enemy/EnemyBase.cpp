@@ -28,7 +28,7 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_speed( 0 )
 , m_eye(math::Vector2( 1.0f, 0.0f ))
 , m_walkHeight( 0 )
-, m_stunTime( 0 )
+, m_stunTime( 40 )
 , m_pEnemyAI( NULL )
 , m_nextAI( Common::AI_NONE )
 , m_prevAI( Common::AI_NONE )
@@ -142,12 +142,19 @@ void EnemyBase::Update()
 	if( m_HP <= 0 ){
 		TaskStartDie();
 	}
+	else{
+		// ”h¶æXVˆ—
+		UpdateCustom();
+	}
 }
 
 void EnemyBase::DrawUpdate()
 {
 	m_drawTexture.m_pTex2D->DrawUpdate2D();
 	m_textureLife.m_pTex2D->DrawUpdate2D();
+	
+	// ”h¶æ•`‰æˆ—
+	DrawUpdateCustom();
 }
 
 /* ================================================ */
@@ -319,6 +326,8 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		}
 	}
 
-	// ˜A‘±Hit”‰ÁŽZ
-	GameRecorder::GetInstance()->IncHitCounter();
+	if( damageValue != 0 ){
+		// ˜A‘±Hit”‰ÁŽZ
+		GameRecorder::GetInstance()->IncHitCounter();
+	}
 }

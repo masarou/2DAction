@@ -1,16 +1,15 @@
 {
 	"basicInfo":[
 		{"fileName":"EnemyWizardCrystal.png"
-		, "animDefault":"white"
-		, "sizeW": 24
-		, "sizeH": 32
-		, "splitW": 2
-		, "splitH": 4
-		, "total": 8 }
+		, "animDefault":"default"
+		, "sizeW": 48
+		, "sizeH": 48
+		, "splitW": 5
+		, "splitH": 1
+		, "total": 5 }
 	],
 	
 	"animeInfo":[
-		{"animTag":"white",	"frameSpeed":10,	"animIndex":[0,2,4,6],	"nextAnim":"white"},
-		{"animTag":"black",	"frameSpeed":10,	"animIndex":[1,3,5,7],	"nextAnim":"black"}
+		{"animTag":"default",	"frameSpeed":7,	"animIndex":[0,1,2,3,4],	"nextAnim":"default"}
 	]	
 }

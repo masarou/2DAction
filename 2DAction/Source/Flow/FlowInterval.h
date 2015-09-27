@@ -75,6 +75,9 @@ private:
 		SELECT_MAX,
 	};
 
+	
+	void SetChoiceSelect( uint32_t choiceIndex );
+
 	IntervalMenu( const std::string &readMenuJson );
 	virtual ~IntervalMenu(void);
 };

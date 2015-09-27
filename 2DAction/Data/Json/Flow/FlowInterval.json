@@ -9,11 +9,9 @@
 		{"event":"nextgame08",	"path":"FlowGameStage08.json"},
 		{"event":"nextgame09",	"path":"FlowGameStage09.json"},
 		{"event":"nextgame10",	"path":"FlowGameStage10.json"},
-		{"event":"nextgame11",	"path":"FlowGameStage11.json"},
-		{"event":"nextgame12",	"path":"FlowGameStage12.json"},
 		{"event":"title", 		"path":"FlowTitle.json"}
 	],
 	"bgdata":[
-		{"bgid":"BGID_TITLE"}
+		{"bgid":"BGID_INTERVAL"}
 	]
 }

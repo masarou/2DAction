@@ -1,8 +1,5 @@
 {
 	"eventdata":[
 		{"event":"return", "path":"FlowTitle.json"}
-	],
-	"bgdata":[
-		{"bgid":"BGID_CURRENT"}
 	]
 }

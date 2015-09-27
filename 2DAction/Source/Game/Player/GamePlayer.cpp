@@ -47,8 +47,6 @@ static uint32_t EMERGENCY_LIFE			= 20;
 static uint32_t BULLET_INTERBAL_MIN		= 1;
 static uint32_t BULLET_DAMAGE_MAX		= 100;
 
-static uint32_t STATUS_LEVEL_MAX		= 9;
-
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
 static char *ANIM_TAG_DOWN	= "down";
@@ -113,7 +111,7 @@ bool GamePlayer::Init()
 	math::Vector2 startPos = GameRegister::GetInstance()->GetGameMap()->GetPlayerStartPos() - drawInfo.m_posOrigin;
 	GameAccesser::GetInstance()->AddPlayerOffSet( startPos );
 
-	if( m_speedLv == STATUS_LEVEL_MAX ){
+	if( m_speedLv == Common::STATUS_LEVEL_MAX ){
 		SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PRESS );
 		SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PRESS );
 	}
@@ -153,7 +151,7 @@ void GamePlayer::Update()
 			}
 		}
 		// 一定数になったら切り捨て(終了)
-		if( m_speedMultiply < 1.2f || m_speedLv == STATUS_LEVEL_MAX ){
+		if( m_speedMultiply < 1.2f || m_speedLv == Common::STATUS_LEVEL_MAX ){
 			m_speedMultiply = 1.0f;
 		}
 		// 早すぎる場合は切り捨て
@@ -349,7 +347,7 @@ void GamePlayer::ActionPlayerDash()
 	}
 
 	// ダッシュLvが最大の場合は常に有効
-	if( m_speedLv == STATUS_LEVEL_MAX ){
+	if( m_speedLv == Common::STATUS_LEVEL_MAX ){
 		// 効果音は30fに一回鳴らす
 		if( FpsManager::GetUpdateCounter() % 30 == 0 || !IsPreFrameButtonPress( InputWatcher::BUTTON_L1 ) ){
 			SoundManager::GetInstance()->PlaySE("Dash");
@@ -420,7 +418,7 @@ void GamePlayer::SetupInitPlayerState()
 
 	// 防御力を反映
 	m_defenceLv		= playData.m_playerBaseStateLv[Common::BASE_STATE_DEFFENCE];
-	m_deffenceLate = ( 100.0 - static_cast<float>( Utility::ConvertLevelToBaseState( Common::BASE_STATE_DEFFENCE, m_defenceLv ) ) ) / 100.0f;
+	m_deffenceLate = ( 100.0f - static_cast<float>( Utility::ConvertLevelToBaseState( Common::BASE_STATE_DEFFENCE, m_defenceLv ) ) ) / 100.0f;
 
 	// マシンガンクラスを反映
 	if( m_attackGun ){

@@ -39,7 +39,7 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	drawInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	if( m_kind == EFFECT_SLASHING_HIT ){
 		// 斬撃HITはランダムに回転
-		uint32_t rotate = Utility::GetRandamValue( 360, 0 );
+		uint32_t rotate = Utility::GetRandamValue( math::ANGLE_FULL, 0 );
 		drawInfo.m_rot = static_cast<float>(rotate);
 	}
 	if( m_kind == EFFECT_DASH_SMOKE ){
@@ -105,6 +105,11 @@ std::string GameEffect::SelectEffectFile() const
 	case EFFECT_EXCLAMATION:
 		rtn = "Exclamation.json";
 		break;
+
+	case EFFECT_INVALID_DAMAGE:
+		rtn = "InvalidDamage.json";
+		break;
+
 	default:
 		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
 		// とりあえず一番無難なものをセット
@@ -313,6 +318,19 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 		damageInfo.m_array2D.at(i).m_pTex2D->SetAnim( anim.c_str() );
 
 		rest /= 10;
+	}
+
+	// valueが0 = ダメージなしだった時の特殊処理
+	if( value == 0 ){
+		Texture2D tex;
+		tex.Init();
+		tex.m_pTex2D = Game2DBase::Create("DamageNum.json");
+		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("DamageNum.json");
+		basePos.x -= texInfo.m_sizeWidth;
+		tex.m_pTex2D->UpdateDrawInfo().m_posOrigin	= basePos;
+		tex.m_pTex2D->UpdateDrawInfo().m_prioity	= Common::PRIORITY_HIGH;
+		damageInfo.m_array2D.push_back( tex );
+		damageInfo.m_array2D.at(0).m_pTex2D->SetAnim( "0" );
 	}
 
 	m_damageArray.push_back( damageInfo );

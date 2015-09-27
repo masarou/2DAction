@@ -1,0 +1,17 @@
+{
+	"basicInfo":[
+		{"fileName":"StageStart02.png"
+		, "animDefault":"destroy"
+		, "sizeW": 2000
+		, "sizeH": 100
+		, "splitW": 1
+		, "splitH": 3
+		, "total": 3 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"destroy",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"destroy"},
+		{"animTag":"boss",		"frameSpeed":1000,	"animIndex":[1],	"nextAnim":"boss"},
+		{"animTag":"time",		"frameSpeed":1000,	"animIndex":[2],	"nextAnim":"time"}
+	]
+}

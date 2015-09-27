@@ -15,11 +15,12 @@
 #include "Game/Enemy/EnemyManager.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 
-Slashing::Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &type, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage )
+Slashing::Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &type, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage, bool deleteBullet )
 : TaskUnit( "Slashing" )
 , m_ownerType( ownerType )
 , m_slashingType( type )
 , m_liveTime( 0 )
+, m_IsDeleteBullet( deleteBullet )
 , m_bladeDamage( damage )
 {
 	std::string jsonStr = GetJsonFileStr();

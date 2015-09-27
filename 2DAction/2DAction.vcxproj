@@ -31,6 +31,7 @@
     <ClCompile Include="Source\Flow\Process\FlowProcessControllDescription.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessFirstManual.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessInitLastStage.cpp" />
+    <ClCompile Include="Source\Flow\Process\FlowProcessStageStart.cpp" />
     <ClCompile Include="Source\Game\Attack\Bullet.cpp" />
     <ClCompile Include="Source\Game\Attack\GameAttackBlade.cpp" />
     <ClCompile Include="Source\Game\Attack\GameAttackGun.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Source\Flow\Process\FlowProcessControllDescription.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessFirstManual.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessInitLastStage.h" />
+    <ClInclude Include="Source\Flow\Process\FlowProcessStageStart.h" />
     <ClInclude Include="Source\Game\Attack\Bullet.h" />
     <ClInclude Include="Source\Game\Attack\GameAttackBlade.h" />
     <ClInclude Include="Source\Game\Attack\GameAttackGun.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="Source\Math\MathVector.h" />
     <ClInclude Include="Source\System\Collision\SystemCollisionManager.h" />
     <ClInclude Include="Source\System\Collision\SystemCollisionUnit.h" />
+    <ClInclude Include="Source\System\coroutine.hpp" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DDefine.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DManager.h" />
     <ClInclude Include="Source\System\Draw2D\SystemDraw2DResource.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="Source\System\SystemPauseFilter.h" />
     <ClInclude Include="Source\System\Task\SystemTaskManager.h" />
     <ClInclude Include="Source\System\Task\SystemTaskUnit.h" />
+    <ClInclude Include="Source\System\yield.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{52377480-6CC6-47BE-A593-D04E651D02AB}</ProjectGuid>

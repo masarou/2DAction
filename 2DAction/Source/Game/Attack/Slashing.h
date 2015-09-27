@@ -31,7 +31,7 @@ public:
 
 	static const uint32_t SLASHING_ANIM_END = 0;
 
-	Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &type, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage );
+	Slashing( const Common::OWNER_TYPE ownerType, const TYPE_SLASHING &type, const math::Vector2 &pos, const math::Vector2 &vec, uint32_t damage, bool deleteBullet = false );
 	~Slashing(void);
 
 	// î•ñæ“¾
@@ -39,6 +39,7 @@ public:
 	const uint32_t &GetBladeDamage() const{ return m_bladeDamage; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetLiveTime() const{ return m_liveTime; }
+	const bool &IsDeleteBullet() const{ return m_IsDeleteBullet; }
 
 protected:
 
@@ -62,12 +63,13 @@ private:
 	
 	Common::OWNER_TYPE		m_ownerType;
 	TYPE_SLASHING			m_slashingType;
-	uint32_t				m_liveTime;		// ¶¬‚³‚ê‚Ä‚©‚ç‚ÌŠÔ
+	uint32_t				m_liveTime;			// ¶¬‚³‚ê‚Ä‚©‚ç‚ÌŠÔ
 
-	uint32_t				m_bladeDamage;	// aŒ‚ˆĞ—Í
-	math::Vector2			m_bladePos;		// aŒ‚ˆÊ’u
-	math::Vector2			m_bladeVec;		// aŒ‚Œü‚«
-	std::vector<uint32_t>	m_hitFrame;		// “–‚½‚è”»’è‚ª—LŒø‚Æ‚È‚éƒtƒŒ[ƒ€
+	bool					m_IsDeleteBullet;	// “G‚Ì’e‚ğ‚©‚«Á‚¹‚é‚©
+	uint32_t				m_bladeDamage;		// aŒ‚ˆĞ—Í
+	math::Vector2			m_bladePos;			// aŒ‚ˆÊ’u
+	math::Vector2			m_bladeVec;			// aŒ‚Œü‚«
+	std::vector<uint32_t>	m_hitFrame;			// “–‚½‚è”»’è‚ª—LŒø‚Æ‚È‚éƒtƒŒ[ƒ€
 
 };
 

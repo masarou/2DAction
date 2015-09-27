@@ -2,18 +2,15 @@
 	"stageKind":[
 		{"type": "DESTROY"},
 		{"TimeS": 0},
-		{"destroyMax": 80}
+		{"destroyMax": 4}
 	],
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 6, "num": 20},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 8, "num": 40},
-		{"enemyKind": "ENEMY_KIND_COW", 	"level": 6, "num": 10},
-		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 1, "num": 2}
+		{"enemyKind": "ENEMY_KIND_WIZARD", "level": 6, "num": 4}
 	],
 	"gameCondition":[
-		{"EnemyMax": 80, "frequency":5},
+		{"EnemyMax": 80, "frequency":0},
 		{"ItemMax": 0, "frequency":0}
 	],
 	"appearEnemy":[

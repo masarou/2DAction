@@ -53,6 +53,11 @@ bool PlayerCombo::DieMain()
 	return true;
 }
 
+/* ================================================ */
+/**
+ * @brief	初期化
+ */
+/* ================================================ */
 bool PlayerCombo::Init()
 {
 	if( !m_textureFrame.m_pTex2D ){
@@ -153,6 +158,11 @@ void PlayerCombo::DrawUpdate()
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	指定パーツの位置情報取得
+ */
+/* ================================================ */
 const math::Vector2 PlayerCombo::GetPartsPos( const std::string name ) const
 {
 	if( !m_textureFrame.m_pTex2D ){
@@ -171,6 +181,11 @@ const math::Vector2 PlayerCombo::GetPartsPos( const std::string name ) const
 	return retPos;
 }
 
+/* ================================================ */
+/**
+ * @brief	指定パーツの情報取得
+ */
+/* ================================================ */
 const Common::PARTS_INFO &PlayerCombo::GetPartsInfo( const std::string name ) const
 {
 	auto it = m_partsMap.find( name.c_str() );

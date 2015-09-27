@@ -185,6 +185,14 @@ void CollisionManager::CollisionUpdate()
 						messageKind = Common::EVENT_HIT_BLADE_PLAYER;
 						Slashing *pSlashing = static_cast<Slashing*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pSlashing->GetBladeDamage();
+
+						// 当たった相手が敵の弾だった場合、かき消す能力があればイベントを送る
+						if( typeB == Common::TYPE_BULLET_ENEMY ){
+							if( !pSlashing->IsDeleteBullet() ){
+								// かき消す能力がないので送らない
+								continue;
+							}
+						}
 					}
 					break;
 				case Common::TYPE_BLADE_ENEMY:
@@ -319,7 +327,6 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ITEM_DAMAGE:
 	case Common::TYPE_ITEM_BATTLE_POINT:
 	case Common::TYPE_BLADE_ENEMY:
-	//case Common::TYPE_EXPLOSION_ENEMY:
 		if( typeB != Common::TYPE_PLAYER ){
 			retVal = false;
 		}
@@ -346,11 +353,14 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 		{uint32_t aaa = 0;}
 		break;
 	}
-
 	return retVal;
 }
 
-// 所属Lvとその空間のIndex番号から「m_objectTree」の配列番号を求める
+/* ================================================ */
+/**
+ * @brief	所属Lvとその空間のIndex番号から「m_objectTree」の配列番号を求める
+ */
+/* ================================================ */
 uint32_t CollisionManager::GetRegisterTreeIndex( const Collision2DUnit *pUnit ) const
 {
 	if( !pUnit ){
@@ -369,7 +379,11 @@ uint32_t CollisionManager::GetRegisterTreeIndex( const uint32_t &belongLv, const
 	return minimumLvIndex+belongIndex;
 }
 
-// 指定クラスを「m_objectTree」に登録
+/* ================================================ */
+/**
+ * @brief	指定クラスを「m_objectTree」に登録、削除
+ */
+/* ================================================ */
 void CollisionManager::RegisterUnitFromTree( const uint32_t &treeIndex, Collision2DUnit *pUnit )
 {
 	if( treeIndex >= NUMBEROF(m_objectTree) ){
@@ -379,8 +393,6 @@ void CollisionManager::RegisterUnitFromTree( const uint32_t &treeIndex, Collisio
 	m_objectTree[treeIndex].AddUnit( pUnit );
 	++m_objectTree[treeIndex].registNum;
 }
-
-// 指定クラスを「m_objectTree」から削除
 void CollisionManager::RemoveUnitFromTree( const uint32_t &treeIndex, Collision2DUnit *pUnit )
 {
 	if( treeIndex >= NUMBEROF(m_objectTree) ){

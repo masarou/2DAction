@@ -152,7 +152,7 @@ void Draw2DManager::Action()
 	// デバッグ用目印
 	for( uint32_t i = 0; i < m_drawCircle.size() ; ++i ){
 		math::Vector2 tmp = m_drawCircle.at(i) - Utility::GetPlayerOffsetPos();
-		DrawCircle( tmp.x, tmp.y, 3, Color, false);
+		DrawCircle( static_cast<int>(tmp.x), static_cast<int>(tmp.y), 3, Color, false);
 	}
 	m_drawCircle.clear();
 #endif
@@ -212,14 +212,14 @@ void Draw2DManager::DrawTexture( const uint32_t &drawIndex )
 	DrawRotaGraph3(
 		static_cast<int32_t>(pos.x)
 		, static_cast<int32_t>(pos.y)
-		, ( drawInfo.m_info.m_arrangeOrigin.x == INVALID_FVALUE ) ? texInfo.m_sizeWidth / 2 : drawInfo.m_info.m_arrangeOrigin.x
-		, ( drawInfo.m_info.m_arrangeOrigin.y == INVALID_FVALUE ) ? texInfo.m_sizeHeight / 2 : drawInfo.m_info.m_arrangeOrigin.y
+		, ( drawInfo.m_info.m_arrangeOrigin.x == INVALID_FVALUE ) ? texInfo.m_sizeWidth / 2 : static_cast<int>( drawInfo.m_info.m_arrangeOrigin.x )
+		, ( drawInfo.m_info.m_arrangeOrigin.y == INVALID_FVALUE ) ? texInfo.m_sizeHeight / 2 : static_cast<int>( drawInfo.m_info.m_arrangeOrigin.y )
 		, static_cast<double>(drawInfo.m_info.m_scale.x)
 		, static_cast<double>(drawInfo.m_info.m_scale.y)
 		, static_cast<double>(drawInfo.m_info.m_rot.GetRadian())
 		, drawInfo.m_handle
-		, true
-		, false
+		, static_cast<int>(true)
+		, static_cast<int>(false)
 		);
 
 	SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );

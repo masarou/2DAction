@@ -55,6 +55,11 @@ bool FadeManager::DieMain()
 	return true;
 }
 
+/* ================================================ */
+/**
+ * @brief	フェードイン開始
+ */
+/* ================================================ */
 void FadeManager::StartFadeIn()
 {
 	if( m_currState != STATE_IDLE ){
@@ -70,6 +75,11 @@ void FadeManager::StartFadeIn()
 	SoundManager::GetInstance()->PlaySE("FadeIn");
 }
 
+/* ================================================ */
+/**
+ * @brief	フェードアウト開始
+ */
+/* ================================================ */
 void FadeManager::StartFadeOut()
 {
 	if( m_currState != STATE_OVERWINDOW
@@ -85,6 +95,11 @@ void FadeManager::StartFadeOut()
 	SoundManager::GetInstance()->PlaySE("FadeOut");
 }
 
+/* ================================================ */
+/**
+ * @brief	描画更新
+ */
+/* ================================================ */
 void FadeManager::DrawUpdate()
 {
 

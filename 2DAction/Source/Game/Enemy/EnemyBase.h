@@ -45,11 +45,17 @@ protected:
 
 	EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, const Common::ENEMY_KIND &kind, const uint32_t &enemyLevel, const math::Vector2 &enemyPos = DEFAULT_VECTOR2 );
 
+	// 基本継承禁止
 	virtual bool Init() override;						// 初期化
-	virtual bool InitMain(){ return true; }				// 派生先での初期化
-	virtual bool DieMain() override;					// 派生先での初期化
+	virtual bool DieMain() override;					// 死亡前処理
 	virtual void Update() override;						// 位置やAIによる数値周りの更新
 	virtual void DrawUpdate() override;					// 描画更新
+
+	// 継承先で必要な処理実装
+	virtual bool InitMain(){ return true; }				// 派生先での初期化
+	virtual void UpdateCustom(){}						// 派生先での更新処理
+	virtual void DrawUpdateCustom(){}					// 派生先での描画処理
+	virtual bool DieMainCustom(){ return true; }
 
 	// ほかのクラスからのイベント処理
 	virtual void EventUpdate( Common::CMN_EVENT &eventId ) override;
@@ -66,9 +72,6 @@ protected:
 
 	// このクラスの種類セット
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override = 0;
-
-	// このクラスで定義する仮想関数
-	virtual bool DieMainCustom(){ return true; }
 
 	EnemyAIBase			*m_pEnemyAI;					// 思考クラス
 

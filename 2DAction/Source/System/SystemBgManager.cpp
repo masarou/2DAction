@@ -12,6 +12,8 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "Common/Utility/CommonGameUtility.h"
 
+#include "Game/GameRecorder.h"
+
 BgManager *BgManager::s_pInstance = NULL;
 
 static struct BGMAP {
@@ -22,7 +24,7 @@ static struct BGMAP {
 	{	"BGID_TITLE",			BgManager::BGID_TITLE,			},
 	{	"BGID_STAGE_RESULT",	BgManager::BGID_STAGE_RESULT,	},
 	{	"BGID_COMMON",			BgManager::BGID_COMMON,	},
-	{	"BGID_CURRENT",			BgManager::BGID_CURRENT,		},
+	{	"BGID_INTERVAL",		BgManager::BGID_INTERVAL,		},
 	{	"BGID_NONE",			BgManager::BGID_NONE,			},
 };
 
@@ -61,6 +63,11 @@ bool BgManager::DieMain()
 	return true;
 }
 
+/* ================================================ */
+/**
+ * @brief	次のBGセット
+ */
+/* ================================================ */
 void BgManager::SetNextBg( const std::string &bgStr )
 {
 	for( uint32_t i = 0; i < NUMBEROF(s_bgAttay) ; ++i ){
@@ -94,11 +101,21 @@ void BgManager::SetNextBg( const BGID &bgId )
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	BGの表示準備が終了したかどうか
+ */
+/* ================================================ */
 bool BgManager::IsShowingBG() const
 {
 	return ( m_currStep == STEP_SHOWING ) ? true : false ;
 }
 
+/* ================================================ */
+/**
+ * @brief	各種更新処理
+ */
+/* ================================================ */
 void BgManager::Update()
 {
 
@@ -154,6 +171,11 @@ void BgManager::DrawUpdate()
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	BGIDから読み込むべきjson名取得
+ */
+/* ================================================ */
 std::string BgManager::GetBgJsonName( const BGID &bgId ) const
 {
 	std::string fileName = "";
@@ -170,7 +192,32 @@ std::string BgManager::GetBgJsonName( const BGID &bgId ) const
 	case BGID_COMMON:
 		fileName = "CommonBg.json";
 		break;
-	case BGID_CURRENT:
+	case BGID_INTERVAL:
+		{
+			GameRecorder *pRecorder = GameRecorder::GetInstance();
+			switch( pRecorder->GetGameStateOfProgress() ){
+			case GameRecorder::STATE_STAGE10:
+			default:
+				DEBUG_ASSERT( 0, "現在のゲームの状態が想定外");
+				break;
+			case GameRecorder::STATE_STAGE01:
+			case GameRecorder::STATE_STAGE02:
+			case GameRecorder::STATE_STAGE03:
+				fileName = "ResultBgStage01.json";
+				break;
+			case GameRecorder::STATE_STAGE04:
+			case GameRecorder::STATE_STAGE05:
+			case GameRecorder::STATE_STAGE06:
+				fileName = "ResultBgStage02.json";
+				break;
+			case GameRecorder::STATE_STAGE07:
+			case GameRecorder::STATE_STAGE08:
+			case GameRecorder::STATE_STAGE09:
+				fileName = "ResultBgStage03.json";
+				break;
+			}
+		}
+		break;
 	case BGID_NONE:
 		break;
 	}

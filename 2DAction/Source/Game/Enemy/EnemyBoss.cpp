@@ -43,6 +43,7 @@ void EnemyBoss::ReduceDamage( Common::CMN_EVENT &eventId )
 
 
 
+
 EnemySlimeKing *EnemySlimeKing::Create( const uint32_t &uniqueID )
 {
 	return NEW EnemySlimeKing( uniqueID );

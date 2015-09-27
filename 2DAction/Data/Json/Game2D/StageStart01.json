@@ -1,0 +1,24 @@
+{
+	"basicInfo":[
+		{"fileName":"StageStart01.png"
+		, "animDefault":"1-1"
+		, "sizeW": 2000
+		, "sizeH": 100
+		, "splitW": 1
+		, "splitH": 10
+		, "total": 10 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"1-1",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"1-1"},
+		{"animTag":"1-2",	"frameSpeed":1000,	"animIndex":[1],	"nextAnim":"1-2"},
+		{"animTag":"1-3",	"frameSpeed":1000,	"animIndex":[2],	"nextAnim":"1-3"},
+		{"animTag":"1-4",	"frameSpeed":1000,	"animIndex":[3],	"nextAnim":"1-4"},
+		{"animTag":"2-1",	"frameSpeed":1000,	"animIndex":[4],	"nextAnim":"2-1"},
+		{"animTag":"2-2",	"frameSpeed":1000,	"animIndex":[5],	"nextAnim":"2-2"},
+		{"animTag":"2-3",	"frameSpeed":1000,	"animIndex":[6],	"nextAnim":"2-3"},
+		{"animTag":"3-1",	"frameSpeed":1000,	"animIndex":[7],	"nextAnim":"3-1"},
+		{"animTag":"3-2",	"frameSpeed":1000,	"animIndex":[8],	"nextAnim":"3-2"},
+		{"animTag":"3-3",	"frameSpeed":1000,	"animIndex":[9],	"nextAnim":"3-3"}
+	]
+}

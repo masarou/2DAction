@@ -328,6 +328,15 @@
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIWizard.h">
       <Filter>Game\Enemy\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\System\coroutine.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\yield.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\Process\FlowProcessStageStart.h">
+      <Filter>Flow\Process</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -561,6 +570,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIWizard.cpp">
       <Filter>Game\Enemy\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\Process\FlowProcessStageStart.cpp">
+      <Filter>Flow\Process</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

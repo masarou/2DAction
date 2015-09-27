@@ -50,6 +50,8 @@ public:
 	const uint32_t GetEnemyLevel() const;
 	const uint32_t GetEnemySPD() const;
 
+	// 敵クラス取得
+	EnemyBase *UpdateEnemyMine();
 	const EnemyBase *const GetEnemeyMine() const;
 
 	// 攻撃クラス解放
@@ -79,4 +81,5 @@ private:
 	bool		m_isReady;			// 思考準備が終了したかどうか
 	EnemyBase	*m_enemyMine;		// 現在の自分の状態を知るために保持しておく
 };
+
 #endif

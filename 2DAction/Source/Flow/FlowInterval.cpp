@@ -74,25 +74,9 @@ bool IntervalMenu::InitMenu()
 	SetPadButtonState( InputWatcher::BUTTON_RIGHT,	InputWatcher::EVENT_PUSH );
 	SetPadButtonState( InputWatcher::BUTTON_LEFT,	InputWatcher::EVENT_PUSH );
 
-	// 選択肢項目のセットアップ
-	for( uint32_t i = 0; i < SELECT_MAX ; ++i ){
-		std::string animStr = "";
-		switch( i ){
-		case SELECT_NEXT_GAME:
-			animStr = "next";
-			break;
-		case SELECT_TO_TITLE:
-			animStr = "title";
-			break;
-		default:
-			DEBUG_ASSERT( 0, "選択肢番号が想定外");
-			break;
-		}
+	//
+	SetChoiceSelect( SELECT_NEXT_GAME );
 
-		std::string partStr = "choice";
-		partStr += '0' + i;
-		SetAnim( partStr, animStr );
-	}
 	return true;
 }
 
@@ -110,7 +94,6 @@ void IntervalMenu::PadEventDecide()
 			switch( pRecorder->GetGameStateOfProgress() ){
 			case GameRecorder::STATE_TITLE:
 			case GameRecorder::STATE_POWER_UP:
-			case GameRecorder::STATE_STAGE12:
 			default:
 				DEBUG_ASSERT( 0, "想定外のフロー" );
 				// とりあえずタイトルへ
@@ -143,12 +126,6 @@ void IntervalMenu::PadEventDecide()
 			case GameRecorder::STATE_STAGE09:
 				SetNextFlowStr( "nextgame10" );
 				break;
-			case GameRecorder::STATE_STAGE10:
-				SetNextFlowStr( "nextgame11" );
-				break;
-			case GameRecorder::STATE_STAGE11:
-				SetNextFlowStr( "nextgame12" );
-				break;
 			}
 		}
 	}
@@ -158,17 +135,25 @@ void IntervalMenu::PadEventRight()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
-
+	
+	// 選択しているIndex更新
 	uint32_t selectNo = ( GetSelectedNo() + 1 ) % SELECT_RETRY_MAX;
 	SetSelectNum( selectNo );
+
+	// 選択肢描画更新
+	SetChoiceSelect( GetSelectedNo() );
 }
 void IntervalMenu::PadEventLeft()
 {
 	// カーソルSE鳴らす
 	SoundManager::GetInstance()->PlaySE("Cursor");
 
+	// 選択しているIndex更新
 	uint32_t selectNo = ( GetSelectedNo() + (SELECT_RETRY_MAX - 1) ) % SELECT_MAX;
 	SetSelectNum( selectNo );
+
+	// 選択肢描画更新
+	SetChoiceSelect( GetSelectedNo() );
 }
 
 void IntervalMenu::UpdateMenu()
@@ -179,14 +164,32 @@ void IntervalMenu::UpdateMenu()
 	}
 
 	CallPadEvent();
+}
+
+void IntervalMenu::SetChoiceSelect( uint32_t choiceIndex )
+{
 	for( uint32_t i = 0; i < SELECT_MAX; ++i){
 		// カーソルが当たっていたらアニメ変更
-		std::string anim = "default";
-		if( GetSelectedNo() == i ){
-			anim = "spot";
+		std::string choiceStr = "choice";
+		std::string choiceAnimStr = "";
+		std::string bgStr = "choiceBG";
+		std::string bgAnimStr = "default";
+		switch( i ){
+		default:
+		case SELECT_NEXT_GAME:
+			choiceAnimStr = "next";
+			break;
+		case SELECT_TO_TITLE:
+			choiceAnimStr = "title";
+			break;
 		}
-		std::string partStr = "choiceBG";
-		partStr += '0' + i;
-		SetAnim( partStr, anim );
+		if( choiceIndex == i ){
+			choiceAnimStr += "Select";
+			bgAnimStr = "spot";
+		}
+		choiceStr += '0' + i;
+		bgStr += '0' + i;
+		SetAnim( choiceStr, choiceAnimStr );
+		SetAnim( bgStr, bgAnimStr );
 	}
 }

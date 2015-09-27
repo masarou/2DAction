@@ -10,7 +10,9 @@
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
 #include "Game/Timer/GameStageTimer.h"
-#include "Process/FlowProcessControllDescription.h"
+#include "Flow/Process/FlowProcessFirstManual.h"
+#include "Common/Utility/CommonGameUtility.h"
+#include "Process/FlowProcessStageStart.h"
 #include "Process/FlowProcessInitLastStage.h"
 
 FlowBase *FlowGame::Create( const std::string &fileName )
@@ -55,10 +57,6 @@ bool FlowGame::Init()
 	case GameRecorder::STATE_STAGE02:
 	case GameRecorder::STATE_STAGE03:
 		{
-			// 最初の説明
-			ControllDescription *pEffectStage = ControllDescription::Create();
-			PushStageEffect( pEffectStage );
-
 			soundTag = "stage01";
 		}
 		break;
@@ -73,25 +71,33 @@ bool FlowGame::Init()
 		break;
 
 	case GameRecorder::STATE_STAGE08:
-		soundTag = "stage03";
-		break;
-
 	case GameRecorder::STATE_STAGE09:
-	case GameRecorder::STATE_STAGE10:
-	case GameRecorder::STATE_STAGE11:
 		soundTag = "stage03";
 		break;
 
-	case GameRecorder::STATE_STAGE12:
-		{
-			// ボス戦準備
-			InitLastStage *pEffectStage = InitLastStage::Create();
-			PushStageEffect( pEffectStage );
-
-			soundTag = "stage03";
-		}
+	case GameRecorder::STATE_STAGE10:
+		soundTag = "stage03";
 		break;
 	}
+
+	// 初めてのゲームプレイかどうかチェック
+	Common::SAVE_DATA saveData;
+	Utility::GetSaveData( saveData );
+	if( saveData.m_isFirstGamePlay ){
+		// 操作説明セット
+		FirstManual *pFirstManual = FirstManual::Create( FirstManual::KIND_GAMEPLAY01 );
+		PushStageEffect( pFirstManual );
+		pFirstManual = FirstManual::Create( FirstManual::KIND_GAMEPLAY02 );
+		PushStageEffect( pFirstManual );
+
+		// 初めてのゲームプレイフラグを下げる
+		saveData.m_isFirstGamePlay = false;
+		Utility::OverWriteSaveData( saveData );
+	}
+
+	// いくつめのステージかを画面に出す
+	StageStart *pStageStart = StageStart::Create();
+	PushStageEffect( pStageStart );
 
 	// BGM再生開始
 	SoundManager::GetInstance()->PlayBGM( soundTag.c_str() );

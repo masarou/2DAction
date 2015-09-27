@@ -14,6 +14,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "yield.hpp"
 #include "Common/CmnGameAccesser.h"
 /* É}ÉNÉç==================================================================== */
 #define int8_t		char

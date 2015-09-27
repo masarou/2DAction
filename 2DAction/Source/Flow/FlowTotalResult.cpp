@@ -209,8 +209,7 @@ bool TotalResult2D::ChangeDispNextState()
 			m_dispState = DISP_SCENE02;
 			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE05 )
 								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE06 )
-								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE07 )
-								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE08 );
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE07 );
 			m_pNumCounter[static_cast<uint32_t>(DISP_SCENE02)]->AddValue( sceneScore );
 		}
 		break;
@@ -218,9 +217,8 @@ bool TotalResult2D::ChangeDispNextState()
 		{
 			m_dispState = DISP_SCENE03;		
 			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE09 )
-								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE10 )
-								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE11 )
-								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE12 );
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE09 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE10 );
 			m_pNumCounter[static_cast<uint32_t>(DISP_SCENE03)]->AddValue( sceneScore );
 		}
 		break;

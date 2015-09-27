@@ -1,9 +1,0 @@
-{
-	"eventdata":[
-		{"event":"gameend", "path":"FlowStageResult.json"},
-		{"event":"return", "path":"FlowTitle.json"}
-	],
-	"bgdata":[
-		{"bgid":"BGID_NONE"}
-	]
-}

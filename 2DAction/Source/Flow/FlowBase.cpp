@@ -109,8 +109,8 @@ void FlowBase::LoadFlowFile()
 
 	//BG•ÏXˆ—
 	picojson::value bgData = root.get("bgdata");
-	std::string bgStr = bgData.get(0).get("bgid").get<std::string>();
-	if( BgManager::GetInstance() ){
+	if( BgManager::GetInstance() && bgData != null ){
+		std::string bgStr = bgData.get(0).get("bgid").get<std::string>();
 		BgManager::GetInstance()->SetNextBg( bgStr );
 	}
 }

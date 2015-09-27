@@ -31,13 +31,13 @@ public:
 	FadeManager(void);
 	~FadeManager(void);
 
-	// 情報取得
-	void	StartFadeIn();
-	void	StartFadeOut();
-	const STATE_FADE &GetCurrentState() const{ return m_currState; }
+	void	StartFadeIn();		// フェードイン開始
+	void	StartFadeOut();		// フェードアウト開始
+	const STATE_FADE &GetCurrentState() const{ return m_currState; }	// 現在のフェード状態取得
 
 protected:
 
+	// 継承関数
 	virtual bool DieMain() override;
 	virtual void DrawUpdate() override;
 
@@ -45,7 +45,7 @@ private:
 
 	static FadeManager		*s_pInstance;
 
-	Game2DBase			*m_fadePlate2D;	// ライフ描画クラス
+	Game2DBase			*m_fadePlate2D;		// ライフ描画クラス
 	TEX_DRAW_INFO		m_PlateInfo;		// ライフ描画情報
 
 	STATE_FADE			m_currState;		// 現在の状態

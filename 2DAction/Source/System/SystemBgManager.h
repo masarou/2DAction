@@ -1,7 +1,7 @@
 /* ====================================================================== */
 /**
- * @brief  背景管理クラス
- *
+ * @brief	背景管理クラス
+ *			jsonに指定してあるIDからBGをセット
  * @note
  *		
  */
@@ -21,8 +21,9 @@ public:
 		BGID_TITLE,
 		BGID_STAGE_RESULT,
 		BGID_COMMON,		// 汎用
-		BGID_CURRENT,		// 現状維持
+		BGID_INTERVAL,		// インターバル(ゲームの進行度を見て表示変更)
 		BGID_NONE,			// 表示なし
+		BGID_CURRENT,		// 現状維持
 
 		BGID_MAX,
 	};

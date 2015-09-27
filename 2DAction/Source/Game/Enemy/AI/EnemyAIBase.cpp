@@ -132,6 +132,11 @@ const uint32_t EnemyAIBase::GetEnemySPD() const
 	return 0;
 }
 
+EnemyBase *EnemyAIBase::UpdateEnemyMine()
+{
+	return m_enemyMine;
+}
+
 const EnemyBase *const EnemyAIBase::GetEnemeyMine() const
 {
 	return m_enemyMine;

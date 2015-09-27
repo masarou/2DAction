@@ -28,6 +28,7 @@ public:
 		EFFECT_EXCLAMATION,		// びっくりマーク		
 		EFFECT_SLASHING_HIT,	// 斬撃HIT
 		EFFECT_DASH_SMOKE,		// DASH煙
+		EFFECT_INVALID_DAMAGE,	// 敵クリスタル出現サークル
 	};
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );

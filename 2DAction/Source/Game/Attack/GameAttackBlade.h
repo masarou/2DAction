@@ -30,11 +30,13 @@ public:
 		uint32_t	m_bladeLv;			// éaåÇLv
 		uint32_t	m_damage;			// É_ÉÅÅ[ÉW
 		uint32_t	m_interval;			// éaåÇä‘äu
+		bool		m_deleteBullet;		// íeÇÇ©Ç´è¡ÇπÇÈÇ©
 
 		void Init(){
-			m_bladeLv	= 0;
-			m_damage	= SLASHING_DAMAGE_DEFAULT;
-			m_interval	= 0;//SLASHING_INTERBAL_DEFAULT;
+			m_bladeLv		= 0;
+			m_damage		= SLASHING_DAMAGE_DEFAULT;
+			m_interval		= 0;
+			m_deleteBullet	= false;
 		}
 	};
 
@@ -42,7 +44,7 @@ public:
 	~AttackBlade(void);
 
 	// éaåÇê∂ê¨
-	void CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type = Slashing::TYPE_1ST, const float &damageRate = 1.0f );
+	void CreateSlashing( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type = Slashing::TYPE_1ST, const uint32_t &damage = 0 );
 
 	// åïÇÃÉXÉeÅ[É^ÉX
 	BladeState &UpdateBladeState(){ return m_currState; }
@@ -73,6 +75,9 @@ private:
 			m_vec		= math::Vector2();
 		}
 	};
+	
+	// éaåÇê∂ê¨
+	void CreateSlashingMain( const math::Vector2 &pos, const math::Vector2 &vec, const Slashing::TYPE_SLASHING &type, const uint32_t &damage );
 
 	AttackBlade( const Common::OWNER_TYPE &ownerType );
 	

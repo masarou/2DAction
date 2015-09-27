@@ -1,10 +1,11 @@
 {
 	"partsInfo":[
-		{"partsName":"choiceBG0",	"loadJson":"ChoiceBG.json",	"x": 100,	"y": 40},
-		{"partsName":"choiceBG1",	"loadJson":"ChoiceBG.json",	"x": 400,	"y": 40},
-		{"partsName":"choiceBG2",	"loadJson":"ChoiceBG.json",	"x": 700,	"y": 40},
-		{"partsName":"choice0",		"loadJson":"Choice.json",	"x": 100,	"y": 40},
-		{"partsName":"choice1",		"loadJson":"Choice.json",	"x": 400,	"y": 40},
-		{"partsName":"choice2",		"loadJson":"Choice.json",	"x": 700,	"y": 40}
+		{"partsName":"titleLogo",	"loadJson":"TitleLogo.json","x": 640,	"y": 128},
+		{"partsName":"choiceBG0",	"loadJson":"ChoiceBG.json",	"x": 640,	"y": 400},
+		{"partsName":"choiceBG1",	"loadJson":"ChoiceBG.json",	"x": 640,	"y": 470},
+		{"partsName":"choiceBG2",	"loadJson":"ChoiceBG.json",	"x": 640,	"y": 540},
+		{"partsName":"choice0",		"loadJson":"SelectChoice.json",	"x": 640,	"y": 400},
+		{"partsName":"choice1",		"loadJson":"SelectChoice.json",	"x": 640,	"y": 470},
+		{"partsName":"choice2",		"loadJson":"SelectChoice.json",	"x": 640,	"y": 540}
 	]
 }

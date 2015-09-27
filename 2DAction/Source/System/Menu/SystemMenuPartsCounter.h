@@ -1,6 +1,6 @@
 /* ====================================================================== */
 /**
- * @brief  画面を構成するパーツひとつのクラス
+ * @brief  パーツクラスのひとつ(数値カウンター)
  *
  * @note
  *		
@@ -33,10 +33,6 @@ public:
 	// スコア取得
 	const int32_t &GetValue() const{ return m_value; }
 
-	// 描画情報セット
-	void SetDrawInfo( const TEX_DRAW_INFO &drawInfo );
-	void SetDrawPos( const math::Vector2 &pos );
-
 	// カウントアニメを行うかどうか
 	void SetCountAnimFlg( bool isCount ){ m_isInvalidCountAnim = !isCount; }
 
@@ -51,10 +47,12 @@ public:
 
 protected:
 
+	// 毎フレーム呼ばれるクラス更新の起点
 	virtual void UpdateParts() override;
 
 private:
 	
+	// 表示スコアアニメ更新
 	void UpdateScore( const uint32_t &score );
 
 	uint32_t	m_counter;			// 数値が上がっているときにSEを定期的にならすカウンタ

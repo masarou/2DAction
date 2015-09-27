@@ -77,25 +77,7 @@ bool TitleMenu::InitMenu()
 	SetPadButtonState( InputWatcher::BUTTON_LEFT,	InputWatcher::EVENT_PUSH );
 
 	// 選択肢項目のセットアップ
-	for( uint32_t i = 0; i < SELECT_MAX ; ++i ){
-		std::string animStr = "";
-		switch( i ){
-		default:
-		case SELECT_START:
-			animStr = "start";
-			break;
-		case SELECT_SCORE:
-			animStr = "score";
-			break;
-		case SELECT_EXIT:
-			animStr = "exit";
-			break;
-		}
-
-		std::string partStr = "choice";
-		partStr += '0' + i;
-		SetAnim( partStr, animStr );
-	}
+	SetChoiceSelect( SELECT_START );
 	return true;
 }
 
@@ -107,18 +89,39 @@ void TitleMenu::UpdateMenu()
 	}
 
 	CallPadEvent();
-	for( uint32_t i = 0; i < SELECT_MAX; ++i){
-		// カーソルが当たっていたらアニメ変更
-		std::string anim = "default";
-		if( GetSelectedNo() == i ){
-			anim = "spot";
-		}
-		std::string partStr = "choiceBG";
-		partStr += '0' + i;
-		SetAnim( partStr, anim );
-	}
 }
 
+
+void TitleMenu::SetChoiceSelect( uint32_t choiceIndex )
+{
+	for( uint32_t i = 0; i < SELECT_MAX; ++i){
+		// カーソルが当たっていたらアニメ変更
+		std::string choiceStr = "choice";
+		std::string choiceAnimStr = "";
+		std::string bgStr = "choiceBG";
+		std::string bgAnimStr = "default";
+		switch( i ){
+		default:
+		case SELECT_START:
+			choiceAnimStr = "start";
+			break;
+		case SELECT_SCORE:
+			choiceAnimStr = "score";
+			break;
+		case SELECT_EXIT:
+			choiceAnimStr = "exit";
+			break;
+		}
+		if( choiceIndex == i ){
+			choiceAnimStr += "Select";
+			bgAnimStr = "spot";
+		}
+		choiceStr += '0' + i;
+		bgStr += '0' + i;
+		SetAnim( choiceStr, choiceAnimStr );
+		SetAnim( bgStr, bgAnimStr );
+	}
+}
 
 void TitleMenu::PadEventDecide()
 {
@@ -142,25 +145,34 @@ void TitleMenu::PadEventDecide()
 
 void TitleMenu::PadEventUp()
 {
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+	
+	// 選択しているIndex更新
+	uint32_t selectNo = ( GetSelectedNo() + (SELECT_MAX - 1) ) % SELECT_MAX;
+	SetSelectNum( selectNo );
+	
+	// choice更新
+	SetChoiceSelect( GetSelectedNo() );
 }
 
 void TitleMenu::PadEventDown()
 {
+	// カーソルSE鳴らす
+	SoundManager::GetInstance()->PlaySE("Cursor");
+	
+	// 選択しているIndex更新
+	uint32_t selectNo = ( GetSelectedNo() + 1 ) % SELECT_MAX;
+	SetSelectNum( selectNo );
+	
+	// choice更新
+	SetChoiceSelect( GetSelectedNo() );
 }
 
 void TitleMenu::PadEventRight()
 {
-	// カーソルSE鳴らす
-	SoundManager::GetInstance()->PlaySE("Cursor");
 
-	uint32_t selectNo = ( GetSelectedNo() + 1 ) % SELECT_MAX;
-	SetSelectNum( selectNo );
 }
 void TitleMenu::PadEventLeft()
 {
-	// カーソルSE鳴らす
-	SoundManager::GetInstance()->PlaySE("Cursor");
-
-	uint32_t selectNo = ( GetSelectedNo() + (SELECT_MAX - 1) ) % SELECT_MAX;
-	SetSelectNum( selectNo );
 }

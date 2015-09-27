@@ -46,9 +46,7 @@ public:
 		STATE_STAGE07,
 		STATE_STAGE08,	// ボス2
 		STATE_STAGE09,
-		STATE_STAGE10,
-		STATE_STAGE11,
-		STATE_STAGE12,	// ボス3
+		STATE_STAGE10,	// ボス3
 
 		STATE_MAX,
 	};
@@ -112,7 +110,6 @@ public:
 	// Hit数のIncと取得
 	void IncHitCounter();				// Hit数プラス
 	uint32_t GetCurrentHitCounter();	// 現在の連続Hit数取得
-	uint32_t GetRestHitTime();			// 連続Hitが有効になるまでの残時間
 
 	// 各ステージの最大コンボ数取得
 	uint32_t GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;

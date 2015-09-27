@@ -21,7 +21,9 @@ public:
 		KIND_POWERUP3,
 		KIND_POWERUP4,
 		KIND_POWERUP5,
-		KIND_POWERUP6,
+		
+		KIND_GAMEPLAY01,
+		KIND_GAMEPLAY02,
 
 		KIND_MAX,
 	};
@@ -37,7 +39,10 @@ protected:
 	virtual bool CanDie() override;
 
 	// パッド操作
-	void PadEventDecide() override;
+	virtual void PadEventDecide() override;
+	
+	// 黒板フィルターが必要かどうか
+	virtual bool IsNeedPauseFilter() const;
 
 private:
 

@@ -2,7 +2,7 @@
 	"basicInfo":[
 		{"fileName":"choiceBG.png"
 		, "animDefault":"default"
-		, "sizeW": 250
+		, "sizeW": 512
 		, "sizeH": 50
 		, "splitW": 1
 		, "splitH": 11

@@ -44,6 +44,11 @@ GameRecorder::~GameRecorder()
 	s_pInstance = NULL;
 }
 
+/* ================================================ */
+/**
+ * @brief	初期化
+ */
+/* ================================================ */
 void GameRecorder::InitRecord()
 {
 	for( uint32_t i = 0; i < NUMBEROF(m_clearStageInfo) ; ++i ){
@@ -56,6 +61,11 @@ void GameRecorder::InitRecord()
 	m_hitFailTime_ms = 0;
 }
 
+/* ================================================ */
+/**
+ * @brief	ステージ終了時のユーザーライフの割合の取得とセット
+ */
+/* ================================================ */
 const void GameRecorder::SetUserLifeRatio( const float &lifeRatio, const STATE_OF_PROGRESS &stage )
 {
 	if( stage == STATE_MAX ){
@@ -65,7 +75,6 @@ const void GameRecorder::SetUserLifeRatio( const float &lifeRatio, const STATE_O
 		m_clearStageInfo[static_cast<uint32_t>(stage)].m_userLifeRatio = lifeRatio;
 	}
 }
-
 const float GameRecorder::GetUserLifeRatio( const STATE_OF_PROGRESS &stage ) const
 {
 	float retVal = 0.0f;
@@ -78,6 +87,11 @@ const float GameRecorder::GetUserLifeRatio( const STATE_OF_PROGRESS &stage ) con
 	return retVal;
 }
 
+/* ================================================ */
+/**
+ * @brief	ユーザーが指定ステージをクリアしたかどうか
+ */
+/* ================================================ */
 const bool GameRecorder::IsUserClear( const STATE_OF_PROGRESS &stage ) const
 {
 	float ratio = 0.0f;
@@ -90,6 +104,11 @@ const bool GameRecorder::IsUserClear( const STATE_OF_PROGRESS &stage ) const
 	return ( ratio == 0.0f ) ? false : true ;
 }
 
+/* ================================================ */
+/**
+ * @brief	スコア変動イベントがあった時に呼ばれる
+ */
+/* ================================================ */
 void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 {
 	uint32_t addValue = 0;
@@ -122,6 +141,11 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 	++m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_scoreDetail[static_cast<uint32_t>(kind)];
 }
 
+/* ================================================ */
+/**
+ * @brief	ステージ終了時のボーナススコアのセット
+ */
+/* ================================================ */
 void GameRecorder::AddScoreBonus( uint32_t bonusScore, const STATE_OF_PROGRESS &stage )
 {
 	if( stage == STATE_MAX ){
@@ -132,6 +156,11 @@ void GameRecorder::AddScoreBonus( uint32_t bonusScore, const STATE_OF_PROGRESS &
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	各ステージのスコア取得
+ */
+/* ================================================ */
 const int32_t GameRecorder::GetScore( const STATE_OF_PROGRESS &stage ) const
 {
 	uint32_t score = 0;
@@ -144,6 +173,11 @@ const int32_t GameRecorder::GetScore( const STATE_OF_PROGRESS &stage ) const
 	return score;
 }
 
+/* ================================================ */
+/**
+ * @brief	各ステージのボーナススコア取得
+ */
+/* ================================================ */
 const int32_t GameRecorder::GetScoreBonus( const STATE_OF_PROGRESS &stage ) const
 {
 	uint32_t score = 0;
@@ -156,6 +190,11 @@ const int32_t GameRecorder::GetScoreBonus( const STATE_OF_PROGRESS &stage ) cons
 	return score;
 }
 
+/* ================================================ */
+/**
+ * @brief	各ステージのボーナスを加えたスコア取得
+ */
+/* ================================================ */
 const int32_t GameRecorder::GetStageScore( const STATE_OF_PROGRESS &stage ) const
 {
 	uint32_t score = 0;
@@ -170,6 +209,11 @@ const int32_t GameRecorder::GetStageScore( const STATE_OF_PROGRESS &stage ) cons
 	return score;
 }
 
+/* ================================================ */
+/**
+ * @brief	全ステージのスコアにボーナスを加えたスコア取得
+ */
+/* ================================================ */
 const int32_t GameRecorder::GetTotalScore() const
 {
 	uint32_t score = 0;
@@ -179,6 +223,11 @@ const int32_t GameRecorder::GetTotalScore() const
 	return score;
 }
 
+/* ================================================ */
+/**
+ * @brief	アイテム取得数を追加、カウント
+ */
+/* ================================================ */
 const void GameRecorder::AddItem( Common::ITEM_KIND kind )
 {
 	uint32_t index = static_cast<uint32_t>(kind);
@@ -191,7 +240,11 @@ const uint32_t GameRecorder::GetItemCount( Common::ITEM_KIND kind ) const
 	return m_getItem[index];
 }
 
-// ゲーム進行状況
+/* ================================================ */
+/**
+ * @brief	ゲーム進行状況の更新と取得
+ */
+/* ================================================ */
 void GameRecorder::SetGameStateOfProgress( STATE_OF_PROGRESS nextState )
 {
 	m_gameState = nextState;
@@ -201,26 +254,32 @@ const GameRecorder::STATE_OF_PROGRESS &GameRecorder::GetGameStateOfProgress() co
 	return m_gameState;
 }
 
-// Hit数プラス
+/* ================================================ */
+/**
+ * @brief	コンボHit数のInc
+ */
+/* ================================================ */
 void GameRecorder::IncHitCounter()
 {
 	++m_hitComboNum;
 	m_hitFailTime_ms = COMBO_COUNT_MAX;
 }
 
-// 現在の連続Hit数取得
+/* ================================================ */
+/**
+ * @brief	現在の連続Hit数取得
+ */
+/* ================================================ */
 uint32_t GameRecorder::GetCurrentHitCounter()
 {
 	return m_hitComboNum;
 }
 
-// 連続Hitが有効になるまでの残時間
-uint32_t GameRecorder::GetRestHitTime()
-{
-	return m_hitFailTime_ms;
-}
-
-
+/* ================================================ */
+/**
+ * @brief	各ステージでの最大Hit数取得
+ */
+/* ================================================ */
 uint32_t GameRecorder::GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage ) const
 {
 	uint32_t comboNum = 0;
@@ -233,7 +292,11 @@ uint32_t GameRecorder::GetMaxComboNumOfStage( const STATE_OF_PROGRESS &stage ) c
 	return comboNum;
 }
 
-
+/* ================================================ */
+/**
+ * @brief	BattlePoint(PP)の取得とセット
+ */
+/* ================================================ */
 void GameRecorder::SetClearBattlePoint( const uint32_t &score, const uint32_t &point, const STATE_OF_PROGRESS &stage )
 {
 	BATTLE_POINT_INFO info = { score, point };
@@ -244,7 +307,6 @@ void GameRecorder::SetClearBattlePoint( const uint32_t &score, const uint32_t &p
 		m_clearStageInfo[static_cast<uint32_t>(stage)].m_clearPoint.push_back( info );
 	}
 }
-
 uint32_t GameRecorder::GetClearBattlePoint( const uint32_t &point, const STATE_OF_PROGRESS &stage ) const
 {
 	// 指定されたポイントから、取得できるバトルポイントを求める
@@ -270,6 +332,11 @@ uint32_t GameRecorder::GetClearBattlePoint( const uint32_t &point, const STATE_O
 	return retVal;
 }
 
+/* ================================================ */
+/**
+ * @brief	BattlePoint(PP)リセット
+ */
+/* ================================================ */
 uint32_t GameRecorder::GetClearBattlePointAll() const
 {
 	uint32_t retVal = 0;
@@ -280,12 +347,21 @@ uint32_t GameRecorder::GetClearBattlePointAll() const
 	return retVal;
 }
 
-// コンボ継続有効時間取得
+/* ================================================ */
+/**
+ * @brief	コンボ継続有効時間取得
+ */
+/* ================================================ */
 uint32_t GameRecorder::GetLeftTimeOfCombo() const
 {
 	return m_hitFailTime_ms;
 }
 
+/* ================================================ */
+/**
+ * @brief	毎フレーム更新
+ */
+/* ================================================ */
 void GameRecorder::Update()
 {
 	// Hitカウンタ処理

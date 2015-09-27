@@ -1,0 +1,28 @@
+{
+	"basicInfo":[
+		{"fileName":"SelectChoice.png"
+		, "animDefault":"start"
+		, "sizeW": 512
+		, "sizeH": 45
+		, "splitW": 1
+		, "splitH": 10
+		, "total": 10 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"start",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"start"},
+		{"animTag":"score",	"frameSpeed":1000,	"animIndex":[1],	"nextAnim":"score"},
+		{"animTag":"exit",	"frameSpeed":1000,	"animIndex":[2],	"nextAnim":"exit"},
+		{"animTag":"next",	"frameSpeed":1000,	"animIndex":[3],	"nextAnim":"next"},
+		{"animTag":"title",	"frameSpeed":1000,	"animIndex":[4],	"nextAnim":"title"},
+		{"animTag":"startSelect",	"frameSpeed":1000,	"animIndex":[5],	"nextAnim":"startSelect"},
+		{"animTag":"scoreSelect",	"frameSpeed":1000,	"animIndex":[6],	"nextAnim":"scoreSelect"},
+		{"animTag":"exitSelect",	"frameSpeed":1000,	"animIndex":[7],	"nextAnim":"exitSelect"},
+		{"animTag":"nextSelect",	"frameSpeed":1000,	"animIndex":[8],	"nextAnim":"nextSelect"},
+		{"animTag":"titleSelect",	"frameSpeed":1000,	"animIndex":[9],	"nextAnim":"titleSelect"}
+	],
+	
+	"partsInfo":[
+	]
+	
+}
