@@ -230,7 +230,7 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
 	// 常に画面上に固定で表示されている描画物の当たり判定の場合
 	// プレイヤーの初期位置を考慮して値を変更してやる必要がある
 	if( !tex.m_usePlayerOffset ){
-		offsetPos = ConvertWindowPosToGamePos( math::Vector2( WINDOW_WIDTH/2.0f, WINDOW_HEIGHT/2.0f) );
+		offsetPos = ConvertWindowPosToGamePos( WINDOW_CENTER );
 	}
 
 	math::Vector2 upperLeft		= math::Vector2( offsetPos.x - (texInfo.m_sizeWidth/2.0f), offsetPos.y - (texInfo.m_sizeHeight/2.0f) );
@@ -360,7 +360,7 @@ bool IsPositionInWindowArea( const float &xx, const float &yy )
 bool IsPositionInPlayerPos( const float &xx, const float &yy )
 {
 	math::Vector2 otherPos = math::Vector2( xx, yy );
-	if( math::IsInRange( GetPlayerPos(), otherPos, 300.0f ) ){
+	if( math::IsInRange( GetPlayerPos(), otherPos, 250.0f ) ){
 		return true;
 	}
 	return false;
@@ -478,7 +478,7 @@ InputWatcher::BUTTON_KIND GetDirection( const float dirX, const float dirY )
 /* ================================================ */
 int32_t GetRandamValue( const int32_t &max, const int32_t &min)
 {
-	return min + (int)(rand()*(max-min+1.0)/(1.0+RAND_MAX));
+	return min + (int)( rand()*( (max-1)-min+1.0 )/( 1.0+RAND_MAX ) );
 }
 
 float GetRandamValueFloat( const int32_t &max, const int32_t &min)
@@ -494,12 +494,14 @@ float GetRandamValueFloat( const int32_t &max, const int32_t &min)
 bool GetSaveData( Common::SAVE_DATA &saveData )
 {
 	// ファイルがない場合もあるので一度開いて作成しておく
-	FILE *fpCheck = fopen( "playLog.dat", "r" );
+	FILE *fpCheck = NULL;
+	fopen_s( &fpCheck, "playLog.dat", "r" );
 	if( !fpCheck ){
-		// ファイルがない場合もあるので一度開いて作成しておく
-		FILE *fpCreate = fopen( "playLog.dat", "a" );
-		fclose( fpCreate );
-
+		// ファイルがないので一度開いて作成しておく
+		fopen_s( &fpCheck, "playLog.dat", "a" );
+		if( fpCheck ){
+			fclose( fpCheck );
+		}
 		// デフォルトの値を詰めておく
 		Common::SAVE_DATA scoreLog = {
 			true,
@@ -508,8 +510,9 @@ bool GetSaveData( Common::SAVE_DATA &saveData )
 			{ 1000, 500, 300, 100, 0},
 			{ 0 }
 		};
-		FILE *fpWriteDef = fopen( "playLog.dat", "wb" );
-		if( fpWriteDef == NULL ){
+		FILE *fpWriteDef = NULL;
+		fopen_s( &fpWriteDef, "playLog.dat", "wb" );
+		if( fpWriteDef == false ){
 			return false;
 		}
 		fwrite( &scoreLog, sizeof(scoreLog), 1, fpWriteDef );
@@ -521,7 +524,8 @@ bool GetSaveData( Common::SAVE_DATA &saveData )
 	}
 
 	// プレイログ読み込み
-	FILE *fpRead = fopen( "playLog.dat", "rb" );
+	FILE *fpRead = NULL;
+	fopen_s( &fpRead, "playLog.dat", "rb" );
 	if( fpRead == NULL ){
 		return 0;
 	}
@@ -534,7 +538,8 @@ bool GetSaveData( Common::SAVE_DATA &saveData )
 bool OverWriteSaveData( Common::SAVE_DATA &saveData )
 {
 	// プレイログ書き出し
-	FILE *fpWrite = fopen( "playLog.dat", "wb" );
+	FILE *fpWrite = NULL;
+	fopen_s( &fpWrite, "playLog.dat", "wb" );
 	if( fpWrite == NULL ){
 		return false;
 	}

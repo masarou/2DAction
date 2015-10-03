@@ -63,22 +63,25 @@ protected:
 	virtual void HitPlayreSlashing( const uint32_t &damageValue );// 斬撃が当たった時の処理
 
 	// 派生先でセットする関数
-	virtual const uint32_t GetEnemyDefaultHP() const{return 10;}		// 敵クラスのデフォルトHP取得
-	virtual const uint32_t GetEnemyDefaultSPD() const{return 1;}		// 敵クラスのデフォルトSPD取得
-	virtual const uint32_t GetPlayerHitDamage() const{return 10;}		// プレイヤー衝突時のダメージ
+	virtual const uint32_t	GetEnemyDefaultHP() const{return 10;}		// 敵クラスのデフォルトHP取得
+	virtual const float		GetEnemyDefaultSPD() const{return 1;}		// 敵クラスのデフォルトSPD取得
+	virtual const uint32_t	GetPlayerHitDamage() const{return 10;}		// プレイヤー衝突時のダメージ
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING;}	// 敵クラスのデフォルトSPD取得
 	virtual void  EnemyDeath();											// HPがなくなり倒されたときに呼ばれる
 	virtual void  ReduceDamage( Common::CMN_EVENT &eventId ){};			// 敵の種類、レベル等でダメージ軽減処理
 
+	// 行動不能時間セット
+	void SetStunTime( const uint32_t &stunTime ){ m_stunTime = stunTime; }
+
 	// このクラスの種類セット
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override = 0;
+
+	// ダメージ共通処理
+	void UpdateEnemyDamage( const uint32_t &damageValue );
 
 	EnemyAIBase			*m_pEnemyAI;					// 思考クラス
 
 private:
-
-	// ダメージ共通処理
-	void UpdateEnemyDamage( const uint32_t &damageValue );
 
 	// AIの行動を反映
 	void RefrectAIAction();

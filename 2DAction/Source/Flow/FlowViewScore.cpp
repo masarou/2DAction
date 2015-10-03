@@ -34,11 +34,6 @@ bool FlowViewScore::Init()
 	return true;
 }
 
-void FlowViewScore::UpdateFlowAfterChildTask()
-{
-}
-
-
 /* ====================================================================== */
 /**
  * @brief  

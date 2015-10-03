@@ -19,8 +19,8 @@
 		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 4, "frequency":70}
 	],
 	"pointInfo":[
-		{"score": 10000, "value": 100},
-		{"score": 5000, "value": 50},
-		{"score": 0, "value": 20}
+		{"score": 10000, "value": 80},
+		{"score": 5000, "value": 60},
+		{"score": 0, "value": 30}
 	]
 }

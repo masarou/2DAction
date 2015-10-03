@@ -55,8 +55,6 @@ namespace Common{
 		EVENT_HIT_EXPLOSION_ENEMY,	// 敵の爆発攻撃に当たった
 		EVENT_ADD_FORCE_MOVE,		// ダメージ等でのふっとび
 
-		// その他
-
 		EVENT_MESSAGE_MAX,
 	};
 
@@ -78,6 +76,7 @@ namespace Common{
 		FLOW_RESULT,		// リザルト
 		FLOW_INTERVAL,		// 休憩
 		FLOW_RESULT_TOTAL,	// すべてのステージを終えてのリザルト
+		FLOW_GAME_CLEAR,	// ゲーム終了
 		FLOW_EXIT,			// ゲーム終了
 
 		FLOW_MAX

@@ -1,0 +1,19 @@
+{
+	"basicInfo":[
+		{"fileName":"WorpEffect.png"
+		, "animDefault":"fadeIn"
+		, "sizeW": 240
+		, "sizeH": 480
+		, "splitW": 10
+		, "splitH": 1
+		, "total": 10 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"fadeIn",	"frameSpeed":4,	"animIndex":[0,1,2,3,4,5,6,7,8,9],	"nextAnim":""},
+		{"animTag":"fadeOut",	"frameSpeed":4,	"animIndex":[0,1,2,3,4,5,6,7,8,9],	"nextAnim":""}
+	],
+	
+	"partsInfo":[
+	]
+}

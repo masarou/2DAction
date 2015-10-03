@@ -21,6 +21,9 @@ class GameEffect : public TaskUnit
 
 public:
 
+	// 親へ投げるメッセージ定義
+	static const uint32_t EFFECT_ANIM_END = 0;
+
 	enum EFFECT_KIND{
 		EFFECT_BOMB,			// 敵がやられた時の爆発
 		EFFECT_PRE_EXPLOSION,	// 爆発予兆
@@ -28,7 +31,8 @@ public:
 		EFFECT_EXCLAMATION,		// びっくりマーク		
 		EFFECT_SLASHING_HIT,	// 斬撃HIT
 		EFFECT_DASH_SMOKE,		// DASH煙
-		EFFECT_INVALID_DAMAGE,	// 敵クリスタル出現サークル
+		EFFECT_INVALID_DAMAGE,	// ダメージ無効
+		EFFECT_WORP,			// ワープ
 	};
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );

@@ -135,6 +135,16 @@ void PlayerCombo::Update()
 			m_pNumCounterComboRed->SetDrawInvalidFlag( false );
 		}
 	}
+
+	if( m_textureComboGauge.m_pTex2D ){
+		// コンボ持続時間ゲージ
+		uint32_t leftTime = GameRecorder::GetInstance()->GetLeftTimeOfCombo();
+		float scale = 10.0f;
+		scale = 10.0f * ( static_cast<float>(leftTime) / static_cast<float>(GameRecorder::COMBO_COUNT_MAX) );
+		TEX_DRAW_INFO updateDrawInfo = m_textureComboGauge.m_pTex2D->GetDrawInfo();
+		updateDrawInfo.m_scale.x = scale;
+		m_textureComboGauge.m_pTex2D->SetDrawInfo( updateDrawInfo );
+	}
 }
 
 void PlayerCombo::DrawUpdate()
@@ -147,13 +157,6 @@ void PlayerCombo::DrawUpdate()
 		m_textureCombo.m_pTex2D->DrawUpdate2D();
 	}
 	if( m_textureComboGauge.m_pTex2D ){
-		// コンボ持続時間ゲージ
-		uint32_t leftTime = GameRecorder::GetInstance()->GetLeftTimeOfCombo();
-		float scale = 10.0f;
-		scale = 10.0f * ( static_cast<float>(leftTime) / static_cast<float>(GameRecorder::COMBO_COUNT_MAX) );
-		TEX_DRAW_INFO updateDrawInfo = m_textureComboGauge.m_pTex2D->GetDrawInfo();
-		updateDrawInfo.m_scale.x = scale;
-		m_textureComboGauge.m_pTex2D->SetDrawInfo( updateDrawInfo );
 		m_textureComboGauge.m_pTex2D->DrawUpdate2D();
 	}
 }

@@ -39,7 +39,7 @@ TaskUnit::TaskUnit(std::string name, TASK_STATUS status)
 	}
 }
 
-const TaskUnit::TASK_STATUS &TaskUnit::GetStatus()
+const TaskUnit::TASK_STATUS &TaskUnit::GetStatus() const
 {
 	return m_status;
 }
@@ -62,7 +62,7 @@ TaskUnit::~TaskUnit(void)
 		//! e‚ªŽ€‚Ê‚©‚çŽq‚àŽE‚·
 		m_pChildVec.at(i)->SetDieStateFromParent(this);
 	}
-	DEBUG_PRINT("/_/_/TaskUnit‰ð•ú name : %s /_/_/\n",m_name.c_str());
+	//DEBUG_PRINT("/_/_/TaskUnit‰ð•ú name : %s /_/_/\n",m_name.c_str());
 }
 
 /* ================================================ */

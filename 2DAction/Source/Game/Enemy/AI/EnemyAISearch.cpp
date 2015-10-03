@@ -79,6 +79,7 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 	for( uint32_t i = 1 ;; ++i ){
 		if( i > 100 ){
 			DEBUG_ASSERT( 0, "–Ú•W‚Æ‚È‚éˆÊ’u‚ª‚È‚¢\n");
+			break;
 		}
 		int32_t randamValue	= Utility::GetRandamValue( 10*i, -10*i );
 		math::Vector2 eyeDir = GetEnemyEyeSight();

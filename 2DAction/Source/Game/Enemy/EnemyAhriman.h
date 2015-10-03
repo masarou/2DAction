@@ -26,8 +26,8 @@ protected:
 	virtual bool InitMain() override;		// 派生先での初期化
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_ENEMY_AHRIMAN;}
 	void EventUpdate( Common::CMN_EVENT &eventId ) override;
-	virtual const uint32_t GetEnemyDefaultHP() const override;	// デフォルトHP取得
-	virtual const uint32_t GetEnemyDefaultSPD() const override;	// デフォルトSPD取得
+	virtual const uint32_t	GetEnemyDefaultHP() const override;	// デフォルトHP取得
+	virtual const float		GetEnemyDefaultSPD() const override;	// デフォルトSPD取得
 
 private:
 

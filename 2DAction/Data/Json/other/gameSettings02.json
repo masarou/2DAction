@@ -8,7 +8,7 @@
 	],
 	"initEnemy":[
 		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 1, "num": 10},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 2, "num": 20}
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 1, "num": 20}
 	],
 	"gameCondition":[
 		{"EnemyMax": 0, "frequency":0},
@@ -17,8 +17,8 @@
 	"appearEnemy":[
 	],
 	"pointInfo":[
-		{"score": 10000, "value": 100},
-		{"score": 5000, "value": 50},
+		{"score": 5000, "value": 60},
+		{"score": 3500, "value": 40},
 		{"score": 0, "value": 20}
 	]
 }

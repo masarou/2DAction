@@ -92,7 +92,7 @@ bool GamePlayer::Init()
 	TEX_DRAW_INFO drawInfo;
 	drawInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	drawInfo.m_usePlayerOffset = false;
-	drawInfo.m_posOrigin = math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	drawInfo.m_posOrigin = WINDOW_CENTER;
 	drawInfo.m_fileName = "Player.json";
 	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 
@@ -505,7 +505,7 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 		// 必要な情報を取り出す
 		m_forceMoveInfo = eventId.GetExInfoForceMove();
 		m_invalidCtrlTime	= 10;
-		m_invisibleTime		= 60;
+		m_invisibleTime		= DAMAGE_INVISIBLE_TIME;
 		
 		SetPlayerState( ABNORMAL_STATE_MOVE_LOCK, false );
 		break;
@@ -616,6 +616,11 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 	else{
 		m_playerLife = 0;
 	}
+
+	//ダメージエフェクト作成
+	GameEffectDamage::GetInstance()->CreateEffectDamage( totalDamage
+		, Utility::GetPlayerPos().x
+		, Utility::GetPlayerPos().y );
 
 	// ライフ残量によってSEを鳴らす
 	if( m_playerLife == 0 ){

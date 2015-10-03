@@ -17,6 +17,7 @@ EnemyAIShoot *EnemyAIShoot::Create()
 }
 
 EnemyAIShoot::EnemyAIShoot(void)
+: m_shootInterval( 0 )
 {
 }
 
@@ -68,8 +69,14 @@ void EnemyAIShoot::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo 
 		}
 	}
 
-	// プレイヤーに向かって弾を発射
-	if( Utility::GetRandamValue( 120, 0 ) == 0 ){
+	if( m_shootInterval > 0){
+		--m_shootInterval;
+	}
+
+	if( m_shootInterval == 0
+		&& Utility::GetRandamValue( 120, 0 ) == 0 ){
+		// プレイヤーに向かって弾を発射
 		ShootBullet();
+		m_shootInterval = 60;
 	}
 }

@@ -30,5 +30,7 @@ private:
 
 	EnemyAIShoot(void);
 	~EnemyAIShoot(void);
+
+	uint32_t	m_shootInterval;	// ˜A‘±‚µ‚Ä”­Ë‚·‚é‚Ü‚Å‚ÌÅ’áŠÔ
 };
 #endif

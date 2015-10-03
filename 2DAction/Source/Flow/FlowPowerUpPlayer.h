@@ -65,6 +65,7 @@ protected:
 	virtual void PadEventDown() override;
 	virtual void PadEventRight() override;
 	virtual void PadEventLeft() override;
+	virtual void PadEventCommand( const uint32_t &commandKind ) override;
 
 private:
 

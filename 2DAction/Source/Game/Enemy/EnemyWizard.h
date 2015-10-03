@@ -40,8 +40,8 @@ public:
 	static EnemyWizard *Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
 	virtual const uint32_t GetPlayerHitDamage() const override;	// プレイヤー衝突時のダメージ
 
-	const uint32_t GetCrystalIndex() const{ return m_pCrystalVec.size(); };
-	const math::Vector2 GetCrystalPos( const uint32_t &index) const;
+	const uint32_t GetCrystalIndex() const{ return m_pCrystalVec.size(); };	// 所持クリスタル数取得
+	const math::Vector2 GetCrystalPos( const uint32_t &index) const;		// 指定Indexのクリスタル位置取得
 
 	// マシンガンダメージ取得
 	uint32_t GetBulletDamage() const;
@@ -49,6 +49,9 @@ public:
 	// クリスタルの中心対象取得セット
 	const CRYSTAL_AROUND GetCrystalAroundTarget() const{ return m_crystalAround; }
 	void SetCrystalAroundTarget( const CRYSTAL_AROUND &type );
+
+	// クリスタルの回転半径セット
+	void SetCrystalAroundDistance( const uint32_t &distance );
 
 	// ダメージタイプ取得セット
 	const DAMAGE_TYPE GetCurrentDamageType() const{ return m_damageType; }
@@ -59,10 +62,11 @@ protected:
 	virtual bool InitMain() override;									// 派生先での初期化
 	virtual void UpdateCustom() override;								// 派生先での更新処理
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_ENEMY_WIZARD; }
-	virtual const uint32_t GetEnemyDefaultHP() const override;			// HP取得
-	virtual const uint32_t GetEnemyDefaultSPD() const override;			// SPD取得
+	virtual const uint32_t	GetEnemyDefaultHP() const override;			// HP取得
+	virtual const float		GetEnemyDefaultSPD() const override;			// SPD取得
 	virtual void  ReduceDamage( Common::CMN_EVENT &eventId ) override;	// 敵の種類、レベル等でダメージ軽減処理
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_ATTACK_WIZARD;}	// 敵クラスのデフォルトSPD取得
+	virtual void HitPlayreSlashing( const uint32_t &damageValue ) override;
 
 	// このクラスで定義する仮想関数
 	virtual bool DieMainCustom();
@@ -89,7 +93,7 @@ public:
 	// 各種パラメータ変更
 	const math::Vector2 GetPos() const;
 	void SetPos( const math::Vector2 &centerPos );
-	void SetRadius( uint32_t &newRadius ){ m_circleRadius = newRadius; }
+	void SetRadius( const uint32_t &newRadius ){ m_circleRadius = newRadius; }
 
 	void TaskDie(){ TaskStartDie(); }
 

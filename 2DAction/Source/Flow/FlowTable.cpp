@@ -20,6 +20,7 @@
 #include "FlowTotalResult.h"
 #include "FlowExit.h"
 #include "FlowPowerUpPlayer.h"
+#include "FlowGameClearShowAddress.h"
 
 typedef FlowBase *(*pFunkRetFlowBase)( const std::string &fileName );
 
@@ -32,23 +33,24 @@ struct FLOW_DATA{
 //! 各フローとjson名のテーブル
 static FLOW_DATA s_flowTablse[] = 
 {
-	{	FlowTitle::Create,			"FlowTitle.json",			Common::FLOW_TITLE},
-	{	FlowViewScore::Create,		"FlowScore.json",			Common::FLOW_SCORE},
-	{	FlowPowerUpPlayer::Create,	"FlowPowerUpPlayer.json",	Common::FLOW_POWER_UP},
-	{	FlowGame::Create,			"FlowGameStage01.json",		Common::FLOW_STAGE01},
-	{	FlowGame::Create,			"FlowGameStage02.json",		Common::FLOW_STAGE02},
-	{	FlowGame::Create,			"FlowGameStage03.json",		Common::FLOW_STAGE03},
-	{	FlowGame::Create,			"FlowGameStage04.json",		Common::FLOW_STAGE04},
-	{	FlowGame::Create,			"FlowGameStage05.json",		Common::FLOW_STAGE05},
-	{	FlowGame::Create,			"FlowGameStage06.json",		Common::FLOW_STAGE06},
-	{	FlowGame::Create,			"FlowGameStage07.json",		Common::FLOW_STAGE07},
-	{	FlowGame::Create,			"FlowGameStage08.json",		Common::FLOW_STAGE08},
-	{	FlowGame::Create,			"FlowGameStage09.json",		Common::FLOW_STAGE09},
-	{	FlowGame::Create,			"FlowGameStage10.json",		Common::FLOW_STAGE10},
-	{	FlowStageResult::Create,	"FlowStageResult.json",		Common::FLOW_RESULT},
-	{	FlowInterval::Create,		"FlowInterval.json",		Common::FLOW_INTERVAL},
-	{	FlowTotalResult::Create,	"FlowTotalResult.json",		Common::FLOW_RESULT_TOTAL},
-	{	FlowExit::Create,			"FlowExit.json",			Common::FLOW_EXIT},
+	{	FlowTitle::Create,			"FlowTitle.json",				Common::FLOW_TITLE},
+	{	FlowViewScore::Create,		"FlowScore.json",				Common::FLOW_SCORE},
+	{	FlowPowerUpPlayer::Create,	"FlowPowerUpPlayer.json",		Common::FLOW_POWER_UP},
+	{	FlowGame::Create,			"FlowGameStage01.json",			Common::FLOW_STAGE01},
+	{	FlowGame::Create,			"FlowGameStage02.json",			Common::FLOW_STAGE02},
+	{	FlowGame::Create,			"FlowGameStage03.json",			Common::FLOW_STAGE03},
+	{	FlowGame::Create,			"FlowGameStage04.json",			Common::FLOW_STAGE04},
+	{	FlowGame::Create,			"FlowGameStage05.json",			Common::FLOW_STAGE05},
+	{	FlowGame::Create,			"FlowGameStage06.json",			Common::FLOW_STAGE06},
+	{	FlowGame::Create,			"FlowGameStage07.json",			Common::FLOW_STAGE07},
+	{	FlowGame::Create,			"FlowGameStage08.json",			Common::FLOW_STAGE08},
+	{	FlowGame::Create,			"FlowGameStage09.json",			Common::FLOW_STAGE09},
+	{	FlowGame::Create,			"FlowGameStage10.json",			Common::FLOW_STAGE10},
+	{	FlowStageResult::Create,	"FlowStageResult.json",			Common::FLOW_RESULT},
+	{	FlowInterval::Create,		"FlowInterval.json",			Common::FLOW_INTERVAL},
+	{	FlowTotalResult::Create,	"FlowTotalResult.json",			Common::FLOW_RESULT_TOTAL},
+	{	FlowGameClear::Create,		"FlowGameEndShowAddress.json",	Common::FLOW_GAME_CLEAR},
+	{	FlowExit::Create,			"FlowExit.json",				Common::FLOW_EXIT},
 
 };
 

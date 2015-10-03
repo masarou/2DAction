@@ -12,6 +12,8 @@
 
 #include "Common/Utility/CommonGameUtility.h"
 
+#define KONAMI_COMMAND_SUCCESS 573
+
 FlowBase *FlowPowerUpPlayer::Create( const std::string &fileName )
 {
 	return NEW FlowPowerUpPlayer(fileName);
@@ -72,8 +74,6 @@ PowerUpMenu::PowerUpMenu( const std::string &fileName )
 {
 	// セーブデータロード
 	Utility::GetSaveData( m_loadData );
-
-	//m_loadData.m_battlePoint = 9999;
 }
 
 PowerUpMenu::~PowerUpMenu(void)
@@ -119,6 +119,21 @@ bool PowerUpMenu::InitMenu()
 	// 画面描画更新
 	ChangeDispState( m_selectStateKind );
 	UpdateCursorMove();
+
+	{
+		CommandTable *table = NEW CommandTable(20, KONAMI_COMMAND_SUCCESS);
+		table->m_table[0][0] = BUTTON_UP;
+		table->m_table[1][0] = BUTTON_UP;
+		table->m_table[2][0] = BUTTON_DOWN;
+		table->m_table[3][0] = BUTTON_DOWN;
+		table->m_table[4][0] = BUTTON_LEFT;
+		table->m_table[5][0] = BUTTON_RIGHT;
+		table->m_table[6][0] = BUTTON_LEFT;
+		table->m_table[7][0] = BUTTON_RIGHT;
+		table->m_table[8][0] = BUTTON_CANCEL;
+		table->m_table[9][0] = BUTTON_DECIDE;
+		MakeCommandTable(table);
+	}
 
 	return true;
 }
@@ -349,6 +364,18 @@ void PowerUpMenu::PadEventLeft()
 	ChangeDispState( m_selectStateKind );
 }
 
+void PowerUpMenu::PadEventCommand( const uint32_t &commandKind )
+{
+	if( commandKind == KONAMI_COMMAND_SUCCESS ){
+		// カーソルSE鳴らす
+		SoundManager::GetInstance()->PlaySE("konamiCommand");
+		// 所持ポイントを最大に
+		m_loadData.m_battlePoint = 9998;
+		// 表示更新
+		ChangeDispState( m_selectStateKind );
+	}
+}
+
 /* ================================================ */
 /**
  * @brief	項目ごとの説明文取得
@@ -395,29 +422,41 @@ std::string PowerUpMenu::GetExplanationStr( const Common::PLAYER_BASE_STATE &kin
 uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind, uint32_t currLevel )
 {
 	
-	static const uint32_t levelPointTable[] = {
-		10,20,30,40,50,60,70,80,90,100
+	static const uint32_t levelPointTableLow[] = {
+		10,20,30,40,50,60,70,80,100
+	};
+	static const uint32_t levelPointTableMiddle[] = {
+		10,20,30,40,50,60,80,100,120
+	};
+	static const uint32_t levelPointTableHigh[] = {
+		10,20,30,50,70,90,110,140,170,200
 	};
 
-	uint32_t retVal = levelPointTable[currLevel];
+	uint32_t retVal = 0;
 
 	switch( kind ){
-	case Common::BASE_STATE_LIFE:		// ライフの最大値を決める
+	case Common::BASE_STATE_LIFE:				// ライフの最大値を決める
+		retVal = levelPointTableLow[currLevel];
 		break;
 
-	case Common::BASE_STATE_MOVE_SPEED:	// ダッシュ(移動速度)時間
+	case Common::BASE_STATE_MOVE_SPEED:			// ダッシュ(移動速度)時間
+		retVal = levelPointTableLow[currLevel];
 		break;
 
-	case Common::BASE_STATE_DEFFENCE:	// 被ダメージを決める
+	case Common::BASE_STATE_DEFFENCE:			// 被ダメージを決める
+		retVal = levelPointTableLow[currLevel];
 		break;
 
-	case Common::BASE_STATE_BULLET_SPD:	// マシンガンの間隔
+	case Common::BASE_STATE_BULLET_SPD:			// マシンガンの間隔
+		retVal = levelPointTableHigh[currLevel];
 		break;
 
-	case Common::BASE_STATE_BULLET_DMG:	// マシンガンのダメージ
+	case Common::BASE_STATE_BULLET_DMG:			// マシンガンのダメージ
+		retVal = levelPointTableMiddle[currLevel];
 		break;
 	
-	case Common::BASE_STATE_BLADE_LEVEL:	// 斬撃のダメージ
+	case Common::BASE_STATE_BLADE_LEVEL:		// 斬撃のダメージ
+		retVal = levelPointTableMiddle[currLevel];
 		break;
 	}
 

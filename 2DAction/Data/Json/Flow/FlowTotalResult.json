@@ -1,6 +1,7 @@
 {
 	"eventdata":[
-		{"event":"title", "path":"FlowTitle.json"}
+		{"event":"title", "path":"FlowTitle.json"},
+		{"event":"gameaddress", "path":"FlowGameEndShowAddress.json"}
 	],
 	"bgdata":[
 		{"bgid":"BGID_COMMON"}

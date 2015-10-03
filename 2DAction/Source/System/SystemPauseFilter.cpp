@@ -48,7 +48,7 @@ PauseFilter::PauseFilter()
 	TEX_DRAW_INFO drawInfoPause;
 	drawInfoPause.Init();
 	drawInfoPause.m_prioity			= Common::PRIORITY_HIGH;
-	drawInfoPause.m_posOrigin		= math::Vector2( WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f );
+	drawInfoPause.m_posOrigin		= WINDOW_CENTER;
 	drawInfoPause.m_usePlayerOffset	= false;
 	m_drawPauseStr.m_pTex2D->SetDrawInfo( drawInfoPause );
 }

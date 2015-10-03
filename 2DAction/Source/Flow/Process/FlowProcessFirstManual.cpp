@@ -139,6 +139,9 @@ const std::string FirstManual::GetFilePath() const
 	case KIND_GAMEPLAY02:
 		retStr = "FirstManualGamePlay02.json";
 		break;
+	case KIND_GAMEADDRESS:
+		retStr = "GameAddress.json";
+		break;
 	}
 
 	return retStr;

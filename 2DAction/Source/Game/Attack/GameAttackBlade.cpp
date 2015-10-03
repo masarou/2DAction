@@ -43,6 +43,11 @@ void AttackBlade::MessageReceive( const Message &msg )
 	if( msg.getSignal() == Slashing::SLASHING_ANIM_END ){
 		// アニメが終了して保持しているクラスが自殺するので次に備えてNULLセット
 		m_currSlashing = NULL;
+
+		// 次の予約がなければインターバルを設ける
+		if( !m_reserveInfo.m_isReserve ){
+			m_intervalTime = m_currState.m_interval;
+		}
 	}
 }
 

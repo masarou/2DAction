@@ -262,12 +262,6 @@
     <ClInclude Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.h">
       <Filter>Game\Enemy\AI\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Flow\Process\FlowProcessControllDescription.h">
-      <Filter>Flow\Process</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Flow\Process\FlowProcessInitLastStage.h">
-      <Filter>Flow\Process</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Flow\Process\FlowProcessBase.h">
       <Filter>Flow\Process</Filter>
     </ClInclude>
@@ -336,6 +330,9 @@
     </ClInclude>
     <ClInclude Include="Source\Flow\Process\FlowProcessStageStart.h">
       <Filter>Flow\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Flow\FlowGameClearShowAddress.h">
+      <Filter>Flow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -511,12 +508,6 @@
     <ClCompile Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.cpp">
       <Filter>Game\Enemy\AI\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Flow\Process\FlowProcessControllDescription.cpp">
-      <Filter>Flow\Process</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Flow\Process\FlowProcessInitLastStage.cpp">
-      <Filter>Flow\Process</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Flow\Process\FlowProcessBase.cpp">
       <Filter>Flow\Process</Filter>
     </ClCompile>
@@ -573,6 +564,9 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\Process\FlowProcessStageStart.cpp">
       <Filter>Flow\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowGameClearShowAddress.cpp">
+      <Filter>Flow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

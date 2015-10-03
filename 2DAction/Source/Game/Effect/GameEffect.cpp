@@ -39,11 +39,14 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	drawInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 	if( m_kind == EFFECT_SLASHING_HIT ){
 		// 斬撃HITはランダムに回転
-		uint32_t rotate = Utility::GetRandamValue( math::ANGLE_FULL, 0 );
+		uint32_t rotate = Utility::GetRandamValue( static_cast<uint32_t>( math::ANGLE_FULL ), 0 );
 		drawInfo.m_rot = static_cast<float>(rotate);
 	}
 	if( m_kind == EFFECT_DASH_SMOKE ){
 		drawInfo.m_prioity = Common::PRIORITY_BELOW_NORMAL;
+	}
+	if( m_kind == EFFECT_WORP ){
+		drawInfo.m_posOrigin.y -= 150;
 	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
@@ -72,6 +75,10 @@ void GameEffect::DrawUpdate()
 	if( std::string("").compare(m_textureEffect.m_pTex2D->GetPlayAnim()) == 0 ){
 		// アニメは終わったので自殺
 		TaskStartDie();
+
+		// 親がいれば終了メッセージ投げる
+		Message msg = Message( EFFECT_ANIM_END );
+		SendMessageToParent( msg );
 
 		if( m_kind == EFFECT_PRE_EXPLOSION ){
 			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_EXPLOSION, m_textureEffect.m_pTex2D->GetDrawInfo().m_posOrigin );
@@ -108,6 +115,10 @@ std::string GameEffect::SelectEffectFile() const
 
 	case EFFECT_INVALID_DAMAGE:
 		rtn = "InvalidDamage.json";
+		break;
+
+	case EFFECT_WORP:
+		rtn = "WorpEffect.json";
 		break;
 
 	default:
@@ -169,7 +180,7 @@ bool GameEffectWithCollision::Init()
 	default:
 		break;
 	case EFFECT_EXPLOSION:
-		SoundManager::GetInstance()->PlaySE( "explosion" );
+		SoundManager::GetInstance()->PlaySE( "Explosion" );
 		break;
 	}
 

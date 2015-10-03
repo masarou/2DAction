@@ -25,7 +25,6 @@ public:
 private:
 
 	virtual bool Init() override;
-	virtual void UpdateFlowAfterChildTask();
 
 	FlowViewScore( const std::string &fileName );
 	~FlowViewScore(void);

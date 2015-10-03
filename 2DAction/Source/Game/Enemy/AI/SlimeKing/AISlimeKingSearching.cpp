@@ -37,20 +37,10 @@ bool AISlimeKingSearching::InitAI()
 
 void AISlimeKingSearching::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
-	if( SearchPlayer( enemyInfo, static_cast<float>(DISTANCE_TO_PLAYER_MIDDLE) ) ){
-		// 一定確率で体当たりへ変更
-		if( SearchPlayer( enemyInfo, static_cast<float>(DISTANCE_TO_PLAYER_NEAR) ) ){
-			DEBUG_PRINT("【一定距離以内なのでステータスをタックルに変更】\n");
-			ChangeEnemyAI( Common::AI_MOVE_PLAYER_SLIME_KING );
-			return;
-		}
-		// 一定確率 or 五秒経過で体当たりへ変更
-		if( Utility::GetRandamValue( 240, 0 ) == 0
-			|| GetSecStartThisAI() >= 5 ){
-			DEBUG_PRINT("【一定確率 or 五秒経過したのでステータスをタックルに変更】\n");
-			ChangeEnemyAI( Common::AI_MOVE_PLAYER_SLIME_KING );
-			return;
-		}
+	if( SearchPlayer( enemyInfo, DISTANCE_TO_PLAYER_SIDE ) ){
+		DEBUG_PRINT("【一定距離以内なのでステータスをタックルに変更】\n");
+		ChangeEnemyAI( Common::AI_MOVE_PLAYER_SLIME_KING );
+		return;
 	}
 
 	// 一定確率で敵を生成
@@ -84,11 +74,11 @@ void AISlimeKingSearching::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 	vec.Normalize();
 
 	// 移動可能かチェック
-	if( Utility::GetMapHeight( enemyInfo.m_posOrigin + (vec * 2.0f) ) != 0 ){
+	if( Utility::GetMapHeight( enemyInfo.m_posOrigin + (vec * static_cast<float>( GetEnemySPD() ) ) ) != 0 ){
 		// 移動不可なら反対を向いてみる
 		vec *= -1;
 	}
-	enemyInfo.m_posOrigin += vec * 1.0f;
+	enemyInfo.m_posOrigin += vec * GetEnemySPD();
 
 	// アニメ更新
 	std::string animTag = "";

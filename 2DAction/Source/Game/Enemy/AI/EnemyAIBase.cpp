@@ -76,7 +76,7 @@ std::string EnemyAIBase::GetEnemyAnim()
 }
 
 
-void EnemyAIBase::SetEnemyEyeSight( math::Vector2 &eye )
+void EnemyAIBase::SetEnemyEyeSight( math::Vector2 eye )
 {
 	if( m_enemyMine ){
 		eye.Normalize();
@@ -124,7 +124,7 @@ const uint32_t EnemyAIBase::GetEnemyLevel() const
 	return 0;
 }
 
-const uint32_t EnemyAIBase::GetEnemySPD() const
+const float EnemyAIBase::GetEnemySPD() const
 {
 	if( m_enemyMine ){
 		return m_enemyMine->GetEnemyDefaultSPD();
@@ -149,7 +149,8 @@ void EnemyAIBase::ClearAttackMaterial()
 	s_pAttackBlade = NULL;
 }
 
-uint32_t EnemyAIBase::GetSecStartThisAI(){
+uint32_t EnemyAIBase::GetSecStartThisAI()
+{
 	uint32_t retVal = GetNowCount() - m_thisAIStartTime;
 	return retVal / 1000;
 }
@@ -178,7 +179,7 @@ void EnemyAIBase::ShootBullet( const math::Vector2 &pos, const math::Vector2 &ve
 	}
 }
 
-void EnemyAIBase::Slashing( const Slashing::TYPE_SLASHING &type, const math::Vector2 slashDir, const math::Vector2 &vec )
+void EnemyAIBase::Slashing( const Slashing::TYPE_SLASHING &type, const uint32_t &damageValue, const math::Vector2 &vec )
 {
 	if( s_pAttackBlade && m_enemyMine ){
 		math::Vector2 direction = vec;

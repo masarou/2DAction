@@ -30,12 +30,12 @@ bool EnemyCCC::InitMain()
 	return true;
 }
 
-uint32_t const EnemyCCC::GetEnemyDefaultHP() const
+const uint32_t EnemyCCC::GetEnemyDefaultHP() const
 {
 	return 1000 + ( GetEnemyLevel() * 100 );
 }
 
-uint32_t const EnemyCCC::GetEnemyDefaultSPD() const
+const float EnemyCCC::GetEnemyDefaultSPD() const
 {
 	return 1 + ( GetEnemyLevel() / 4 );
 }

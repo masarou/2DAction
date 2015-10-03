@@ -79,7 +79,7 @@ math::Vector2 ConvertWindowPosToGamePos( const math::Vector2 &windowPos );
 // 向く方向を上下左右から選択
 InputWatcher::BUTTON_KIND GetDirection( const float dirX, const float dirY );
 
-// 指定の範囲内のランダムな数字を返す
+// 指定の範囲内のランダムな数字を返す(maxに3, minに0を入れたら「0,1,2」のいずれか)
 int32_t GetRandamValue( const int32_t &max, const int32_t &min);
 float GetRandamValueFloat( const int32_t &max, const int32_t &min);
 

@@ -13,7 +13,6 @@
 #include "Flow/Process/FlowProcessFirstManual.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "Process/FlowProcessStageStart.h"
-#include "Process/FlowProcessInitLastStage.h"
 
 FlowBase *FlowGame::Create( const std::string &fileName )
 {

@@ -37,7 +37,7 @@ bool EnemyWizard::InitMain()
 	uint32_t randamValue = Utility::GetRandamValue( 360, 0 );
 	for( uint32_t i = 0; i < crystalMax ; ++i ){
 		uint32_t startAngle = randamValue;
-		startAngle += ( math::ANGLE_FULL / static_cast<float>( crystalMax ) ) * i;
+		startAngle += static_cast<int>( math::ANGLE_FULL / static_cast<float>( crystalMax ) ) * i;
 		WizardCrystal *pCrystal = WizardCrystal::Create( startAngle );
 		m_pCrystalVec.push_back( pCrystal );
 	}
@@ -64,12 +64,12 @@ bool EnemyWizard::DieMainCustom()
  const uint32_t EnemyWizard::GetEnemyDefaultHP() const
 {
 	// Lvによって最大ライフ変更
-	return 200 + ( 150 * ( GetEnemyLevel() - 1 ) );
+	return 2000 + ( 150 * ( GetEnemyLevel() - 1 ) );
 }
 
- const uint32_t EnemyWizard::GetEnemyDefaultSPD() const
+ const float EnemyWizard::GetEnemyDefaultSPD() const
 {
-	return 1 + ( GetEnemyLevel() / 3 );
+	return static_cast<float>( 1 + ( GetEnemyLevel() / 3 ) );
 }
 
 const uint32_t EnemyWizard::GetPlayerHitDamage() const
@@ -82,7 +82,7 @@ void EnemyWizard::ReduceDamage( Common::CMN_EVENT &eventId )
 	switch( eventId.m_event ){
 	case Common::EVENT_HIT_BULLET_PLAYER:
 		if( m_damageType == DAMAGE_TYPE_BULLET ){
-			eventId.m_eventValue *= 0.5;
+			eventId.m_eventValue /= 2;
 		}
 		else{
 			eventId.m_eventValue = 0;
@@ -92,7 +92,7 @@ void EnemyWizard::ReduceDamage( Common::CMN_EVENT &eventId )
 		break;
 	case Common::EVENT_HIT_BLADE_PLAYER:
 		if( m_damageType == DAMAGE_TYPE_SLASH ){
-			eventId.m_eventValue *= 0.5;
+			eventId.m_eventValue /= 2;
 		}
 		else{
 			eventId.m_eventValue = 0;
@@ -103,6 +103,24 @@ void EnemyWizard::ReduceDamage( Common::CMN_EVENT &eventId )
 	}
 }
 
+/* ================================================ */
+/**
+ * @brief	指定Indexのクリスタル位置取得
+ */
+/* ================================================ */
+void EnemyWizard::HitPlayreSlashing( const uint32_t &damageValue )
+{
+	// スタンはなし
+	//SetStunTime( 10 );
+	GameEffect::CreateEffect( GameEffect::EFFECT_SLASHING_HIT, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
+	UpdateEnemyDamage( damageValue );
+}
+
+/* ================================================ */
+/**
+ * @brief	指定Indexのクリスタル位置取得
+ */
+/* ================================================ */
 const math::Vector2 EnemyWizard::GetCrystalPos( const uint32_t &index ) const
 {
 	if( m_pCrystalVec.size() > index ){
@@ -113,16 +131,37 @@ const math::Vector2 EnemyWizard::GetCrystalPos( const uint32_t &index ) const
 	return math::Vector2();
 }
 
-// マシンガンダメージ取得
+/* ================================================ */
+/**
+ * @brief	クリスタルの発射する弾のダメージ量取得
+ */
+/* ================================================ */
 uint32_t EnemyWizard::GetBulletDamage() const
 {
 	return 20 + ( 5 * GetEnemyLevel() );
 }
 
-
+/* ================================================ */
+/**
+ * @brief	クリスタルの回転中心対象セット
+ */
+/* ================================================ */
 void EnemyWizard::SetCrystalAroundTarget( const CRYSTAL_AROUND &type )
 {
 	m_crystalAround = type;
+}
+
+/* ================================================ */
+/**
+ * @brief	クリスタルの回転半径セット
+ */
+/* ================================================ */
+void EnemyWizard::SetCrystalAroundDistance( const uint32_t &distance )
+{
+	for( uint32_t i = 0; i < m_pCrystalVec.size() ; ++i )
+	{
+		m_pCrystalVec.at(i)->SetRadius( distance );
+	}
 }
 
 
@@ -144,6 +183,11 @@ WizardCrystal::~WizardCrystal()
 
 }
 
+/* ================================================ */
+/**
+ * @brief	クリスタル位置取得
+ */
+/* ================================================ */
 const math::Vector2 WizardCrystal::GetPos() const
 {
 	if( m_drawTexture.m_pTex2D ){
@@ -152,6 +196,11 @@ const math::Vector2 WizardCrystal::GetPos() const
 	return math::Vector2();
 }
 
+/* ================================================ */
+/**
+ * @brief	クリスタル位置セット
+ */
+/* ================================================ */
 void WizardCrystal::SetPos( const math::Vector2 &centerPos )
 {
 	// 指定位置から半径xのところをぐるぐる回る

@@ -21,9 +21,10 @@ class EnemyBase;
 class AttackGun;
 
 // 共通での距離の認識
-static const uint32_t DISTANCE_TO_PLAYER_NEAR	= 300;
-static const uint32_t DISTANCE_TO_PLAYER_MIDDLE	= 600;
-static const uint32_t DISTANCE_TO_PLAYER_FAR	= 1000;
+static const float DISTANCE_TO_PLAYER_SIDE		= 200.0f;
+static const float DISTANCE_TO_PLAYER_NEAR		= 300.0f;
+static const float DISTANCE_TO_PLAYER_MIDDLE	= 600.0f;
+static const float DISTANCE_TO_PLAYER_FAR		= 1000.0f;
 
 class EnemyAIBase
 {
@@ -42,13 +43,13 @@ public:
 	// 敵キャラそのものに関するget,set関数
 	void SetEnemyAnim( const std::string &animTag );
 	std::string GetEnemyAnim();
-	void SetEnemyEyeSight( math::Vector2 &eye );
+	void SetEnemyEyeSight( math::Vector2 eye );
 	math::Vector2 GetEnemyEyeSight() const;
 	void ChangeEnemyAI( Common::ENEMY_AI nextAI );
 	Common::ENEMY_KIND GetEnemyKind() const;
 	const std::string &GetEnemyJsonName() const;
 	const uint32_t GetEnemyLevel() const;
-	const uint32_t GetEnemySPD() const;
+	const float GetEnemySPD() const;
 
 	// 敵クラス取得
 	EnemyBase *UpdateEnemyMine();
@@ -59,6 +60,9 @@ public:
 
 	// このAIになってからの経過時間を取得( 1000 = 1s )
 	uint32_t GetSecStartThisAI();
+	
+	// 敵クラスが他のクラスからもらったイベント
+	virtual void EnemyRecievedEvent( const Common::CMN_EVENT &eventInfo ){};
 
 protected:
 	
@@ -66,10 +70,10 @@ protected:
 
 	virtual bool InitAI(){ return true; }					// AI初期化
 	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo ) = 0;	// 派生先でのAI実装
-	
+
 	// 以下、必要になるであろう便利関数
 	void ShootBullet( const math::Vector2 &pos = math::Vector2(), const math::Vector2 &vec = math::Vector2(), const uint32_t &damage = 20.0f, const uint32_t &speed = 10.0f );	// 攻撃弾生成
-	void Slashing( const Slashing::TYPE_SLASHING &type, const math::Vector2 slashDir = math::Vector2(), const math::Vector2 &vec = math::Vector2() );
+	void Slashing( const Slashing::TYPE_SLASHING &type, const uint32_t &damageValue, const math::Vector2 &vec = math::Vector2() );
 
 	// すべての敵クラスで共有
 	static AttackGun	*s_pAttackGun;		// マシンガンクラス

@@ -47,7 +47,7 @@ public:
 	};
 
 	const std::string &GetName(){return m_name;}
-	const TASK_STATUS &GetStatus();
+	const TASK_STATUS &GetStatus() const;
 
 	// ‚à‚¤Ž€‚ñ‚Å‚¢‚éor‚±‚ê‚©‚çŽ€‚Ê‚©‚Ç‚¤‚©
 	bool IsDie();

@@ -16,6 +16,13 @@
 #include <iostream>
 #include "yield.hpp"
 #include "Common/CmnGameAccesser.h"
+
+
+/* 定数==================================================================== */
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
+#define FONT_DEFAULT_SIZE 25
+
 /* マクロ==================================================================== */
 #define int8_t		char
 #define uint8_t		unsigned char
@@ -32,8 +39,9 @@
 #define NUMBEROF(Array)		( sizeof( Array ) / sizeof( Array[ 0 ] ) )
 #define INVALID_VALUE UINT_MAX
 #define INVALID_FVALUE static_cast<float>(UINT_MAX)
-#define DEFAULT_VECTOR2 math::Vector2()
-#define DEFAULT_VECTOR3 math::Vector3()
+#define DEFAULT_VECTOR2	math::Vector2()
+#define DEFAULT_VECTOR3	math::Vector3()
+#define WINDOW_CENTER	math::Vector2( static_cast<float>(WINDOW_WIDTH / 2), static_cast<float>(WINDOW_HEIGHT / 2 ) )
 
 //各データフォルダのパス
 static const char *JSON_FLOW_PATH			= "Data/Json/Flow/";
@@ -44,11 +52,6 @@ static const char *JSON_OTHER_PATH			= "Data/Json/Other/";
 static const char *BGM_PATH					= "Data/Sound/BGM/";
 static const char *SE_PATH					= "Data/Sound/SE/";
 static const char *TEXTURE_PATH				= "Data/Texture/";
-
-//定数
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
-#define FONT_DEFAULT_SIZE 25
 
 //リークチェック用
 #define _CRTDBG_MAP_ALLOC

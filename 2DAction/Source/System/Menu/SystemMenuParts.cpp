@@ -163,7 +163,20 @@ bool MenuParts::SetPartsAnim( const std::string &partsName, const std::string &a
 /* ================================================ */
 void MenuParts::SetupParts()
 {
-	if( m_partsNameStr.compare("root") != 0 ){
+	// ステータスメニューのパーツ情報取得
+	Utility::GetPartsInfoFromJson( m_readJsonStr, m_partsMap );
+	auto it = m_partsMap.begin();
+	for(;;)
+	{
+		if( it == m_partsMap.end() ){
+			break;
+		}
+		MenuParts *parts = CreatePartsFactory( it->second.m_type, it->first, it->second.m_jsonStr, m_priority, it->second.m_pos + m_originPos );
+		m_partsArray.push_back(parts);
+		++it;
+	}
+
+	if( m_partsNameStr.compare("root") != 0 || m_partsArray.empty() ){
 		// root(一番上)でなければ自身のパーツセット
 		// 作られないこともあるのでNULLチェックも行う
 		m_texMine.m_pTex2D = Game2DBase::CreateWithCheck( m_readJsonStr.c_str() );
@@ -178,18 +191,7 @@ void MenuParts::SetupParts()
 		}
 	}
 
-	// ステータスメニューのパーツ情報取得
-	Utility::GetPartsInfoFromJson( m_readJsonStr, m_partsMap );
-	auto it = m_partsMap.begin();
-	for(;;)
-	{
-		if( it == m_partsMap.end() ){
-			break;
-		}
-		MenuParts *parts = CreatePartsFactory( it->second.m_type, it->first, it->second.m_jsonStr, m_priority, it->second.m_pos + m_originPos );
-		m_partsArray.push_back(parts);
-		++it;
-	}
+
 
 }
 

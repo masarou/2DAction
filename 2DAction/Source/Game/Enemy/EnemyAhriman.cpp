@@ -41,12 +41,12 @@ void EnemyBBB::EventUpdate( Common::CMN_EVENT &eventId )
 
 }
 
-uint32_t const EnemyBBB::GetEnemyDefaultHP() const
+const uint32_t EnemyBBB::GetEnemyDefaultHP() const
 {
 	return 100 + ( 100 * ( GetEnemyLevel() - 1 ) );
 }
 
-uint32_t const EnemyBBB::GetEnemyDefaultSPD() const
+const float EnemyBBB::GetEnemyDefaultSPD() const
 {
 	return 1 + ( GetEnemyLevel() / 3 );
 }

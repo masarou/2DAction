@@ -118,20 +118,23 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 	case POINT_MAX:
 		DEBUG_ASSERT( 0, "ƒXƒRƒA‰ÁŽZ‚ÌŽí—Þ‚ª‚¨‚©‚µ‚¢" );
 		return;
-	case ENEMY_AAA_DEATH:
+	case ENEMY_SLIME_DEATH:
 		addValue = 100;
 		break;
-	case ENEMY_BBB_DEATH:
+	case ENEMY_AHRIMAN_DEATH:
 		addValue = 200;
 		break;
-	case ENEMY_CCC_DEATH:
+	case ENEMY_COW_DEATH:
 		addValue = 1000;
 		break;
 	case ENEMY_BOSS_DEATH:
-		addValue = 300000;
+		addValue = 50000;
 		break;
 	case ENEMY_SLIME_KING_DEATH:
-		addValue = 20000;
+		addValue = 10000;
+		break;
+	case ENEMY_WIZARD_DEATH:
+		addValue = 15000;
 		break;
 	}
 	addValue *= rate;

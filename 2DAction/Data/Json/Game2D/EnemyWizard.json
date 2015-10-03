@@ -2,7 +2,7 @@
 	"basicInfo":[
 		{"fileName":"enemyWizard.png"
 		, "animDefault":"down"
-		, "sizeW": 48
+		, "sizeW": 32
 		, "sizeH": 48
 		, "splitW": 3
 		, "splitH": 4

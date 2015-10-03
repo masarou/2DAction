@@ -13,9 +13,12 @@
 #include "Game/Enemy/EnemyWizard.h"
 
 #include "EnemyAIWizard.h"
-#include "Common/Utility/CommonGameUtility.h"
-#include "System/Draw2D/SystemDraw2DResource.h"
 #include "Game/Effect/GameEffect.h"
+#include "Common/Utility/CommonGameUtility.h"
+#include "System/Sound/SystemSoundManager.h"
+#include "System/Draw2D/SystemDraw2DResource.h"
+
+static const uint32_t ACTION_INTERVAL = 90;
 
 AIWizard *AIWizard::Create()
 {
@@ -24,7 +27,8 @@ AIWizard *AIWizard::Create()
 }
 
 AIWizard::AIWizard(void)
-: m_currAction( ACTION_WAY_BULLET )
+: m_nextWorpPos( math::Vector2() )
+, m_currAction( ACTION_WAY_BULLET )
 , m_nextAction( ACTION_MAX )
 , m_waitCounter( 0 )
 {
@@ -65,8 +69,10 @@ void AIWizard::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 	SetEnemyAnim( animTag );
 	SetEnemyEyeSight( vec );
 
-	// 移動
-	enemyInfo.m_posOrigin += vec * GetEnemySPD();
+	if( m_currAction != ACTION_WORP ){
+		// 移動
+		enemyInfo.m_posOrigin += vec * static_cast<float>( GetEnemySPD() );
+	}
 
 	// 以下、攻撃関数
 	if( m_waitCounter > 0 ){
@@ -93,6 +99,9 @@ void AIWizard::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 	case ACTION_WAY_BULLET:
 		isFinish = ActionWayBullet();
 		break;
+	case ACTION_WORP:
+		isFinish = ActionEnemyWorp( enemyInfo );
+		break;
 	}
 
 	// コルーチンリセット
@@ -108,6 +117,39 @@ void AIWizard::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 	}
 }
 
+void AIWizard::EnemyRecievedEvent( const Common::CMN_EVENT &eventInfo )
+{
+	if( GetEnemeyMine()->GetStatus() != TaskUnit::TASK_ALIVE ){
+		return;
+	}
+
+	switch( eventInfo.m_event ){
+	case Common::EVENT_HIT_BULLET_PLAYER:	// Playerの弾に当たった
+		break;
+
+	case Common::EVENT_HIT_BLADE_PLAYER:	// Playerの斬撃に当たった
+		if( m_currAction != ACTION_WORP ){
+			SetInterruptAction( ACTION_WORP );
+			GameEffect::CreateEffect( GameEffect::EFFECT_WORP, GetEnemeyMine()->GetDrawInfo().m_posOrigin );
+			SoundManager::GetInstance()->PlaySE("Worp");
+		}
+		break;
+	}
+}
+
+AIWizard::ACTION_TYPE AIWizard::GetRandamNextAction()
+{
+	static const ACTION_TYPE s_attackAction[] = {
+		ACTION_NORMAL,
+		ACTION_CONTINUE_BULLET,
+		ACTION_WAY_BULLET,
+		ACTION_SET_CRYSTAL_PLAYER,
+	};
+
+	uint32_t type = Utility::GetRandamValue( NUMBEROF(s_attackAction), 0 );
+	return static_cast<ACTION_TYPE>( type );
+}
+
 void AIWizard::ChangeActionType( const ACTION_TYPE &nextAction )
 {
 	if( !GetEnemeyMine() || GetEnemeyMine()->GetKind() != Common::ENEMY_KIND_WIZARD ){
@@ -115,14 +157,21 @@ void AIWizard::ChangeActionType( const ACTION_TYPE &nextAction )
 		return;
 	}
 
-	m_nextAction = nextAction;
+	if( m_nextAction != ACTION_MAX ){
+		DEBUG_PRINT( "先約のACTION予約あり\n" );
+		return;
+	}
 
+	DEBUG_PRINT( "Wizard ActionType変更 To %d\n", static_cast<uint32_t>(nextAction) );
+	m_nextAction = nextAction;
+	uint32_t crystalDistance = 100;
 	switch( m_nextAction ){
 	case ACTION_SET_CRYSTAL_PLAYER:
 		{
 			EnemyWizard *pWizard = static_cast<EnemyWizard*>( UpdateEnemyMine() );
 			pWizard->SetCrystalAroundTarget( EnemyWizard::CRYSTAL_AROUND_PLAYER );
-			m_waitCounter = 30;
+			m_waitCounter = ACTION_INTERVAL;
+			crystalDistance = 150;
 		}
 		break;
 	default:
@@ -132,6 +181,17 @@ void AIWizard::ChangeActionType( const ACTION_TYPE &nextAction )
 		}
 		break;
 	}
+
+	EnemyWizard *pWizard = static_cast<EnemyWizard*>( UpdateEnemyMine() );
+	for( uint32_t i = 0; i < pWizard->GetCrystalIndex() ; ++i ){
+		pWizard->SetCrystalAroundDistance( crystalDistance );
+	}
+}
+
+void AIWizard::SetInterruptAction( const ACTION_TYPE &interruptAction )
+{
+	m_waitCounter = 0;
+	m_currAction = interruptAction;
 }
 
 bool AIWizard::ActionNormal()
@@ -141,17 +201,21 @@ bool AIWizard::ActionNormal()
 		ShootBullet( pWizard->GetCrystalPos( i ), math::Vector2(), pWizard->GetBulletDamage() );
 	}
 	
-	uint32_t next = Utility::GetRandamValue( ACTION_MAX, 0 );
-	ChangeActionType( static_cast<ACTION_TYPE>(next) );
+	ChangeActionType( GetRandamNextAction() );
 
-	m_waitCounter = 120;
+	m_waitCounter = ACTION_INTERVAL;
 	return true;
 }
 
 
 bool AIWizard::ActionSetCrystalPlayer()
 {
-	ActionNormal();
+	if( Utility::GetRandamValue( 2, 0 ) == 0 ){
+		return ActionContinueBullet();
+	}
+	else{
+		ActionNormal();
+	}
 
 	return true;
 }
@@ -172,11 +236,10 @@ bool AIWizard::ActionWayBullet()
 			ShootBullet( crystalPos, result, pWizard->GetBulletDamage() );
 		}
 	}
+	
+	ChangeActionType( GetRandamNextAction() );
 
-	uint32_t next = Utility::GetRandamValue( ACTION_MAX, 0 );
-	ChangeActionType( static_cast<ACTION_TYPE>(next) );
-
-	m_waitCounter = 60;
+	m_waitCounter = ACTION_INTERVAL;
 	return true;
 }
 

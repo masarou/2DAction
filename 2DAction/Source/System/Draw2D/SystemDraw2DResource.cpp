@@ -73,7 +73,7 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 		if( m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0 ){
 			//! 読み込み済み
 			++m_vRecource2D.at(i).m_readCounter;
-			DEBUG_PRINT("/_/_/リソース再読み込み counter = %d/_/_/\n", m_vRecource2D.at(i).m_readCounter);
+			//DEBUG_PRINT("/_/_/リソース再読み込み counter = %d/_/_/\n", m_vRecource2D.at(i).m_readCounter);
 			return;
 		}
 	}
@@ -135,7 +135,7 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 	tex.m_texInfo = basicInfo;
 
 	m_vRecource2D.push_back(tex);
-	DEBUG_PRINT("/_/_/リソース読み込み : %s/_/_/\n", jsonFile);
+	//DEBUG_PRINT("/_/_/リソース読み込み : %s/_/_/\n", jsonFile);
 }
 
 /* ================================================ */
@@ -145,7 +145,7 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 /* ================================================ */
 void TextureResourceManager::DeleteTextureInfo( const char *jsonFile )
 {
-	DEBUG_PRINT("/_/_/リソース解放 : %s/_/_/\n", jsonFile);
+	//DEBUG_PRINT("/_/_/リソース解放 : %s/_/_/\n", jsonFile);
 	std::vector<RESOURCE_TEX>::iterator it = m_vRecource2D.begin();
 	for( uint32_t i = 0; i < m_vRecource2D.size(); ++i ){
 		if(m_vRecource2D.at(i).m_jsonFile.compare(jsonFile) == 0){
@@ -166,11 +166,11 @@ void TextureResourceManager::DeleteTextureInfo( const char *jsonFile )
 					Draw2DManager::GetInstance()->DeleteDrawInfo( jsonFile );
 				}
 
-				DEBUG_PRINT("/_/_/リソース解放完了 : 【%s】/_/_/\n", m_vRecource2D.at(i).m_jsonFile.c_str() );
+				//DEBUG_PRINT("/_/_/リソース解放完了 : 【%s】/_/_/\n", m_vRecource2D.at(i).m_jsonFile.c_str() );
 				m_vRecource2D.erase(it);
 			}
 			else{
-				DEBUG_PRINT("/_/_/リソース読み込みカウンタ残り %d/_/_/\n", m_vRecource2D.at(i).m_readCounter );
+				//DEBUG_PRINT("/_/_/リソース読み込みカウンタ残り %d/_/_/\n", m_vRecource2D.at(i).m_readCounter );
 			}
 			return;
 		}

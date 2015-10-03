@@ -5,20 +5,20 @@
 		{"destroyMax": 80}
 	],
 	"bossInfo":[
+		{"enemyKind": "ENEMY_KIND_BOSS", "level": 5, "num": 2}
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_BOSS", 	"level": 5, "num": 2},
-		{"enemyKind": "ENEMY_KIND_WIZARD",	"level": 9, "num": 4}
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 6, "num": 10}
 	],
 	"gameCondition":[
-		{"EnemyMax": 80, "frequency":5},
+		{"EnemyMax": 80, "frequency":0},
 		{"ItemMax": 0, "frequency":0}
 	],
 	"appearEnemy":[
 	],
 	"pointInfo":[
-		{"score": 10000, "value": 100},
-		{"score": 5000, "value": 50},
-		{"score": 0, "value": 20}
+		{"score": 10000, "value": 180},
+		{"score": 5000, "value": 120},
+		{"score": 0, "value": 40}
 	]
 }

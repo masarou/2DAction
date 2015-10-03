@@ -40,10 +40,10 @@ GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 			DEBUG_ASSERT( 0, "想定外の箇所でゲーム設定ファイルが読み込まれている");
 			/* fall-through */
 		case Common::FLOW_STAGE01:
-			m_settingFileStr = "GameSettings01.json";
+			m_settingFileStr = "GameSettings06.json";
 			break;
 		case Common::FLOW_STAGE02:
-			m_settingFileStr = "GameSettings02.json";
+			m_settingFileStr = "GameSettings07.json";
 			break;
 		case Common::FLOW_STAGE03:
 			m_settingFileStr = "GameSettings03.json";

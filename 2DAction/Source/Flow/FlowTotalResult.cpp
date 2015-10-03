@@ -184,7 +184,14 @@ void TotalResult2D::UpdateMenu()
 void TotalResult2D::PadEventDecide()
 {
 	if( ChangeDispNextState() ){
-		SetNextFlowStr( "title" );
+
+		if(0){
+			// 全部クリアーならアドレス表示画面へ
+			SetNextFlowStr( "gameaddress" );
+		}
+		else{
+			SetNextFlowStr( "title" );
+		}
 		// 決定SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Decide");
 	}
@@ -216,7 +223,7 @@ bool TotalResult2D::ChangeDispNextState()
 	case DISP_SCENE02:
 		{
 			m_dispState = DISP_SCENE03;		
-			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE09 )
+			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE08 )
 								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE09 )
 								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE10 );
 			m_pNumCounter[static_cast<uint32_t>(DISP_SCENE03)]->AddValue( sceneScore );

@@ -17,6 +17,7 @@
     <ClCompile Include="Source\Flow\FlowBase.cpp" />
     <ClCompile Include="Source\Flow\FlowExit.cpp" />
     <ClCompile Include="Source\Flow\FlowGame.cpp" />
+    <ClCompile Include="Source\Flow\FlowGameClearShowAddress.cpp" />
     <ClCompile Include="Source\Flow\FlowInterval.cpp" />
     <ClCompile Include="Source\Flow\FlowManager.cpp" />
     <ClCompile Include="Source\Flow\FlowMenuBase.cpp" />
@@ -28,9 +29,7 @@
     <ClCompile Include="Source\Flow\FlowViewScore.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessBase.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessBossEnemyDeath.cpp" />
-    <ClCompile Include="Source\Flow\Process\FlowProcessControllDescription.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessFirstManual.cpp" />
-    <ClCompile Include="Source\Flow\Process\FlowProcessInitLastStage.cpp" />
     <ClCompile Include="Source\Flow\Process\FlowProcessStageStart.cpp" />
     <ClCompile Include="Source\Game\Attack\Bullet.cpp" />
     <ClCompile Include="Source\Game\Attack\GameAttackBlade.cpp" />
@@ -99,6 +98,7 @@
     <ClInclude Include="Source\Flow\FlowBase.h" />
     <ClInclude Include="Source\Flow\FlowExit.h" />
     <ClInclude Include="Source\Flow\FlowGame.h" />
+    <ClInclude Include="Source\Flow\FlowGameClearShowAddress.h" />
     <ClInclude Include="Source\Flow\FlowInterval.h" />
     <ClInclude Include="Source\Flow\FlowManager.h" />
     <ClInclude Include="Source\Flow\FlowMenuBase.h" />
@@ -110,9 +110,7 @@
     <ClInclude Include="Source\Flow\FlowViewScore.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessBase.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessBossEnemyDeath.h" />
-    <ClInclude Include="Source\Flow\Process\FlowProcessControllDescription.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessFirstManual.h" />
-    <ClInclude Include="Source\Flow\Process\FlowProcessInitLastStage.h" />
     <ClInclude Include="Source\Flow\Process\FlowProcessStageStart.h" />
     <ClInclude Include="Source\Game\Attack\Bullet.h" />
     <ClInclude Include="Source\Game\Attack\GameAttackBlade.h" />

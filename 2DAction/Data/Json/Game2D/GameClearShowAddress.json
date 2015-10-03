@@ -1,0 +1,18 @@
+{
+	"basicInfo":[
+		{"fileName":"GameClearShowAddress.png"
+		, "animDefault":"default"
+		, "sizeW": 1280
+		, "sizeH": 720
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	],
+	
+	"partsInfo":[
+	]
+}

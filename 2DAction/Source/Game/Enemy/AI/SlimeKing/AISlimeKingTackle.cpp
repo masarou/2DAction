@@ -38,7 +38,7 @@ void AISlimeKingTackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &action
 	math::Vector2 plPos = Utility::GetPlayerPos();
 
 	// ある一定以上プレイヤーから離れたらSearch状態に戻す
-	if( !math::IsInRange( plPos, enemyInfo.m_posOrigin, 600.0f ) ){
+	if( !math::IsInRange( plPos, enemyInfo.m_posOrigin, DISTANCE_TO_PLAYER_SIDE ) ){
 		DEBUG_PRINT("【プレイヤーを見失った! ステータスをサーチに変更】\n");
 		ChangeEnemyAI( Common::AI_SEARCHING_SLIME_KING );
 		return;

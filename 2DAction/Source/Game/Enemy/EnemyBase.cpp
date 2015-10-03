@@ -179,6 +179,12 @@ void EnemyBase::EventUpdate( Common::CMN_EVENT &eventId )
 		HitPlayreSlashing( eventId.m_eventValue );
 		break;
 	}
+
+	if( m_pEnemyAI )
+	{
+		// AIにもイベントがあったことを伝える
+		m_pEnemyAI->EnemyRecievedEvent( eventId );
+	}
 }
 
 /* ================================================ */
@@ -232,7 +238,7 @@ void EnemyBase::HitPlayreBullet( const uint32_t &damageValue )
 // プレイヤーの斬撃に当たった
 void EnemyBase::HitPlayreSlashing( const uint32_t &damageValue )
 {
-	m_stunTime = 10;
+	SetStunTime( 10 );
 	GameEffect::CreateEffect( GameEffect::EFFECT_SLASHING_HIT, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 	UpdateEnemyDamage( damageValue );
 }
@@ -299,13 +305,13 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		Common::ENEMY_KIND kind = GetKind();
 		switch( kind ){
 		case Common::ENEMY_KIND_SLIME:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AAA_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_DEATH );
 			break;
 		case Common::ENEMY_KIND_AHRIMAN:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BBB_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AHRIMAN_DEATH );
 			break;
 		case Common::ENEMY_KIND_COW:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_CCC_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_COW_DEATH );
 			break;
 		case Common::ENEMY_KIND_BOSS:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BOSS_DEATH );
@@ -313,11 +319,9 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		case Common::ENEMY_KIND_SLIME_KING:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_KING_DEATH );
 			break;
-		}
-
-		if( Utility::GetRandamValue( 3, 0 ) == 0 ){
-			Common::ITEM_KIND itemKind = Common::ITEM_KIND_BATTLE_POINT;//static_cast<Common::ITEM_KIND>( Utility::GetRandamValue( Common::ITEM_KIND_MAX-1, 0 ) );
-			GameRegister::GetInstance()->UpdateManagerGame()->CreateItem( itemKind, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
+		case Common::ENEMY_KIND_WIZARD:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_WIZARD_DEATH );
+			break;
 		}
 
 		if( GetStatus() != TASK_PRE_DIE ){
