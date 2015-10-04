@@ -24,21 +24,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	//! ＤＸライブラリ初期化
 	SetAlwaysRunFlag(true);
 
+	// ウインドウタイトル設定
+	SetWindowText( "MonsterBuster" );
+
+	// ウインドウサイズ設定
+	SetGraphMode( WINDOW_WIDTH, WINDOW_HEIGHT, 32);
+
 	if( ChangeWindowMode(true) != 0 ){
 		return 0;
 	}
 	if( DxLib_Init() != 0 ){
 		return 0;
 	}
+
+	// デフォルトフォント設定
 	if(!AddFontResourceEx("Data/Font/misaki_gothic.ttf", FR_PRIVATE, NULL)) {
 		return 0;
 	}
-
-	// ウインドウサイズ設定
-	SetGraphMode( WINDOW_WIDTH, WINDOW_HEIGHT, 32);
-
-	// デフォルトフォント設定
 	SetDefaultFontState( "メイリオ", FONT_DEFAULT_SIZE, 6 );
+
+
+	// アプリログ出力なし
+	//SetOutApplicationLogValidFlag( false );
 
 	//! TaskUnit非継承常駐物
 	GameAccesser::Create();

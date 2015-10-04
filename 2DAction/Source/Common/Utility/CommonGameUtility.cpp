@@ -21,6 +21,7 @@
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingSearching.h"
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingTackle.h"
 #include "Game/Enemy/AI/EnemyAIWizard.h"
+#include "Game/Enemy/AI/EnemyAIDragon.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
@@ -398,6 +399,9 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 		break;
 	case Common::AI_ATTACK_WIZARD:
 		pRetAI = AIWizard::Create();
+		break;
+	case Common::AI_ATTACK_DRAGON:
+		pRetAI = AIDragon::Create();
 		break;
 	}
 	return pRetAI;

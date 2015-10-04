@@ -1,0 +1,18 @@
+{
+	"basicInfo":[
+		{"fileName":"EnemyDragon.png"
+		, "animDefault":"down"
+		, "sizeW": 100
+		, "sizeH": 70
+		, "splitW": 3
+		, "splitH": 4
+		, "total": 12 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"up",	"frameSpeed":16,	"animIndex":[9,10,11],	"nextAnim":"up"},
+		{"animTag":"down",	"frameSpeed":16,	"animIndex":[0,1,2],	"nextAnim":"down"},
+		{"animTag":"right",	"frameSpeed":16,	"animIndex":[6,7,8],	"nextAnim":"right"},
+		{"animTag":"left",	"frameSpeed":16,	"animIndex":[3,4,5],	"nextAnim":"left"}
+	]	
+}

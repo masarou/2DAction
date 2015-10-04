@@ -28,11 +28,12 @@ public:
 		EFFECT_BOMB,			// 敵がやられた時の爆発
 		EFFECT_PRE_EXPLOSION,	// 爆発予兆
 		EFFECT_DAMAGE,			// ダメージ
-		EFFECT_EXCLAMATION,		// びっくりマーク		
+		EFFECT_EXCLAMATION,		// びっくりマーク
 		EFFECT_SLASHING_HIT,	// 斬撃HIT
 		EFFECT_DASH_SMOKE,		// DASH煙
 		EFFECT_INVALID_DAMAGE,	// ダメージ無効
 		EFFECT_WORP,			// ワープ
+		EFFECT_FIRE_WALL,		// 画面全体炎演出
 	};
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );
@@ -64,6 +65,7 @@ public:
 
 	enum EFFECT_KIND{
 		EFFECT_EXPLOSION,	// 爆発
+		EFFECT_FIRE,		// 炎
 
 		EFFECT_MAX
 	};
@@ -71,24 +73,41 @@ public:
 	static GameEffectWithCollision *CreateEffect( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );
 
 protected:
+
+	GameEffectWithCollision( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos );
+	virtual ~GameEffectWithCollision(void);
 	
 	virtual bool Init() override;
-	virtual void Update() override;
 	virtual void DrawUpdate() override;
 	
 	// このクラスの種類セット
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override;
 
-public:
-
-	GameEffectWithCollision( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos );
-	virtual ~GameEffectWithCollision(void);
+private:
 
 	std::string SelectEffectFile() const;		// 読み込みファイル選別関数
 	
 	Common::OWNER_TYPE	m_ownerType;
 	EFFECT_KIND			m_kind;				// 演出の種類
 
+};
+
+class FireWithCollision : public GameEffectWithCollision
+{
+
+public:
+
+	FireWithCollision( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos );
+
+protected:
+
+	virtual void Update() override;
+
+private:
+
+	virtual ~FireWithCollision(void);
+
+	uint32_t	m_liveTime;	// 生成してからの時間
 };
 
 class GameEffectDamage : public TaskUnit

@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"FireBall.png"
+		, "animDefault":"default"
+		, "sizeW": 48
+		, "sizeH": 30
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
+	]
+}

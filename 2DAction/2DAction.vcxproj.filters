@@ -334,6 +334,12 @@
     <ClInclude Include="Source\Flow\FlowGameClearShowAddress.h">
       <Filter>Flow</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyDragon.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\EnemyAIDragon.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -567,6 +573,12 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\FlowGameClearShowAddress.cpp">
       <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyDragon.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\EnemyAIDragon.cpp">
+      <Filter>Game\Enemy\AI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

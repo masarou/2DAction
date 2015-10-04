@@ -1,0 +1,165 @@
+/* ====================================================================== */
+/**
+ * @brief  敵WizardクラスAI
+ *
+ * @note
+ *		デフォルトAI
+ */
+/* ====================================================================== */
+
+#ifndef __ENEMY_AI_DRAGON__
+#define __ENEMY_AI_DRAGON__
+
+#include "EnemyAIBase.h"
+#include "Game/Enemy/EnemyWizard.h"
+
+class DragonFireBomb;
+
+class AIDragon : public EnemyAIBase
+{
+public:
+
+	static AIDragon *Create();
+
+	// AIの種類を派生先でセットしておく
+	virtual const Common::ENEMY_AI GetAIKind() const{ return Common::AI_ATTACK_WIZARD; }
+
+protected:
+	
+	virtual bool InitAI() override;								// AI初期化
+	virtual void ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo ) override;	// 派生先でのAI実装
+	virtual void EnemyRecievedEvent( const Common::CMN_EVENT &eventInfo ) override;			// 敵クラスが他のクラスからもらったイベント
+
+private:
+
+	enum ACTION_TYPE{
+		ACTION_MOVE_AWAY,		// 逃げるような移動
+		ACTION_FIRE_BOMB,		// 炎の弾発射
+		ACTION_FIRE_BREATH,		// 炎ブレス
+		ACTION_LARGE_EXPLOSION,	// 大爆発
+
+		ACTION_MAX,
+	};
+
+	ACTION_TYPE GetRandamNextAction();
+	void ChangeActionType( const ACTION_TYPE &nextAction );
+	void SetInterruptAction( const ACTION_TYPE &interruptAction );
+
+	// 相手から逃げる時の目的地セット
+	bool SetRunAwayPosFromPlayer( TEX_DRAW_INFO &enemyInfo );
+
+	// 設定した目的地まで移動(trueが帰ってくれば終了)
+	bool DashMove( TEX_DRAW_INFO &enemyInfo, const math::Vector2 &targetPos );
+
+	// 各行動に対応した関数
+	// コルーチンを使用している関数の宣言、定義は同じファイルに書かないとエラーが出る模様
+	bool ActionShootFireBall( TEX_DRAW_INFO &enemyInfo, const bool &onlyAction = false );
+	bool ActionFireWall( TEX_DRAW_INFO &enemyInfo ){
+
+		reenter( m_coro ){
+			
+			GameEffect::CreateEffect( GameEffect::EFFECT_FIRE_WALL, WINDOW_CENTER );
+			yield return false;
+
+			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
+			m_waitCounter = 5;
+			yield return false;
+
+			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
+			m_waitCounter = 5;
+			yield return false;
+			
+			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
+			m_waitCounter = 5;
+			yield return false;
+
+			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
+			m_waitCounter = 5;
+			yield return false;
+
+			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
+			m_waitCounter = 5;
+			yield return false;
+		}
+
+		// 目的地初期化
+		m_movingPos = math::Vector2();
+		
+		// 次の行動セット
+		ChangeActionType( GetRandamNextAction() );
+		m_waitCounter = Utility::GetRandamValue( 60, 40 );
+		return true;
+	}
+
+	bool ActionAwayFromPlayer( TEX_DRAW_INFO &enemyInfo ){
+
+		reenter( m_coro ){
+
+			// 移動先セット
+			SetRunAwayPosFromPlayer( enemyInfo );
+			yield return false;
+
+			for(;;){
+				if( DashMove( enemyInfo, m_movingPos ) ){
+					break;
+				}
+				yield return false;
+			}
+		}
+
+		// 目的地初期化
+		m_movingPos = math::Vector2();
+		
+		// 次の行動セット
+		ChangeActionType( GetRandamNextAction() );
+		m_waitCounter = Utility::GetRandamValue( 60, 40 );
+		return true;
+	}
+
+
+
+	AIDragon(void);
+	~AIDragon(void);
+
+	ACTION_TYPE		m_currAction;
+	ACTION_TYPE		m_nextAction;	// 次にセットされた行動
+	math::Vector2	m_movingPos;	// 移動するときの目的地
+	uint32_t		m_waitCounter;	// 連続で同じ行動をしないためのカウンタ
+
+	coroutine		m_coro;			// コルーチン
+};
+
+
+class DragonFireBomb : public TaskUnit, public Collision2DUnit
+{
+public:
+
+	static DragonFireBomb *Create( const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage );
+
+protected:
+
+
+	virtual bool Init() override;
+	virtual bool DieMain() override;
+	virtual void Update() override;
+	virtual void DrawUpdate() override;
+
+	// ほかのクラスからのイベント処理
+	virtual void EventUpdate( Common::CMN_EVENT &eventId ) override;
+
+	virtual const Common::TYPE_OBJECT GetTypeObject() const;
+
+private:
+
+	DragonFireBomb( const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage );
+	~DragonFireBomb(void);
+	
+	uint32_t	m_liveTime;		// 生成してからの時間
+	uint32_t	m_liveTimeMax;	// 生成後の最大生存時間
+
+	math::Vector2	m_vec;
+	uint32_t		m_damage;
+
+};
+
+#endif

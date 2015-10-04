@@ -168,6 +168,12 @@ void CollisionManager::CollisionUpdate()
 						eventInfo.m_eventValue = 20;
 					}
 					break;
+				case Common::TYPE_DRAGON:
+					{
+						messageKind = Common::EVENT_HIT_DRAGON;
+						eventInfo.m_eventValue = 20;
+					}
+					break;
 				case Common::TYPE_ITEM_BULLET:
 					messageKind = Common::EVENT_GET_ITEM_BULLET;
 					break;
@@ -226,6 +232,18 @@ void CollisionManager::CollisionUpdate()
 					{
 						messageKind = Common::EVENT_HIT_EXPLOSION_ENEMY;
 						eventInfo.m_eventValue = 40;
+					}
+					break;
+				case Common::TYPE_FIRE_BALL:
+					{
+						messageKind = Common::EVENT_HIT_FIRE_BALL;
+						eventInfo.m_eventValue = 40;
+					}
+					break;
+				case Common::TYPE_FIRE:
+					{
+						messageKind = Common::EVENT_HIT_FIRE;
+						eventInfo.m_eventValue = 0;
 					}
 					break;
 				}
@@ -316,6 +334,7 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ENEMY_SLIME_KING:
 	case Common::TYPE_ENEMY_WIZARD:
 	case Common::TYPE_WIZARD_CRYSTAL:
+	case Common::TYPE_DRAGON:
 		if( typeB != Common::TYPE_PLAYER
 			&& typeB != Common::TYPE_BULLET_PLAYER
 			&& typeB != Common::TYPE_BLADE_PLAYER ){
@@ -350,7 +369,12 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 		}
 		break;
 	case Common::TYPE_EXPLOSION_ENEMY:
-		{uint32_t aaa = 0;}
+		break;
+	case Common::TYPE_FIRE_BALL:
+	case Common::TYPE_FIRE:
+		if( typeB != Common::TYPE_PLAYER ){
+			retVal = false;
+		}
 		break;
 	}
 	return retVal;

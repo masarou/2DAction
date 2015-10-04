@@ -119,22 +119,25 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 		DEBUG_ASSERT( 0, "ƒXƒRƒA‰ÁŽZ‚ÌŽí—Þ‚ª‚¨‚©‚µ‚¢" );
 		return;
 	case ENEMY_SLIME_DEATH:
-		addValue = 100;
+		addValue = 300;
 		break;
 	case ENEMY_AHRIMAN_DEATH:
-		addValue = 200;
+		addValue = 400;
 		break;
 	case ENEMY_COW_DEATH:
-		addValue = 1000;
+		addValue = 2000;
 		break;
 	case ENEMY_BOSS_DEATH:
-		addValue = 50000;
+		addValue = 40000;
 		break;
 	case ENEMY_SLIME_KING_DEATH:
 		addValue = 10000;
 		break;
 	case ENEMY_WIZARD_DEATH:
 		addValue = 15000;
+		break;
+	case ENEMY_DRAGON_DEATH:
+		addValue = 20000;
 		break;
 	}
 	addValue *= rate;

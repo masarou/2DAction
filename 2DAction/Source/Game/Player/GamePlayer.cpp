@@ -482,12 +482,13 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 	case Common::EVENT_HIT_ENEMY_WIZARD:
 	case Common::EVENT_HIT_WIZARD_CRYSTAL:
+	case Common::EVENT_HIT_DRAGON:
 	case Common::EVENT_HIT_BULLET_ENEMY:
 	case Common::EVENT_HIT_BLADE_ENEMY:
 	case Common::EVENT_HIT_EXPLOSION_ENEMY:
-		if( m_invisibleTime == 0 ){
-			EventDamage( eventId );
-		}
+	case Common::EVENT_HIT_FIRE_BALL:
+	case Common::EVENT_HIT_FIRE:
+		EventDamage( eventId );
 		break;
 	case Common::EVENT_GET_ITEM_BULLET:
 		PlayerGetItem( Common::ITEM_KIND_RAPID_BULLET );
@@ -520,16 +521,23 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
  * @brief	イベントに対応した関数群
  */
 /* ================================================ */
-
 void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 {
 	Common::EVENT_MESSAGE	eventKind	= eventId.m_event;
 	uint32_t				damageValue	= eventId.m_eventValue;
 
+	// 無敵時間中なので処理なし
+	if( m_invisibleTime != 0 && eventKind != Common::EVENT_HIT_FIRE ){
+		return;
+	}
+
 	// ダメージ音
 	switch( eventKind ){
 	case Common::EVENT_HIT_BULLET_ENEMY:
 		SoundManager::GetInstance()->PlaySE("DamageBullet");
+		break;
+	case Common::EVENT_HIT_FIRE:
+		// SEなし
 		break;
 	default:
 		SoundManager::GetInstance()->PlaySE("DamageDirect");
@@ -572,6 +580,7 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_BOSS:
 	case Common::EVENT_HIT_ENEMY_WIZARD:
 	case Common::EVENT_HIT_WIZARD_CRYSTAL:
+	case Common::EVENT_HIT_DRAGON:
 		{
 			// 吹き飛ぶ方向を設定してイベントとしてセットしておく
 			math::Vector2 plPos		= Utility::GetPlayerPos();
@@ -588,6 +597,14 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 			moveInfo.m_forcePower	= ( eventKind == Common::EVENT_HIT_ENEMY_COW ) ? 25.0f : 10.0f ;
 			forceEvent.SetExInfoForceMove( moveInfo );
 			AddEvent( forceEvent );
+		}
+		break;
+	case Common::EVENT_HIT_FIRE:
+		if( FpsManager::GetUpdateCounter() % 10 == 0 ){
+			damageValue = 3;
+		}
+		else{
+			return;
 		}
 		break;
 	default:

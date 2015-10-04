@@ -113,6 +113,7 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 	case Common::EVENT_HIT_ENEMY_WIZARD:
 	case Common::EVENT_HIT_WIZARD_CRYSTAL:
+	case Common::EVENT_HIT_DRAGON:
 		if( m_ownerType == Common::OWNER_PLAYER ){
 			m_liveTime = m_liveTimeMax;
 			TaskStartDie();

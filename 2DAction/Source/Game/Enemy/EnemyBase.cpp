@@ -322,6 +322,9 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		case Common::ENEMY_KIND_WIZARD:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_WIZARD_DEATH );
 			break;
+		case Common::ENEMY_KIND_DRAGON:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_DRAGON_DEATH );
+			break;
 		}
 
 		if( GetStatus() != TASK_PRE_DIE ){

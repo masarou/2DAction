@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"FireWall.png"
+		, "animDefault":"default"
+		, "sizeW": 1280
+		, "sizeH": 720
+		, "splitW": 1
+		, "splitH": 5
+		, "total": 5 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":20,	"animIndex":[0,1,2,3,4],	"nextAnim":""}
+	]
+}

@@ -16,6 +16,7 @@ namespace Common{
 		TYPE_ENEMY_SLIME_KING,
 		TYPE_ENEMY_WIZARD,
 		TYPE_WIZARD_CRYSTAL,
+		TYPE_DRAGON,
 
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
@@ -25,6 +26,8 @@ namespace Common{
 		TYPE_BLADE_ENEMY,
 		TYPE_BULLET_PLAYER,
 		TYPE_BULLET_ENEMY,
+		TYPE_FIRE,
+		TYPE_FIRE_BALL,
 		
 		TYPE_EXPLOSION_PLAYER,
 		TYPE_EXPLOSION_ENEMY,
@@ -42,6 +45,7 @@ namespace Common{
 		EVENT_HIT_ENEMY_SLIME_KING,	// 敵との接触
 		EVENT_HIT_ENEMY_WIZARD,		// 敵との接触
 		EVENT_HIT_WIZARD_CRYSTAL,	// 敵との接触
+		EVENT_HIT_DRAGON,			// 敵との接触
 
 		EVENT_GET_ITEM_BULLET,		// アイテム取得
 		EVENT_GET_ITEM_LIFE,		// アイテム取得
@@ -54,6 +58,8 @@ namespace Common{
 		EVENT_HIT_EXPLOSION_PLAYER,	// プレイヤーの爆発攻撃に当たった
 		EVENT_HIT_EXPLOSION_ENEMY,	// 敵の爆発攻撃に当たった
 		EVENT_ADD_FORCE_MOVE,		// ダメージ等でのふっとび
+		EVENT_HIT_FIRE_BALL,		// 火炎弾
+		EVENT_HIT_FIRE,				// 火炎弾後の延焼
 
 		EVENT_MESSAGE_MAX,
 	};
@@ -199,6 +205,7 @@ namespace Common{
 		ENEMY_KIND_BOSS,
 		ENEMY_KIND_SLIME_KING,
 		ENEMY_KIND_WIZARD,
+		ENEMY_KIND_DRAGON,
 
 		ENEMY_KIND_MAX,
 	};
@@ -220,12 +227,11 @@ namespace Common{
 		AI_SHOOTING,	// 遠距離攻撃(遠距離攻撃)
 
 		// 以下、ボス用AI
-		AI_MOVING_WAYPOINT,			// 目的地に移動
-		AI_ATTACK_NEAR,				// 斬撃(近距離攻撃)
 		AI_SEARCHING_SLIME_KING,	// プレイヤー探索(スライムキング)
 		AI_MOVE_PLAYER_SLIME_KING,	// プレイヤーに近づく(スライムキング)
-		AI_ATTACK_WIZARD,			// 多彩な遠距離攻撃1
-
+		AI_ATTACK_NEAR,				// ボスAI
+		AI_ATTACK_WIZARD,			// 魔法使いAI
+		AI_ATTACK_DRAGON,			// ドラゴンAI
 		AI_MAX,
 	};
 	

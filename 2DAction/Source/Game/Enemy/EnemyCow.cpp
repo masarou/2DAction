@@ -37,7 +37,7 @@ const uint32_t EnemyCCC::GetEnemyDefaultHP() const
 
 const float EnemyCCC::GetEnemyDefaultSPD() const
 {
-	return 1 + ( GetEnemyLevel() / 4 );
+	return 1.0f + ( static_cast<float>( GetEnemyLevel() ) / 4.0f );
 }
 
 const uint32_t EnemyCCC::GetPlayerHitDamage() const

@@ -61,7 +61,7 @@ bool EnemySlime::InitMain()
 
  const float EnemySlime::GetEnemyDefaultSPD() const
 {
-	return 1 + ( GetEnemyLevel() / 3 );
+	return 1.0f + ( static_cast<float>( GetEnemyLevel() ) / 3.0f );
 }
 
 const uint32_t EnemySlime::GetPlayerHitDamage() const

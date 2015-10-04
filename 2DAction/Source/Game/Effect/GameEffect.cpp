@@ -48,6 +48,9 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	if( m_kind == EFFECT_WORP ){
 		drawInfo.m_posOrigin.y -= 150;
 	}
+	if( m_kind == EFFECT_FIRE_WALL ){
+		drawInfo.m_usePlayerOffset = false;
+	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
@@ -120,6 +123,10 @@ std::string GameEffect::SelectEffectFile() const
 	case EFFECT_WORP:
 		rtn = "WorpEffect.json";
 		break;
+		
+	case EFFECT_FIRE_WALL:
+		rtn = "FireWall.json";
+		break;
 
 	default:
 		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
@@ -146,7 +153,16 @@ std::string GameEffect::SelectEffectFile() const
 /* ====================================================================== */
 GameEffectWithCollision *GameEffectWithCollision::CreateEffect( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos )
 {
-	return NEW GameEffectWithCollision( owner, kind, pos );
+	GameEffectWithCollision *effect = NULL;
+
+	if( kind == EFFECT_FIRE ){
+		effect = NEW FireWithCollision( owner, kind, pos );
+	}
+	else{
+		effect = NEW GameEffectWithCollision( owner, kind, pos );
+	}
+
+	return effect;
 }
 
 GameEffectWithCollision *GameEffectWithCollision::CreateEffect( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
@@ -166,7 +182,12 @@ GameEffectWithCollision::GameEffectWithCollision( const Common::OWNER_TYPE &owne
 	m_drawTexture.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
 	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_fileName = readFileStr;
 	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = pos;
-	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_ABOVE_NORMAL;
+	if( kind == EFFECT_FIRE ){
+		m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_HIGH;
+	}
+	else{
+		m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_ABOVE_NORMAL;
+	}
 }
 
 GameEffectWithCollision::~GameEffectWithCollision(void)
@@ -182,13 +203,11 @@ bool GameEffectWithCollision::Init()
 	case EFFECT_EXPLOSION:
 		SoundManager::GetInstance()->PlaySE( "Explosion" );
 		break;
+	case EFFECT_FIRE:
+		break;
 	}
 
 	return true;
-}
-
-void GameEffectWithCollision::Update()
-{
 }
 
 void GameEffectWithCollision::DrawUpdate()
@@ -214,6 +233,9 @@ const Common::TYPE_OBJECT GameEffectWithCollision::GetTypeObject() const
 	case EFFECT_EXPLOSION:
 		retType = ( m_ownerType == Common::OWNER_PLAYER ) ? Common::TYPE_EXPLOSION_PLAYER : Common::TYPE_EXPLOSION_ENEMY ;
 		break;
+	case EFFECT_FIRE:
+		retType = Common::TYPE_FIRE;
+		break;
 	}
 	return retType;
 }
@@ -224,6 +246,10 @@ std::string GameEffectWithCollision::SelectEffectFile() const
 	switch(m_kind){
 	case EFFECT_EXPLOSION:
 		rtn = "Explosion.json";
+		break;
+		
+	case EFFECT_FIRE:
+		rtn = "Fire.json";
 		break;
 
 	default:
@@ -237,6 +263,27 @@ std::string GameEffectWithCollision::SelectEffectFile() const
 
 
 
+
+#define FIRE_LIVE_TIME 60*10
+FireWithCollision::FireWithCollision( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos )
+: GameEffectWithCollision( owner, kind, pos )
+, m_liveTime( 0 )
+{
+}
+
+FireWithCollision::~FireWithCollision()
+{
+}
+
+void FireWithCollision::Update()
+{
+	++m_liveTime;
+
+	// 一定時間たったら自殺
+	if( m_liveTime >= FIRE_LIVE_TIME ){
+		TaskStartDie();
+	}
+}
 
 
 
