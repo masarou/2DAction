@@ -99,6 +99,13 @@ void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint3
 // 指定の場所は移動できる場所かどうか
 bool IsMovable( const std::string &resourceJson, const math::Vector2 &pos );
 
+// 対象の当たり判定物からイベントタイプを取得
+Common::EVENT_MESSAGE GetEventMessageFromObjType( const Common::TYPE_OBJECT &objType );
+
+// イベントタイプからもととなる当たり判定物のTYPEを取得
+Common::TYPE_OBJECT GetObjTypeFromEventMessage( const Common::EVENT_MESSAGE &eventMessage );
+
+// デバッグ用、指定位置に円を描く
 void DrawDebugCircle( math::Vector2 drawPos );
 
 } // Utility

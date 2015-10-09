@@ -35,7 +35,7 @@
 #include "System/SystemFPSManager.h"
 
 // 固定値
-static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
+static uint32_t DAMAGE_INVISIBLE_TIME	= 40+1;
 
 static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;
 static uint32_t MOVE_SPEED_DEFAULT		= 3;
@@ -531,6 +531,12 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 		return;
 	}
 
+	// 既にゲーム終了か
+	const GameManager *pGameMan = GameRegister::GetInstance()->GetManagerGame();
+	if( pGameMan->IsGameOver() ){
+		return;
+	}
+
 	// ダメージ音
 	switch( eventKind ){
 	case Common::EVENT_HIT_BULLET_ENEMY:
@@ -544,11 +550,12 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 		break;
 	}
 
-	// ダメージを受けたら一定時間ダメージを受けない
-	m_invisibleTime = DAMAGE_INVISIBLE_TIME;
-
 	// 各ダメージ種類による特殊処理
 	switch( eventKind ){
+	default:
+		// ダメージを受けたら一定時間ダメージを受けない
+		m_invisibleTime = DAMAGE_INVISIBLE_TIME;
+		break;
 	case Common::EVENT_HIT_ENEMY_SLIME_KING:
 		{
 			if( !IsPlayerState( ABNORMAL_STATE_MOVE_LOCK ) ){
@@ -572,6 +579,8 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 			else{
 				// 既にロック状態なのでなにもしない(ダメージ処理だけ)
 			}
+			// ダメージを受けたら一定時間ダメージを受けない
+			m_invisibleTime = DAMAGE_INVISIBLE_TIME;
 		}
 		break;
 	case Common::EVENT_HIT_ENEMY_SLIME:
@@ -597,17 +606,19 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 			moveInfo.m_forcePower	= ( eventKind == Common::EVENT_HIT_ENEMY_COW ) ? 25.0f : 10.0f ;
 			forceEvent.SetExInfoForceMove( moveInfo );
 			AddEvent( forceEvent );
+
+			// ダメージを受けたら一定時間ダメージを受けない
+			m_invisibleTime = DAMAGE_INVISIBLE_TIME;
 		}
 		break;
 	case Common::EVENT_HIT_FIRE:
-		if( FpsManager::GetUpdateCounter() % 10 == 0 ){
-			damageValue = 3;
+		// 一定時間ごとにダメージ
+		if( FpsManager::GetUpdateCounter() % 8 == 0 ){
+			damageValue = 10;
 		}
 		else{
 			return;
 		}
-		break;
-	default:
 		break;
 	}
 
@@ -637,7 +648,7 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 	//ダメージエフェクト作成
 	GameEffectDamage::GetInstance()->CreateEffectDamage( totalDamage
 		, Utility::GetPlayerPos().x
-		, Utility::GetPlayerPos().y );
+		, Utility::GetPlayerPos().y, /*bool isPlayer=*/true );
 
 	// ライフ残量によってSEを鳴らす
 	if( m_playerLife == 0 ){

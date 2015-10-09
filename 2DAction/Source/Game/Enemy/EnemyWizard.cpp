@@ -12,6 +12,9 @@
 #include "Game/GameRegister.h"
 #include "System/Draw2D/SystemDraw2DDefine.h"
 
+#include "Flow/FlowManager.h"
+#include "Flow/Process/FlowProcessBossEnemyDeath.h"
+
 EnemyWizard *EnemyWizard::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
 {
 	std::string fileStr = "EnemyWizard.json";
@@ -61,10 +64,15 @@ bool EnemyWizard::DieMainCustom()
 	return true;
 }
 
+/* ================================================ */
+/**
+ * @brief	敵クラスのデフォルト値取得
+ */
+/* ================================================ */
  const uint32_t EnemyWizard::GetEnemyDefaultHP() const
 {
 	// Lvによって最大ライフ変更
-	return 2000 + ( 150 * ( GetEnemyLevel() - 1 ) );
+	return 1000 + ( 300 * GetEnemyLevel() );
 }
 
  const float EnemyWizard::GetEnemyDefaultSPD() const
@@ -77,6 +85,11 @@ const uint32_t EnemyWizard::GetPlayerHitDamage() const
 	return 10 + ( 5 * GetEnemyLevel() );
 }
 
+/* ================================================ */
+/**
+ * @brief	敵の種類、レベル等でダメージ軽減処理
+ */
+/* ================================================ */
 void EnemyWizard::ReduceDamage( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
@@ -100,6 +113,24 @@ void EnemyWizard::ReduceDamage( Common::CMN_EVENT &eventId )
 			GameEffect::CreateEffect( GameEffect::EFFECT_INVALID_DAMAGE, GetDrawInfo().m_posOrigin );
 		}
 		break;
+	}
+}
+
+/* ================================================ */
+/**
+ * @brief	HPがなくなり倒されたときに呼ばれる
+ */
+/* ================================================ */
+void EnemyWizard::EnemyDeath()
+{
+	// 死亡したので専用演出再生
+	ProcessBossEnemyDeath *pDeathEffect = ProcessBossEnemyDeath::Create( m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
+	FlowManager *pFlowMan = FlowManager::GetInstance();
+	if( pFlowMan && pDeathEffect ){
+		pFlowMan->SetupSpecialEffect( pDeathEffect );
+	}
+	if( m_drawTexture.m_pTex2D ){
+		m_drawTexture.m_pTex2D->SetAnim( "death" );
 	}
 }
 

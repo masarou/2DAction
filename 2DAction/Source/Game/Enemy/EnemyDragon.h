@@ -19,16 +19,13 @@ public:
 	static EnemyDragon *Create( const uint32_t &uniqueID );
 	virtual const uint32_t GetPlayerHitDamage() const override{return 25;}	// プレイヤー衝突時のダメージ
 
-	// 斬撃ダメージ取得
-	uint32_t GetSlashingDamage() const;
-
 protected:
 	
 	// クラスの敵タイプ
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_DRAGON; }
 
 	// 敵クラスのデフォルト値取得
-	virtual const uint32_t	GetEnemyDefaultHP() const override{return 12000;}
+	virtual const uint32_t	GetEnemyDefaultHP() const override;
 	virtual const float		GetEnemyDefaultSPD() const override{return 1;}
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_ATTACK_DRAGON;}
 

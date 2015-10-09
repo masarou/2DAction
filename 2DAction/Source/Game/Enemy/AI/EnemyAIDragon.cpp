@@ -49,32 +49,6 @@ bool AIDragon::InitAI()
 
 void AIDragon::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
-	// アニメ更新
-	std::string animTag = "";
-	math::Vector2 vec = Utility::GetPlayerPos() - enemyInfo.m_posOrigin;
-	vec.Normalize();
-	switch( Utility::GetDirection( vec.x, vec.y ) ){
-	default:
-		break;
-	case InputWatcher::BUTTON_UP:
-		animTag = "up";
-		break;
-	case InputWatcher::BUTTON_DOWN:
-		animTag = "down";
-		break;
-	case InputWatcher::BUTTON_LEFT:
-		animTag = "left";
-		break;
-	case InputWatcher::BUTTON_RIGHT:
-		animTag = "right";
-		break;
-	}
-	SetEnemyAnim( animTag );
-	SetEnemyEyeSight( vec );
-
-	// 移動
-	enemyInfo.m_posOrigin += vec * static_cast<float>( GetEnemySPD() );
-
 	// 以下、攻撃関数
 	if( m_waitCounter > 0 ){
 		--m_waitCounter;
@@ -106,6 +80,32 @@ void AIDragon::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 			m_nextAction = ACTION_MAX;
 		}
 	}
+
+	// アニメ更新
+	std::string animTag = "";
+	math::Vector2 vec = Utility::GetPlayerPos() - enemyInfo.m_posOrigin;
+	vec.Normalize();
+	switch( Utility::GetDirection( vec.x, vec.y ) ){
+	default:
+		break;
+	case InputWatcher::BUTTON_UP:
+		animTag = "up";
+		break;
+	case InputWatcher::BUTTON_DOWN:
+		animTag = "down";
+		break;
+	case InputWatcher::BUTTON_LEFT:
+		animTag = "left";
+		break;
+	case InputWatcher::BUTTON_RIGHT:
+		animTag = "right";
+		break;
+	}
+	SetEnemyAnim( animTag );
+	SetEnemyEyeSight( vec );
+
+	// 移動
+	enemyInfo.m_posOrigin += vec * static_cast<float>( GetEnemySPD() );
 }
 
 /* ================================================ */
@@ -304,7 +304,7 @@ DragonFireBomb::DragonFireBomb( const math::Vector2 &pos, const math::Vector2 &v
 	drawInfo.m_rot = pos.GetAngle( Utility::GetPlayerPos() );
 	m_drawTexture.m_pTex2D->SetDrawInfo( drawInfo );
 
-	m_liveTimeMax = 420;
+	m_liveTimeMax = 300;
 }
 
 DragonFireBomb::~DragonFireBomb()

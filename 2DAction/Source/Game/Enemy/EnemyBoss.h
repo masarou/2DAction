@@ -64,7 +64,7 @@ protected:
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_ENEMY_SLIME_KING; }
 
 	// 敵クラスのデフォルト値取得
-	virtual const uint32_t	GetEnemyDefaultHP() const override{return 5000;}
+	virtual const uint32_t	GetEnemyDefaultHP() const override;
 	virtual const float		GetEnemyDefaultSPD() const;
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING_SLIME_KING;}
 

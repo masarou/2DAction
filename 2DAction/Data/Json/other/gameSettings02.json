@@ -7,8 +7,8 @@
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 1, "num": 10},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 1, "num": 20}
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 1, "num": 5},
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 1, "num": 25}
 	],
 	"gameCondition":[
 		{"EnemyMax": 0, "frequency":0},
@@ -17,8 +17,8 @@
 	"appearEnemy":[
 	],
 	"pointInfo":[
-		{"score": 5000, "value": 60},
-		{"score": 3500, "value": 40},
-		{"score": 0, "value": 20}
+		{"score": 15000, "value": 30},
+		{"score": 13500, "value": 20},
+		{"score": 0, "value": 10}
 	]
 }

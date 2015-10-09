@@ -112,35 +112,33 @@ const bool GameRecorder::IsUserClear( const STATE_OF_PROGRESS &stage ) const
 void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 {
 	uint32_t addValue = 0;
-	uint32_t rate = tmpInfo + 1;
 	switch( kind ){
 	default:
 	case POINT_MAX:
 		DEBUG_ASSERT( 0, "ƒXƒRƒA‰ÁŽZ‚ÌŽí—Þ‚ª‚¨‚©‚µ‚¢" );
 		return;
 	case ENEMY_SLIME_DEATH:
-		addValue = 300;
+		addValue = 100 + ( 100 * tmpInfo );
 		break;
 	case ENEMY_AHRIMAN_DEATH:
-		addValue = 400;
+		addValue = 300 + ( 50 * tmpInfo );
 		break;
 	case ENEMY_COW_DEATH:
-		addValue = 2000;
-		break;
-	case ENEMY_BOSS_DEATH:
-		addValue = 40000;
+		addValue = 700 + ( 100 * tmpInfo );
 		break;
 	case ENEMY_SLIME_KING_DEATH:
-		addValue = 10000;
+		addValue = 10000 + ( 500 * tmpInfo );
 		break;
 	case ENEMY_WIZARD_DEATH:
-		addValue = 15000;
+		addValue = 15000 + ( 800 * tmpInfo );
 		break;
 	case ENEMY_DRAGON_DEATH:
-		addValue = 20000;
+		addValue = 20000 + ( 800 * tmpInfo );
+		break;
+	case ENEMY_BOSS_DEATH:
+		addValue = 30000 + ( 1000 * tmpInfo );
 		break;
 	}
-	addValue *= rate;
 
 	m_clearStageInfo[static_cast<uint32_t>(m_gameState)].m_userScore += addValue;
 

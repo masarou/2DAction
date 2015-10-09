@@ -27,6 +27,12 @@ EnemyDragon::~EnemyDragon(void)
 {
 }
 
+
+const uint32_t EnemyDragon::GetEnemyDefaultHP() const
+{
+	return 6000 + ( 800 * GetEnemyLevel() );
+}
+
 /* ================================================ */
 /**
  * @brief	aŒ‚‚ğó‚¯‚½‚Ìˆ—
@@ -38,16 +44,6 @@ void EnemyDragon::HitPlayreSlashing( const uint32_t &damageValue )
 	SetStunTime( 10 );
 	GameEffect::CreateEffect( GameEffect::EFFECT_SLASHING_HIT, m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
 	UpdateEnemyDamage( damageValue );
-}
-
-/* ================================================ */
-/**
- * @brief	aŒ‚‚ğ—^‚¦‚½‚Ìƒ_ƒ[ƒW—Ê‚ğ•Ô‚·
- */
-/* ================================================ */
-uint32_t EnemyDragon::GetSlashingDamage() const
-{
-	return 30 + ( 5 * GetEnemyLevel() );
 }
 
 /* ================================================ */

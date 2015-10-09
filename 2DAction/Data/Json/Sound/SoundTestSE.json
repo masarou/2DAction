@@ -27,7 +27,8 @@
 		{"tag":"ManualIn", "file":"manualIn.mp3"},
 		{"tag":"konamiCommand", "file":"konamiCommand.mp3"},
 		{"tag":"Worp", "file":"worp.mp3"},
-		{"tag":"FireBall", "file":"fireBall.mp3"}
+		{"tag":"FireBall", "file":"fireBall.mp3"},
+		{"tag":"PreExplosion", "file":"PreExplosion.mp3"}
 		
 	]
 }

@@ -33,10 +33,12 @@ public:
 		EFFECT_DASH_SMOKE,		// DASH煙
 		EFFECT_INVALID_DAMAGE,	// ダメージ無効
 		EFFECT_WORP,			// ワープ
+		EFFECT_PRE_FIRE_WALL,	// 画面全体炎演出
 		EFFECT_FIRE_WALL,		// 画面全体炎演出
 	};
-	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
+
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );
+	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
 
 protected:
 	
@@ -57,6 +59,23 @@ public:
 
 };
 
+class PreFireWall : public GameEffect
+{
+public:
+
+	PreFireWall( const EFFECT_KIND &kind, const math::Vector2 &pos );
+
+protected:
+
+	virtual void Update() override;
+
+private:
+
+	virtual ~PreFireWall(void);
+
+	uint32_t	m_liveTime;	// 生成してからの時間
+};
+
 // 当たり判定付きゲームエフェクト
 class GameEffectWithCollision : public TaskUnit, public Collision2DUnit
 {
@@ -66,6 +85,7 @@ public:
 	enum EFFECT_KIND{
 		EFFECT_EXPLOSION,	// 爆発
 		EFFECT_FIRE,		// 炎
+		EFFECT_POISON,		// 毒
 
 		EFFECT_MAX
 	};
@@ -117,7 +137,7 @@ public:
 
 	static GameEffectDamage *GetInstance();
 
-	void CreateEffectDamage( const uint32_t &value, const int32_t &posX, const int32_t &posY );
+	void CreateEffectDamage( const uint32_t &value, const int32_t &posX, const int32_t &posY, bool isPlayer = false );
 	virtual ~GameEffectDamage(void);
 
 protected:

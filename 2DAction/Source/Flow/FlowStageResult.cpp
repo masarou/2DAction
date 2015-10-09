@@ -177,11 +177,11 @@ uint32_t ResultStageMenu::GetStageClearBonus() const
 	uint32_t stageComboMax = GameRecorder::GetInstance()->GetMaxComboNumOfStage();
 
 	enum SCORE_STAGE {
-		SCORE_01 = 50,
-		SCORE_02 = 100,
-		SCORE_03 = 120,
-		SCORE_04 = 150,
-		SCORE_05 = 200,
+		SCORE_01 = 100,
+		SCORE_02 = 250,
+		SCORE_03 = 400,
+		SCORE_04 = 600,
+		SCORE_05 = 1000,
 	};
 	SCORE_STAGE scoreStage = SCORE_01;
 	for( uint32_t i = 0; i < stageComboMax ; ++i ){

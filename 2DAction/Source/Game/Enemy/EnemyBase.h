@@ -32,7 +32,6 @@ public:
 
 	// î•ñæ“¾ŠÖ”
 	const Common::ENEMY_KIND &GetKind() const{ return m_enemyKind; }
-	const uint32_t &GetEnemyLv() const{ return m_enemyLv; }
 	const TEX_DRAW_INFO &GetDrawInfo() const;
 	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }

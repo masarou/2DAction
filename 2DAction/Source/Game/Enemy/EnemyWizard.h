@@ -59,17 +59,25 @@ public:
 
 protected:
 	
-	virtual bool InitMain() override;									// 派生先での初期化
-	virtual void UpdateCustom() override;								// 派生先での更新処理
+	virtual bool InitMain() override;			// 派生先での初期化
+	virtual void UpdateCustom() override;		// 派生先での更新処理
+	virtual bool DieMainCustom();				// 派生先での死亡時処理
+	
+	// クラスの敵タイプ
 	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_ENEMY_WIZARD; }
-	virtual const uint32_t	GetEnemyDefaultHP() const override;			// HP取得
-	virtual const float		GetEnemyDefaultSPD() const override;			// SPD取得
-	virtual void  ReduceDamage( Common::CMN_EVENT &eventId ) override;	// 敵の種類、レベル等でダメージ軽減処理
-	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_ATTACK_WIZARD;}	// 敵クラスのデフォルトSPD取得
-	virtual void HitPlayreSlashing( const uint32_t &damageValue ) override;
 
-	// このクラスで定義する仮想関数
-	virtual bool DieMainCustom();
+	// 敵クラスのデフォルト値取得
+	virtual const uint32_t	GetEnemyDefaultHP() const override;
+	virtual const float		GetEnemyDefaultSPD() const override;
+	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_ATTACK_WIZARD;}	// 敵クラスのデフォルトSPD取得
+
+	// 敵の種類、レベル等でダメージ軽減処理
+	virtual void  ReduceDamage( Common::CMN_EVENT &eventId ) override;
+	virtual void HitPlayreSlashing( const uint32_t &damageValue ) override;
+	
+	// HPがなくなり倒されたときに呼ばれる
+	virtual void  EnemyDeath() override;
+
 
 private:
 

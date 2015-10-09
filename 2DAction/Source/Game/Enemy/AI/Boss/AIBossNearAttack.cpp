@@ -140,7 +140,7 @@ bool AIBossNearAttack::ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo )
 		int32_t randamValue	= Utility::GetRandamValue( 25, -25 );
 		uint32_t speed		= Utility::GetRandamValue( 18, 13 );
 		math::Vector2 dir = math::GetRotateVec( plPos - myPos, static_cast<float>(randamValue) );
-		ShootBullet( enemyInfo.m_posOrigin, dir, 45, speed );
+		ShootBullet( enemyInfo.m_posOrigin, dir, 7*GetEnemyLevel(), speed );
 	}
 
 	// 次の行動セット

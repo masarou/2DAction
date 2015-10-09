@@ -54,28 +54,37 @@ bool FlowGame::Init()
 	switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
 	case GameRecorder::STATE_STAGE01:
 	case GameRecorder::STATE_STAGE02:
-	case GameRecorder::STATE_STAGE03:
 		{
 			soundTag = "stage01";
 		}
 		break;
+	case GameRecorder::STATE_STAGE03:
+		soundTag = "BossBattle";
+		break;
+
 	case GameRecorder::STATE_STAGE04:
+	case GameRecorder::STATE_STAGE05:
 		soundTag = "stage02";
 		break;
 
-	case GameRecorder::STATE_STAGE05:
 	case GameRecorder::STATE_STAGE06:
+		soundTag = "BossBattle";
+		break;
+
 	case GameRecorder::STATE_STAGE07:
-		soundTag = "stage02";
+		soundTag = "stage03";
 		break;
 
 	case GameRecorder::STATE_STAGE08:
-	case GameRecorder::STATE_STAGE09:
 		soundTag = "stage03";
 		break;
 
+	case GameRecorder::STATE_STAGE09:
+		soundTag = "BossBattle";
+		break;
+
 	case GameRecorder::STATE_STAGE10:
-		soundTag = "stage03";
+		soundTag = "BossBattle";
 		break;
 	}
 

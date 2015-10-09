@@ -47,7 +47,7 @@ void EnemyBoss::HitPlayreSlashing( const uint32_t &damageValue )
 /* ================================================ */
 uint32_t EnemyBoss::GetSlashingDamage() const
 {
-	return 30 + ( 5 * GetEnemyLevel() );
+	return 20 + ( 6 * GetEnemyLevel() );
 }
 
 /* ================================================ */
@@ -125,6 +125,12 @@ void EnemySlimeKing::EnemyDeath()
 	if( m_drawTexture.m_pTex2D ){
 		m_drawTexture.m_pTex2D->SetAnim( "death" );
 	}
+}
+
+
+const uint32_t EnemySlimeKing::GetEnemyDefaultHP() const
+{
+	return 3500 + ( 300 * GetEnemyLevel() );
 }
 
 void EnemySlimeKing::ReduceDamage( Common::CMN_EVENT &eventId )

@@ -73,7 +73,7 @@ void Draw2DManager::PushDrawInfo( const TEX_DRAW_INFO &texInfo, const int32_t &h
 	}
 
 	// ‰æ–Ê“à‚É•\Ž¦‚·‚é‚à‚Ì‚Å‚ ‚ê‚Î•`‰æ
-	if( Utility::IsPositionInWindowArea(texInfo) ){
+	if( texInfo.m_drawForce || Utility::IsPositionInWindowArea(texInfo) ){
 		PushDrawInfoMain( texInfo, handle, priority );
 	}
 }

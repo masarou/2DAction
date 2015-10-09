@@ -730,6 +730,36 @@ bool IsMovable( const std::string &resourceJson, const math::Vector2 &pos )
 
 /* ================================================ */
 /**
+ * @brief	対象の当たり判定物からイベントタイプを取得
+ */
+/* ================================================ */
+Common::EVENT_MESSAGE GetEventMessageFromObjType( const Common::TYPE_OBJECT &objType )
+{
+	for( uint32_t i = 0 ; i < NUMBEROF(Common::s_collisionInfo) ; ++i ){
+		if( Common::s_collisionInfo[i].m_type == objType ){
+			return Common::s_collisionInfo[i].m_eventMessage;
+		}
+	}
+	return Common::EVENT_MESSAGE_MAX;
+}
+
+/* ================================================ */
+/**
+ * @brief	イベントタイプからもととなる当たり判定物のTYPEを取得
+ */
+/* ================================================ */
+Common::TYPE_OBJECT GetObjTypeFromEventMessage( const Common::EVENT_MESSAGE &eventMessage )
+{
+	for( uint32_t i = 0 ; i < NUMBEROF(Common::s_collisionInfo) ; ++i ){
+		if( Common::s_collisionInfo[i].m_eventMessage == eventMessage ){
+			return Common::s_collisionInfo[i].m_type;
+		}
+	}
+	return Common::TYPE_MAX;
+}
+
+/* ================================================ */
+/**
  * @brief	デバッグ用文字列描画
  */
 /* ================================================ */

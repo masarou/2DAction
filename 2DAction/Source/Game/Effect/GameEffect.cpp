@@ -14,14 +14,21 @@
 
 class GameEffectWithCollision;
 
-GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
-{
-	return NEW GameEffect( kind, pos );
-}
-
 GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
 {
-	return NEW GameEffect( kind, math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
+	return CreateEffect( kind, math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
+}
+
+GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
+{
+	GameEffect *pEffect = NULL;
+	if( kind == EFFECT_PRE_FIRE_WALL ){
+		pEffect = NEW PreFireWall( kind, pos );
+	}
+	else{
+		pEffect = NEW GameEffect( kind, pos );
+	}
+	return pEffect;
 }
 
 GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
@@ -50,6 +57,9 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	}
 	if( m_kind == EFFECT_FIRE_WALL ){
 		drawInfo.m_usePlayerOffset = false;
+	}
+	if( m_kind == EFFECT_PRE_FIRE_WALL ){
+		drawInfo.m_drawForce = true;
 	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
@@ -124,6 +134,10 @@ std::string GameEffect::SelectEffectFile() const
 		rtn = "WorpEffect.json";
 		break;
 		
+	case EFFECT_PRE_FIRE_WALL:
+		rtn = "PreFireWall.json";
+		break;
+
 	case EFFECT_FIRE_WALL:
 		rtn = "FireWall.json";
 		break;
@@ -137,6 +151,37 @@ std::string GameEffect::SelectEffectFile() const
 	return rtn;
 }
 
+
+/* ====================================================================== */
+/**
+ * @brief	画面全体炎演出前に出す予兆エフェクト
+ *
+ * @note
+ *
+ */
+/* ====================================================================== */
+PreFireWall::PreFireWall( const EFFECT_KIND &kind, const math::Vector2 &pos )
+: GameEffect( kind, pos )
+, m_liveTime( 0 )
+{
+}
+
+PreFireWall::~PreFireWall()
+{
+}
+
+void PreFireWall::Update()
+{
+	++m_liveTime;
+
+	TEX_DRAW_INFO &texInfo = m_textureEffect.m_pTex2D->UpdateDrawInfo();
+	texInfo.m_scale *= 1.05f;
+
+	// 一定時間たったら自殺
+	if( m_liveTime >= 110 ){
+		TaskStartDie();
+	}
+}
 
 
 
@@ -182,12 +227,8 @@ GameEffectWithCollision::GameEffectWithCollision( const Common::OWNER_TYPE &owne
 	m_drawTexture.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
 	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_fileName = readFileStr;
 	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin = pos;
-	if( kind == EFFECT_FIRE ){
-		m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_HIGH;
-	}
-	else{
-		m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_ABOVE_NORMAL;
-	}
+
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_ABOVE_NORMAL;
 }
 
 GameEffectWithCollision::~GameEffectWithCollision(void)
@@ -236,6 +277,9 @@ const Common::TYPE_OBJECT GameEffectWithCollision::GetTypeObject() const
 	case EFFECT_FIRE:
 		retType = Common::TYPE_FIRE;
 		break;
+	case EFFECT_POISON:
+		retType = Common::TYPE_POISON;
+		break;
 	}
 	return retType;
 }
@@ -251,6 +295,10 @@ std::string GameEffectWithCollision::SelectEffectFile() const
 	case EFFECT_FIRE:
 		rtn = "Fire.json";
 		break;
+		
+	case EFFECT_POISON:
+		rtn = "Poison.json";
+		break;
 
 	default:
 		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
@@ -261,10 +309,17 @@ std::string GameEffectWithCollision::SelectEffectFile() const
 	return rtn;
 }
 
+/* ====================================================================== */
+/**
+ * @brief	火の玉の後に残る炎エフェクト
+ *
+ * @note
+ *			FIRE_LIVE_TIMEの時間経過後自殺
+ */
+/* ====================================================================== */
+// 炎エフェクト継続時間
+#define FIRE_LIVE_TIME 60*30
 
-
-
-#define FIRE_LIVE_TIME 60*10
 FireWithCollision::FireWithCollision( const Common::OWNER_TYPE &owner, const EFFECT_KIND &kind, const math::Vector2 &pos )
 : GameEffectWithCollision( owner, kind, pos )
 , m_liveTime( 0 )
@@ -284,8 +339,6 @@ void FireWithCollision::Update()
 		TaskStartDie();
 	}
 }
-
-
 
 
 
@@ -336,11 +389,13 @@ bool GameEffectDamage::DieMain()
 	return true;
 }
 
-void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t &posX, const int32_t &posY )
+void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t &posX, const int32_t &posY, bool isPlayer )
 {
 	EFFECT_DAMAGE_INFO damageInfo;
 	damageInfo.Init();
 	damageInfo.m_value = value;
+
+	std::string readFileName = ( isPlayer ) ? "DamageNumPlayer.json" : "DamageNum.json" ;
 
 	// 表示する数字の桁数を求める
 	uint32_t digitNum = 0;
@@ -359,8 +414,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 	for(;damageInfo.m_array2D.size() < digitNum;){
 		Texture2D tex;
 		tex.Init();
-		tex.m_pTex2D = Game2DBase::Create("DamageNum.json");
-		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("DamageNum.json");
+		tex.m_pTex2D = Game2DBase::Create( readFileName.c_str() );
+		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( readFileName.c_str() );
 		basePos.x -= texInfo.m_sizeWidth;
 		tex.m_pTex2D->UpdateDrawInfo().m_posOrigin	= basePos;
 		tex.m_pTex2D->UpdateDrawInfo().m_prioity	= Common::PRIORITY_HIGH;
@@ -382,8 +437,8 @@ void GameEffectDamage::CreateEffectDamage( const uint32_t &value, const int32_t 
 	if( value == 0 ){
 		Texture2D tex;
 		tex.Init();
-		tex.m_pTex2D = Game2DBase::Create("DamageNum.json");
-		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo("DamageNum.json");
+		tex.m_pTex2D = Game2DBase::Create( readFileName.c_str() );
+		const TEX_INIT_INFO &texInfo = TextureResourceManager::GetInstance()->GetLoadTextureInfo( readFileName.c_str() );
 		basePos.x -= texInfo.m_sizeWidth;
 		tex.m_pTex2D->UpdateDrawInfo().m_posOrigin	= basePos;
 		tex.m_pTex2D->UpdateDrawInfo().m_prioity	= Common::PRIORITY_HIGH;

@@ -17,7 +17,6 @@ namespace Common{
 		TYPE_ENEMY_WIZARD,
 		TYPE_WIZARD_CRYSTAL,
 		TYPE_DRAGON,
-
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
 		TYPE_ITEM_DAMAGE,
@@ -28,7 +27,7 @@ namespace Common{
 		TYPE_BULLET_ENEMY,
 		TYPE_FIRE,
 		TYPE_FIRE_BALL,
-		
+		TYPE_POISON,
 		TYPE_EXPLOSION_PLAYER,
 		TYPE_EXPLOSION_ENEMY,
 
@@ -46,7 +45,6 @@ namespace Common{
 		EVENT_HIT_ENEMY_WIZARD,		// 敵との接触
 		EVENT_HIT_WIZARD_CRYSTAL,	// 敵との接触
 		EVENT_HIT_DRAGON,			// 敵との接触
-
 		EVENT_GET_ITEM_BULLET,		// アイテム取得
 		EVENT_GET_ITEM_LIFE,		// アイテム取得
 		EVENT_GET_ITEM_DAMAGE,		// アイテム取得
@@ -55,13 +53,45 @@ namespace Common{
 		EVENT_HIT_BLADE_ENEMY,		// 敵の斬撃に当たった
 		EVENT_HIT_BULLET_PLAYER,	// プレイヤーの攻撃弾に当たった
 		EVENT_HIT_BULLET_ENEMY,		// 敵の攻撃弾に当たった
+		EVENT_HIT_FIRE,				// 火炎弾後の延焼
+		EVENT_HIT_FIRE_BALL,		// 火炎弾
+		EVENT_HIT_POISON,			// 毒
 		EVENT_HIT_EXPLOSION_PLAYER,	// プレイヤーの爆発攻撃に当たった
 		EVENT_HIT_EXPLOSION_ENEMY,	// 敵の爆発攻撃に当たった
+
 		EVENT_ADD_FORCE_MOVE,		// ダメージ等でのふっとび
-		EVENT_HIT_FIRE_BALL,		// 火炎弾
-		EVENT_HIT_FIRE,				// 火炎弾後の延焼
 
 		EVENT_MESSAGE_MAX,
+	};
+
+	// 当たり判定オブジェクトとそれによって発生するイベントをまとめたもの
+	struct COLLISION_OBJ
+	{
+		TYPE_OBJECT		m_type;
+		EVENT_MESSAGE	m_eventMessage;
+	} static const s_collisionInfo[ TYPE_MAX ] = {
+		{	TYPE_PLAYER,			EVENT_HIT_PLAYER			},	// プレイヤーキャラクタ
+		{	TYPE_ENEMY_SLIME,		EVENT_HIT_ENEMY_SLIME		},	// 敵との接触
+		{	TYPE_ENEMY_AHRIMAN,		EVENT_HIT_ENEMY_AHRIMAN		},	// 敵との接触
+		{	TYPE_ENEMY_COW,			EVENT_HIT_ENEMY_COW			},	// 敵との接触
+		{	TYPE_ENEMY_BOSS,		EVENT_HIT_ENEMY_BOSS		},	// 敵との接触
+		{	TYPE_ENEMY_SLIME_KING,	EVENT_HIT_ENEMY_SLIME_KING	},	// 敵との接触
+		{	TYPE_ENEMY_WIZARD,		EVENT_HIT_ENEMY_WIZARD		},	// 敵との接触
+		{	TYPE_WIZARD_CRYSTAL,	EVENT_HIT_WIZARD_CRYSTAL	},	// 敵との接触
+		{	TYPE_DRAGON,			EVENT_HIT_DRAGON			},	// 敵との接触
+		{	TYPE_ITEM_BULLET,		EVENT_GET_ITEM_BULLET		},	// アイテム取得
+		{	TYPE_ITEM_LIFE,			EVENT_GET_ITEM_LIFE			},	// アイテム取得
+		{	TYPE_ITEM_DAMAGE,		EVENT_GET_ITEM_DAMAGE		},	// アイテム取得
+		{	TYPE_ITEM_BATTLE_POINT,	EVENT_GET_ITEM_BATTLE_POINT	},	// アイテム取得
+		{	TYPE_BLADE_PLAYER,		EVENT_HIT_BLADE_PLAYER		},	// プレイヤーの斬撃に当たった
+		{	TYPE_BLADE_ENEMY,		EVENT_HIT_BLADE_ENEMY		},	// 敵の斬撃に当たった
+		{	TYPE_BULLET_PLAYER,		EVENT_HIT_BULLET_PLAYER		},	// プレイヤーの攻撃弾に当たった
+		{	TYPE_BULLET_ENEMY,		EVENT_HIT_BULLET_ENEMY		},	// 敵の攻撃弾に当たった
+		{	TYPE_FIRE,				EVENT_HIT_FIRE				},	// 火炎弾後の延焼
+		{	TYPE_POISON,			EVENT_HIT_POISON			},	// 毒
+		{	TYPE_FIRE_BALL,			EVENT_HIT_FIRE_BALL			},	// 火炎弾
+		{	TYPE_EXPLOSION_PLAYER,	EVENT_HIT_EXPLOSION_PLAYER	},	// プレイヤーの爆発攻撃に当たった
+		{	TYPE_EXPLOSION_ENEMY,	EVENT_HIT_EXPLOSION_ENEMY	},	// 敵の爆発攻撃に当たった
 	};
 
 	// ゲームがなに状態かを示す

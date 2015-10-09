@@ -56,7 +56,7 @@ bool EnemySlime::InitMain()
  const uint32_t EnemySlime::GetEnemyDefaultHP() const
 {
 	// Lv‚É‚æ‚Á‚ÄÅ‘åƒ‰ƒCƒt•ÏX
-	return 50 + ( 150 * ( GetEnemyLevel() - 1 ) );
+	return 50 + ( 150 * GetEnemyLevel() );
 }
 
  const float EnemySlime::GetEnemyDefaultSPD() const

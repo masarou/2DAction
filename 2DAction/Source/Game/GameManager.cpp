@@ -40,10 +40,10 @@ GameManager::GameManager( const Common::GAME_FLOW &currentKind )
 			DEBUG_ASSERT( 0, "想定外の箇所でゲーム設定ファイルが読み込まれている");
 			/* fall-through */
 		case Common::FLOW_STAGE01:
-			m_settingFileStr = "GameSettings06.json";
+			m_settingFileStr = "GameSettings01.json";
 			break;
 		case Common::FLOW_STAGE02:
-			m_settingFileStr = "GameSettings07.json";
+			m_settingFileStr = "GameSettings02.json";
 			break;
 		case Common::FLOW_STAGE03:
 			m_settingFileStr = "GameSettings03.json";
@@ -487,6 +487,7 @@ Common::ENEMY_KIND GameManager::GetEnemyKindFromStr( const std::string str )
 		{ Common::ENEMY_KIND_BOSS,			"ENEMY_KIND_BOSS" },
 		{ Common::ENEMY_KIND_SLIME_KING,	"ENEMY_KIND_SLIME_KING" },
 		{ Common::ENEMY_KIND_WIZARD,		"ENEMY_KIND_WIZARD" },
+		{ Common::ENEMY_KIND_DRAGON,		"ENEMY_KIND_DRAGON" },
 	};
 	for( uint32_t i = 0; i < NUMBEROF(s_enemyTypeStr); ++i ){
 		if( s_enemyTypeStr[i].kindStr.compare( str ) == 0 ){

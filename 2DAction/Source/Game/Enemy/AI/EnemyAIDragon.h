@@ -12,6 +12,7 @@
 
 #include "EnemyAIBase.h"
 #include "Game/Enemy/EnemyWizard.h"
+#include "System/Sound/SystemSoundManager.h"
 
 class DragonFireBomb;
 
@@ -56,35 +57,28 @@ private:
 	bool ActionShootFireBall( TEX_DRAW_INFO &enemyInfo, const bool &onlyAction = false );
 	bool ActionFireWall( TEX_DRAW_INFO &enemyInfo ){
 
+		static uint32_t fireCounter = 0;
+
 		reenter( m_coro ){
+			// 炎上前エフェクト
+			GameEffect::CreateEffect( GameEffect::EFFECT_PRE_FIRE_WALL, enemyInfo.m_posOrigin );
+			m_waitCounter = 100;
+			yield return false;
 			
+			// 炎上エフェクト
 			GameEffect::CreateEffect( GameEffect::EFFECT_FIRE_WALL, WINDOW_CENTER );
-			yield return false;
+			SoundManager::GetInstance()->PlaySE("PreExplosion");
 
-			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
-			m_waitCounter = 5;
-			yield return false;
-
-			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
-			m_waitCounter = 5;
-			yield return false;
-			
-			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
-			m_waitCounter = 5;
-			yield return false;
-
-			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
-			m_waitCounter = 5;
-			yield return false;
-
-			GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
-			m_waitCounter = 5;
-			yield return false;
+			// 炎生成
+			for( fireCounter = 0 ; fireCounter < 7 ; ++fireCounter ){
+				GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
+				m_waitCounter = 5;
+				yield return false;
+			}
 		}
 
-		// 目的地初期化
-		m_movingPos = math::Vector2();
-		
+		fireCounter = 0;
+
 		// 次の行動セット
 		ChangeActionType( GetRandamNextAction() );
 		m_waitCounter = Utility::GetRandamValue( 60, 40 );

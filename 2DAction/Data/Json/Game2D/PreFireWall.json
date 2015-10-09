@@ -1,0 +1,15 @@
+{
+	"basicInfo":[
+		{"fileName":"PreFireWall.png"
+		, "animDefault":"default"
+		, "sizeW": 48
+		, "sizeH": 48
+		, "splitW": 1
+		, "splitH": 1
+		, "total": 1 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"default",	"frameSpeed":120,	"animIndex":[0],	"nextAnim":""}
+	]
+}

@@ -305,25 +305,25 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		Common::ENEMY_KIND kind = GetKind();
 		switch( kind ){
 		case Common::ENEMY_KIND_SLIME:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_DEATH, GetEnemyLevel() );
 			break;
 		case Common::ENEMY_KIND_AHRIMAN:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AHRIMAN_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AHRIMAN_DEATH, GetEnemyLevel() );
 			break;
 		case Common::ENEMY_KIND_COW:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_COW_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_COW_DEATH, GetEnemyLevel() );
 			break;
 		case Common::ENEMY_KIND_BOSS:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BOSS_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BOSS_DEATH, GetEnemyLevel() );
 			break;
 		case Common::ENEMY_KIND_SLIME_KING:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_KING_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_KING_DEATH, GetEnemyLevel() );
 			break;
 		case Common::ENEMY_KIND_WIZARD:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_WIZARD_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_WIZARD_DEATH, GetEnemyLevel() );
 			break;
 		case Common::ENEMY_KIND_DRAGON:
-			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_DRAGON_DEATH );
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_DRAGON_DEATH, GetEnemyLevel() );
 			break;
 		}
 

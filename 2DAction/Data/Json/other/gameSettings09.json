@@ -2,23 +2,19 @@
 	"stageKind":[
 		{"type": "DESTROY"},
 		{"TimeS": 0},
-		{"destroyMax": 60}
+		{"destroyMax": 4}
 	],
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_WIZARD", "level": 7, "num": 2},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 9, "num": 40},
-		{"enemyKind": "ENEMY_KIND_COW", 	"level": 3, "num": 10}
+		{"enemyKind": "ENEMY_KIND_DRAGON", "level": 5, "num": 1},
+		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 8, "num": 3}
 	],
 	"gameCondition":[
-		{"EnemyMax": 80, "frequency":5},
+		{"EnemyMax": 1, "frequency":5},
 		{"ItemMax": 0, "frequency":0}
 	],
 	"appearEnemy":[
-		{"enemyKind": "ENEMY_KIND_COW", 	"level": 3, "num": 20},
-		{"enemyKind": "ENEMY_KIND_WIZARD", "level": 5, "num": 10},
-		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 7, "frequency":70}
 	],
 	"pointInfo":[
 		{"score": 10000, "value": 120},

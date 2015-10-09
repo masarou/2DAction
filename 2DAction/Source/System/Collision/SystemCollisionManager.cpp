@@ -112,83 +112,65 @@ void CollisionManager::CollisionUpdate()
 			if( Utility::IsInRangeTexture( texA, texB ) ){
 				Common::CMN_EVENT eventInfo;
 				eventInfo.Init();
-				Common::EVENT_MESSAGE messageKind = Common::EVENT_MESSAGE_MAX;
 				switch( typeA ){
 				default:
 					DEBUG_ASSERT( 0, "object‚ÌŽí—Þ‚ª‘z’èŠO");
 					/* fall-through */
 				case Common::TYPE_PLAYER:
-					messageKind = Common::EVENT_HIT_PLAYER;
 					break;
 				case Common::TYPE_ENEMY_SLIME:
 					{
-						messageKind = Common::EVENT_HIT_ENEMY_SLIME;
 						EnemySlime *pEnemySlime = static_cast<EnemySlime*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pEnemySlime->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_ENEMY_AHRIMAN:
 					{
-						messageKind = Common::EVENT_HIT_ENEMY_AHRIMAN;
 						EnemyBBB *pEnemyAhriman = static_cast<EnemyBBB*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pEnemyAhriman->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_ENEMY_COW:
 					{
-						messageKind = Common::EVENT_HIT_ENEMY_COW;
 						EnemyCCC *pEnemyCow = static_cast<EnemyCCC*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pEnemyCow->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_ENEMY_BOSS:
 					{
-						messageKind = Common::EVENT_HIT_ENEMY_BOSS;
 						EnemyBoss *pEnemyBoss = static_cast<EnemyBoss*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pEnemyBoss->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_ENEMY_SLIME_KING:
 					{
-						messageKind = Common::EVENT_HIT_ENEMY_SLIME_KING;
 						EnemySlimeKing *pEnemySlimeKing = static_cast<EnemySlimeKing*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pEnemySlimeKing->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_ENEMY_WIZARD:
 					{
-						messageKind = Common::EVENT_HIT_ENEMY_WIZARD;
 						EnemyWizard *pEnemyWizard = static_cast<EnemyWizard*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pEnemyWizard->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_WIZARD_CRYSTAL:
 					{
-						messageKind = Common::EVENT_HIT_WIZARD_CRYSTAL;
 						eventInfo.m_eventValue = 20;
 					}
 					break;
 				case Common::TYPE_DRAGON:
 					{
-						messageKind = Common::EVENT_HIT_DRAGON;
 						eventInfo.m_eventValue = 20;
 					}
 					break;
 				case Common::TYPE_ITEM_BULLET:
-					messageKind = Common::EVENT_GET_ITEM_BULLET;
-					break;
 				case Common::TYPE_ITEM_LIFE:
-					messageKind = Common::EVENT_GET_ITEM_LIFE;
-					break;
 				case Common::TYPE_ITEM_DAMAGE:
-					messageKind = Common::EVENT_GET_ITEM_DAMAGE;
-					break;
 				case Common::TYPE_ITEM_BATTLE_POINT:
-					messageKind = Common::EVENT_GET_ITEM_BATTLE_POINT;
 					break;
 				case Common::TYPE_BLADE_PLAYER:
 					{
-						messageKind = Common::EVENT_HIT_BLADE_PLAYER;
 						Slashing *pSlashing = static_cast<Slashing*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pSlashing->GetBladeDamage();
 
@@ -203,51 +185,49 @@ void CollisionManager::CollisionUpdate()
 					break;
 				case Common::TYPE_BLADE_ENEMY:
 					{
-						messageKind = Common::EVENT_HIT_BLADE_ENEMY;
 						Slashing *pSlashing = static_cast<Slashing*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pSlashing->GetBladeDamage();
 					}
 					break;
 				case Common::TYPE_BULLET_PLAYER:
 					{
-						messageKind = Common::EVENT_HIT_BULLET_PLAYER;
 						Bullet *pBullet = static_cast<Bullet*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pBullet->GetBulletDamage();
 					}
 					break;
 				case Common::TYPE_BULLET_ENEMY:
 					{
-						messageKind = Common::EVENT_HIT_BULLET_ENEMY;
 						Bullet *pBullet = static_cast<Bullet*>( m_vCollisionUnit.at(i) );
 						eventInfo.m_eventValue = pBullet->GetBulletDamage();
 					}
 					break;
 				case Common::TYPE_EXPLOSION_PLAYER:
 					{
-						messageKind = Common::EVENT_HIT_EXPLOSION_PLAYER;
 						eventInfo.m_eventValue = 40;
 					}
 					break;
 				case Common::TYPE_EXPLOSION_ENEMY:
 					{
-						messageKind = Common::EVENT_HIT_EXPLOSION_ENEMY;
 						eventInfo.m_eventValue = 40;
 					}
 					break;
 				case Common::TYPE_FIRE_BALL:
 					{
-						messageKind = Common::EVENT_HIT_FIRE_BALL;
 						eventInfo.m_eventValue = 40;
 					}
 					break;
 				case Common::TYPE_FIRE:
 					{
-						messageKind = Common::EVENT_HIT_FIRE;
 						eventInfo.m_eventValue = 0;
 					}
 					break;
+				case Common::TYPE_POISON:
+					{
+						eventInfo.m_eventValue = 10;
+					}
+					break;
 				}
-				eventInfo.m_event = messageKind;
+				eventInfo.m_event = Utility::GetEventMessageFromObjType( typeA );
 				Common::EX_COMMON exCommon = { texA.m_posOrigin.x, texA.m_posOrigin.y };
 				eventInfo.SetExInfoCmn( exCommon );
 
@@ -372,6 +352,7 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 		break;
 	case Common::TYPE_FIRE_BALL:
 	case Common::TYPE_FIRE:
+	case Common::TYPE_POISON:
 		if( typeB != Common::TYPE_PLAYER ){
 			retVal = false;
 		}
