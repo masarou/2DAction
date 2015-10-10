@@ -14,6 +14,7 @@
 #include "System/Collision/SystemCollisionUnit.h"
 #include "Game/Game2DBase.h"
 #include "Game/Item/ItemObject.h"
+#include "Game/Effect/GameEffect.h"
 #include "GamePlayerStatusMenu.h"
 
 class AttackGun;
@@ -57,7 +58,8 @@ private:
 	// プレイヤがなりうる異常状態
 	enum PLAYER_ABNORMAL_STATE{
 		ABNORMAL_STATE_NONE			= 0,	// 通常状態
-		ABNORMAL_STATE_MOVE_LOCK	= 1<<0,	// 動けない
+		ABNORMAL_STATE_POISON		= 1<<0,	// 毒
+		ABNORMAL_STATE_MOVE_LOCK	= 1<<1,	// 動けない
 
 		ABNORMAL_STATE_MAX,
 	};
@@ -86,6 +88,9 @@ private:
 	void EventDamage( Common::CMN_EVENT &eventId );
 	void PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountUp = true );
 
+	// 実際にダメージ処理を行う
+	void ReflectDamage( const uint32_t &damageValue );
+
 	// プレイヤーが該当のステータス状態かどうか
 	bool IsPlayerState( const PLAYER_ABNORMAL_STATE &checkState ) const;
 	void SetPlayerState( const PLAYER_ABNORMAL_STATE &checkState, const bool &flag );
@@ -102,6 +107,7 @@ private:
 	uint32_t				m_speedMoveBase;	// 基本行動速度
 	float					m_deffenceLate;		// 防御力
 	float					m_speedMultiply;	// 行動速度の倍率
+	uint32_t				m_poisonTime;		// 毒状態時間
 	uint32_t				m_invisibleTime;	// 何らかの理由で敵の攻撃を受けない時間
 	uint32_t				m_invalidCtrlTime;	// 何らかの理由で操作を受け付けない時間
 	Common::EX_FORCE_MOVE	m_forceMoveInfo;	// 他のクラスから受ける衝撃
@@ -110,6 +116,7 @@ private:
 	AttackBlade			*m_attackBlade;	// 近接攻撃(剣)クラス
 
 	PlayerStatusMenu	*m_pStatusMenu;	// ステータスメニュー
+	GameEffectLoop		*m_pMyStateIcon;// 異常ステータスを表すアイコン
 };
 
 #endif

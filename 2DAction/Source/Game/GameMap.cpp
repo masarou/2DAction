@@ -106,12 +106,14 @@ void GameMap::DrawUpdate()
 
 const math::Vector2 GameMap::GetPlayerStartPos() const
 {
-	math::Vector2 pos = math::Vector2( GameRegister::GetInstance()->GetGameMap()->GetMapWidth() / 2.0f
+	math::Vector2 pos = math::Vector2( 1340.0f
 		, GameRegister::GetInstance()->GetGameMap()->GetMapHeight() / 2.0f );
+	//math::Vector2 pos = math::Vector2( GameRegister::GetInstance()->GetGameMap()->GetMapWidth() / 2.0f
+	//	, GameRegister::GetInstance()->GetGameMap()->GetMapHeight() / 2.0f );
 	return pos;
 }
 
-const uint32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
+const int32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
 {
 	if( m_vTileInfo.size() == 0 || m_mapInfo.m_vTileKind.size() == 0 ){
 		return INVALID_VALUE;
@@ -120,7 +122,7 @@ const uint32_t GameMap::GetTileHeight( const math::Vector2 &pos ) const
 		return INVALID_VALUE;
 	}
 
-	uint32_t retValue = INVALID_VALUE;
+	int32_t retValue = INVALID_VALUE;
 	uint32_t row	= ( static_cast<uint32_t>(pos.y+m_texInfo.m_sizeHeight/2) / m_texInfo.m_sizeHeight);// マップ全体で縦何番目か
 	uint32_t column	= ( static_cast<uint32_t>(pos.x+m_texInfo.m_sizeWidth/2) / m_texInfo.m_sizeWidth);	// 横何番目か
 	uint32_t index	= row*m_mapInfo.m_width + column;	// map上での配列番号を求める

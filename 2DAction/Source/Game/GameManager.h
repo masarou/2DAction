@@ -59,10 +59,12 @@ private:
 		uint32_t			m_level;		// 目安となる強さ
 		uint32_t			m_freequency;	// 出現頻度(すべての敵の中での出現割合%)
 		Common::ENEMY_KIND	m_kind;			// 種類
+		math::Vector2		m_initPos;		// 初期位置(math::Vector2ならランダム位置)
 		void Init(){
 			m_level = 0;
 			m_freequency = 0;
 			m_kind = Common::ENEMY_KIND_MAX;
+			m_initPos = math::Vector2();
 		}
 	};
 

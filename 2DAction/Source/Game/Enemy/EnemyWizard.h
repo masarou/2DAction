@@ -37,7 +37,7 @@ public:
 		DAMAGE_TYPE_MAX,
 	};
 
-	static EnemyWizard *Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	static EnemyWizard *Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	virtual const uint32_t GetPlayerHitDamage() const override;	// プレイヤー衝突時のダメージ
 
 	const uint32_t GetCrystalIndex() const{ return m_pCrystalVec.size(); };	// 所持クリスタル数取得
@@ -81,7 +81,7 @@ protected:
 
 private:
 
-	EnemyWizard( const std::string &fileName, const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	EnemyWizard( const std::string &fileName, const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	~EnemyWizard(void);
 
 	CRYSTAL_AROUND					m_crystalAround;	// クリスタルが何中心に回っているか

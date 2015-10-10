@@ -87,9 +87,14 @@ bool GameManager::Init()
 {
 	// èâä˙îzíuÇ…ê›íËÇ≥ÇÍÇƒÇ¢ÇÈìGÉLÉÉÉâÇê∂ê¨
 	for( uint32_t i = 0; i < m_initEnemyInfoVec.size(); ++i ){
-		math::Vector2 vec;
-		vec = Utility::GetMapRandamPos( /*bool allowInWindow=*/true );
-		CreateEnemy( m_initEnemyInfoVec.at(i).m_kind, m_initEnemyInfoVec.at(i).m_level, true, vec );
+		math::Vector2 pos;
+		if( m_initEnemyInfoVec.at(i).m_initPos == math::Vector2() ){
+			pos = Utility::GetMapRandamPos( /*bool allowInWindow=*/true );
+		}
+		else{
+			pos = math::Vector2( m_initEnemyInfoVec.at(i).m_initPos.x, m_initEnemyInfoVec.at(i).m_initPos.y );
+		}
+		CreateEnemy( m_initEnemyInfoVec.at(i).m_kind, m_initEnemyInfoVec.at(i).m_level, true, pos );
 	}
 	return true;
 }
@@ -331,6 +336,10 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 				enemyState.Init();
 				enemyState.m_kind = GetEnemyKindFromStr( initEnemy.get(i).get("enemyKind").get<std::string>() );
 				enemyState.m_level = static_cast<uint32_t>( initEnemy.get(i).get("level").get<double>() );
+				if( initEnemy.get(i).get("initPosX") != null && initEnemy.get(i).get("initPosY") != null ){
+					enemyState.m_initPos.x = static_cast<uint32_t>( initEnemy.get(i).get("initPosX").get<double>() );
+					enemyState.m_initPos.y = static_cast<uint32_t>( initEnemy.get(i).get("initPosY").get<double>() );
+				}
 				m_initEnemyInfoVec.push_back( enemyState );
 			}
 		}
@@ -482,12 +491,14 @@ Common::ENEMY_KIND GameManager::GetEnemyKindFromStr( const std::string str )
 		std::string			kindStr;
 	} s_enemyTypeStr[] = {
 		{ Common::ENEMY_KIND_SLIME,			"ENEMY_KIND_SLIME" },
+		{ Common::ENEMY_KIND_SLIME_ANOTHER,	"ENEMY_KIND_SLIME_ANOTHER" },
 		{ Common::ENEMY_KIND_AHRIMAN,		"ENEMY_KIND_AHRIMAN" },
 		{ Common::ENEMY_KIND_COW,			"ENEMY_KIND_COW" },
 		{ Common::ENEMY_KIND_BOSS,			"ENEMY_KIND_BOSS" },
 		{ Common::ENEMY_KIND_SLIME_KING,	"ENEMY_KIND_SLIME_KING" },
 		{ Common::ENEMY_KIND_WIZARD,		"ENEMY_KIND_WIZARD" },
 		{ Common::ENEMY_KIND_DRAGON,		"ENEMY_KIND_DRAGON" },
+		{ Common::ENEMY_KIND_LAST_BOSS,		"ENEMY_KIND_LAST_BOSS" },
 	};
 	for( uint32_t i = 0; i < NUMBEROF(s_enemyTypeStr); ++i ){
 		if( s_enemyTypeStr[i].kindStr.compare( str ) == 0 ){

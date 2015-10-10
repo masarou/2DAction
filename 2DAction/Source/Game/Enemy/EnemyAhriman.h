@@ -18,7 +18,7 @@ class EnemyBBB : public EnemyBase
 {
 public:
 
-	static EnemyBBB *Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	static EnemyBBB *Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	virtual const uint32_t GetPlayerHitDamage() const override;	// プレイヤー衝突時のダメージ
 
 protected:
@@ -31,7 +31,7 @@ protected:
 
 private:
 
-	EnemyBBB( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	EnemyBBB( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	~EnemyBBB(void);
 
 };

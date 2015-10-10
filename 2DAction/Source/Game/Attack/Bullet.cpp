@@ -82,7 +82,7 @@ void Bullet::Update()
 
 	// 厳密に確認する必要ないのでマップの高さだけを見る
 	if( m_ownerType == Common::OWNER_PLAYER
-		&& Utility::GetMapHeight( m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin ) != 0 ){
+		&& Utility::GetMapHeight( m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin ) > 0 ){
 		// 壁などに当たったので自殺
 		TaskStartDie();
 	}
@@ -107,6 +107,7 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_ENEMY_SLIME:	// 敵に当たった
+	case Common::EVENT_HIT_ENEMY_SLIME_ANOTHER:
 	case Common::EVENT_HIT_ENEMY_AHRIMAN:
 	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
@@ -114,6 +115,9 @@ void Bullet::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_ENEMY_WIZARD:
 	case Common::EVENT_HIT_WIZARD_CRYSTAL:
 	case Common::EVENT_HIT_DRAGON:
+	case Common::EVENT_HIT_BOSS:
+	case Common::EVENT_HIT_BOSS_LEFT:
+	case Common::EVENT_HIT_BOSS_RIGHT:
 		if( m_ownerType == Common::OWNER_PLAYER ){
 			m_liveTime = m_liveTimeMax;
 			TaskStartDie();

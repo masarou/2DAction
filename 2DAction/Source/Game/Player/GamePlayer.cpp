@@ -35,7 +35,7 @@
 #include "System/SystemFPSManager.h"
 
 // 固定値
-static uint32_t DAMAGE_INVISIBLE_TIME	= 40+1;
+static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
 
 static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;
 static uint32_t MOVE_SPEED_DEFAULT		= 3;
@@ -71,11 +71,13 @@ GamePlayer::GamePlayer(void)
 , m_speedMoveBase( MOVE_SPEED_DEFAULT )
 , m_deffenceLate( 1.0f )
 , m_speedMultiply( 0.0f )
+, m_poisonTime( 0 )
 , m_invisibleTime( 0 )
 , m_invalidCtrlTime( 0 )
 , m_attackGun(NULL)
 , m_attackBlade(NULL)
 , m_pStatusMenu(NULL)
+, m_pMyStateIcon(NULL)
 {
 	m_forceMoveInfo.Init();
 	m_pStatusMenu = NEW PlayerStatusMenu();
@@ -119,6 +121,10 @@ bool GamePlayer::Init()
 		SetPadButtonState( InputWatcher::BUTTON_R1, InputWatcher::EVENT_PUSH );
 		SetPadButtonState( InputWatcher::BUTTON_L1, InputWatcher::EVENT_PUSH );
 	}
+
+	// 異常状態を表すエフェクトを作成しておく
+	m_pMyStateIcon = GameEffectLoop::CreateEffect( GameEffectLoop::EFFECT_STATUS_ICON, Utility::GetPlayerPos() );
+	m_pMyStateIcon->SetDrawFlag( false );
 	return true;
 }
 
@@ -159,6 +165,19 @@ void GamePlayer::Update()
 			m_speedMove = DASH_SPEED_MAX;
 		}
 
+		// 毒状態ならデクリメント
+		if( m_poisonTime > 0 ){
+			--m_poisonTime;
+			if( FpsManager::GetUpdateCounter() % 30 == 0 ){
+				// 一定時間ごとにダメージ
+				ReflectDamage( 5 );
+			}
+			if( m_poisonTime == 0 ){
+				// 毒状態終了
+				SetPlayerState( ABNORMAL_STATE_POISON, false );
+			}
+		}
+
 		// 無敵時間中ならデクリメント
 		if( m_invisibleTime > 0 ){
 			--m_invisibleTime;
@@ -167,6 +186,10 @@ void GamePlayer::Update()
 		// 操作不能時間中ならデクリメント
 		if( m_invalidCtrlTime > 0 ){
 			--m_invalidCtrlTime;
+			if( m_invalidCtrlTime == 0 ){
+				// 操作不能時間終了
+				SetPlayerState( ABNORMAL_STATE_MOVE_LOCK, false );
+			}
 		}
 	}
 
@@ -206,6 +229,7 @@ void GamePlayer::Update()
 	// 再生アニメタグセット
 	m_drawTexture.m_pTex2D->SetAnim(GetAnimTag());
 }
+
 void GamePlayer::DrawUpdate()
 {
 	if( m_invisibleTime % 3 == 1 ){
@@ -476,6 +500,7 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 {
 	switch( eventId.m_event ){
 	case Common::EVENT_HIT_ENEMY_SLIME:
+	case Common::EVENT_HIT_ENEMY_SLIME_ANOTHER:
 	case Common::EVENT_HIT_ENEMY_AHRIMAN:
 	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
@@ -488,10 +513,22 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_HIT_EXPLOSION_ENEMY:
 	case Common::EVENT_HIT_FIRE_BALL:
 	case Common::EVENT_HIT_FIRE:
+	case Common::EVENT_HIT_BOSS:
+	case Common::EVENT_HIT_BOSS_LEFT:
+	case Common::EVENT_HIT_BOSS_RIGHT:
 		EventDamage( eventId );
 		break;
 	case Common::EVENT_GET_ITEM_BULLET:
 		PlayerGetItem( Common::ITEM_KIND_RAPID_BULLET );
+		break;
+	case Common::EVENT_HIT_POISON:
+		// 毒ダメージ
+		m_poisonTime = 60 * 7;
+		if( !IsPlayerState( ABNORMAL_STATE_POISON ) ){
+			// ステータス変更とSEを鳴らす
+			SetPlayerState( ABNORMAL_STATE_POISON, true );
+			SoundManager::GetInstance()->PlaySE("Poison");
+		}
 		break;
 	case Common::EVENT_GET_ITEM_LIFE:
 		PlayerGetItem( Common::ITEM_KIND_LIFE_UP );
@@ -507,8 +544,6 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 		m_forceMoveInfo = eventId.GetExInfoForceMove();
 		m_invalidCtrlTime	= 10;
 		m_invisibleTime		= DAMAGE_INVISIBLE_TIME;
-		
-		SetPlayerState( ABNORMAL_STATE_MOVE_LOCK, false );
 		break;
 	default:
 
@@ -584,12 +619,16 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 		}
 		break;
 	case Common::EVENT_HIT_ENEMY_SLIME:
+	case Common::EVENT_HIT_ENEMY_SLIME_ANOTHER:
 	case Common::EVENT_HIT_ENEMY_AHRIMAN:
 	case Common::EVENT_HIT_ENEMY_COW:
 	case Common::EVENT_HIT_ENEMY_BOSS:
 	case Common::EVENT_HIT_ENEMY_WIZARD:
 	case Common::EVENT_HIT_WIZARD_CRYSTAL:
 	case Common::EVENT_HIT_DRAGON:
+	case Common::EVENT_HIT_BOSS:
+	case Common::EVENT_HIT_BOSS_LEFT:
+	case Common::EVENT_HIT_BOSS_RIGHT:
 		{
 			// 吹き飛ぶ方向を設定してイベントとしてセットしておく
 			math::Vector2 plPos		= Utility::GetPlayerPos();
@@ -637,31 +676,8 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 	// 防御力に応じてダメージを減らす
 	uint32_t totalDamage = static_cast<uint32_t>( damageValue * m_deffenceLate );
 
-	// ライフを減らす
-	if( m_playerLife > totalDamage ){
-		m_playerLife -= totalDamage;
-	}
-	else{
-		m_playerLife = 0;
-	}
-
-	//ダメージエフェクト作成
-	GameEffectDamage::GetInstance()->CreateEffectDamage( totalDamage
-		, Utility::GetPlayerPos().x
-		, Utility::GetPlayerPos().y, /*bool isPlayer=*/true );
-
-	// ライフ残量によってSEを鳴らす
-	if( m_playerLife == 0 ){
-
-	}
-	else if( m_playerLife <= EMERGENCY_LIFE ){
-		// HPが少ない警告を鳴らす
-		SoundManager::GetInstance()->PlaySE("Emergency");
-	}
-	else if( m_playerLife <= WARNING_LIFE ){
-		// HPが少ない警告を鳴らす
-		SoundManager::GetInstance()->PlaySE("Warning");
-	}
+	// ダメージ処理実行
+	ReflectDamage( totalDamage );
 }
 
 // アイテム取得
@@ -745,6 +761,34 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 	}
 }
 
+void GamePlayer::ReflectDamage( const uint32_t &damageValue )
+{
+	// ライフを減らす
+	if( m_playerLife > damageValue ){
+		m_playerLife -= damageValue;
+	}
+	else{
+		m_playerLife = 0;
+	}
+
+	//ダメージエフェクト作成
+	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
+		, Utility::GetPlayerPos().x
+		, Utility::GetPlayerPos().y, /*bool isPlayer=*/true );
+
+	// ライフ残量によってSEを鳴らす
+	if( m_playerLife == 0 ){
+
+	}
+	else if( m_playerLife <= EMERGENCY_LIFE ){
+		// HPが少ない警告を鳴らす
+		SoundManager::GetInstance()->PlaySE("Emergency");
+	}
+	else if( m_playerLife <= WARNING_LIFE ){
+		// HPが少ない警告を鳴らす
+		SoundManager::GetInstance()->PlaySE("Warning");
+	}
+}
 
 bool GamePlayer::IsPlayerState( const PLAYER_ABNORMAL_STATE &checkState ) const
 {
@@ -761,5 +805,40 @@ void GamePlayer::SetPlayerState( const PLAYER_ABNORMAL_STATE &checkState, const 
 	}
 	else{
 		m_playerState &= ~checkState;
+	}
+
+	// 異常状態アイコンの設定
+	const static PLAYER_ABNORMAL_STATE abnormalStatus[] = {
+		ABNORMAL_STATE_POISON,
+		ABNORMAL_STATE_MOVE_LOCK,
+	};
+
+	if( !m_pMyStateIcon ){
+		return;
+	}
+
+	// 異常状態アイコンの表示非表示セット(いったん非表示に)
+	m_pMyStateIcon->SetDrawFlag( false );
+	for( uint32_t i = 0; i < NUMBEROF(abnormalStatus) ; ++i ){
+		if( IsPlayerState( abnormalStatus[i] ) ){
+			
+			// 異常状態アイコンの表示非表示セット
+			m_pMyStateIcon->SetDrawFlag( true );
+
+			// 異常状態アイコンの設定
+			switch( abnormalStatus[i] ){
+			default:
+				DEBUG_ASSERT( 0, "プレイヤーのステータスが異常");
+				break;
+			case ABNORMAL_STATE_NONE:
+				break;
+			case ABNORMAL_STATE_MOVE_LOCK:
+				m_pMyStateIcon->SetEffectAnim( "walk" );
+				break;
+			case ABNORMAL_STATE_POISON:
+				m_pMyStateIcon->SetEffectAnim( "poison" );
+				break;
+			}
+		}
 	}
 }

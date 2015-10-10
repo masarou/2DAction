@@ -10,6 +10,7 @@ namespace Common{
 	enum TYPE_OBJECT{
 		TYPE_PLAYER,
 		TYPE_ENEMY_SLIME,
+		TYPE_ENEMY_SLIME_ANOTHER,
 		TYPE_ENEMY_AHRIMAN,
 		TYPE_ENEMY_COW,
 		TYPE_ENEMY_BOSS,
@@ -17,6 +18,9 @@ namespace Common{
 		TYPE_ENEMY_WIZARD,
 		TYPE_WIZARD_CRYSTAL,
 		TYPE_DRAGON,
+		TYPE_LAST_BOSS,
+		TYPE_LAST_BOSS_LEFT,
+		TYPE_LAST_BOSS_RIGHT,
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
 		TYPE_ITEM_DAMAGE,
@@ -36,28 +40,32 @@ namespace Common{
 
 	// オブジェクト同士のイベントメッセージ
 	enum EVENT_MESSAGE{
-		EVENT_HIT_PLAYER,			// プレイヤーキャラクタ
-		EVENT_HIT_ENEMY_SLIME,		// 敵との接触
-		EVENT_HIT_ENEMY_AHRIMAN,	// 敵との接触
-		EVENT_HIT_ENEMY_COW,		// 敵との接触
-		EVENT_HIT_ENEMY_BOSS,		// 敵との接触
-		EVENT_HIT_ENEMY_SLIME_KING,	// 敵との接触
-		EVENT_HIT_ENEMY_WIZARD,		// 敵との接触
-		EVENT_HIT_WIZARD_CRYSTAL,	// 敵との接触
-		EVENT_HIT_DRAGON,			// 敵との接触
-		EVENT_GET_ITEM_BULLET,		// アイテム取得
-		EVENT_GET_ITEM_LIFE,		// アイテム取得
-		EVENT_GET_ITEM_DAMAGE,		// アイテム取得
-		EVENT_GET_ITEM_BATTLE_POINT,// アイテム取得
-		EVENT_HIT_BLADE_PLAYER,		// プレイヤーの斬撃に当たった
-		EVENT_HIT_BLADE_ENEMY,		// 敵の斬撃に当たった
-		EVENT_HIT_BULLET_PLAYER,	// プレイヤーの攻撃弾に当たった
-		EVENT_HIT_BULLET_ENEMY,		// 敵の攻撃弾に当たった
-		EVENT_HIT_FIRE,				// 火炎弾後の延焼
-		EVENT_HIT_FIRE_BALL,		// 火炎弾
-		EVENT_HIT_POISON,			// 毒
-		EVENT_HIT_EXPLOSION_PLAYER,	// プレイヤーの爆発攻撃に当たった
-		EVENT_HIT_EXPLOSION_ENEMY,	// 敵の爆発攻撃に当たった
+		EVENT_HIT_PLAYER,				// プレイヤーキャラクタ
+		EVENT_HIT_ENEMY_SLIME,			// 敵との接触
+		EVENT_HIT_ENEMY_SLIME_ANOTHER,	// 敵との接触
+		EVENT_HIT_ENEMY_AHRIMAN,		// 敵との接触
+		EVENT_HIT_ENEMY_COW,			// 敵との接触
+		EVENT_HIT_ENEMY_BOSS,			// 敵との接触
+		EVENT_HIT_ENEMY_SLIME_KING,		// 敵との接触
+		EVENT_HIT_ENEMY_WIZARD,			// 敵との接触
+		EVENT_HIT_WIZARD_CRYSTAL,		// 敵との接触
+		EVENT_HIT_DRAGON,				// 敵との接触
+		EVENT_HIT_BOSS,					// 敵との接触
+		EVENT_HIT_BOSS_LEFT,			// 敵との接触
+		EVENT_HIT_BOSS_RIGHT,			// 敵との接触
+		EVENT_GET_ITEM_BULLET,			// アイテム取得
+		EVENT_GET_ITEM_LIFE,			// アイテム取得
+		EVENT_GET_ITEM_DAMAGE,			// アイテム取得
+		EVENT_GET_ITEM_BATTLE_POINT,	// アイテム取得
+		EVENT_HIT_BLADE_PLAYER,			// プレイヤーの斬撃に当たった
+		EVENT_HIT_BLADE_ENEMY,			// 敵の斬撃に当たった
+		EVENT_HIT_BULLET_PLAYER,		// プレイヤーの攻撃弾に当たった
+		EVENT_HIT_BULLET_ENEMY,			// 敵の攻撃弾に当たった
+		EVENT_HIT_FIRE,					// 火炎弾後の延焼
+		EVENT_HIT_FIRE_BALL,			// 火炎弾
+		EVENT_HIT_POISON,				// 毒
+		EVENT_HIT_EXPLOSION_PLAYER,		// プレイヤーの爆発攻撃に当たった
+		EVENT_HIT_EXPLOSION_ENEMY,		// 敵の爆発攻撃に当たった
 
 		EVENT_ADD_FORCE_MOVE,		// ダメージ等でのふっとび
 
@@ -70,28 +78,32 @@ namespace Common{
 		TYPE_OBJECT		m_type;
 		EVENT_MESSAGE	m_eventMessage;
 	} static const s_collisionInfo[ TYPE_MAX ] = {
-		{	TYPE_PLAYER,			EVENT_HIT_PLAYER			},	// プレイヤーキャラクタ
-		{	TYPE_ENEMY_SLIME,		EVENT_HIT_ENEMY_SLIME		},	// 敵との接触
-		{	TYPE_ENEMY_AHRIMAN,		EVENT_HIT_ENEMY_AHRIMAN		},	// 敵との接触
-		{	TYPE_ENEMY_COW,			EVENT_HIT_ENEMY_COW			},	// 敵との接触
-		{	TYPE_ENEMY_BOSS,		EVENT_HIT_ENEMY_BOSS		},	// 敵との接触
-		{	TYPE_ENEMY_SLIME_KING,	EVENT_HIT_ENEMY_SLIME_KING	},	// 敵との接触
-		{	TYPE_ENEMY_WIZARD,		EVENT_HIT_ENEMY_WIZARD		},	// 敵との接触
-		{	TYPE_WIZARD_CRYSTAL,	EVENT_HIT_WIZARD_CRYSTAL	},	// 敵との接触
-		{	TYPE_DRAGON,			EVENT_HIT_DRAGON			},	// 敵との接触
-		{	TYPE_ITEM_BULLET,		EVENT_GET_ITEM_BULLET		},	// アイテム取得
-		{	TYPE_ITEM_LIFE,			EVENT_GET_ITEM_LIFE			},	// アイテム取得
-		{	TYPE_ITEM_DAMAGE,		EVENT_GET_ITEM_DAMAGE		},	// アイテム取得
-		{	TYPE_ITEM_BATTLE_POINT,	EVENT_GET_ITEM_BATTLE_POINT	},	// アイテム取得
-		{	TYPE_BLADE_PLAYER,		EVENT_HIT_BLADE_PLAYER		},	// プレイヤーの斬撃に当たった
-		{	TYPE_BLADE_ENEMY,		EVENT_HIT_BLADE_ENEMY		},	// 敵の斬撃に当たった
-		{	TYPE_BULLET_PLAYER,		EVENT_HIT_BULLET_PLAYER		},	// プレイヤーの攻撃弾に当たった
-		{	TYPE_BULLET_ENEMY,		EVENT_HIT_BULLET_ENEMY		},	// 敵の攻撃弾に当たった
-		{	TYPE_FIRE,				EVENT_HIT_FIRE				},	// 火炎弾後の延焼
-		{	TYPE_POISON,			EVENT_HIT_POISON			},	// 毒
-		{	TYPE_FIRE_BALL,			EVENT_HIT_FIRE_BALL			},	// 火炎弾
-		{	TYPE_EXPLOSION_PLAYER,	EVENT_HIT_EXPLOSION_PLAYER	},	// プレイヤーの爆発攻撃に当たった
-		{	TYPE_EXPLOSION_ENEMY,	EVENT_HIT_EXPLOSION_ENEMY	},	// 敵の爆発攻撃に当たった
+		{	TYPE_PLAYER,				EVENT_HIT_PLAYER				},	// プレイヤーキャラクタ
+		{	TYPE_ENEMY_SLIME,			EVENT_HIT_ENEMY_SLIME			},	// 敵との接触
+		{	TYPE_ENEMY_SLIME_ANOTHER,	EVENT_HIT_ENEMY_SLIME_ANOTHER	},	// 敵との接触
+		{	TYPE_ENEMY_AHRIMAN,			EVENT_HIT_ENEMY_AHRIMAN			},	// 敵との接触
+		{	TYPE_ENEMY_COW,				EVENT_HIT_ENEMY_COW				},	// 敵との接触
+		{	TYPE_ENEMY_BOSS,			EVENT_HIT_ENEMY_BOSS			},	// 敵との接触
+		{	TYPE_ENEMY_SLIME_KING,		EVENT_HIT_ENEMY_SLIME_KING		},	// 敵との接触
+		{	TYPE_ENEMY_WIZARD,			EVENT_HIT_ENEMY_WIZARD			},	// 敵との接触
+		{	TYPE_WIZARD_CRYSTAL,		EVENT_HIT_WIZARD_CRYSTAL		},	// 敵との接触
+		{	TYPE_DRAGON,				EVENT_HIT_DRAGON				},	// 敵との接触
+		{	TYPE_LAST_BOSS,				EVENT_HIT_BOSS					},	// 敵との接触
+		{	TYPE_LAST_BOSS_LEFT,		EVENT_HIT_BOSS_LEFT				},	// 敵との接触
+		{	TYPE_LAST_BOSS_RIGHT,		EVENT_HIT_BOSS_RIGHT			},	// 敵との接触
+		{	TYPE_ITEM_BULLET,			EVENT_GET_ITEM_BULLET			},	// アイテム取得
+		{	TYPE_ITEM_LIFE,				EVENT_GET_ITEM_LIFE				},	// アイテム取得
+		{	TYPE_ITEM_DAMAGE,			EVENT_GET_ITEM_DAMAGE			},	// アイテム取得
+		{	TYPE_ITEM_BATTLE_POINT,		EVENT_GET_ITEM_BATTLE_POINT		},	// アイテム取得
+		{	TYPE_BLADE_PLAYER,			EVENT_HIT_BLADE_PLAYER			},	// プレイヤーの斬撃に当たった
+		{	TYPE_BLADE_ENEMY,			EVENT_HIT_BLADE_ENEMY			},	// 敵の斬撃に当たった
+		{	TYPE_BULLET_PLAYER,			EVENT_HIT_BULLET_PLAYER			},	// プレイヤーの攻撃弾に当たった
+		{	TYPE_BULLET_ENEMY,			EVENT_HIT_BULLET_ENEMY			},	// 敵の攻撃弾に当たった
+		{	TYPE_FIRE,					EVENT_HIT_FIRE					},	// 火炎弾後の延焼
+		{	TYPE_POISON,				EVENT_HIT_POISON				},	// 毒
+		{	TYPE_FIRE_BALL,				EVENT_HIT_FIRE_BALL				},	// 火炎弾
+		{	TYPE_EXPLOSION_PLAYER,		EVENT_HIT_EXPLOSION_PLAYER		},	// プレイヤーの爆発攻撃に当たった
+		{	TYPE_EXPLOSION_ENEMY,		EVENT_HIT_EXPLOSION_ENEMY		},	// 敵の爆発攻撃に当たった
 	};
 
 	// ゲームがなに状態かを示す
@@ -230,12 +242,14 @@ namespace Common{
 
 	enum ENEMY_KIND{
 		ENEMY_KIND_SLIME,
+		ENEMY_KIND_SLIME_ANOTHER,
 		ENEMY_KIND_AHRIMAN,
 		ENEMY_KIND_COW,
 		ENEMY_KIND_BOSS,
 		ENEMY_KIND_SLIME_KING,
 		ENEMY_KIND_WIZARD,
 		ENEMY_KIND_DRAGON,
+		ENEMY_KIND_LAST_BOSS,
 
 		ENEMY_KIND_MAX,
 	};
@@ -262,6 +276,8 @@ namespace Common{
 		AI_ATTACK_NEAR,				// ボスAI
 		AI_ATTACK_WIZARD,			// 魔法使いAI
 		AI_ATTACK_DRAGON,			// ドラゴンAI
+		AI_ATTACK_LAST_BOSS,		// ラスボスAI
+		AI_ATTACK_LAST_BOSS_HAND,	// ラスボス両手AI
 		AI_MAX,
 	};
 	

@@ -10,8 +10,9 @@
 #include "EnemySlime.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
+#include "System/Sound/SystemSoundManager.h"
 
-EnemySlime *EnemySlime::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
+EnemySlime *EnemySlime::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	std::string fileStr = "";
 	switch(enemyLevel){
@@ -38,7 +39,7 @@ EnemySlime *EnemySlime::Create( const uint32_t &enemyLevel, const uint32_t &uniq
 	return NEW EnemySlime( fileStr, enemyLevel, uniqueID, enemyPos );
 }
 
-EnemySlime::EnemySlime( const std::string &fileName, const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
+EnemySlime::EnemySlime( const std::string &fileName, const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 	: EnemyBase( fileName, uniqueID, Common::ENEMY_KIND_SLIME, enemyLevel, enemyPos )
 {
 }

@@ -64,6 +64,9 @@ public:
 	// 敵クラスが他のクラスからもらったイベント
 	virtual void EnemyRecievedEvent( const Common::CMN_EVENT &eventInfo ){};
 
+	// 敵クラス死亡時に呼ばれる
+	virtual void EnemyIsDead(){};
+
 protected:
 	
 	EnemyAIBase();

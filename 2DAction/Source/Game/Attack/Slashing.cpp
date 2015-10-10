@@ -132,6 +132,7 @@ void Slashing::EventUpdate( Common::CMN_EVENT &eventId )
 		break;
 
 	case Common::EVENT_HIT_ENEMY_SLIME:	// “G‚É“–‚½‚Á‚½
+	case Common::EVENT_HIT_ENEMY_SLIME_ANOTHER:	// “G‚É“–‚½‚Á‚½
 	case Common::EVENT_HIT_ENEMY_AHRIMAN:
 	case Common::EVENT_HIT_ENEMY_COW:
 		if( m_ownerType == Common::OWNER_PLAYER ){

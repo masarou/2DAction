@@ -31,8 +31,16 @@ GameEffect *GameEffect::CreateEffect( const EFFECT_KIND &kind, const math::Vecto
 	return pEffect;
 }
 
+void GameEffect::SetEffectAnim( const std::string &animStr )
+{
+	if( m_textureEffect.m_pTex2D ){
+		m_textureEffect.m_pTex2D->SetAnim( animStr );
+	}
+}
+
 GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	: TaskUnit("GameEffect")
+	, m_isInvalid( false )
 	, m_kind( kind )
 {
 	std::string readFileStr = SelectEffectFile();
@@ -81,6 +89,12 @@ bool GameEffect::Init()
 
 void GameEffect::Update()
 {
+	if( m_kind == EFFECT_STATUS_ICON ){
+		TEX_DRAW_INFO &info = m_textureEffect.m_pTex2D->UpdateDrawInfo();
+		math::Vector2 iconPos = Utility::GetPlayerPos();
+		iconPos.y -= 40.0f;
+		info.m_posOrigin = iconPos;
+	}
 }
 
 void GameEffect::DrawUpdate()
@@ -99,7 +113,9 @@ void GameEffect::DrawUpdate()
 		return;
 	}
 
-	m_textureEffect.m_pTex2D->DrawUpdate2D();
+	if( !m_isInvalid ){
+		m_textureEffect.m_pTex2D->DrawUpdate2D();
+	}
 }
 
 std::string GameEffect::SelectEffectFile() const
@@ -140,6 +156,10 @@ std::string GameEffect::SelectEffectFile() const
 
 	case EFFECT_FIRE_WALL:
 		rtn = "FireWall.json";
+		break;
+
+	case EFFECT_STATUS_ICON:
+		rtn = "StatusIcon.json";
 		break;
 
 	default:
@@ -481,4 +501,97 @@ void GameEffectDamage::DrawUpdate()
 			pTex2D->DrawUpdate2D();
 		}
 	}
+}
+
+
+
+
+
+
+
+
+GameEffectLoop *GameEffectLoop::CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY )
+{
+	return CreateEffect( kind, math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
+}
+
+GameEffectLoop *GameEffectLoop::CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
+{
+	GameEffectLoop *pEffect = NULL;
+	pEffect = NEW GameEffectLoop( kind, pos );
+	return pEffect;
+}
+
+void GameEffectLoop::SetEffectAnim( const std::string &animStr )
+{
+	if( m_textureEffect.m_pTex2D ){
+		m_textureEffect.m_pTex2D->SetAnim( animStr );
+	}
+}
+
+GameEffectLoop::GameEffectLoop( const EFFECT_KIND &kind, const math::Vector2 &pos )
+	: TaskUnit("GameEffect")
+	, m_isInvalid( false )
+	, m_kind( kind )
+{
+	std::string readFileStr = SelectEffectFile();
+
+	// 描画クラスセットアップ
+	TEX_DRAW_INFO drawInfo;
+	m_textureEffect.Init();
+	m_textureEffect.m_pTex2D = Game2DBase::Create( readFileStr.c_str() );
+	drawInfo.m_fileName = readFileStr;
+	drawInfo.m_posOrigin = pos;
+	drawInfo.m_prioity = Common::PRIORITY_ABOVE_NORMAL;
+	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
+}
+
+GameEffectLoop::~GameEffectLoop(void)
+{
+}
+
+bool GameEffectLoop::DieMain()
+{
+	m_textureEffect.DeleteAndInit();
+	return true;
+}
+
+bool GameEffectLoop::Init()
+{
+	return true;
+}
+
+void GameEffectLoop::Update()
+{
+	if( m_kind == EFFECT_STATUS_ICON ){
+		TEX_DRAW_INFO &info = m_textureEffect.m_pTex2D->UpdateDrawInfo();
+		math::Vector2 iconPos = Utility::GetPlayerPos();
+		iconPos.y -= 40.0f;
+		info.m_posOrigin = iconPos;
+	}
+}
+
+void GameEffectLoop::DrawUpdate()
+{
+	if( !m_isInvalid ){
+		m_textureEffect.m_pTex2D->DrawUpdate2D();
+	}
+}
+
+std::string GameEffectLoop::SelectEffectFile() const
+{
+	std::string rtn = "";
+	switch(m_kind){
+
+	case EFFECT_STATUS_ICON:
+		rtn = "StatusIcon.json";
+		break;
+
+	default:
+		DEBUG_ASSERT( 0,  "エフェクト種類が想定外" );
+		// とりあえず一番無難なものをセット
+		rtn = "EffectBomb.json";
+		break;
+	}
+	return rtn;
 }

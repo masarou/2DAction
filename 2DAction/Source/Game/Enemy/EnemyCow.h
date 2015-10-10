@@ -16,7 +16,7 @@ class EnemyCCC : public EnemyBase
 {
 public:
 
-	static EnemyCCC *Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	static EnemyCCC *Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	virtual const uint32_t GetPlayerHitDamage() const override;	// プレイヤー衝突時のダメージ
 
 protected:
@@ -28,7 +28,7 @@ protected:
 
 private:
 
-	EnemyCCC( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos );
+	EnemyCCC( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	~EnemyCCC(void);
 
 };

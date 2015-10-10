@@ -35,10 +35,14 @@ public:
 		EFFECT_WORP,			// ワープ
 		EFFECT_PRE_FIRE_WALL,	// 画面全体炎演出
 		EFFECT_FIRE_WALL,		// 画面全体炎演出
+		EFFECT_STATUS_ICON,		// 異常状態を表すアイコン
 	};
 
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
+
+	void SetEffectAnim( const std::string &animStr );
+	void SetDrawFlag( const bool &isDraw ){ m_isInvalid = !isDraw; }
 
 protected:
 	
@@ -54,6 +58,7 @@ public:
 
 	std::string SelectEffectFile() const;		// 読み込みファイル選別関数
 
+	bool			m_isInvalid;		// 描画無効フラグ
 	EFFECT_KIND		m_kind;				// 演出の種類
 	Texture2D		m_textureEffect;	// エフェクト
 
@@ -166,6 +171,41 @@ private:
 	static GameEffectDamage	*s_pInstance;
 
 	std::vector<EFFECT_DAMAGE_INFO> m_damageArray;
+};
+
+class GameEffectLoop : public TaskUnit
+{
+
+public:
+
+	enum EFFECT_KIND{
+		EFFECT_STATUS_ICON		// 異常状態を表すアイコン
+	};
+
+	static GameEffectLoop *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );
+	static GameEffectLoop *CreateEffect( const EFFECT_KIND &kind, const math::Vector2 &pos );
+
+	void SetEffectAnim( const std::string &animStr );
+	void SetDrawFlag( const bool &isDraw ){ m_isInvalid = !isDraw; }
+
+protected:
+	
+	virtual bool Init() override;
+	virtual bool DieMain() override;
+	virtual void Update() override;
+	virtual void DrawUpdate() override;
+
+public:
+
+	GameEffectLoop( const EFFECT_KIND &kind, const math::Vector2 &pos );
+	virtual ~GameEffectLoop(void);
+
+	std::string SelectEffectFile() const;		// 読み込みファイル選別関数
+
+	bool			m_isInvalid;		// 描画無効フラグ
+	EFFECT_KIND		m_kind;				// 演出の種類
+	Texture2D		m_textureEffect;	// エフェクト
+
 };
 
 #endif

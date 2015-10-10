@@ -53,7 +53,7 @@ void AISlimeKingTackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &action
 				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.y + 70 ), static_cast<uint32_t>( targetPos.y - 70 ) ) )
 				);
 			if( Utility::GetMapHeight( enemyPos ) == 0){
-				GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_SLIME, 4, true, enemyPos );
+				GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_SLIME_ANOTHER, 5, true, enemyPos );
 				break;
 			}
 		}

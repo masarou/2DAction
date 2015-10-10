@@ -28,7 +28,8 @@
 		{"tag":"konamiCommand", "file":"konamiCommand.mp3"},
 		{"tag":"Worp", "file":"worp.mp3"},
 		{"tag":"FireBall", "file":"fireBall.mp3"},
-		{"tag":"PreExplosion", "file":"PreExplosion.mp3"}
+		{"tag":"PreExplosion", "file":"PreExplosion.mp3"},
+		{"tag":"Poison", "file":"Poison.mp3"}
 		
 	]
 }

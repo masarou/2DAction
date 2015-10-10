@@ -11,12 +11,12 @@
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 
-EnemyBBB *EnemyBBB::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
+EnemyBBB *EnemyBBB::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	return NEW EnemyBBB( enemyLevel, uniqueID, enemyPos );
 }
 
-EnemyBBB::EnemyBBB( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
+EnemyBBB::EnemyBBB( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 : EnemyBase( "EnemyAhriman.json", uniqueID, Common::ENEMY_KIND_AHRIMAN, enemyLevel, enemyPos )
 {
 }

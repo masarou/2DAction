@@ -7,8 +7,7 @@
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_WIZARD", 	"level": 5, "num": 1},
-		{"enemyKind": "ENEMY_KIND_DRAGON", "level": 5, "num": 1}
+		{"enemyKind": "ENEMY_KIND_LAST_BOSS", 	"level": 5, "num": 1}
 	],
 	"gameCondition":[
 		{"EnemyMax": 3, "frequency":5},

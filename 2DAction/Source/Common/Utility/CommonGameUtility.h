@@ -54,11 +54,11 @@ math::Vector2 GetDirAToB( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &texB )
 const void GetBelongAreaInMap( TEX_DRAW_INFO &tex );
 
 // マップ上での高さを取得
-const uint32_t GetMapHeight( const uint32_t &posX, const uint32_t &posY );
-const uint32_t GetMapHeight( const math::Vector2 &pos );
+const int32_t GetMapHeight( const uint32_t &posX, const uint32_t &posY );
+const int32_t GetMapHeight( const math::Vector2 &pos );
 
 // マップ上で適当な数値を返す
-math::Vector2 GetMapRandamPos( bool allowInWindow = true, uint32_t mapHeight = 0 );
+math::Vector2 GetMapRandamPos( bool allowInWindow = true, int32_t mapHeight = 0 );
 
 // 画面上に表示しているオブジェクトかどうか
 bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo );

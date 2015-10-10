@@ -29,7 +29,7 @@ public:
 	virtual void DrawUpdate();
 
 	const math::Vector2 GetPlayerStartPos() const;	// プライヤーのスタート地点取得
-	const uint32_t GetTileHeight( const math::Vector2 &pos ) const;		// 指定位置の床の高さを取得
+	const int32_t GetTileHeight( const math::Vector2 &pos ) const;		// 指定位置の床の高さを取得
 	const uint32_t Get2DMortonNumber( const math::Vector2 &pos ) const;	// 引数が当たり判定を行う空間の何番にいるかを求める
 	const uint32_t GetBelongArea( const math::Vector2 &pos ) const;		// 位置情報から当たり判定空間を求める
 	const uint32_t GetMapWidth() const;		// マップサイズ取得(横幅)
@@ -40,7 +40,7 @@ private:
 	struct TILE_INFO{
 		int32_t		m_tileHandle;
 		int32_t		m_tileTileKind;
-		uint32_t	m_tileHeight;	// タイルの高さ(ユーザーが乗れるか否か)
+		int32_t		m_tileHeight;	// タイルの高さ(ユーザーが乗れるか否か)
 		void Init(){
 			m_tileHandle = INVALID_VALUE;
 			m_tileTileKind = INVALID_VALUE;

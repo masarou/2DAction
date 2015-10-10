@@ -15,6 +15,7 @@
 #include "Game/Attack/Bullet.h"
 #include "Game/Attack/Slashing.h"
 #include "Game/Enemy/EnemySlime.h"
+#include "Game/Enemy/EnemyAnotherSlime.h"
 #include "Game/Enemy/EnemyAhriman.h"
 #include "Game/Enemy/EnemyCow.h"
 #include "Game/Enemy/EnemyBoss.h"
@@ -124,6 +125,12 @@ void CollisionManager::CollisionUpdate()
 						eventInfo.m_eventValue = pEnemySlime->GetPlayerHitDamage();
 					}
 					break;
+				case Common::TYPE_ENEMY_SLIME_ANOTHER:
+					{
+						EnemyAnotherSlime *pEnemySlime = static_cast<EnemyAnotherSlime*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemySlime->GetPlayerHitDamage();
+					}
+					break;
 				case Common::TYPE_ENEMY_AHRIMAN:
 					{
 						EnemyBBB *pEnemyAhriman = static_cast<EnemyBBB*>( m_vCollisionUnit.at(i) );
@@ -160,6 +167,13 @@ void CollisionManager::CollisionUpdate()
 					}
 					break;
 				case Common::TYPE_DRAGON:
+					{
+						eventInfo.m_eventValue = 20;
+					}
+					break;
+				case Common::TYPE_LAST_BOSS:
+				case Common::TYPE_LAST_BOSS_LEFT:
+				case Common::TYPE_LAST_BOSS_RIGHT:
 					{
 						eventInfo.m_eventValue = 20;
 					}
@@ -308,6 +322,7 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 		}
 		break;
 	case Common::TYPE_ENEMY_SLIME:
+	case Common::TYPE_ENEMY_SLIME_ANOTHER:
 	case Common::TYPE_ENEMY_AHRIMAN:
 	case Common::TYPE_ENEMY_COW:
 	case Common::TYPE_ENEMY_BOSS:
@@ -315,6 +330,9 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ENEMY_WIZARD:
 	case Common::TYPE_WIZARD_CRYSTAL:
 	case Common::TYPE_DRAGON:
+	case Common::TYPE_LAST_BOSS:
+	case Common::TYPE_LAST_BOSS_LEFT:
+	case Common::TYPE_LAST_BOSS_RIGHT:
 		if( typeB != Common::TYPE_PLAYER
 			&& typeB != Common::TYPE_BULLET_PLAYER
 			&& typeB != Common::TYPE_BLADE_PLAYER ){

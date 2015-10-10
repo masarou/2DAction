@@ -22,6 +22,8 @@
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingTackle.h"
 #include "Game/Enemy/AI/EnemyAIWizard.h"
 #include "Game/Enemy/AI/EnemyAIDragon.h"
+#include "Game/Enemy/AI/LastBoss/EnemyAILastBoss.h"
+#include "Game/Enemy/AI/LastBoss/EnemyAILastBossHand.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
@@ -261,14 +263,14 @@ const void GetBelongAreaInMap( TEX_DRAW_INFO &tex )
  * @brief	マップ上での高さを取得
  */
 /* ================================================ */
-const uint32_t GetMapHeight( const uint32_t &posX, const uint32_t &posY )
+const int32_t GetMapHeight( const uint32_t &posX, const uint32_t &posY )
 {
 	return GetMapHeight( math::Vector2( static_cast<float>(posX), static_cast<float>(posY) ) );
 }
 
-const uint32_t GetMapHeight( const math::Vector2 &pos )
+const int32_t GetMapHeight( const math::Vector2 &pos )
 {
-	uint32_t retVal = 0;
+	int32_t retVal = 0;
 	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
 	if( pMap ){
 		retVal = pMap->GetTileHeight( pos );
@@ -281,7 +283,7 @@ const uint32_t GetMapHeight( const math::Vector2 &pos )
  * @brief	マップ上で適当な数値を返す
  */
 /* ================================================ */
-math::Vector2 GetMapRandamPos( bool allowInWindow, uint32_t mapHeight )
+math::Vector2 GetMapRandamPos( bool allowInWindow, int32_t mapHeight )
 {
 	const GameMap *pMap = GameRegister::GetInstance()->GetGameMap();
 	math::Vector2 retVec = DEFAULT_VECTOR2;
@@ -289,7 +291,7 @@ math::Vector2 GetMapRandamPos( bool allowInWindow, uint32_t mapHeight )
 		math::Vector2 pos = math::Vector2( GetRandamValueFloat( pMap->GetMapWidth(), 0 ), GetRandamValueFloat( pMap->GetMapHeight(), 0 ));
 
 		// マップの高さが指定よりも高かったらやり直し
-		if( mapHeight < GetMapHeight(pos) ){
+		if( mapHeight != GetMapHeight(pos) ){
 			continue;
 		}
 		if( !allowInWindow ){
@@ -402,6 +404,12 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 		break;
 	case Common::AI_ATTACK_DRAGON:
 		pRetAI = AIDragon::Create();
+		break;
+	case Common::AI_ATTACK_LAST_BOSS:
+		pRetAI = EnemyAILastBoss::Create();
+		break;
+	case Common::AI_ATTACK_LAST_BOSS_HAND:
+		pRetAI = EnemyAILastBossHand::Create();
 		break;
 	}
 	return pRetAI;

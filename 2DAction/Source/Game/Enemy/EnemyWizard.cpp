@@ -15,13 +15,13 @@
 #include "Flow/FlowManager.h"
 #include "Flow/Process/FlowProcessBossEnemyDeath.h"
 
-EnemyWizard *EnemyWizard::Create( const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
+EnemyWizard *EnemyWizard::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	std::string fileStr = "EnemyWizard.json";
 	return NEW EnemyWizard( fileStr, enemyLevel, uniqueID, enemyPos );
 }
 
-EnemyWizard::EnemyWizard( const std::string &fileName, const uint32_t &enemyLevel, const uint32_t &uniqueID, const math::Vector2 &enemyPos )
+EnemyWizard::EnemyWizard( const std::string &fileName, const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 : EnemyBase( fileName, uniqueID, Common::ENEMY_KIND_WIZARD, enemyLevel, enemyPos )
 , m_crystalAround( CRYSTAL_AROUND_MINE )
 , m_damageType( DAMAGE_TYPE_SLASH )

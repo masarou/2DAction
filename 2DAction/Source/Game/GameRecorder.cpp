@@ -120,6 +120,9 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 	case ENEMY_SLIME_DEATH:
 		addValue = 100 + ( 100 * tmpInfo );
 		break;
+	case ENEMY_SLIME_ANOTHER_DEATH:
+		addValue = 100 + ( 50 * tmpInfo );
+		break;
 	case ENEMY_AHRIMAN_DEATH:
 		addValue = 300 + ( 50 * tmpInfo );
 		break;
@@ -137,6 +140,15 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 		break;
 	case ENEMY_BOSS_DEATH:
 		addValue = 30000 + ( 1000 * tmpInfo );
+		break;
+	case ENEMY_LAST_BOSS_DEATH:
+		addValue = 1000;
+		break;
+	case ENEMY_LAST_BOSS_RIGHT_DEATH:
+		addValue = 1000;
+		break;
+	case ENEMY_LAST_BOSS_LEFT_DEATH:
+		addValue = 1000;
 		break;
 	}
 

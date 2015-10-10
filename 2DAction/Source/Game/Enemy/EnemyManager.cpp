@@ -9,11 +9,13 @@
 
 #include "EnemyManager.h"
 #include "EnemySlime.h"
+#include "EnemyAnotherSlime.h"
 #include "EnemyAhriman.h"
 #include "EnemyCow.h"
 #include "EnemyBoss.h"
 #include "EnemyWizard.h"
 #include "EnemyDragon.h"
+#include "EnemyLastBoss.h"
 #include "AI/EnemyAIBase.h"
 #include "Game/Attack/Bullet.h"
 #include "Game/Player/GamePlayer.h"
@@ -39,6 +41,10 @@ void EnemyManager::Update()
 {
 	m_moveToPlayerNum = 0;
 	for( uint32_t i = 0; i < m_enemyArray.size() ; ++i ){
+		if( !m_enemyArray.at(i)->m_pEnemyAI ){
+			DEBUG_ASSERT( 0, "“GAI‚ªNULL");
+			continue;
+		}
 		if( m_enemyArray.at(i)->m_pEnemyAI->GetAIKind() == Common::AI_MOVE_PLAYER ){
 			++m_moveToPlayerNum;
 		}
@@ -69,6 +75,9 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &ene
 	case Common::ENEMY_KIND_SLIME:
 		pEnemy = EnemySlime::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
+	case Common::ENEMY_KIND_SLIME_ANOTHER:
+		pEnemy = EnemyAnotherSlime::Create( enemyLevel, currUniqueNo, enemyPos );
+		break;
 	case Common::ENEMY_KIND_AHRIMAN:
 		pEnemy = EnemyBBB::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
@@ -76,16 +85,19 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &ene
 		pEnemy = EnemyCCC::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_BOSS:
-		pEnemy = EnemyBoss::Create( currUniqueNo );
+		pEnemy = EnemyBoss::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_SLIME_KING:
-		pEnemy = EnemySlimeKing::Create( currUniqueNo );
+		pEnemy = EnemySlimeKing::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_WIZARD:
 		pEnemy = EnemyWizard::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 	case Common::ENEMY_KIND_DRAGON:
-		pEnemy = EnemyDragon::Create( currUniqueNo );
+		pEnemy = EnemyDragon::Create( enemyLevel, currUniqueNo, enemyPos );
+		break;
+	case Common::ENEMY_KIND_LAST_BOSS:
+		pEnemy = LastBoss::Create( enemyLevel, currUniqueNo, enemyPos );
 		break;
 
 	default:

@@ -71,6 +71,9 @@
     <Filter Include="Game\Enemy\AI\SlimeKing">
       <UniqueIdentifier>{91641e11-9033-4292-8dee-8be84ed0cf3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Enemy\AI\LastBoss">
+      <UniqueIdentifier>{18a10ed5-aad4-4779-9f64-49d60bef2cf0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDefine.h">
@@ -340,6 +343,18 @@
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIDragon.h">
       <Filter>Game\Enemy\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyAnotherSlime.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyLastBoss.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBoss.h">
+      <Filter>Game\Enemy\AI\LastBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.h">
+      <Filter>Game\Enemy\AI\LastBoss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -579,6 +594,18 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIDragon.cpp">
       <Filter>Game\Enemy\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyAnotherSlime.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyLastBoss.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBoss.cpp">
+      <Filter>Game\Enemy\AI\LastBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.cpp">
+      <Filter>Game\Enemy\AI\LastBoss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

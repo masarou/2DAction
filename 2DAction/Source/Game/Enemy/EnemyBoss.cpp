@@ -13,13 +13,13 @@
 #include "Flow/FlowManager.h"
 #include "Flow/Process/FlowProcessBossEnemyDeath.h"
 
-EnemyBoss *EnemyBoss::Create( const uint32_t &uniqueID )
+EnemyBoss *EnemyBoss::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
-	return NEW EnemyBoss( uniqueID );
+	return NEW EnemyBoss( enemyLevel, uniqueID, enemyPos );
 }
 
-EnemyBoss::EnemyBoss( const uint32_t &uniqueID )
-	: EnemyBase( "EnemyBoss.json", uniqueID, Common::ENEMY_KIND_BOSS, 0 )
+EnemyBoss::EnemyBoss( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
+	: EnemyBase( "EnemyBoss.json", uniqueID, Common::ENEMY_KIND_BOSS, enemyLevel, enemyPos )
 {
 }
 
@@ -92,13 +92,13 @@ void EnemyBoss::ReduceDamage( Common::CMN_EVENT &eventId )
 
 
 
-EnemySlimeKing *EnemySlimeKing::Create( const uint32_t &uniqueID )
+EnemySlimeKing *EnemySlimeKing::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
-	return NEW EnemySlimeKing( uniqueID );
+	return NEW EnemySlimeKing( enemyLevel, uniqueID, enemyPos );
 }
 
-EnemySlimeKing::EnemySlimeKing( const uint32_t &uniqueID )
-	: EnemyBase( "EnemySlimeKing.json", uniqueID, Common::ENEMY_KIND_SLIME_KING, 0 )
+EnemySlimeKing::EnemySlimeKing( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
+	: EnemyBase( "EnemySlimeKing.json", uniqueID, Common::ENEMY_KIND_SLIME_KING, enemyLevel, enemyPos )
 {
 }
 
@@ -130,7 +130,7 @@ void EnemySlimeKing::EnemyDeath()
 
 const uint32_t EnemySlimeKing::GetEnemyDefaultHP() const
 {
-	return 3500 + ( 300 * GetEnemyLevel() );
+	return 3500 + ( 400 * GetEnemyLevel() );
 }
 
 void EnemySlimeKing::ReduceDamage( Common::CMN_EVENT &eventId )

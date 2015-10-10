@@ -307,6 +307,9 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		case Common::ENEMY_KIND_SLIME:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_DEATH, GetEnemyLevel() );
 			break;
+		case Common::ENEMY_KIND_SLIME_ANOTHER:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_SLIME_ANOTHER_DEATH, GetEnemyLevel() );
+			break;
 		case Common::ENEMY_KIND_AHRIMAN:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_AHRIMAN_DEATH, GetEnemyLevel() );
 			break;
@@ -324,6 +327,9 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 			break;
 		case Common::ENEMY_KIND_DRAGON:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_DRAGON_DEATH, GetEnemyLevel() );
+			break;
+		case Common::ENEMY_KIND_LAST_BOSS:
+			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_LAST_BOSS_DEATH, GetEnemyLevel() );
 			break;
 		}
 

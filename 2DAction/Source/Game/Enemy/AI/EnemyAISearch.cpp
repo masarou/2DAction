@@ -43,7 +43,8 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 	if( SearchPlayer( enemyInfo ) ){
 
 		// プレイヤー発見!!!
-		if( GetEnemyKind() == Common::ENEMY_KIND_SLIME ){
+		if( GetEnemyKind() == Common::ENEMY_KIND_SLIME
+			|| GetEnemyKind() == Common::ENEMY_KIND_SLIME_ANOTHER){
 			DEBUG_PRINT("【プレイヤー発見! ステータスをタックルに変更】\n");
 			ChangeEnemyAI( Common::AI_MOVE_PLAYER );
 		}

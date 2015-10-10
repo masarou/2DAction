@@ -7,27 +7,32 @@
  */
 /* ====================================================================== */
 
-#ifndef __ENEMY_DRAGON__
-#define __ENEMY_DRAGON__
+#ifndef __ENEMY_LAST_BOSS__
+#define __ENEMY_LAST_BOSS__
 
 #include "EnemyBase.h"
 
-class EnemyDragon : public EnemyBase
+class LastBossRight;
+class LastBossLeft;
+
+class LastBoss : public EnemyBase
 {
 public:
 
-	static EnemyDragon *Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
+	static LastBoss *Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	virtual const uint32_t GetPlayerHitDamage() const override{return 25;}	// プレイヤー衝突時のダメージ
 
 protected:
 	
+	virtual bool InitMain();
+
 	// クラスの敵タイプ
-	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_DRAGON; }
+	virtual const Common::TYPE_OBJECT GetTypeObject() const override{ return Common::TYPE_LAST_BOSS; }
 
 	// 敵クラスのデフォルト値取得
 	virtual const uint32_t	GetEnemyDefaultHP() const override;
 	virtual const float		GetEnemyDefaultSPD() const override{return 1;}
-	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_ATTACK_DRAGON;}
+	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_ATTACK_LAST_BOSS;}
 
 	// 斬撃を受けた時の処理
 	virtual void HitPlayreSlashing( const uint32_t &damageValue );
@@ -40,9 +45,9 @@ protected:
 
 private:
 
-	EnemyDragon( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
-	~EnemyDragon(void);
+	LastBoss( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
+	~LastBoss(void);
 
 };
 
-#endif //ENEMY_AAA
+#endif //__ENEMY_LAST_BOSS__

@@ -1,0 +1,16 @@
+{
+	"basicInfo":[
+		{"fileName":"StatusIcon.png"
+		, "animDefault":"poison"
+		, "sizeW": 32
+		, "sizeH": 32
+		, "splitW": 3
+		, "splitH": 2
+		, "total": 6 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"walk",		"frameSpeed":10,	"animIndex":[0,1,2],	"nextAnim":"walk"},
+		{"animTag":"poison",	"frameSpeed":10,	"animIndex":[3,4,5],	"nextAnim":"poison"}
+	]	
+}

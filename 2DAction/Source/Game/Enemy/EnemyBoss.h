@@ -16,7 +16,7 @@ class EnemyBoss : public EnemyBase
 {
 public:
 
-	static EnemyBoss *Create( const uint32_t &uniqueID );
+	static EnemyBoss *Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	virtual const uint32_t GetPlayerHitDamage() const override{return 25;}	// プレイヤー衝突時のダメージ
 
 	// 斬撃ダメージ取得
@@ -43,7 +43,7 @@ protected:
 
 private:
 
-	EnemyBoss( const uint32_t &uniqueID );
+	EnemyBoss( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	~EnemyBoss(void);
 
 };
@@ -55,7 +55,7 @@ class EnemySlimeKing : public EnemyBase
 {
 public:
 
-	static EnemySlimeKing *Create( const uint32_t &uniqueID );
+	static EnemySlimeKing *Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	virtual const uint32_t GetPlayerHitDamage() const override{return 20;}	// プレイヤー衝突時のダメージ
 
 protected:
@@ -76,9 +76,9 @@ protected:
 	
 private:
 
-	EnemySlimeKing( const uint32_t &uniqueID );
+	EnemySlimeKing( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos );
 	~EnemySlimeKing(void);
 
 };
 
-#endif //ENEMY_AAA
+#endif //__ENEMY_BOSS__
