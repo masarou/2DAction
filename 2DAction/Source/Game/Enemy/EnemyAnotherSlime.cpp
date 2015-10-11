@@ -15,7 +15,7 @@
 EnemyAnotherSlime *EnemyAnotherSlime::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	std::string fileStr = "EnemySlimeAnother.json";
-	return NEW EnemyAnotherSlime( fileStr, enemyLevel, uniqueID, enemyPos );
+	return NEW EnemyAnotherSlime( fileStr, uniqueID, enemyLevel, enemyPos );
 }
 
 EnemyAnotherSlime::EnemyAnotherSlime( const std::string &fileName, const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )

@@ -35,7 +35,8 @@ public:
 		EFFECT_WORP,			// ワープ
 		EFFECT_PRE_FIRE_WALL,	// 画面全体炎演出
 		EFFECT_FIRE_WALL,		// 画面全体炎演出
-		EFFECT_STATUS_ICON,		// 異常状態を表すアイコン
+		EFFECT_SUMMON,			// 召喚
+		EFFECT_FIRE_FLOWER,		// クリア後花火
 	};
 
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );

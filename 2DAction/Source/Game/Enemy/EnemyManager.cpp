@@ -73,31 +73,31 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &ene
 	EnemyBase *pEnemy = NULL;
 	switch( kind ){
 	case Common::ENEMY_KIND_SLIME:
-		pEnemy = EnemySlime::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemySlime::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_SLIME_ANOTHER:
-		pEnemy = EnemyAnotherSlime::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemyAnotherSlime::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_AHRIMAN:
-		pEnemy = EnemyBBB::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemyBBB::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_COW:
-		pEnemy = EnemyCCC::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemyCCC::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_BOSS:
-		pEnemy = EnemyBoss::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemyBoss::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_SLIME_KING:
-		pEnemy = EnemySlimeKing::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemySlimeKing::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_WIZARD:
-		pEnemy = EnemyWizard::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemyWizard::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_DRAGON:
-		pEnemy = EnemyDragon::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = EnemyDragon::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_LAST_BOSS:
-		pEnemy = LastBoss::Create( enemyLevel, currUniqueNo, enemyPos );
+		pEnemy = LastBoss::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 
 	default:

@@ -317,6 +317,10 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 					enemyState.Init();
 					enemyState.m_kind = kind;
 					enemyState.m_level = static_cast<uint32_t>( bossData.get(i).get("level").get<double>() );
+					if( bossData.get(i).get("initPosX") != null && bossData.get(i).get("initPosY") != null ){
+						enemyState.m_initPos.x = static_cast<uint32_t>( bossData.get(i).get("initPosX").get<double>() );
+						enemyState.m_initPos.y = static_cast<uint32_t>( bossData.get(i).get("initPosY").get<double>() );
+					}
 					m_initEnemyInfoVec.push_back( enemyState );
 				}
 			}
@@ -448,6 +452,7 @@ bool GameManager::IsCreateEnemy( uint32_t enemyLimit )
 	}
 	return isCreate;
 }
+
 /* ================================================ */
 /**
  * @brief	ƒAƒCƒeƒ€‚Ì¶¬”»’f
@@ -484,6 +489,12 @@ bool GameManager::IsCreateItem( uint32_t itemLimit )
 	return isCreate;
 }
 
+
+/* ================================================ */
+/**
+ * @brief	“G‚Ìí—Ş‚ğ•¶š—ñ‚©‚çæ“¾
+ */
+/* ================================================ */
 Common::ENEMY_KIND GameManager::GetEnemyKindFromStr( const std::string str )
 {
 	static struct enemyKindPair{

@@ -10,6 +10,7 @@
 #include "EnemyLastBoss.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
+#include "Game/GameRecorder.h"
 #include "Flow/FlowManager.h"
 #include "Flow/Process/FlowProcessBossEnemyDeath.h"
 
@@ -29,6 +30,9 @@ LastBoss::~LastBoss(void)
 
 bool LastBoss::InitMain()
 {
+	if( m_drawTexture.m_pTex2D ){
+		m_drawTexture.m_pTex2D->UpdateDrawInfo().m_prioity = Common::PRIORITY_ABOVE_NORMAL;
+	}
 	return true;
 }
 
@@ -67,6 +71,9 @@ void LastBoss::EnemyDeath()
 	if( m_drawTexture.m_pTex2D ){
 		m_drawTexture.m_pTex2D->SetAnim( "death" );
 	}
+
+	// 全クリアフラグON
+	GameRecorder::GetInstance()->SetClearAll();
 }
 
 /* ================================================ */

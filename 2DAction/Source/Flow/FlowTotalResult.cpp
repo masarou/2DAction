@@ -185,7 +185,7 @@ void TotalResult2D::PadEventDecide()
 {
 	if( ChangeDispNextState() ){
 
-		if(0){
+		if( GameRecorder::GetInstance()->IsClearAll() ){
 			// 全部クリアーならアドレス表示画面へ
 			SetNextFlowStr( "gameaddress" );
 		}

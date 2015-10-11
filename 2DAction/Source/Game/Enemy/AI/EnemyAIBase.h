@@ -50,6 +50,7 @@ public:
 	const std::string &GetEnemyJsonName() const;
 	const uint32_t GetEnemyLevel() const;
 	const float GetEnemySPD() const;
+	const math::Vector2 GetEnemyPos() const;
 
 	// “GƒNƒ‰ƒXŽæ“¾
 	EnemyBase *UpdateEnemyMine();

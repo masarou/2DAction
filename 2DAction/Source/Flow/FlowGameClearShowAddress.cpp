@@ -6,7 +6,10 @@
  *		
  */
 /* ====================================================================== */
+
+#include "Game/Effect/GameEffect.h"
 #include "FlowGameClearShowAddress.h"
+#include "Common/Utility/CommonGameUtility.h"
 
 
 FlowBase *FlowGameClear::Create( const std::string &fileName )
@@ -30,6 +33,9 @@ bool FlowGameClear::Init()
 {
 	// ”wŒiˆê–‡ŠGì¬
 	m_pMenuWindow = ShowAddressMenu::CreateViewScore2D( "GameClearShowAddress.json" );
+
+	// Š½ºSE
+	SoundManager::GetInstance()->PlaySE("Cheer");
 	return true;
 }
 
@@ -56,6 +62,14 @@ void ShowAddressMenu::UpdateMenu()
 	if( !GetNextFlowStr().empty() ){
 		// ŽŸ‚Ì‘JˆÚæ‚ªŒˆ‚Ü‚Á‚½‚Ì‚Å‚È‚É‚à‚µ‚È‚¢
 		return;
+	}
+
+	if( Utility::GetRandamValue( 30, 0 ) == 0 ){
+		// ‰Ô‰ÎƒGƒtƒFƒNƒg
+		math::Vector2 effectPos = math::Vector2( Utility::GetRandamValue( WINDOW_WIDTH - 100, 100 ), Utility::GetRandamValue( WINDOW_HEIGHT - 100, 100 ) );
+		GameEffect::CreateEffect( GameEffect::EFFECT_FIRE_FLOWER, effectPos );
+		SoundManager::GetInstance()->PlaySE("FireFlower");
+		DEBUG_PRINT( "FireFlower x = %lf, y = %lf\n", effectPos.x, effectPos.y );
 	}
 
 	CallPadEvent();

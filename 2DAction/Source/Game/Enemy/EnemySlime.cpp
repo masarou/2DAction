@@ -16,6 +16,7 @@ EnemySlime *EnemySlime::Create( const uint32_t &uniqueID, const uint32_t &enemyL
 {
 	std::string fileStr = "";
 	switch(enemyLevel){
+	case 0:
 	case 1:
 	case 2:
 	case 3:
@@ -36,7 +37,7 @@ EnemySlime *EnemySlime::Create( const uint32_t &uniqueID, const uint32_t &enemyL
 		fileStr = "EnemySlime01.json";
 		break;
 	}
-	return NEW EnemySlime( fileStr, enemyLevel, uniqueID, enemyPos );
+	return NEW EnemySlime( fileStr, uniqueID, enemyLevel, enemyPos );
 }
 
 EnemySlime::EnemySlime( const std::string &fileName, const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )

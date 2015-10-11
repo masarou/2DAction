@@ -2,8 +2,8 @@
 	"basicInfo":[
 		{"fileName":"LastBossRight.png"
 		, "animDefault":"default"
-		, "sizeW": 110
-		, "sizeH": 180
+		, "sizeW": 75
+		, "sizeH": 175
 		, "splitW": 1
 		, "splitH": 1
 		, "total": 1 }

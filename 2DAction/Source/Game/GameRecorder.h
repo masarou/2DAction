@@ -94,6 +94,10 @@ public:
 	// 初期化
 	void InitRecord();
 
+	// 全クリアフラグON
+	void SetClearAll(){ m_isAllClear = true; }
+	const bool &IsClearAll() const{ return m_isAllClear; }
+
 	// ステージクリア時のユーザーライフの割合のセット&取得
 	const void SetUserLifeRatio( const float &lifeRatio, const STATE_OF_PROGRESS &stage = STATE_MAX );
 	const float GetUserLifeRatio( const STATE_OF_PROGRESS &stage = STATE_MAX ) const;
@@ -144,6 +148,7 @@ private:
 
 	static GameRecorder *s_pInstance;
 
+	bool				m_isAllClear;					// 全クリアフラグ
 	STATE_OF_PROGRESS	m_gameState;					// ゲーム進行度
 	STAGE_CLEAR_INFO	m_clearStageInfo[STATE_MAX];	// 各ステージクリア時の情報
 	

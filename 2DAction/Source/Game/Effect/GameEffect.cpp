@@ -61,13 +61,19 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 		drawInfo.m_prioity = Common::PRIORITY_BELOW_NORMAL;
 	}
 	if( m_kind == EFFECT_WORP ){
-		drawInfo.m_posOrigin.y -= 150;
+		drawInfo.m_posOrigin.y -= 150.0f;
 	}
 	if( m_kind == EFFECT_FIRE_WALL ){
 		drawInfo.m_usePlayerOffset = false;
 	}
 	if( m_kind == EFFECT_PRE_FIRE_WALL ){
 		drawInfo.m_drawForce = true;
+	}
+	if( m_kind == EFFECT_SUMMON ){
+		drawInfo.m_prioity = Common::PRIORITY_BELOW_NORMAL;
+	}
+	if( m_kind == EFFECT_FIRE_FLOWER ){
+		drawInfo.m_usePlayerOffset = false;
 	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
@@ -84,17 +90,16 @@ bool GameEffect::DieMain()
 
 bool GameEffect::Init()
 {
+	if( m_kind == EFFECT_FIRE_FLOWER ){
+		std::string animStr;
+		animStr += '0' + Utility::GetRandamValue( 6, 0 );
+		m_textureEffect.m_pTex2D->SetAnim( animStr.c_str() );
+	}
 	return true;
 }
 
 void GameEffect::Update()
 {
-	if( m_kind == EFFECT_STATUS_ICON ){
-		TEX_DRAW_INFO &info = m_textureEffect.m_pTex2D->UpdateDrawInfo();
-		math::Vector2 iconPos = Utility::GetPlayerPos();
-		iconPos.y -= 40.0f;
-		info.m_posOrigin = iconPos;
-	}
 }
 
 void GameEffect::DrawUpdate()
@@ -158,8 +163,12 @@ std::string GameEffect::SelectEffectFile() const
 		rtn = "FireWall.json";
 		break;
 
-	case EFFECT_STATUS_ICON:
-		rtn = "StatusIcon.json";
+	case EFFECT_SUMMON:
+		rtn = "Summon.json";
+		break;
+
+	case EFFECT_FIRE_FLOWER:
+		rtn = "FireFlower.json";
 		break;
 
 	default:

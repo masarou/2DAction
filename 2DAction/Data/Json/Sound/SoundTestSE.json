@@ -29,7 +29,10 @@
 		{"tag":"Worp", "file":"worp.mp3"},
 		{"tag":"FireBall", "file":"fireBall.mp3"},
 		{"tag":"PreExplosion", "file":"PreExplosion.mp3"},
-		{"tag":"Poison", "file":"Poison.mp3"}
+		{"tag":"Poison", "file":"poison.mp3"},
+		{"tag":"Summon", "file":"summon.mp3"},
+		{"tag":"Cheer", "file":"cheer.mp3"},
+		{"tag":"FireFlower", "file":"fireFlower.mp3"}
 		
 	]
 }

@@ -132,6 +132,14 @@ const float EnemyAIBase::GetEnemySPD() const
 	return 0;
 }
 
+const math::Vector2 EnemyAIBase::GetEnemyPos() const
+{
+	if( m_enemyMine ){
+		return m_enemyMine->GetDrawInfo().m_posOrigin;
+	}
+	return math::Vector2();
+}
+
 EnemyBase *EnemyAIBase::UpdateEnemyMine()
 {
 	return m_enemyMine;

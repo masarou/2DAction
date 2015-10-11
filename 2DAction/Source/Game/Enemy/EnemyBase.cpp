@@ -58,6 +58,7 @@ bool EnemyBase::Init()
 
 	if( !m_pEnemyAI ){
 		m_pEnemyAI = Utility::CreateEnemyAI( m_nextAI );
+		m_pEnemyAI->SetThingingEnemy(this);
 	}
 
 	// 初期位置セット
@@ -80,6 +81,11 @@ bool EnemyBase::DieMain()
 {
 	if( !DieMainCustom() ){
 		return false;
+	}
+
+	// AIにも死亡通知
+	if( m_pEnemyAI ){
+		m_pEnemyAI->EnemyIsDead();
 	}
 
 	if( GameRegister::GetInstance()->GetManagerEnemy() ){
@@ -292,7 +298,7 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 	}
 
 	uint32_t totalDamage = damageValue;
-	float rate = static_cast<float>( static_cast<float>(Utility::GetRandamValue( 120, 80 )) / 100.0f );
+	float rate = static_cast<float>(Utility::GetRandamValue( 120, 80 )) / 100.0f;
 	totalDamage *= rate;
 
 	//ダメージエフェクト作成

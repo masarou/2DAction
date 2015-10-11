@@ -1,13 +1,13 @@
 {
 	"stageKind":[
-		{"type": "DESTROY"},
+		{"type": "DESTROY_BOSS"},
 		{"TimeS": 0},
-		{"destroyMax": 2}
+		{"destroyMax": 1}
 	],
 	"bossInfo":[
+		{"enemyKind": "ENEMY_KIND_LAST_BOSS", 	"level": 5, "num": 1, "initPosX": 1340, "initPosY": 800}
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_LAST_BOSS", 	"level": 5, "num": 1}
 	],
 	"gameCondition":[
 		{"EnemyMax": 3, "frequency":5},

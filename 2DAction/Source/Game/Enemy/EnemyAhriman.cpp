@@ -13,7 +13,7 @@
 
 EnemyBBB *EnemyBBB::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
-	return NEW EnemyBBB( enemyLevel, uniqueID, enemyPos );
+	return NEW EnemyBBB( uniqueID, enemyLevel, enemyPos );
 }
 
 EnemyBBB::EnemyBBB( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )

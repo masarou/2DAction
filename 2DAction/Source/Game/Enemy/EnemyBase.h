@@ -36,7 +36,7 @@ public:
 	const uint32_t &GetEnemyHitPoint() const{ return m_HP; }
 	const uint32_t &GetUniqueNumber() const{ return m_uniqueIdOfEnemyAll; }
 	const math::Vector2 &GetEnemyEyeSight() const{ return m_eye; }
-	const uint32_t &GetWalkHeight() const{ return m_walkHeight; }
+	const int32_t &GetWalkHeight() const{ return m_walkHeight; }
 	const uint32_t &GetEnemyLevel() const;
 	const Common::ENEMY_AI GetCurrentAIKind() const;
 
@@ -63,7 +63,7 @@ protected:
 
 	// 派生先でセットする関数
 	virtual const uint32_t	GetEnemyDefaultHP() const{return 10;}		// 敵クラスのデフォルトHP取得
-	virtual const float		GetEnemyDefaultSPD() const{return 1;}		// 敵クラスのデフォルトSPD取得
+	virtual const float		GetEnemyDefaultSPD() const{return 1.0f;}	// 敵クラスのデフォルトSPD取得
 	virtual const uint32_t	GetPlayerHitDamage() const{return 10;}		// プレイヤー衝突時のダメージ
 	virtual const Common::ENEMY_AI GetEnemyDefaultAI() const{return Common::AI_SEARCHING;}	// 敵クラスのデフォルトSPD取得
 	virtual void  EnemyDeath();											// HPがなくなり倒されたときに呼ばれる
@@ -91,7 +91,7 @@ private:
 	uint32_t			m_HP;							// 敵体力
 	uint32_t			m_speed;						// 敵のベースとなるスピード
 	math::Vector2		m_eye;							// 敵の視線
-	uint32_t			m_walkHeight;					// 敵の歩ける高さ
+	int32_t				m_walkHeight;					// 敵の歩ける高さ
 	uint32_t			m_stunTime;						// 何かしらの理由によって動けない時間
 
 	Texture2D			m_textureLife;					// 敵ライフ画像

@@ -13,7 +13,7 @@
 
 EnemyCCC *EnemyCCC::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
-	return NEW EnemyCCC( enemyLevel, uniqueID, enemyPos );
+	return NEW EnemyCCC( uniqueID, enemyLevel, enemyPos );
 }
 
 EnemyCCC::EnemyCCC( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )

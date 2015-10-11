@@ -15,7 +15,7 @@
 
 EnemyBoss *EnemyBoss::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
-	return NEW EnemyBoss( enemyLevel, uniqueID, enemyPos );
+	return NEW EnemyBoss( uniqueID, enemyLevel, enemyPos );
 }
 
 EnemyBoss::EnemyBoss( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
@@ -94,7 +94,7 @@ void EnemyBoss::ReduceDamage( Common::CMN_EVENT &eventId )
 
 EnemySlimeKing *EnemySlimeKing::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
-	return NEW EnemySlimeKing( enemyLevel, uniqueID, enemyPos );
+	return NEW EnemySlimeKing( uniqueID, enemyLevel, enemyPos );
 }
 
 EnemySlimeKing::EnemySlimeKing( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
