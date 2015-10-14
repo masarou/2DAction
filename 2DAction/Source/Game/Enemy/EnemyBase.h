@@ -11,6 +11,7 @@
 #define __ENEMY_BASE__
 
 #include "Common/CommonDefine.h"
+#include "Game/GameRecorder.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "AI/EnemyAIDefine.h"
 #include "AI/EnemyAIBase.h"

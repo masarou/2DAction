@@ -33,6 +33,11 @@ EnemyBase::EnemyBase( const std::string &jsonName, const uint32_t &uniqueId, con
 , m_nextAI( Common::AI_NONE )
 , m_prevAI( Common::AI_NONE )
 {
+	if( m_enemyLv > 10 ){
+		DEBUG_ASSERT( 0, "“G‚ÌƒŒƒxƒ‹‚ª‘z’èŠO");
+		m_enemyLv = 10;
+	}
+
 	m_actionInfoAI.Init();
 	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_fileName = jsonName;
 

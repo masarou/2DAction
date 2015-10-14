@@ -202,14 +202,14 @@ std::string BgManager::GetBgJsonName( const BGID &bgId ) const
 				break;
 			case GameRecorder::STATE_STAGE01:
 			case GameRecorder::STATE_STAGE02:
-			case GameRecorder::STATE_STAGE03:
 				fileName = "ResultBgStage01.json";
 				break;
+			case GameRecorder::STATE_STAGE03:
 			case GameRecorder::STATE_STAGE04:
 			case GameRecorder::STATE_STAGE05:
-			case GameRecorder::STATE_STAGE06:
 				fileName = "ResultBgStage02.json";
 				break;
+			case GameRecorder::STATE_STAGE06:
 			case GameRecorder::STATE_STAGE07:
 			case GameRecorder::STATE_STAGE08:
 			case GameRecorder::STATE_STAGE09:

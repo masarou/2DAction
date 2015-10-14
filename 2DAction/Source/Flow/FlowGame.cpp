@@ -84,7 +84,7 @@ bool FlowGame::Init()
 		break;
 
 	case GameRecorder::STATE_STAGE10:
-		soundTag = "BossBattle";
+		soundTag = "stageLast";
 		break;
 	}
 

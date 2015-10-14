@@ -676,6 +676,8 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 	// 防御力に応じてダメージを減らす
 	uint32_t totalDamage = static_cast<uint32_t>( damageValue * m_deffenceLate );
 
+	DEBUG_PRINT("ダメージ確定 イベントNo:%d\n", eventKind );
+
 	// ダメージ処理実行
 	ReflectDamage( totalDamage );
 }
@@ -710,7 +712,7 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 	case Common::ITEM_KIND_LIFE_UP:
 		{
 			// ライフ回復
-			m_playerLife += 30;
+			m_playerLife += 60;
 			if( m_playerLife > m_playerLifeMax ){
 				m_playerLife = m_playerLifeMax;
 			}
@@ -763,6 +765,8 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 
 void GamePlayer::ReflectDamage( const uint32_t &damageValue )
 {
+	DEBUG_PRINT("プレイヤーにダメージ %d\n", damageValue );
+
 	// ライフを減らす
 	if( m_playerLife > damageValue ){
 		m_playerLife -= damageValue;

@@ -19,8 +19,11 @@ AttackGun *AttackGun::CreateGun( const Common::OWNER_TYPE &ownerType )
 
 AttackGun::AttackGun( const Common::OWNER_TYPE &ownerType )
 : TaskUnit("AttackGun")
-, m_intervalTime( 0 )
 , m_owner( ownerType )
+, m_isOverHeat( false )
+, m_overHeatTime( 0 )
+, m_intervalTime( 0 )
+, m_totalIntervalTime( 0 )
 {
 	m_currState.Init();
 }
@@ -43,10 +46,38 @@ bool AttackGun::DieMain()
 /* ================================================ */
 void AttackGun::SetGunLevel( const uint32_t &damageLv, const uint32_t &speedLv )
 {
+	if( damageLv > Common::STATUS_LEVEL_MAX || speedLv > Common::STATUS_LEVEL_MAX ){
+		DEBUG_ASSERT( 0, "指定レベルが想定外" );
+		return;
+	}
+
 	m_currState.m_damage			= damageLv;
 	m_currState.m_intervalLv		= speedLv;
 	m_currState.m_damage			= SHOOT_DAMAGE_DEFAULT + Utility::ConvertLevelToBaseState( Common::BASE_STATE_BULLET_DMG, damageLv );
-	m_currState.m_shootInterval		= SHOOT_INTERBAL_DEFAULT - Utility::ConvertLevelToBaseState( Common::BASE_STATE_BULLET_SPD, speedLv );
+	m_currState.m_timeToOverHeat	= SHOOT_TO_OVERHEAT_DEFAULT + Utility::ConvertLevelToBaseState( Common::BASE_STATE_BULLET_SPD, speedLv );
+	switch( speedLv ){
+	case 0:
+	case 1:
+		m_currState.m_shootInterval		= 5;
+		break;
+	case 2:
+	case 3:
+		m_currState.m_shootInterval		= 4;
+		break;
+	case 4:
+	case 5:
+		m_currState.m_shootInterval		= 3;
+		break;
+	case 6:
+	case 7:
+	case 8:
+		m_currState.m_shootInterval		= 2;
+		break;
+	case 9:
+		m_currState.m_shootInterval		= 1;
+		break;
+	}
+	
 	//m_speed				+= playData.m_playerBaseStateLv[Common::BASE_STATE_BULLET_DMG];
 }
 
@@ -61,6 +92,16 @@ void AttackGun::Update()
 	if( m_intervalTime > 0){
 		--m_intervalTime;
 	}
+	if( m_totalIntervalTime > 0){
+		--m_totalIntervalTime;
+	}
+
+	if( m_overHeatTime > 0 ){
+		--m_overHeatTime;
+		if( m_overHeatTime == 0 ){
+			m_isOverHeat = false;
+		}
+	}
 }
 
 /* ================================================ */
@@ -74,7 +115,8 @@ void AttackGun::ShootBullet( const math::Vector2 &pos, const math::Vector2 &vec 
 }
 void AttackGun::ShootBullet( const math::Vector2 &pos, const math::Vector2 &vec, const uint32_t &damage, const uint32_t &speed )
 {
-	if( m_intervalTime == 0 ){
+	if( m_owner == Common::OWNER_ENEMY
+		|| m_intervalTime <= 30 && m_intervalTime == 0 && !m_isOverHeat ){
 		Bullet *bul = NEW Bullet( m_owner, pos, vec, damage, speed );
 		m_magazine.push_back( bul );
 		
@@ -83,5 +125,12 @@ void AttackGun::ShootBullet( const math::Vector2 &pos, const math::Vector2 &vec,
 
 		// 一定間隔の時間を設ける
 		m_intervalTime += m_currState.m_shootInterval;
+		m_totalIntervalTime += m_currState.m_shootInterval + 2;
+	}
+
+	if( m_totalIntervalTime > m_currState.m_timeToOverHeat ){
+		m_totalIntervalTime = 0;
+		m_overHeatTime = 60;
+		m_isOverHeat = true;
 	}
 }

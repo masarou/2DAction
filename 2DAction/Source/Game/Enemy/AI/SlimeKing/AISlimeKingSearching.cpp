@@ -44,15 +44,15 @@ void AISlimeKingSearching::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 	}
 
 	// àÍíËämó¶Ç≈ìGÇê∂ê¨
-	if( Utility::GetRandamValue( 30, 0 ) == 0 ){
+	if( Utility::GetRandamValue( 45 - ( GetEnemyLevel() * 2 ), 0 ) == 0 ){
 		for(;;){
 			math::Vector2 targetPos = enemyInfo.m_posOrigin;
 			math::Vector2 enemyPos = math::Vector2( 
-				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.x + 70 ), static_cast<uint32_t>( targetPos.x - 70 ) ) ),
-				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.y + 70 ), static_cast<uint32_t>( targetPos.y - 70 ) ) )
+				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.x + 200 ), static_cast<uint32_t>( targetPos.x - 200 ) ) ),
+				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.y + 200 ), static_cast<uint32_t>( targetPos.y - 200 ) ) )
 				);
 			if( Utility::GetMapHeight( enemyPos ) == 0){
-				GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_SLIME_ANOTHER, 5, true, enemyPos );
+				GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_SLIME_ANOTHER, GetEnemyLevel(), true, enemyPos );
 				break;
 			}
 		}

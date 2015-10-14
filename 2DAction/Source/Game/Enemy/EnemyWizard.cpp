@@ -18,7 +18,7 @@
 EnemyWizard *EnemyWizard::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	std::string fileStr = "EnemyWizard.json";
-	return NEW EnemyWizard( fileStr, enemyLevel, uniqueID, enemyPos );
+	return NEW EnemyWizard( fileStr, uniqueID, enemyLevel, enemyPos );
 }
 
 EnemyWizard::EnemyWizard( const std::string &fileName, const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
@@ -131,6 +131,14 @@ void EnemyWizard::EnemyDeath()
 	}
 	if( m_drawTexture.m_pTex2D ){
 		m_drawTexture.m_pTex2D->SetAnim( "death" );
+	}
+
+	// ラストステージならアイテムを落とす
+	if( GameRecorder::GetInstance()->GetGameStateOfProgress() == GameRecorder::STATE_STAGE10 ){
+		GameManager *pGameMan = GameRegister::GetInstance()->UpdateManagerGame();
+		if( pGameMan ){
+			pGameMan->CreateItem( Common::ITEM_KIND_LIFE_UP, GetDrawInfo().m_posOrigin );
+		}
 	}
 }
 

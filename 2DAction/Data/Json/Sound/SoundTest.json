@@ -5,6 +5,9 @@
 		{"tag":"stage03",	"file":"stage03.mp3"},
 		{"tag":"BossBattle","file":"BossBattle.mp3"},
 		{"tag":"title",		"file":"title.mp3"},
-		{"tag":"interval",	"file":"interval.mp3"}
+		{"tag":"interval",	"file":"interval.mp3"},
+		{"tag":"stageLast",	"file":"stageLast.mp3"}
+		
+		
 	]
 }

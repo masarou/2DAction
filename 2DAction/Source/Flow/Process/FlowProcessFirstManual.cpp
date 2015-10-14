@@ -133,6 +133,9 @@ const std::string FirstManual::GetFilePath() const
 	case KIND_POWERUP5:
 		retStr = "FirstManual05.json";
 		break;
+	case KIND_POWERUP6:
+		retStr = "FirstManual06.json";
+		break;
 	case KIND_GAMEPLAY01:
 		retStr = "FirstManualGamePlay01.json";
 		break;

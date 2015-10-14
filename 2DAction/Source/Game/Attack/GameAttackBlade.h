@@ -18,7 +18,7 @@
 
 // ŒÅ’è’l
 static uint32_t SLASHING_INTERBAL_DEFAULT	= 20;	// aŒ‚‚Ì¶¬ŠÔŠu
-static uint32_t SLASHING_DAMAGE_DEFAULT		= 20;	// aŒ‚‚ÌˆĞ—Í
+static uint32_t SLASHING_DAMAGE_DEFAULT		= 35;	// aŒ‚‚ÌˆĞ—Í
 
 class AttackBlade : public TaskUnit
 {

@@ -50,6 +50,8 @@ bool FlowPowerUpPlayer::Init()
 		PushStageEffect( pFirstManual );
 		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP5 );
 		PushStageEffect( pFirstManual );
+		pFirstManual = FirstManual::Create( FirstManual::KIND_POWERUP6 );
+		PushStageEffect( pFirstManual );
 	}
 
 	return true;

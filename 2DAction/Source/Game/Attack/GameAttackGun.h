@@ -18,9 +18,10 @@
 
 
 // 固定値
-static const uint32_t SHOOT_INTERBAL_DEFAULT	= 20;
+static const uint32_t SHOOT_TO_OVERHEAT_DEFAULT	= 12;
 static const uint32_t SHOOT_SPEED_DEFAULT		= 20;
-static const uint32_t SHOOT_DAMAGE_DEFAULT		= 10;
+static const uint32_t SHOOT_DAMAGE_DEFAULT		= 25;
+static const uint32_t SHOOT_INTERVAL_DEFAULT	= 20;
 
 class Bullet;
 
@@ -32,6 +33,7 @@ public:
 	struct GunState{
 		uint32_t	m_damageLv;			// マシンガンレベル
 		uint32_t	m_intervalLv;		// マシンガンレベル
+		uint32_t	m_timeToOverHeat;	// オーバーヒートまでの時間
 		uint32_t	m_shootInterval;	// 発射間隔
 		uint32_t	m_speed;			// 発射スピード
 		uint32_t	m_damage;			// ダメージ
@@ -39,7 +41,8 @@ public:
 		void Init(){
 			m_damageLv		= 0;
 			m_intervalLv	= 0;
-			m_shootInterval	= SHOOT_INTERBAL_DEFAULT;
+			m_timeToOverHeat= SHOOT_TO_OVERHEAT_DEFAULT;
+			m_shootInterval	= SHOOT_INTERVAL_DEFAULT;
 			m_speed			= SHOOT_SPEED_DEFAULT;
 			m_damage		= SHOOT_DAMAGE_DEFAULT;
 		}
@@ -68,8 +71,11 @@ private:
 	AttackGun( const Common::OWNER_TYPE &ownerType );
 
 	Common::OWNER_TYPE		m_owner;
+	bool					m_isOverHeat;
+	uint32_t				m_overHeatTime;
 	GunState				m_currState;	// 銃のステータス
-	uint32_t				m_intervalTime; // 発射の間隔
+	uint32_t				m_intervalTime; // 発射の間隔(一発単位)
+	uint32_t				m_totalIntervalTime; // 発射の間隔(トータル)
 	std::vector<Bullet*>	m_magazine;		// 弾の管理ベクタ
 
 };

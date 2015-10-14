@@ -46,6 +46,8 @@ bool AIWizard::InitAI()
 
 void AIWizard::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
+	DEBUG_PRINT( "AIWizard::ExecMain開始\n" );
+
 	// アニメ更新
 	std::string animTag = "";
 	math::Vector2 vec = Utility::GetPlayerPos() - enemyInfo.m_posOrigin;
@@ -86,6 +88,7 @@ void AIWizard::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 	}
 
 	bool isFinish = false;
+	DEBUG_PRINT( "AIWizard::m_currAction = %d\n", m_currAction );
 	switch( m_currAction ){
 	case ACTION_NORMAL:
 		isFinish = ActionNormal();
@@ -109,12 +112,17 @@ void AIWizard::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 		coroutine tmp;
 		m_coro = tmp;
 
+		DEBUG_PRINT( "AIWizardの実行アクション終了\n" );
+
 		// 次のアクションがセットされていれば変更
 		if( m_nextAction != ACTION_MAX ){
 			m_currAction = m_nextAction;
 			m_nextAction = ACTION_MAX;
+			DEBUG_PRINT( "次のアクションは%dです\n", m_currAction );
 		}
 	}
+
+	DEBUG_PRINT( "AIWizard::ExecMain終了\n" );
 }
 
 void AIWizard::EnemyRecievedEvent( const Common::CMN_EVENT &eventInfo )
@@ -147,7 +155,8 @@ AIWizard::ACTION_TYPE AIWizard::GetRandamNextAction()
 	};
 
 	uint32_t type = Utility::GetRandamValue( NUMBEROF(s_attackAction), 0 );
-	return static_cast<ACTION_TYPE>( type );
+	DEBUG_PRINT( "AIWizard::GetRandamNextAction is Selected No%d\n", type );
+	return ACTION_WAY_BULLET;
 }
 
 void AIWizard::ChangeActionType( const ACTION_TYPE &nextAction )

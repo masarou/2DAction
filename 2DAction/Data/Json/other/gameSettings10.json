@@ -5,13 +5,13 @@
 		{"destroyMax": 1}
 	],
 	"bossInfo":[
-		{"enemyKind": "ENEMY_KIND_LAST_BOSS", 	"level": 5, "num": 1, "initPosX": 1340, "initPosY": 800}
+		{"enemyKind": "ENEMY_KIND_LAST_BOSS", 	"level": 5, "num": 1, "initPosX": 1350, "initPosY": 1000}
 	],
 	"initEnemy":[
 	],
 	"gameCondition":[
 		{"EnemyMax": 3, "frequency":5},
-		{"ItemMax": 0, "frequency":0}
+		{"ItemMax": 3, "frequency":0}
 	],
 	"appearEnemy":[
 	],

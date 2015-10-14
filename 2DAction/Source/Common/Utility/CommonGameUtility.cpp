@@ -565,16 +565,16 @@ bool OverWriteSaveData( Common::SAVE_DATA &saveData )
  * @brief	ステータスレベルから実際にセットする値へ変換(0~9の間)
  */
 /* ================================================ */
-static const uint32_t STATE_LEVEL_MAX = 10;
+static const uint32_t STATE_TABLE_MAX = Common::STATUS_LEVEL_MAX+1;
 uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t level )
 {
-	if( level >= STATE_LEVEL_MAX){
+	if( level >= STATE_TABLE_MAX){
 		DEBUG_ASSERT( 0, "指定レベルが想定外");
 		return 0;
 	}
 
 	// ライフのレベルテーブル
-	static uint32_t s_lifeStateTable[STATE_LEVEL_MAX] = {
+	static uint32_t s_lifeStateTable[STATE_TABLE_MAX] = {
 		0,		// lv1
 		30,		// lv2
 		50,		// lv3
@@ -588,45 +588,45 @@ uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t 
 	};
 
 	// 斬撃のレベルテーブル
-	static uint32_t s_damageSlashingTable[STATE_LEVEL_MAX] = {
+	static uint32_t s_damageSlashingTable[STATE_TABLE_MAX] = {
 		0,		// lv1
-		30,		// lv2
-		70,		// lv3
-		100,	// lv4
-		130,	// lv5
-		160,	// lv6
-		200,	// lv7
-		240,	// lv8
-		280,	// lv9
-		320,	// lv10
+		15,		// lv2
+		30,		// lv3
+		50,	// lv4
+		70,	// lv5
+		100,	// lv6
+		130,	// lv7
+		160,	// lv8
+		200,	// lv9
+		240,	// lv10
 	};
 
 	// マシンガンのレベルテーブル
-	static uint32_t s_damageBulletTable[STATE_LEVEL_MAX] = {
+	static uint32_t s_damageBulletTable[STATE_TABLE_MAX] = {
 		0,		// lv1
-		20,		// lv2
-		40,		// lv3
-		60,		// lv4
-		80,		// lv5
-		90,		// lv6
-		100,	// lv7
-		110,	// lv8
-		130,	// lv9
-		150,	// lv10
+		15,		// lv2
+		25,		// lv3
+		35,		// lv4
+		45,		// lv5
+		55,		// lv6
+		65,		// lv7
+		75,		// lv8
+		85,		// lv9
+		100,	// lv10
 	};
 
 	// マシンガンSPDのレベルテーブル
-	static uint32_t s_speedBulletTable[STATE_LEVEL_MAX] = {
+	static uint32_t s_speedBulletTable[STATE_TABLE_MAX] = {
 		0,		// lv1
-		2,		// lv2
-		4,		// lv3
-		6,		// lv4
-		8,		// lv5
-		10,		// lv6
-		11,		// lv7
-		13,		// lv8
-		14,		// lv9
-		17,		// lv10
+		3,		// lv2
+		5,		// lv3
+		8,		// lv4
+		10,		// lv5
+		12,		// lv6
+		15,		// lv7
+		17,		// lv8
+		20,		// lv9
+		20,		// lv10
 	};
 
 	uint32_t retVal = 0;
