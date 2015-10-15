@@ -11,5 +11,9 @@
 	
 	"animeInfo":[
 		{"animTag":"shoot",	"frameSpeed":1,	"animIndex":[0],	"nextAnim":"shoot"}
-	]	
+	],
+	
+	"collisionCircle":[
+		{"posX":0,	"posY":0,	"radius":15}
+	]
 }

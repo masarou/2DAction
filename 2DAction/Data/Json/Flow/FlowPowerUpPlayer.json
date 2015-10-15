@@ -1,6 +1,6 @@
 {
 	"eventdata":[
-		{"event":"proceed", "path":"FlowGameStage05.json"}
+		{"event":"proceed", "path":"FlowGameStage01.json"}
 	],
 	"bgdata":[
 		{"bgid":"BGID_COMMON"}

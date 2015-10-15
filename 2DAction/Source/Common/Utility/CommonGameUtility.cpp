@@ -188,15 +188,118 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 		calcPosB = ConvertWindowPosToGamePos( calcPosB );
 	}
 
-	math::Vector2 diff = calcPosA - calcPosB;
+	// 以下、判定
+	if( texInfoA.m_collisionArray.size() == 0 && texInfoB.m_collisionArray.size() == 0 )
+	{
+		// collisionCircleが両方とも設定されていない場合(単に画像サイズから求める)
+		math::Vector2 diff = calcPosA - calcPosB;
 
-	float inRangeX = math::Absf(texInfoA.m_sizeWidth/2.0f) + math::Absf(texInfoB.m_sizeWidth/2.0f);
-	float inRangeY = math::Absf(texInfoA.m_sizeHeight/2.0f) + math::Absf(texInfoB.m_sizeHeight/2.0f);
+		float inRangeX = math::Absf(texInfoA.m_sizeWidth/2.0f) + math::Absf(texInfoB.m_sizeWidth/2.0f);
+		float inRangeY = math::Absf(texInfoA.m_sizeHeight/2.0f) + math::Absf(texInfoB.m_sizeHeight/2.0f);
 
-	if( math::Absf( diff.x ) < inRangeX && math::Absf( diff.y ) < inRangeY ){
-		return true;
+		if( math::Absf( diff.x ) < inRangeX && math::Absf( diff.y ) < inRangeY ){
+			return true;
+		}
+	}
+	else if( texInfoA.m_collisionArray.size() != 0 && texInfoB.m_collisionArray.size() != 0 )
+	{
+		// collisionCircleが両方とも設定されている場合
+		for( uint32_t i = 0; i < texInfoA.m_collisionArray.size() ; ++i ){
+			for( uint32_t j = 0; j < texInfoB.m_collisionArray.size() ; ++j ){
+				CollisionCircle circleA = texInfoA.m_collisionArray.at( i );
+				CollisionCircle circleB = texInfoB.m_collisionArray.at( j );
+				math::Vector2 centerA = circleA.m_relativePos + calcPosA;
+				math::Vector2 centerB = circleB.m_relativePos + calcPosB;
+				float range = circleA.m_radius + circleB.m_radius;
+				if( math::GetDistance( centerA, centerB ) < range * range ){
+					return true;
+				}
+			}
+		}
+	}
+	else
+	{
+		// collisionCircleが片方のみ設定されている場合
+		math::Vector2 squarePos[2];
+		if( texInfoA.m_collisionArray.size() == 0 ){
+			squarePos[0].x = calcPosA.x - ( texInfoA.m_sizeWidth/2.0f );	// 左上
+			squarePos[0].y = calcPosA.y - ( texInfoA.m_sizeHeight/2.0f );	// 左上
+			
+			squarePos[1].x = calcPosA.x + ( texInfoA.m_sizeWidth/2.0f );	// 右下
+			squarePos[1].y = calcPosA.y + ( texInfoA.m_sizeHeight/2.0f );	// 右下
+
+			for( uint32_t i = 0; i < texInfoB.m_collisionArray.size() ; ++i ){
+				CollisionCircle checkCircle;
+				checkCircle.m_relativePos = calcPosB + texInfoB.m_collisionArray.at(i).m_relativePos;
+				checkCircle.m_radius = texInfoB.m_collisionArray.at(i).m_radius;
+
+				if( CheckCollisionCircleSquare( checkCircle, squarePos[0], squarePos[1] ) ){
+					return true;
+				}
+			}
+		}
+		else{
+			squarePos[0].x = calcPosB.x - ( texInfoB.m_sizeWidth/2.0f );	// 左上
+			squarePos[0].y = calcPosB.y - ( texInfoB.m_sizeHeight/2.0f );	// 左上
+
+			squarePos[1].x = calcPosB.x + ( texInfoB.m_sizeWidth/2.0f );	// 左上
+			squarePos[1].y = calcPosB.y + ( texInfoB.m_sizeHeight/2.0f );	// 左上
+
+			for( uint32_t i = 0; i < texInfoA.m_collisionArray.size() ; ++i ){
+				CollisionCircle checkCircle;
+				checkCircle.m_relativePos = calcPosA + texInfoA.m_collisionArray.at(i).m_relativePos;
+				checkCircle.m_radius = texInfoA.m_collisionArray.at(i).m_radius;
+
+				if( CheckCollisionCircleSquare( checkCircle, squarePos[0], squarePos[1] ) ){
+					return true;
+				}
+			}
+		}
 	}
 
+
+
+	return false;
+}
+
+/* ================================================ */
+/**
+ * @brief	指定の円と四角形の当たり判定
+ */
+/* ================================================ */
+const bool CheckCollisionCircleSquare( const CollisionCircle &circle, const math::Vector2 &squarePosUpperLeft, const math::Vector2 &squarePosUnderRight )
+{
+	math::Vector2 squarePos[4];
+
+	squarePos[0] = squarePosUpperLeft;	// 左上
+	squarePos[1].x = squarePosUnderRight.x;	// 右上
+	squarePos[1].y = squarePosUpperLeft.y;	// 右上
+	squarePos[2].x = squarePosUpperLeft.x;	// 左下
+	squarePos[2].y = squarePosUnderRight.y;	// 左下
+	squarePos[3] = squarePosUnderRight;	// 右下
+
+	// 縦でのチェック
+	if( 
+		( squarePos[0].x < circle.m_relativePos.x && circle.m_relativePos.x < squarePos[3].x ) &&
+		( squarePos[0].y - circle.m_radius < circle.m_relativePos.y && circle.m_relativePos.y < squarePos[3].y + circle.m_radius )
+	)
+	{
+		return true;
+	}
+	// 横でのチェック
+	if(
+		( squarePos[0].x - circle.m_radius < circle.m_relativePos.x && circle.m_relativePos.x < squarePos[3].x + circle.m_radius ) &&
+		( squarePos[0].y < circle.m_relativePos.y && circle.m_relativePos.y < squarePos[3].y )
+	)
+	{
+		return true;
+	}
+	// 斜めチェック
+	for( uint32_t j = 0; j < NUMBEROF( squarePos ); ++j ){
+		if( math::GetDistance( circle.m_relativePos, squarePos[j] ) < circle.m_radius * circle.m_radius ){
+			return true;
+		}
+	}
 	return false;
 }
 

@@ -86,6 +86,7 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 	std::ifstream ifs(path.c_str());
 
 	picojson::value root;
+	picojson::value null;
 	picojson::parse( root, ifs);
 	
 	//! 基本となる情報取得
@@ -108,7 +109,6 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 
 	//! アニメ情報取得
 	picojson::value animData = root.get("animeInfo");
-	picojson::value null;
 	for( uint32_t i = 0;; ++i ){
 		if( animData == null || animData.get(i) == null ){
 			break;
@@ -128,6 +128,21 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 
 		//! 読み込んだアニメ情報を保持
 		basicInfo.m_vAnimName.push_back(data);
+	}
+
+	// 当たり判定円が設定されていれば取得
+	picojson::value colData = root.get("collisionCircle");
+	for( uint32_t i = 0;; ++i ){
+		if( colData == null || colData.get(i) == null ){
+			break;
+		}
+		CollisionCircle data;
+		data.m_relativePos.x	= static_cast<float>( colData.get(i).get("posX").get<double>() );
+		data.m_relativePos.y	= static_cast<float>( colData.get(i).get("posY").get<double>() );
+		data.m_radius		= static_cast<float>( colData.get(i).get("radius").get<double>() );
+
+		//! 読み込んだアニメ情報を保持
+		basicInfo.m_collisionArray.push_back(data);
 	}
 
 	++tex.m_readCounter;

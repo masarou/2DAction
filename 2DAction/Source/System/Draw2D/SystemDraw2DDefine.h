@@ -32,6 +32,16 @@ struct ANIM_INFO{
 	}
 };
 
+// 当たり判定円
+struct CollisionCircle{
+	math::Vector2	m_relativePos;		// 画像中心点からの相対位置
+	float			m_radius;			// 円の半径距離
+	CollisionCircle::CollisionCircle(){
+		m_relativePos = math::Vector2();
+		m_radius = 0.0f;
+	}
+};
+
 //テクスチャを読み込むときの情報
 struct TEX_INIT_INFO{
 	std::string m_fileName;
@@ -42,6 +52,7 @@ struct TEX_INIT_INFO{
 	uint32_t	m_sizeHeight;	//縦サイズ
 	std::string m_animDefault;	//デフォルトアニメ
 	std::vector<ANIM_INFO> m_vAnimName;	//アニメ情報
+	std::vector< CollisionCircle >	m_collisionArray;	// 当たり判定円
 	void Init(){
 		m_fileName		= "";
 		m_splitNum		= 0;
@@ -51,6 +62,7 @@ struct TEX_INIT_INFO{
 		m_sizeHeight	= 0;
 		m_animDefault	= "";
 		m_vAnimName.clear();
+		m_collisionArray.clear();
 	}
 };
 

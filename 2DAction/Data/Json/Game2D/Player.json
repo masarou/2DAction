@@ -14,5 +14,9 @@
 		{"animTag":"down",	"frameSpeed":10,	"animIndex":[0,1,2],	"nextAnim":"down"},
 		{"animTag":"right",	"frameSpeed":10,	"animIndex":[6,7,8],	"nextAnim":"right"},
 		{"animTag":"left",	"frameSpeed":10,	"animIndex":[3,4,5],	"nextAnim":"left"}
-	]	
+	],
+	
+	"collisionCircle":[
+		{"posX":0,	"posY":0,	"radius":20}
+	]
 }
