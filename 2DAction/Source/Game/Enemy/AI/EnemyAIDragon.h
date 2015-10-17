@@ -36,7 +36,6 @@ private:
 	enum ACTION_TYPE{
 		ACTION_MOVE_AWAY,		// 逃げるような移動
 		ACTION_FIRE_BOMB,		// 炎の弾発射
-		ACTION_FIRE_BREATH,		// 炎ブレス
 		ACTION_LARGE_EXPLOSION,	// 大爆発
 
 		ACTION_MAX,
@@ -69,8 +68,8 @@ private:
 			GameEffect::CreateEffect( GameEffect::EFFECT_FIRE_WALL, WINDOW_CENTER );
 			SoundManager::GetInstance()->PlaySE("PreExplosion");
 
-			// 炎生成
-			for( fireCounter = 0 ; fireCounter < 7 ; ++fireCounter ){
+			// 炎生成(レベル数分)
+			for( fireCounter = 0 ; fireCounter < GetEnemyLevel() ; ++fireCounter ){
 				GameEffectWithCollision::CreateEffect( Common::OWNER_ENEMY, GameEffectWithCollision::EFFECT_FIRE, Utility::GetMapRandamPos( /*bool allowInWindow=*/true ) );
 				m_waitCounter = 5;
 				yield return false;
@@ -81,7 +80,7 @@ private:
 
 		// 次の行動セット
 		ChangeActionType( GetRandamNextAction() );
-		m_waitCounter = Utility::GetRandamValue( 60, 40 );
+		m_waitCounter = 100;
 		return true;
 	}
 
@@ -106,7 +105,7 @@ private:
 		
 		// 次の行動セット
 		ChangeActionType( GetRandamNextAction() );
-		m_waitCounter = Utility::GetRandamValue( 60, 40 );
+		m_waitCounter = 100;
 		return true;
 	}
 

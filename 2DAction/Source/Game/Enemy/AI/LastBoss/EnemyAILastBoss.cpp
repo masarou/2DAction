@@ -43,7 +43,9 @@ bool EnemyAILastBoss::InitAI()
 	rightPos += math::Vector2( -150.0f, 50.0f );
 
 	m_pRightHand	= LastBossRight::Create( "EnemyLastBossRight.json", rightPos );
+	m_pRightHand->SetAnotherHand( m_pLeftHand );
 	m_pLeftHand		= LastBossLeft::Create( "EnemyLastBossLeft.json", letfPos );
+	m_pLeftHand->SetAnotherHand( m_pRightHand );
 	return true;
 }
 
@@ -91,13 +93,10 @@ void EnemyAILastBoss::ExecHandsUpdate( TEX_DRAW_INFO &enemyInfo )
 	math::Vector2 rightPos = enemyInfo.m_posOrigin;
 	rightPos += math::Vector2( -150.0f, 50.0f );
 
-	if( m_pRightHand ){
+	if( m_pRightHand && m_pLeftHand ){
 		m_pRightHand->SetBasicPos( rightPos );
-	}
-	if( m_pLeftHand ){
 		m_pLeftHand->SetBasicPos( letfPos );
 	}
-
 }
 
 
@@ -119,6 +118,7 @@ LastBossHand::LastBossHand( const std::string &readFileName, const math::Vector2
 , m_waitCounter( 0 )
 , m_currAction( ACTION_SUMMON )
 , m_nextAction( ACTION_NONE )
+, m_pAnotherHand( NULL )
 {
 
 
@@ -170,7 +170,7 @@ bool LastBossHand::ExecAction()
 		isActionEnd = ExecSummonMonster( m_drawTexture.m_pTex2D->UpdateDrawInfo() );
 		break;
 	case ACTION_SUMMONS:
-		isActionEnd = true;//ExecSummonMonster( m_drawTexture.m_pTex2D->UpdateDrawInfo() );
+		isActionEnd = true;//ExecSummonLightMonsters( m_drawTexture.m_pTex2D->UpdateDrawInfo() );
 		break;
 	}
 
@@ -192,6 +192,15 @@ bool LastBossHand::ExecAction()
 	return isActionEnd;
 }
 
+void LastBossHand::SetAnotherHand( LastBossHand *pHand )
+{
+	if( m_pAnotherHand ){
+		DEBUG_ASSERT( 0, "もうすでに片方の腕がセットされている");
+		return;
+	}
+	m_pAnotherHand = pHand;
+}
+
 void LastBossHand::Update()
 {
 	ExecAction();
@@ -205,48 +214,95 @@ void LastBossHand::DrawUpdate()
 	}
 }
 
-LastBossHand::ACTION_KIND LastBossHand::GetNextActionKind()
+/* ================================================ */
+/**
+ * @brief	次の行動選定
+ */
+/* ================================================ */
+LastBossHand::ACTION_KIND LastBossHand::GetNextActionKind() const
 {
 	ACTION_KIND retAction = ACTION_NONE;
 	for(;;){
 		retAction = static_cast<ACTION_KIND>( Utility::GetRandamValue( ACTION_MAX, ACTION_NONE ) );
+		
+		// モンスター召喚の時は召喚してもよいかどうかチェック
 		if( retAction == ACTION_SUMMON ){
-			// モンスター召喚の時は召喚してもよいかどうかチェック
 			if( IsCreateUniqueMonster() ){
 				break;
 			}
 		}
+		else if( retAction == ACTION_SUMMONS ){
+			if( IsCreateLightMonster() ){
+				break;
+			}
+		}
 		else{
+			// 行動決定！
 			break;
 		}
 	}
 	return retAction;
 }
 
+/* ================================================ */
+/**
+ * @brief	生成モンスター配列
+ */
+/* ================================================ */
 
-Common::ENEMY_KIND s_uniqueEnemyKind[] = {
-	Common::ENEMY_KIND_WIZARD,
-	Common::ENEMY_KIND_DRAGON,
-	Common::ENEMY_KIND_BOSS,
-};
 
+/* ================================================ */
+/**
+ * @brief	ユニークモンスターを生成していいか決定
+ */
+/* ================================================ */
 bool LastBossHand::IsCreateUniqueMonster() const
 {
 	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();	
 	// 敵の生成
 	if( pEnemyManager ){
 		uint32_t countEnemy = 0;
-		for( uint32_t i = 0; i < NUMBEROF(s_uniqueEnemyKind) ; ++i ){
-			countEnemy += pEnemyManager->CountEnemy( s_uniqueEnemyKind[i] );
+		for( uint32_t i = 0; i < NUMBEROF(Common::s_uniqueEnemyKind) ; ++i ){
+			countEnemy += pEnemyManager->CountEnemy( Common::s_uniqueEnemyKind[i] );
 		}
-		if( countEnemy < 2 ){
+
+		// ユニークモンスターは2体以上召喚しない
+		if( countEnemy < 1 ){
+			return true;
+		}
+		if( countEnemy < 2
+			&& m_pAnotherHand && m_pAnotherHand->GetCurrentActionKind() != ACTION_SUMMON ){
+				return true;
+		}
+	}
+	return false;
+}
+
+/* ================================================ */
+/**
+ * @brief	雑魚モンスターを生成していいか決定
+ */
+/* ================================================ */
+bool LastBossHand::IsCreateLightMonster() const
+{
+	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();	
+	// 敵の生成
+	if( pEnemyManager ){
+		uint32_t countEnemy = 0;
+		countEnemy += pEnemyManager->CountEnemy();
+		if( countEnemy < 5 ){
 			return true;
 		}
 	}
 	return false;
 }
 
-Common::ENEMY_KIND LastBossHand::DecideCreateMonster()
+/* ================================================ */
+/**
+ * @brief	生成モンスター決定
+ */
+/* ================================================ */
+Common::ENEMY_KIND LastBossHand::DecideCreateMonster() const
 {
 	// 生成するモンスターを決定
 	// 同じモンスターは避ける
@@ -254,7 +310,7 @@ Common::ENEMY_KIND LastBossHand::DecideCreateMonster()
 	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
 	if( pEnemyManager ){
 		for(;;){
-			kind = s_uniqueEnemyKind[ Utility::GetRandamValue( NUMBEROF( s_uniqueEnemyKind ), 0 ) ];
+			kind = Common::s_uniqueEnemyKind[ Utility::GetRandamValue( NUMBEROF( Common::s_uniqueEnemyKind ), 0 ) ];
 			// 既に同じモンスターが生成されているかどうかチェック
 			if( pEnemyManager->CountEnemy( kind ) == 0 ){
 				break;
@@ -264,6 +320,23 @@ Common::ENEMY_KIND LastBossHand::DecideCreateMonster()
 	return kind;
 }
 
+Common::ENEMY_KIND LastBossHand::DecideCreateLightMonster() const
+{
+	// 生成する雑魚モンスターを決定
+	Common::ENEMY_KIND kind = Common::ENEMY_KIND_SLIME;
+	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
+	if( pEnemyManager ){
+		kind = Common::s_lightEnemyKind[ Utility::GetRandamValue( NUMBEROF( Common::s_lightEnemyKind ), 0 ) ];
+	}
+	return kind;
+}
+
+
+/* ================================================ */
+/**
+ * @brief	指定位置に移動し続ける関数(trueが帰ると到達)
+ */
+/* ================================================ */
 bool LastBossHand::MoveToTargetPos( const math::Vector2 &targetPos, const float &maxSpeed, const float &rateSpeed )
 {
 	TEX_DRAW_INFO &drawInfo = m_drawTexture.m_pTex2D->UpdateDrawInfo();
@@ -288,8 +361,11 @@ bool LastBossHand::MoveToTargetPos( const math::Vector2 &targetPos, const float 
 	return isMoveFinish;
 }
 
-
-// 指定の回転角度まで一定量で回転
+/* ================================================ */
+/**
+ * @brief	指定の回転角度まで一定量で回転
+ */
+/* ================================================ */
 bool LastBossHand::RotateToTargetAngle( const math::Angle &targetDegree, const bool &forceSet )
 {
 	math::Angle currDegree = m_drawTexture.m_pTex2D->GetDrawInfo().m_rot;

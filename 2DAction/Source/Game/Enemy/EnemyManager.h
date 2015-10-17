@@ -39,6 +39,9 @@ public:
 	// SystemMessageUnitのユニークIDから敵クラスを取得
 	const EnemyBase *GetEnemyBymessageUniqueID( uint32_t messageUnitID );
 
+	// 指定位置からDistance以内に敵がいるかどうか取得
+	bool IsNearEnemy( const math::Vector2 &checkPos, float distance );
+
 protected:
 	
 	virtual void Update() override;

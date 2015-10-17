@@ -11,5 +11,10 @@
 	
 	"animeInfo":[
 		{"animTag":"default",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"default"}
-	]	
+	],
+	
+	"collisionCircle":[
+		{"posX":37,	"posY":140,	"radius":32},
+		{"posX":37,	"posY":60,	"radius":32}
+	]
 }

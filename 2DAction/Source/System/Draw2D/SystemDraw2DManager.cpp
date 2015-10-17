@@ -151,8 +151,8 @@ void Draw2DManager::Action()
 
 	// デバッグ用目印
 	for( uint32_t i = 0; i < m_drawCircle.size() ; ++i ){
-		math::Vector2 tmp = m_drawCircle.at(i) - Utility::GetPlayerOffsetPos();
-		DrawCircle( static_cast<int>(tmp.x), static_cast<int>(tmp.y), 3, Color, false);
+		math::Vector2 tmp = m_drawCircle.at(i).pos - Utility::GetPlayerOffsetPos();
+		DrawCircle( static_cast<int>(tmp.x), static_cast<int>(tmp.y), m_drawCircle.at(i).radius, Color, false);
 	}
 	m_drawCircle.clear();
 #endif

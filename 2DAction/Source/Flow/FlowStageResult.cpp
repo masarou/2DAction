@@ -74,8 +74,10 @@ ResultStageMenu::~ResultStageMenu(void)
 
 bool ResultStageMenu::InitMenu()
 {
-	// BGM再生開始
-	SoundManager::GetInstance()->PlayBGM( "interval" );
+	if( GameRecorder::GetInstance()->GetGameStateOfProgress() != GameRecorder::STATE_STAGE10 ){
+		// BGM再生開始
+		SoundManager::GetInstance()->PlayBGM( "interval" );
+	}
 
 	// 敵を倒して得た得点をセット
 	PartsCounter *pCounter = GetPartsCounter( "result" );

@@ -116,8 +116,8 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 	SetEnemyAnim( animTag );
 	SetEnemyEyeSight( vec );
 
-	Utility::DrawDebugCircle( (vec*10.0f) + enemyInfo.m_posOrigin );
-
+	// デバッグ表示用
+	Utility::DrawDebugCircle( ( (vec*10.0f) + enemyInfo.m_posOrigin ), 3.0f );
 }
 
 

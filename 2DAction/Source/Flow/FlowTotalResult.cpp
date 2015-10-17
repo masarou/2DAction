@@ -33,6 +33,9 @@ FlowTotalResult::~FlowTotalResult(void)
 
 bool FlowTotalResult::Init()
 {
+	// BGMÄ¶ŠJn
+	SoundManager::GetInstance()->PlayBGM( "interval" );
+
 	// ”wŒiˆê–‡ŠGì¬
 	m_pMenuWindow = TotalResult2D::CreateTotalResult2D( "MenuGameResult.json" );
 	return true;

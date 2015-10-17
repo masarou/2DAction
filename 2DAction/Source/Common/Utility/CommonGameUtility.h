@@ -65,7 +65,7 @@ math::Vector2 GetMapRandamPos( bool allowInWindow = true, int32_t mapHeight = 0 
 
 // 画面上に表示しているオブジェクトかどうか
 bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo );
-bool IsPositionInWindowArea( const float &xx, const float &yy );
+bool IsPositionInWindowArea( const uint32_t &xx, const uint32_t &yy );
 
 // プレイヤーに重ならない位置かどうか
 bool IsPositionInPlayerPos( const float &xx, const float &yy );
@@ -109,7 +109,7 @@ Common::EVENT_MESSAGE GetEventMessageFromObjType( const Common::TYPE_OBJECT &obj
 Common::TYPE_OBJECT GetObjTypeFromEventMessage( const Common::EVENT_MESSAGE &eventMessage );
 
 // デバッグ用、指定位置に円を描く
-void DrawDebugCircle( math::Vector2 drawPos );
+void DrawDebugCircle( const math::Vector2 &pos, const float &radius );
 
 } // Utility
 

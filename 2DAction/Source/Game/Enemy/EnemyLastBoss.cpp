@@ -38,7 +38,7 @@ bool LastBoss::InitMain()
 
 const uint32_t LastBoss::GetEnemyDefaultHP() const
 {
-	return 6000 + ( 800 * GetEnemyLevel() );
+	return 10000 + ( 800 * GetEnemyLevel() );
 }
 
 /* ================================================ */
@@ -93,6 +93,24 @@ void LastBoss::ReduceDamage( Common::CMN_EVENT &eventId )
 		// 斬撃はダメージを増やす
 		eventId.m_eventValue *= 1.3f - levelReduce;
 		break;
+	}
+
+	// 現存しているユニークモンスターの数で変化
+	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();	
+	// 敵の生成
+	if( pEnemyManager ){
+		uint32_t countEnemy = 0;
+		for( uint32_t i = 0; i < NUMBEROF(Common::s_uniqueEnemyKind) ; ++i ){
+			countEnemy += pEnemyManager->CountEnemy( Common::s_uniqueEnemyKind[i] );
+		}
+		if( countEnemy == 1 ){
+			eventId.m_eventValue *= 0.5f;
+		}
+		else if( countEnemy >= 2 ){
+			eventId.m_eventValue = 0;
+			// ダメージ無効エフェクト
+			GameEffect::CreateEffect( GameEffect::EFFECT_INVALID_DAMAGE, GetDrawInfo().m_posOrigin );
+		}
 	}
 }
 

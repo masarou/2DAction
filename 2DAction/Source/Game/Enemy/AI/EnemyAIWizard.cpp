@@ -156,7 +156,7 @@ AIWizard::ACTION_TYPE AIWizard::GetRandamNextAction()
 
 	uint32_t type = Utility::GetRandamValue( NUMBEROF(s_attackAction), 0 );
 	DEBUG_PRINT( "AIWizard::GetRandamNextAction is Selected No%d\n", type );
-	return ACTION_WAY_BULLET;
+	return static_cast<AIWizard::ACTION_TYPE>( type );
 }
 
 void AIWizard::ChangeActionType( const ACTION_TYPE &nextAction )

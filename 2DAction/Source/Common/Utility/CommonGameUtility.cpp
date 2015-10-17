@@ -208,12 +208,16 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 			for( uint32_t j = 0; j < texInfoB.m_collisionArray.size() ; ++j ){
 				CollisionCircle circleA = texInfoA.m_collisionArray.at( i );
 				CollisionCircle circleB = texInfoB.m_collisionArray.at( j );
-				math::Vector2 centerA = circleA.m_relativePos + calcPosA;
-				math::Vector2 centerB = circleB.m_relativePos + calcPosB;
+				math::Vector2 centerA = circleA.m_relativePos + ( calcPosA - math::Vector2( texInfoA.m_sizeWidth / 2.0f, texInfoA.m_sizeHeight / 2.0f ) );
+				math::Vector2 centerB = circleB.m_relativePos + ( calcPosB - math::Vector2( texInfoB.m_sizeWidth / 2.0f, texInfoB.m_sizeHeight / 2.0f ) );
 				float range = circleA.m_radius + circleB.m_radius;
 				if( math::GetDistance( centerA, centerB ) < range * range ){
 					return true;
 				}
+#ifdef _DEBUG
+				Utility::DrawDebugCircle( centerA, circleA.m_radius );
+				Utility::DrawDebugCircle( centerB, circleB.m_radius );
+#endif
 			}
 		}
 	}
@@ -427,10 +431,10 @@ bool IsPositionInWindowArea( const TEX_DRAW_INFO &texInfo )
 	if( !texInfo.m_usePlayerOffset ){
 		return true;
 	}
-	return IsPositionInWindowArea( texInfo.m_posOrigin.x, texInfo.m_posOrigin.y );
+	return IsPositionInWindowArea( static_cast<uint32_t>( texInfo.m_posOrigin.x ), static_cast<uint32_t>( texInfo.m_posOrigin.y ) );
 }
 
-bool IsPositionInWindowArea( const float &xx, const float &yy )
+bool IsPositionInWindowArea( const uint32_t &xx, const uint32_t &yy )
 {
 	bool retVal = false;
 
@@ -879,10 +883,11 @@ void DrawStringOnWindow( const std::string &str, const math::Vector2 &pos, uint3
 	Draw2DManager::GetInstance()->PushDrawString( str, pos, color );
 }
 
-void DrawDebugCircle( math::Vector2 drawPos )
+void DrawDebugCircle( const math::Vector2 &pos, const float &radius )
 {
 #ifdef _DEBUG
-	Draw2DManager::GetInstance()->m_drawCircle.push_back( drawPos );
+	Draw2DManager::DrawCircleInfo drawInfo = { radius, pos };
+	Draw2DManager::GetInstance()->m_drawCircle.push_back( drawInfo );
 #endif
 }
 

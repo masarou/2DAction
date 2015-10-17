@@ -42,7 +42,7 @@ AIDragon::~AIDragon(void)
 
 bool AIDragon::InitAI()
 {
-	m_currAction = ACTION_LARGE_EXPLOSION;
+	m_currAction = ACTION_FIRE_BOMB;
 	m_nextAction = ACTION_MAX;
 	return true;
 }
@@ -267,7 +267,7 @@ bool AIDragon::DashMove( TEX_DRAW_INFO &enemyInfo, const math::Vector2 &targetPo
 	}
 
 	// ˆÚ“®‚µ‚È‚ª‚ç‰Î‰Š’e‚ð“f‚­
-	if( FpsManager::GetUpdateCounter() % 20 == 0 ){
+	if( FpsManager::GetUpdateCounter() % 30 == 0 ){
 		ActionShootFireBall( enemyInfo, /*bool onlyAction=*/true );
 	}
 

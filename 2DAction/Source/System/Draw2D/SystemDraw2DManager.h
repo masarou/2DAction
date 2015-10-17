@@ -41,7 +41,11 @@ public:
 	void DeleteDraw2DManager();
 
 #ifdef _DEBUG
-	std::vector<math::Vector2> m_drawCircle;
+	struct DrawCircleInfo{
+		float radius;
+		math::Vector2 pos;
+	};
+	std::vector<DrawCircleInfo> m_drawCircle;
 #endif
 
 private:

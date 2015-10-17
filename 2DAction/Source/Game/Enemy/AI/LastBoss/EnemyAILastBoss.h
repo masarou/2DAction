@@ -76,6 +76,8 @@ public:
 	// 指定されているアクション実行(終了したらtrue)
 	bool ExecAction();
 
+	void SetAnotherHand( LastBossHand *pHand );
+
 	// 現在の実行アクションを取得
 	const ACTION_KIND &GetCurrentActionKind() const{ return m_currAction; }
 
@@ -99,7 +101,8 @@ protected:
 
 	// 各種アクション内での右手、左手用位置調整オフセット
 	virtual math::Vector2 GetSummonEffectOffset() = 0;
-
+	
+	// パンチアクション
 	virtual bool ExecFist( TEX_DRAW_INFO &drawInfo )
 	{
 		math::Vector2 currentOffset = drawInfo.m_posOrigin - m_basicPos;
@@ -136,7 +139,7 @@ protected:
 			// 元の位置に戻る
 			for(;;){
 				if( MoveToTargetPos( m_basicPos, 10.0f, 0.3f ) ){
-					m_waitCounter = 30;
+					m_waitCounter = 90;
 					break;
 				}
 				yield return false;
@@ -149,10 +152,11 @@ protected:
 		return true;
 	}
 
+	
+	// モンスター召喚(ユニーク)
 	virtual bool ExecSummonMonster( TEX_DRAW_INFO &drawInfo )
 	{
 		reenter( m_coro ){
-
 			// ランダムな位置に移動
 			for(;;){
 				m_moveTargetPos = Utility::GetMapRandamPos( /*bool allowInWindow =*/true );
@@ -204,19 +208,95 @@ protected:
 				yield return false;
 			}
 		}
+		m_waitCounter = 60;
+		return true;
+	}
+
+	
+	// 雑魚モンスター召喚
+	bool ExecSummonLightMonsters( TEX_DRAW_INFO &drawInfo )
+	{
+		reenter( m_coro ){
+
+			// 一定数モンスターを生成
+			for(;;){
+
+				// ランダムな位置に移動
+				for(;;){
+					m_moveTargetPos = Utility::GetMapRandamPos( /*bool allowInWindow =*/true );
+					// 反対の手がある位置に行くと不自然なので今いる位置側に限定
+					if( ( GetTypeObject() == Common::TYPE_LAST_BOSS_LEFT
+						&& m_moveTargetPos.x < drawInfo.m_posOrigin.x )
+						|| ( GetTypeObject() == Common::TYPE_LAST_BOSS_RIGHT
+						&& m_moveTargetPos.x > drawInfo.m_posOrigin.x ) )
+					{
+						// 移動できる場所かチェック
+						if( Utility::GetMapHeight( m_moveTargetPos + GetSummonEffectOffset() ) == 0){
+							break;
+						}
+					}
+				}
+				for(;;){
+					if( MoveToTargetPos( m_moveTargetPos, 5.0f, 0.3f ) ){
+						m_waitCounter = 30;
+						RotateToTargetAngle( GetRotActionSummon(), /*bool isForceSet=*/true );
+						break;
+					}
+					else if( drawInfo.m_rot != GetRotActionSummon() ){
+						// 移動しつつ自然な角度に回転させる
+						RotateToTargetAngle( GetRotActionSummon() );
+					}
+					yield return false;
+				}
+
+				// 召喚エフェクト
+				GameEffect::CreateEffect( GameEffect::EFFECT_SUMMON, drawInfo.m_posOrigin + GetSummonEffectOffset() );
+				m_waitCounter = 20;
+				yield return false;
+
+				// モンスター召喚
+				GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( DecideCreateLightMonster(), 0, true, drawInfo.m_posOrigin + GetSummonEffectOffset() );
+				SoundManager::GetInstance()->PlaySE("Summon");
+
+				// モンスター召喚続行かどうか
+				if( !IsCreateLightMonster() ){
+					// モンスター生成終了
+					// 元の位置に戻る
+					for(;;){
+						if( MoveToTargetPos( m_basicPos, 10.0f, 0.3f ) ){
+							m_waitCounter = 30;
+							RotateToTargetAngle( GetRotateDefault(), /*bool isForceSet=*/true );
+							break;
+						}
+						else if( drawInfo.m_rot != GetRotateDefault() ){
+							// 移動しつつ自然な角度に回転させる
+							RotateToTargetAngle( GetRotateDefault() );
+						}
+						yield return false;
+					}
+					break;
+				}
+				else{
+					// 引き続きモンスター生成
+				}
+			}
+		}
+		m_waitCounter = 60;
 		return true;
 	}
 
 private:
 
 	// 次のアクションを求める
-	ACTION_KIND GetNextActionKind();
+	ACTION_KIND GetNextActionKind() const;
 
 	// モンスターを作成してもよいかどうかチェック
 	bool IsCreateUniqueMonster() const;
+	bool IsCreateLightMonster() const;
 
 	// 次に生成するモンスターを決定
-	Common::ENEMY_KIND DecideCreateMonster();
+	Common::ENEMY_KIND DecideCreateMonster() const;
+	Common::ENEMY_KIND DecideCreateLightMonster() const;
 
 	// 指定先に移動 trueで到達
 	bool MoveToTargetPos( const math::Vector2 &targetPos, const float &maxSpeed, const float &rateSpeed );
@@ -236,6 +316,9 @@ private:
 	// 保持している実行アクションの種類
 	ACTION_KIND		m_currAction;
 	ACTION_KIND		m_nextAction;
+
+	// もう片方の腕のポインタ
+	LastBossHand	*m_pAnotherHand;
 	
 	// コルーチン
 	coroutine		m_coro;

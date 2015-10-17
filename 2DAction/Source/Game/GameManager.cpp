@@ -318,8 +318,8 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 					enemyState.m_kind = kind;
 					enemyState.m_level = static_cast<uint32_t>( bossData.get(i).get("level").get<double>() );
 					if( bossData.get(i).get("initPosX") != null && bossData.get(i).get("initPosY") != null ){
-						enemyState.m_initPos.x = static_cast<uint32_t>( bossData.get(i).get("initPosX").get<double>() );
-						enemyState.m_initPos.y = static_cast<uint32_t>( bossData.get(i).get("initPosY").get<double>() );
+						enemyState.m_initPos.x = static_cast<float>( bossData.get(i).get("initPosX").get<double>() );
+						enemyState.m_initPos.y = static_cast<float>( bossData.get(i).get("initPosY").get<double>() );
 					}
 					m_initEnemyInfoVec.push_back( enemyState );
 				}
@@ -341,8 +341,8 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 				enemyState.m_kind = GetEnemyKindFromStr( initEnemy.get(i).get("enemyKind").get<std::string>() );
 				enemyState.m_level = static_cast<uint32_t>( initEnemy.get(i).get("level").get<double>() );
 				if( initEnemy.get(i).get("initPosX") != null && initEnemy.get(i).get("initPosY") != null ){
-					enemyState.m_initPos.x = static_cast<uint32_t>( initEnemy.get(i).get("initPosX").get<double>() );
-					enemyState.m_initPos.y = static_cast<uint32_t>( initEnemy.get(i).get("initPosY").get<double>() );
+					enemyState.m_initPos.x = static_cast<float>( initEnemy.get(i).get("initPosX").get<double>() );
+					enemyState.m_initPos.y = static_cast<float>( initEnemy.get(i).get("initPosY").get<double>() );
 				}
 				m_initEnemyInfoVec.push_back( enemyState );
 			}

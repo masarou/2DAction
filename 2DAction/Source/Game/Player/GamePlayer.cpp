@@ -777,8 +777,8 @@ void GamePlayer::ReflectDamage( const uint32_t &damageValue )
 
 	//ダメージエフェクト作成
 	GameEffectDamage::GetInstance()->CreateEffectDamage( damageValue
-		, Utility::GetPlayerPos().x
-		, Utility::GetPlayerPos().y, /*bool isPlayer=*/true );
+		, static_cast<uint32_t>( Utility::GetPlayerPos().x )
+		, static_cast<uint32_t>( Utility::GetPlayerPos().y ), /*bool isPlayer=*/true );
 
 	// ライフ残量によってSEを鳴らす
 	if( m_playerLife == 0 ){

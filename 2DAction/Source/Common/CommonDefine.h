@@ -254,6 +254,21 @@ namespace Common{
 		ENEMY_KIND_MAX,
 	};
 
+	// ユニークモンスター配列(基本的に一体ずつしかでない)
+	static ENEMY_KIND s_uniqueEnemyKind[] = {
+		Common::ENEMY_KIND_WIZARD,
+		Common::ENEMY_KIND_DRAGON,
+		Common::ENEMY_KIND_BOSS,
+	};
+	
+	// ライトモンスター配列(複数体存在することあり)
+	static ENEMY_KIND s_lightEnemyKind[] = {
+		Common::ENEMY_KIND_SLIME,
+		Common::ENEMY_KIND_SLIME_ANOTHER,
+		Common::ENEMY_KIND_AHRIMAN,
+		Common::ENEMY_KIND_COW,
+	};
+
 	enum ITEM_KIND{
 		ITEM_KIND_RAPID_BULLET,	// 連射速度UP
 		ITEM_KIND_LIFE_UP,		// ライフ回復

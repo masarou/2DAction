@@ -82,7 +82,6 @@ void EnemyAIDashTackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &action
 
 	// éãê¸çXêV
 	SetEnemyEyeSight( nextEyeSight );
-	Utility::DrawDebugCircle( (nextEyeSight*10.0f) + enemyInfo.m_posOrigin );
 }
 
 void EnemyAIDashTackle::UpdateIdle( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
