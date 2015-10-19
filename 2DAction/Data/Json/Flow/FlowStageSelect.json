@@ -1,0 +1,11 @@
+{
+	"eventdata":[
+		{"event":"start01", "path":"FlowGameStage01.json"},
+		{"event":"start02", "path":"FlowGameStage04.json"},
+		{"event":"start03", "path":"FlowGameStage07.json"},
+		{"event":"return", "path":"FlowPowerUpPlayer.json"}
+	],
+	"bgdata":[
+		{"bgid":"BGID_NONE"}
+	]
+}

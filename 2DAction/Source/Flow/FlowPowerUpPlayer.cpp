@@ -110,14 +110,6 @@ bool PowerUpMenu::InitMenu()
 		drawInfo.m_prioity = Common::PRIORITY_LOW;
 	}
 
-	// 固定値の最大Lvだけセットしておく
-	// 現在レベルセット
-	PartsCounter *pPartsMaxLevel = GetPartsCounter("levelMax");
-	if( pPartsMaxLevel ){
-		pPartsMaxLevel->SetValue( 10 );
-		pPartsMaxLevel->SetCountAnimFlg( false );
-	}
-
 	// 画面描画更新
 	ChangeDispState( m_selectStateKind );
 	UpdateCursorMove();
@@ -190,8 +182,12 @@ void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
 		setAnimStr = "bulletdamage";
 		break;
 	
-	case Common::BASE_STATE_BLADE_LEVEL:	// 斬撃のダメージ
+	case Common::BASE_STATE_BLADE_LEVEL:// 斬撃のダメージ
 		setAnimStr = "bladelv";
+		break;
+	
+	case Common::BASE_STATE_CONTINUE:	// コンティニュー
+		setAnimStr = "continue";
 		break;
 	}
 
@@ -214,6 +210,18 @@ void PowerUpMenu::ChangeDispState( const Common::PLAYER_BASE_STATE &kind )
 	if( pPartsCurrLevel ){
 		pPartsCurrLevel->SetValue( currentLv+1 );
 		pPartsCurrLevel->SetCountAnimFlg( false );
+	}
+
+	// 最大レベルセット
+	PartsCounter *pPartsMaxLevel = GetPartsCounter("levelMax");
+	if( pPartsMaxLevel ){
+		if( kind == Common::BASE_STATE_CONTINUE ){
+			pPartsMaxLevel->SetValue( 2 );
+		}
+		else{
+			pPartsMaxLevel->SetValue( 10 );
+		}
+		pPartsMaxLevel->SetCountAnimFlg( false );
 	}
 
 	// 次のLvまでのポイントセット
@@ -284,7 +292,16 @@ void PowerUpMenu::PadEventDecide()
 	if( GetSelectedNo() == SELECT_GAME_START ){
 		// 決定SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Decide");
-		SetNextFlowStr( "proceed" );
+
+		// コンティニュー出来るかどうかチェック
+		if( m_loadData.m_playerBaseStateLv[Common::BASE_STATE_CONTINUE] == 0 ){
+			// 直接ゲーム画面へ
+			SetNextFlowStr( "proceed" );
+		}
+		else{
+			// ステージセレクトへ
+			SetNextFlowStr( "stageselect" );
+		}
 	}
 	else{
 
@@ -411,6 +428,10 @@ std::string PowerUpMenu::GetExplanationStr( const Common::PLAYER_BASE_STATE &kin
 	case Common::BASE_STATE_BLADE_LEVEL:	// 斬撃のダメージ
 		retStr = "決定キーで出せる斬撃の威力が増加します。";
 		break;
+	
+	case Common::BASE_STATE_CONTINUE:		// コンティニュー
+		retStr = "ゲームを開始するときに以前クリアしたStageから始める\nことができるようになります。途中から始めた場合は\nクリアしてもランキングには反映されません。";
+		break;
 	}
 	return retStr;
 }
@@ -459,6 +480,10 @@ uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind
 	
 	case Common::BASE_STATE_BLADE_LEVEL:		// 斬撃のダメージ
 		retVal = levelPointTableMiddle[currLevel];
+		break;
+
+	case Common::BASE_STATE_CONTINUE:		// コンティニュー
+		retVal = ( currLevel == 0 ) ? 400 : 9999 ;
 		break;
 	}
 

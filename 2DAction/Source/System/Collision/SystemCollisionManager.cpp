@@ -20,6 +20,8 @@
 #include "Game/Enemy/EnemyCow.h"
 #include "Game/Enemy/EnemyBoss.h"
 #include "Game/Enemy/EnemyWizard.h"
+#include "Game/Enemy/EnemyDragon.h"
+#include "Game/Enemy/EnemyLastBoss.h"
 
 CollisionManager *CollisionManager::s_pInstance	= NULL;
 
@@ -162,21 +164,25 @@ void CollisionManager::CollisionUpdate()
 					}
 					break;
 				case Common::TYPE_WIZARD_CRYSTAL:
-					{
-						eventInfo.m_eventValue = 20;
-					}
+					// クリスタルは固定値
+					eventInfo.m_eventValue = 20;
 					break;
 				case Common::TYPE_DRAGON:
 					{
-						eventInfo.m_eventValue = 20;
+						EnemyDragon *pEnemyDragon = static_cast<EnemyDragon*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemyDragon->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_LAST_BOSS:
+					{
+						LastBoss *pEnemyLastBoss = static_cast<LastBoss*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemyLastBoss->GetPlayerHitDamage();
+					}
+					break;
 				case Common::TYPE_LAST_BOSS_LEFT:
 				case Common::TYPE_LAST_BOSS_RIGHT:
-					{
-						eventInfo.m_eventValue = 20;
-					}
+					// 両腕は固定値
+					eventInfo.m_eventValue = 25;
 					break;
 				case Common::TYPE_ITEM_BULLET:
 				case Common::TYPE_ITEM_LIFE:

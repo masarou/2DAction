@@ -15,7 +15,8 @@
 		{"animTag":"defence",		"frameSpeed":100,	"animIndex":[2],	"nextAnim":"defence"},
 		{"animTag":"bulletspd",		"frameSpeed":100,	"animIndex":[3],	"nextAnim":"bulletspd"},
 		{"animTag":"bulletdamage",	"frameSpeed":100,	"animIndex":[4],	"nextAnim":"bulletdamage"},
-		{"animTag":"bladelv",		"frameSpeed":100,	"animIndex":[5],	"nextAnim":"bladelv"}
+		{"animTag":"bladelv",		"frameSpeed":100,	"animIndex":[5],	"nextAnim":"bladelv"},
+		{"animTag":"continue",		"frameSpeed":100,	"animIndex":[6],	"nextAnim":"continue"}
 	],
 	
 	"partsInfo":[

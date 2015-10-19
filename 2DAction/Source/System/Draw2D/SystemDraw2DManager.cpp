@@ -155,6 +155,11 @@ void Draw2DManager::Action()
 		DrawCircle( static_cast<int>(tmp.x), static_cast<int>(tmp.y), m_drawCircle.at(i).radius, Color, false);
 	}
 	m_drawCircle.clear();
+	for( uint32_t i = 0; i < m_drawBox.size(); ++i ){
+		DrawBox( m_drawBox.at(i).leftUpper.x, m_drawBox.at(i).leftUpper.y
+			, m_drawBox.at(i).leftUpper.x + m_drawBox.at(i).sideDistance, m_drawBox.at(i).leftUpper.y + m_drawBox.at(i).sideDistance, Color, false );
+	}
+
 #endif
 
 	m_vDrawTask.clear();

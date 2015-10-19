@@ -1,8 +1,15 @@
 {
 	"eventdata":[
-		{"event":"interval", "path":"FlowInterval.json"},
-		{"event":"totalresult", "path":"FlowTotalResult.json"},
-		{"event":"title", "path":"FlowTitle.json"}
+		{"event":"nextgame02",	"path":"FlowGameStage02.json"},
+		{"event":"nextgame03",	"path":"FlowGameStage03.json"},
+		{"event":"nextgame04",	"path":"FlowGameStage04.json"},
+		{"event":"nextgame05",	"path":"FlowGameStage05.json"},
+		{"event":"nextgame06",	"path":"FlowGameStage06.json"},
+		{"event":"nextgame07",	"path":"FlowGameStage07.json"},
+		{"event":"nextgame08",	"path":"FlowGameStage08.json"},
+		{"event":"nextgame09",	"path":"FlowGameStage09.json"},
+		{"event":"nextgame10",	"path":"FlowGameStage10.json"},
+		{"event":"totalresult", "path":"FlowTotalResult.json"}
 	],
 	"bgdata":[
 		{"bgid":"BGID_COMMON"}

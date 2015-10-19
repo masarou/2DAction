@@ -193,7 +193,7 @@ void GameMap::LoadMapInfo(const char *jsonFile)
 {
 	std::string path = JSON_GAME2D_MAP_PATH;
 	path += jsonFile;
-	std::ifstream ifs(path.c_str());
+	idxfstream ifs(path.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);
@@ -264,7 +264,7 @@ void GameMap::LoadTextureInfo(const char *jsonFile)
 {
 	std::string path = JSON_GAME2D_MAP_PATH;
 	path += jsonFile;
-	std::ifstream ifs(path.c_str());
+	idxfstream ifs(path.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);

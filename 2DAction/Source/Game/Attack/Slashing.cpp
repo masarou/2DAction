@@ -173,7 +173,7 @@ void Slashing::GetHitFrame()
 {
 	std::string path = JSON_GAME2D_PATH;
 	path += m_drawTexture.m_pTex2D->GetDrawInfo().m_fileName;
-	std::ifstream ifs(path.c_str());
+	idxfstream ifs(path.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);

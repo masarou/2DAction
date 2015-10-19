@@ -1,0 +1,20 @@
+{
+	"basicInfo":[
+		{"fileName":"FireFlower.png"
+		, "animDefault":"default"
+		, "sizeW": 240
+		, "sizeH": 240
+		, "splitW": 14
+		, "splitH": 6
+		, "total": 84 }
+	],
+	
+	"animeInfo":[
+		{"animTag":"0",	"frameSpeed":5,	"animIndex":[	0,	1,	2,	3,	4,	5,	6,	7,	8,	9,	10,	11,	12,	13],	"nextAnim":""},
+		{"animTag":"1",	"frameSpeed":5,	"animIndex":[	14,	15,	16,	17,	18,	19,	20,	21,	22,	23,	24,	25,	26,	27],	"nextAnim":""},
+		{"animTag":"2",	"frameSpeed":5,	"animIndex":[	28,	29,	30,	31,	32,	33,	34,	35,	36,	37,	38,	39,	40,	41],	"nextAnim":""},
+		{"animTag":"3",	"frameSpeed":5,	"animIndex":[	42,	43,	44,	45,	46,	47,	48,	49,	50,	51,	52,	53,	54,	55],	"nextAnim":""},
+		{"animTag":"4",	"frameSpeed":5,	"animIndex":[	56,	57,	58,	59,	60,	61,	62,	63,	64,	65,	66,	67,	68,	69],	"nextAnim":""},
+		{"animTag":"5",	"frameSpeed":5,	"animIndex":[	70,	71,	72,	73,	74,	75,	76,	77,	78,	79,	80,	81,	82,	83],	"nextAnim":""}
+	]
+}

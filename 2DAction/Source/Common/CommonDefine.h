@@ -111,6 +111,7 @@ namespace Common{
 		FLOW_TITLE,			// タイトル
 		FLOW_SCORE,			// スコア
 		FLOW_POWER_UP,		// ユーザーパワーアップ
+		FLOW_STAGE_SEL,		// 開始ステージ選択
 		FLOW_STAGE01,		// ステージ01
 		FLOW_STAGE02,		// ステージ02
 		FLOW_STAGE03,		// ステージ03
@@ -313,6 +314,7 @@ namespace Common{
 		BASE_STATE_BULLET_SPD,	// マシンガンの間隔
 		BASE_STATE_BULLET_DMG,	// マシンガンのダメージ
 		BASE_STATE_BLADE_LEVEL,	// 斬撃のダメージ
+		BASE_STATE_CONTINUE,	// コンティニュー(途中から再開)
 
 		BASE_STATE_MAX,
 	};
@@ -322,6 +324,8 @@ namespace Common{
 	struct SAVE_DATA{
 		bool		m_isFirst;			// 初めてのパワーアップ画面かどうか
 		bool		m_isFirstGamePlay;	// 初めてのゲームプレイかどうか
+		bool		m_isClearPhase01;	// フェーズ1クリアフラグ
+		bool		m_isClearPhase02;	// フェーズ2クリアフラグ
 		uint32_t	m_battlePoint;	// ゲームプレイで手にいてたポイント(パワーアップに必要)
 		uint32_t	m_scoreRanking[RANKING_RECORD_MAX];
 		uint32_t	m_playerBaseStateLv[BASE_STATE_MAX];

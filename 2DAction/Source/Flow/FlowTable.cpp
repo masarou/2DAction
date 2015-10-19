@@ -16,6 +16,7 @@
 #include "FlowViewScore.h"
 #include "FlowGame.h"
 #include "FlowStageResult.h"
+#include "FlowStageSelect.h"
 #include "FlowInterval.h"
 #include "FlowTotalResult.h"
 #include "FlowExit.h"
@@ -36,6 +37,7 @@ static FLOW_DATA s_flowTablse[] =
 	{	FlowTitle::Create,			"FlowTitle.json",				Common::FLOW_TITLE},
 	{	FlowViewScore::Create,		"FlowScore.json",				Common::FLOW_SCORE},
 	{	FlowPowerUpPlayer::Create,	"FlowPowerUpPlayer.json",		Common::FLOW_POWER_UP},
+	{	FlowStageSelect::Create,	"FlowStageSelect.json",			Common::FLOW_STAGE_SEL},
 	{	FlowGame::Create,			"FlowGameStage01.json",			Common::FLOW_STAGE01},
 	{	FlowGame::Create,			"FlowGameStage02.json",			Common::FLOW_STAGE02},
 	{	FlowGame::Create,			"FlowGameStage03.json",			Common::FLOW_STAGE03},

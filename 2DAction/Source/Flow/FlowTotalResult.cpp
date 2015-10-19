@@ -62,14 +62,15 @@ void FlowTotalResult::RecordGameResult()
 	Common::SAVE_DATA updateData;
 	bool retVal = Utility::GetSaveData( updateData );
 	if( retVal ){
-		// ランキング作成
-		UpdateSortRanking( updateData );
+
+		// 最初からプレイしたかどうかチェック
+		if( GameRecorder::GetInstance()->IsContinue() ){
+			// ランキング作成
+			UpdateSortRanking( updateData );
+		}
 
 		// 取得したバトルポイントを反映させる
 		updateData.m_battlePoint = GameRecorder::GetInstance()->GetClearBattlePointAll();
-
-		// 初回起動フラグを下す
-		updateData.m_isFirst = false;
 	}
 	
 	// セーブデータ上書き
@@ -152,8 +153,7 @@ bool TotalResult2D::InitMenu()
 	// 敵を倒して得た得点をセット
 	uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE01 )
 						+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE02 )
-						+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE03 )
-						+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE04 );
+						+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE03 );
 	m_pNumCounter[static_cast<uint32_t>(DISP_SCENE01)]->AddValue( sceneScore );
 
 	return true;
@@ -217,16 +217,17 @@ bool TotalResult2D::ChangeDispNextState()
 	case DISP_SCENE01:
 		{
 			m_dispState = DISP_SCENE02;
-			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE05 )
-								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE06 )
-								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE07 );
+			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE04 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE05 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE06 );
 			m_pNumCounter[static_cast<uint32_t>(DISP_SCENE02)]->AddValue( sceneScore );
 		}
 		break;
 	case DISP_SCENE02:
 		{
 			m_dispState = DISP_SCENE03;		
-			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE08 )
+			uint32_t sceneScore = GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE07 )
+								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE08 )
 								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE09 )
 								+ GameRecorder::GetInstance()->GetStageScore( GameRecorder::STATE_STAGE10 );
 			m_pNumCounter[static_cast<uint32_t>(DISP_SCENE03)]->AddValue( sceneScore );

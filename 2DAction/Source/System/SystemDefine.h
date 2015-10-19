@@ -16,7 +16,7 @@
 #include <iostream>
 #include "yield.hpp"
 #include "Common/CmnGameAccesser.h"
-
+#include "Common/ConvertDxFuncToIfstream.h"
 
 /* ’è”==================================================================== */
 #define WINDOW_WIDTH 1280
@@ -68,7 +68,6 @@ static const char *TEXTURE_PATH				= "Data/Texture/";
 			assert(expr); \
 		} \
 	}
-#define DEBUG_ASSERTOOO( expr, msg ) _ASSERT_EXPR( expr, msg );
 
 //o—ÍƒvƒŠƒ“ƒg
 #define DEBUG_PRINT( str, ... ) \

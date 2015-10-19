@@ -39,6 +39,7 @@ bool EnemyAISearch::InitAI()
 
 void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
+	return;
 	// 
 	if( SearchPlayer( enemyInfo ) ){
 

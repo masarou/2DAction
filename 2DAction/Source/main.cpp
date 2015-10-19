@@ -38,11 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 	}
 
 	// デフォルトフォント設定
-	if(!AddFontResourceEx("Data/Font/misaki_gothic.ttf", FR_PRIVATE, NULL)) {
-		return 0;
-	}
 	SetDefaultFontState( "メイリオ", FONT_DEFAULT_SIZE, 6 );
-
 
 	// アプリログ出力なし
 	//SetOutApplicationLogValidFlag( false );

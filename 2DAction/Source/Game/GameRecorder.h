@@ -93,6 +93,10 @@ public:
 
 	// 初期化
 	void InitRecord();
+	
+	// 途中からプレイかどうか
+	void SetContinueFlag(){ m_isContinuePlay = true; }
+	const bool &IsContinue() const{ return m_isContinuePlay; }
 
 	// 全クリアフラグON
 	void SetClearAll(){ m_isAllClear = true; }
@@ -148,6 +152,7 @@ private:
 
 	static GameRecorder *s_pInstance;
 
+	bool				m_isContinuePlay;				// 途中からのプレイかどうか
 	bool				m_isAllClear;					// 全クリアフラグ
 	STATE_OF_PROGRESS	m_gameState;					// ゲーム進行度
 	STAGE_CLEAR_INFO	m_clearStageInfo[STATE_MAX];	// 各ステージクリア時の情報

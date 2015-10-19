@@ -108,8 +108,9 @@ Common::EVENT_MESSAGE GetEventMessageFromObjType( const Common::TYPE_OBJECT &obj
 // イベントタイプからもととなる当たり判定物のTYPEを取得
 Common::TYPE_OBJECT GetObjTypeFromEventMessage( const Common::EVENT_MESSAGE &eventMessage );
 
-// デバッグ用、指定位置に円を描く
+// デバッグ用、指定位置に図形を描く
 void DrawDebugCircle( const math::Vector2 &pos, const float &radius );
+void DrawDebugBox( const math::Vector2 &pos, const float &radius );
 
 } // Utility
 

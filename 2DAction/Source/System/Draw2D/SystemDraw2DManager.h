@@ -46,6 +46,11 @@ public:
 		math::Vector2 pos;
 	};
 	std::vector<DrawCircleInfo> m_drawCircle;
+	struct DrawBoxInfo{
+		math::Vector2 leftUpper;
+		uint32_t sideDistance;
+	};
+	std::vector<DrawBoxInfo> m_drawBox;
 #endif
 
 private:

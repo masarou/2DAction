@@ -166,7 +166,7 @@ void SoundManager::ChangeLoadTableMain( const std::string &tableStr, const bool 
 	//! サウンドテーブルの読み込みとそこからファイルのロード
 	std::string pathStr = JSON_SOUND_PATH;
 	pathStr += tableStr;
-	std::ifstream ifs(pathStr.c_str());
+	idxfstream ifs(pathStr.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);

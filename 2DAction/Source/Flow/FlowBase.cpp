@@ -87,7 +87,7 @@ bool FlowBase::Finish()
 /* ================================================ */
 void FlowBase::LoadFlowFile()
 {
-	std::ifstream ifs(m_filePath.c_str());
+	idxfstream ifs(m_filePath.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);

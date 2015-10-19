@@ -16,7 +16,7 @@ bool IsGame2DJson( const char *jsonFile )
 	// jsonに"basicInfo"の項目があるかどうかチェック
 	std::string path = JSON_GAME2D_PATH;
 	path += jsonFile;
-	std::ifstream ifs(path.c_str());
+	idxfstream ifs(path.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);

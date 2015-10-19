@@ -275,7 +275,7 @@ void GameManager::LoadGameSettings( const char *jsonFile )
 	picojson::value null;
 	std::string path = JSON_OTHER_PATH;
 	path += jsonFile;
-	std::ifstream ifs(path.c_str());
+	idxfstream ifs(path.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);

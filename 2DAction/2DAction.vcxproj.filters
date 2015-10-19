@@ -355,6 +355,12 @@
     <ClInclude Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.h">
       <Filter>Game\Enemy\AI\LastBoss</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Flow\FlowStageSelect.h">
+      <Filter>Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\ConvertDxFuncToIfstream.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
@@ -606,6 +612,9 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.cpp">
       <Filter>Game\Enemy\AI\LastBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Flow\FlowStageSelect.cpp">
+      <Filter>Flow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

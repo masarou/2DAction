@@ -1,0 +1,8 @@
+{
+	"partsInfo":[
+		{"partsName":"frame",		"loadJson":"StageSelectFrame.json",		"partsType":"PARTS_SINGLE_DRAW",	"x": 640,	"y": 360},
+		{"partsName":"stage01",		"loadJson":"ResultBgStage01.json",		"partsType":"PARTS_SINGLE_DRAW",	"x": 640,	"y": 360},
+		{"partsName":"stage02",		"loadJson":"ResultBgStage02.json",		"partsType":"PARTS_SINGLE_DRAW",	"x": 640,	"y": 360},
+		{"partsName":"stage03",		"loadJson":"ResultBgStage03.json",		"partsType":"PARTS_SINGLE_DRAW",	"x": 640,	"y": 360}
+	]
+}

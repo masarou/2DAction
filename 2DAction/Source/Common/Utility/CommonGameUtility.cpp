@@ -234,7 +234,7 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 
 			for( uint32_t i = 0; i < texInfoB.m_collisionArray.size() ; ++i ){
 				CollisionCircle checkCircle;
-				checkCircle.m_relativePos = calcPosB + texInfoB.m_collisionArray.at(i).m_relativePos;
+				checkCircle.m_relativePos = texInfoB.m_collisionArray.at(i).m_relativePos + ( calcPosB - math::Vector2( texInfoB.m_sizeWidth / 2.0f, texInfoB.m_sizeHeight / 2.0f ) );
 				checkCircle.m_radius = texInfoB.m_collisionArray.at(i).m_radius;
 
 				if( CheckCollisionCircleSquare( checkCircle, squarePos[0], squarePos[1] ) ){
@@ -251,7 +251,7 @@ const bool IsInRangeTexture( const TEX_DRAW_INFO &texA, const TEX_DRAW_INFO &tex
 
 			for( uint32_t i = 0; i < texInfoA.m_collisionArray.size() ; ++i ){
 				CollisionCircle checkCircle;
-				checkCircle.m_relativePos = calcPosA + texInfoA.m_collisionArray.at(i).m_relativePos;
+				checkCircle.m_relativePos = texInfoA.m_collisionArray.at(i).m_relativePos + ( calcPosA - math::Vector2( texInfoA.m_sizeWidth / 2.0f, texInfoA.m_sizeHeight / 2.0f ) );
 				checkCircle.m_radius = texInfoA.m_collisionArray.at(i).m_radius;
 
 				if( CheckCollisionCircleSquare( checkCircle, squarePos[0], squarePos[1] ) ){
@@ -304,6 +304,10 @@ const bool CheckCollisionCircleSquare( const CollisionCircle &circle, const math
 			return true;
 		}
 	}
+	
+	Utility::DrawDebugCircle( circle.m_relativePos, circle.m_radius );
+	Utility::DrawDebugBox( squarePosUpperLeft, math::Abs( squarePosUnderRight.x - squarePosUpperLeft.x ) );
+
 	return false;
 }
 
@@ -625,6 +629,8 @@ bool GetSaveData( Common::SAVE_DATA &saveData )
 		Common::SAVE_DATA scoreLog = {
 			true,
 			true,
+			false,
+			false,
 			0,
 			{ 1000, 500, 300, 100, 0},
 			{ 0 }
@@ -757,6 +763,9 @@ uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t 
 	case Common::BASE_STATE_BULLET_DMG:
 		retVal = s_damageBulletTable[level];
 		break;
+	case Common::BASE_STATE_CONTINUE:
+		DEBUG_ASSERT( 0, "ŠY“–€–Ú‚ª•Ô‚·’l‚Í‚ ‚è‚Ü‚¹‚ñ");
+		break;
 	}
 	return retVal;
 }
@@ -770,7 +779,7 @@ void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Co
 {
 	std::string readJson = JSON_GAME2D_PATH;
 	readJson += jsonStr;
-	std::ifstream ifs(readJson.c_str());
+	idxfstream ifs(readJson.c_str());
 
 	picojson::value root;
 	picojson::parse( root, ifs);
@@ -888,6 +897,14 @@ void DrawDebugCircle( const math::Vector2 &pos, const float &radius )
 #ifdef _DEBUG
 	Draw2DManager::DrawCircleInfo drawInfo = { radius, pos };
 	Draw2DManager::GetInstance()->m_drawCircle.push_back( drawInfo );
+#endif
+}
+
+void DrawDebugBox( const math::Vector2 &upperLeft, const float &sideDistance )
+{
+#ifdef _DEBUG
+	Draw2DManager::DrawBoxInfo drawInfo = { upperLeft, sideDistance };
+	Draw2DManager::GetInstance()->m_drawBox.push_back( drawInfo );
 #endif
 }
 

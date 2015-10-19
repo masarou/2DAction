@@ -57,6 +57,7 @@ void GameRecorder::InitRecord()
 	for( uint32_t i = 0; i < NUMBEROF(m_getItem) ; ++i ){
 		m_getItem[i] = 0;
 	}
+	m_isContinuePlay = false;
 	m_isAllClear = false;
 	m_hitComboNum = 0;
 	m_hitFailTime_ms = 0;

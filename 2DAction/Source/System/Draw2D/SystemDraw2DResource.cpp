@@ -83,7 +83,8 @@ void TextureResourceManager::LoadTextureInfo( const char *jsonFile )
 
 	std::string path = JSON_GAME2D_PATH;
 	path += jsonFile;
-	std::ifstream ifs(path.c_str());
+
+	idxfstream ifs( path.c_str() );
 
 	picojson::value root;
 	picojson::value null;

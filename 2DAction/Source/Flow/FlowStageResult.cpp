@@ -142,6 +142,10 @@ void ResultStageMenu::PadEventDecide()
 			return;
 		}
 
+		// ステージ3,6をクリアしたらクリアフラグを立てる
+		Common::SAVE_DATA saveData;
+		Utility::GetSaveData( saveData );
+
 		// 次のステージor画面へ
 		switch( pRecorder->GetGameStateOfProgress() ){
 		case GameRecorder::STATE_TITLE:
@@ -151,20 +155,42 @@ void ResultStageMenu::PadEventDecide()
 			SetNextFlowStr( "title" );
 			break;
 		case GameRecorder::STATE_STAGE01:
+			SetNextFlowStr( "nextgame02" );
+			break;
 		case GameRecorder::STATE_STAGE02:
+			SetNextFlowStr( "nextgame03" );
+			break;
 		case GameRecorder::STATE_STAGE03:
+			SetNextFlowStr( "nextgame04" );
+			saveData.m_isClearPhase01 = true;
+			break;
 		case GameRecorder::STATE_STAGE04:
+			SetNextFlowStr( "nextgame05" );
+			break;
 		case GameRecorder::STATE_STAGE05:
+			SetNextFlowStr( "nextgame06" );
+			break;
 		case GameRecorder::STATE_STAGE06:
+			SetNextFlowStr( "nextgame07" );
+			saveData.m_isClearPhase02 = true;
+			break;
 		case GameRecorder::STATE_STAGE07:
+			SetNextFlowStr( "nextgame08" );
+			break;
 		case GameRecorder::STATE_STAGE08:
+			SetNextFlowStr( "nextgame09" );
+			break;
 		case GameRecorder::STATE_STAGE09:
-			SetNextFlowStr( "interval" );
+			SetNextFlowStr( "nextgame10" );
 			break;
 		case GameRecorder::STATE_STAGE10:
 			SetNextFlowStr( "totalresult" );	// すべてのステージ終了
 			break;
 		}
+
+		
+		Utility::OverWriteSaveData( saveData );
+
 		// 決定SE鳴らす
 		SoundManager::GetInstance()->PlaySE("Decide");
 	}

@@ -166,9 +166,9 @@ bool AIBossNearAttack::DashMove( TEX_DRAW_INFO &enemyInfo, const math::Vector2 &
 		}
 
 		// ˆê’è‘¬“x‚ð’´‚¦‚Ä‚¢‚½‚ç‘¬“x‚ð‰º‚°‚é
-		if( addvec.GetLengthSquare() > 5.5f*5.5f ){
+		if( addvec.GetLengthSquare() > 5.0f*5.0f ){
 			addvec.Normalize();
-			addvec *= 5.5f*5.5f;
+			addvec *= 5.0f*5.0f;
 		}
 
 		if( Utility::GetMapHeight( enemyInfo.m_posOrigin + addvec ) == 0 ){
