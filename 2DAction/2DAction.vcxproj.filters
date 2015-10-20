@@ -59,9 +59,6 @@
     <Filter Include="Game\Attack">
       <UniqueIdentifier>{6fa071bc-2a18-4645-adab-ac3bbf93778e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Enemy\AI\Boss">
-      <UniqueIdentifier>{f042e3e9-d259-4260-94dc-2f0dbc4f4a65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Flow\Process">
       <UniqueIdentifier>{34dad26e-a1fe-497a-8432-eb7a38b1e5c0}</UniqueIdentifier>
     </Filter>
@@ -241,9 +238,6 @@
     <ClInclude Include="Source\Game\Attack\Slashing.h">
       <Filter>Game\Attack</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Enemy\EnemyBoss.h">
-      <Filter>Game\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIBase.h">
       <Filter>Game\Enemy\AI</Filter>
     </ClInclude>
@@ -258,12 +252,6 @@
     </ClInclude>
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAITackle.h">
       <Filter>Game\Enemy\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Enemy\AI\Boss\AIBossMoving.h">
-      <Filter>Game\Enemy\AI\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.h">
-      <Filter>Game\Enemy\AI\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Source\Flow\Process\FlowProcessBase.h">
       <Filter>Flow\Process</Filter>
@@ -360,6 +348,15 @@
     </ClInclude>
     <ClInclude Include="Source\Common\ConvertDxFuncToIfstream.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\AI\EnemyAIRanger.h">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemyRanger.h">
+      <Filter>Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game\Enemy\EnemySlimeKing.h">
+      <Filter>Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -514,9 +511,6 @@
     <ClCompile Include="Source\Game\Attack\Slashing.cpp">
       <Filter>Game\Attack</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\EnemyBoss.cpp">
-      <Filter>Game\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIBase.cpp">
       <Filter>Game\Enemy\AI</Filter>
     </ClCompile>
@@ -528,12 +522,6 @@
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAITackle.cpp">
       <Filter>Game\Enemy\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\AI\Boss\AIBossMoving.cpp">
-      <Filter>Game\Enemy\AI\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\AI\Boss\AIBossNearAttack.cpp">
-      <Filter>Game\Enemy\AI\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Source\Flow\Process\FlowProcessBase.cpp">
       <Filter>Flow\Process</Filter>
@@ -615,6 +603,15 @@
     </ClCompile>
     <ClCompile Include="Source\Flow\FlowStageSelect.cpp">
       <Filter>Flow</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\AI\EnemyAIRanger.cpp">
+      <Filter>Game\Enemy\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemyRanger.cpp">
+      <Filter>Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game\Enemy\EnemySlimeKing.cpp">
+      <Filter>Game\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

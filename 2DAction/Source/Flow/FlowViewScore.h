@@ -11,7 +11,6 @@
 
 #include "FlowMenuBase.h"
 #include "Game/Game2DBase.h"
-#include "Common/CmnNumberCounter.h"
 #include "System/Menu/SystemMenuWindow.h"
 
 class ViewScoreMenu;

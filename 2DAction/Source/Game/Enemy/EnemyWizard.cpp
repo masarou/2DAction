@@ -134,7 +134,7 @@ void EnemyWizard::EnemyDeath()
 	}
 
 	// ラストステージならアイテムを落とす
-	if( GameRecorder::GetInstance()->GetGameStateOfProgress() == GameRecorder::STATE_STAGE10 ){
+	if( FlowManager::GetInstance()->GetCurrentFlowKind() == Common::FLOW_STAGE10 ){
 		GameManager *pGameMan = GameRegister::GetInstance()->UpdateManagerGame();
 		if( pGameMan ){
 			pGameMan->CreateItem( Common::ITEM_KIND_LIFE_UP, GetDrawInfo().m_posOrigin );

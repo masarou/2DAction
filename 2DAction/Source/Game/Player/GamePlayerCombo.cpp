@@ -12,6 +12,7 @@
 #include "GamePlayerCombo.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
+#include "Flow/FlowManager.h"
 
 PlayerCombo *PlayerCombo::CreatePlayerCombo()
 {
@@ -79,7 +80,15 @@ bool PlayerCombo::Init()
 	m_textureCombo.m_pTex2D->SetDrawInfo( drawInfoCombo );
 	
 	// ƒRƒ“ƒ{”
-	m_pNumCounterCombo = NumberCounter::Create("NumberLarge.json");
+	if( FlowManager::GetInstance()->GetCurrentFlowKind() == Common::FLOW_STAGE07
+		|| FlowManager::GetInstance()->GetCurrentFlowKind() == Common::FLOW_STAGE08
+		|| FlowManager::GetInstance()->GetCurrentFlowKind() == Common::FLOW_STAGE09
+		|| FlowManager::GetInstance()->GetCurrentFlowKind() == Common::FLOW_STAGE10 ){
+			m_pNumCounterCombo = NumberCounter::Create("NumberLargeWhite.json");
+	}
+	else{
+		m_pNumCounterCombo = NumberCounter::Create("NumberLarge.json");
+	}
 	m_pNumCounterComboYellow = NumberCounter::Create("NumberLargeYellow.json");
 	m_pNumCounterComboRed = NumberCounter::Create("NumberLargeRed.json");
 	TEX_DRAW_INFO comboInfo;

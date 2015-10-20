@@ -18,7 +18,8 @@
 #include "Game/Enemy/EnemyAnotherSlime.h"
 #include "Game/Enemy/EnemyAhriman.h"
 #include "Game/Enemy/EnemyCow.h"
-#include "Game/Enemy/EnemyBoss.h"
+#include "Game/Enemy/EnemySlimeKing.h"
+#include "Game/Enemy/EnemyRanger.h"
 #include "Game/Enemy/EnemyWizard.h"
 #include "Game/Enemy/EnemyDragon.h"
 #include "Game/Enemy/EnemyLastBoss.h"
@@ -145,10 +146,10 @@ void CollisionManager::CollisionUpdate()
 						eventInfo.m_eventValue = pEnemyCow->GetPlayerHitDamage();
 					}
 					break;
-				case Common::TYPE_ENEMY_BOSS:
+				case Common::TYPE_ENEMY_RANGER:
 					{
-						EnemyBoss *pEnemyBoss = static_cast<EnemyBoss*>( m_vCollisionUnit.at(i) );
-						eventInfo.m_eventValue = pEnemyBoss->GetPlayerHitDamage();
+						EnemyRanger *pEnemyRanger = static_cast<EnemyRanger*>( m_vCollisionUnit.at(i) );
+						eventInfo.m_eventValue = pEnemyRanger->GetPlayerHitDamage();
 					}
 					break;
 				case Common::TYPE_ENEMY_SLIME_KING:
@@ -331,7 +332,7 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ENEMY_SLIME_ANOTHER:
 	case Common::TYPE_ENEMY_AHRIMAN:
 	case Common::TYPE_ENEMY_COW:
-	case Common::TYPE_ENEMY_BOSS:
+	case Common::TYPE_ENEMY_RANGER:
 	case Common::TYPE_ENEMY_SLIME_KING:
 	case Common::TYPE_ENEMY_WIZARD:
 	case Common::TYPE_WIZARD_CRYSTAL:

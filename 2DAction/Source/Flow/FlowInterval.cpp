@@ -89,44 +89,39 @@ void IntervalMenu::PadEventDecide()
 		SetNextFlowStr( "title" );
 	}
 	else{
-		GameRecorder *pRecorder = GameRecorder::GetInstance();
-		if( pRecorder ){
-			switch( pRecorder->GetGameStateOfProgress() ){
-			case GameRecorder::STATE_TITLE:
-			case GameRecorder::STATE_POWER_UP:
-			default:
-				DEBUG_ASSERT( 0, "想定外のフロー" );
-				// とりあえずタイトルへ
-				SetNextFlowStr( "title" );
-				break;
-			case GameRecorder::STATE_STAGE01:
-				SetNextFlowStr( "nextgame02" );
-				break;
-			case GameRecorder::STATE_STAGE02:
-				SetNextFlowStr( "nextgame03" );
-				break;
-			case GameRecorder::STATE_STAGE03:
-				SetNextFlowStr( "nextgame04" );
-				break;
-			case GameRecorder::STATE_STAGE04:
-				SetNextFlowStr( "nextgame05" );
-				break;
-			case GameRecorder::STATE_STAGE05:
-				SetNextFlowStr( "nextgame06" );
-				break;
-			case GameRecorder::STATE_STAGE06:
-				SetNextFlowStr( "nextgame07" );
-				break;
-			case GameRecorder::STATE_STAGE07:
-				SetNextFlowStr( "nextgame08" );
-				break;
-			case GameRecorder::STATE_STAGE08:
-				SetNextFlowStr( "nextgame09" );
-				break;
-			case GameRecorder::STATE_STAGE09:
-				SetNextFlowStr( "nextgame10" );
-				break;
-			}
+		switch( FlowManager::GetInstance()->GetCurrentFlowKind() ){
+		default:
+			DEBUG_ASSERT( 0, "想定外のフロー" );
+			// とりあえずタイトルへ
+			SetNextFlowStr( "title" );
+			break;
+		case Common::FLOW_STAGE01:
+			SetNextFlowStr( "nextgame02" );
+			break;
+		case Common::FLOW_STAGE02:
+			SetNextFlowStr( "nextgame03" );
+			break;
+		case Common::FLOW_STAGE03:
+			SetNextFlowStr( "nextgame04" );
+			break;
+		case Common::FLOW_STAGE04:
+			SetNextFlowStr( "nextgame05" );
+			break;
+		case Common::FLOW_STAGE05:
+			SetNextFlowStr( "nextgame06" );
+			break;
+		case Common::FLOW_STAGE06:
+			SetNextFlowStr( "nextgame07" );
+			break;
+		case Common::FLOW_STAGE07:
+			SetNextFlowStr( "nextgame08" );
+			break;
+		case Common::FLOW_STAGE08:
+			SetNextFlowStr( "nextgame09" );
+			break;
+		case Common::FLOW_STAGE09:
+			SetNextFlowStr( "nextgame10" );
+			break;
 		}
 	}
 }

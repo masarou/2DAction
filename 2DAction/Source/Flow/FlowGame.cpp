@@ -38,9 +38,6 @@ FlowGame::~FlowGame(void)
 
 bool FlowGame::Init()
 {
-	// ゲーム中に表示するスコア準備
-	m_pNumScore = NumberCounter::Create("Number.json");
-
 	// ゲームをするのに必要なインスタンス作成
 	GameRegister::CreateInstance();
 
@@ -51,42 +48,58 @@ bool FlowGame::Init()
 	}
 
 	std::string soundTag = "";
-	switch( GameRecorder::GetInstance()->GetGameStateOfProgress() ){
-	case GameRecorder::STATE_STAGE01:
-	case GameRecorder::STATE_STAGE02:
+	std::string readFileScore = "Number.json";
+	switch( FlowManager::GetInstance()->GetCurrentFlowKind() ){
+	case Common::FLOW_STAGE01:
+	case Common::FLOW_STAGE02:
 		{
 			soundTag = "stage01";
 		}
 		break;
-	case GameRecorder::STATE_STAGE03:
+	case Common::FLOW_STAGE03:
 		soundTag = "BossBattle";
 		break;
 
-	case GameRecorder::STATE_STAGE04:
-	case GameRecorder::STATE_STAGE05:
+	case Common::FLOW_STAGE04:
+	case Common::FLOW_STAGE05:
 		soundTag = "stage02";
 		break;
 
-	case GameRecorder::STATE_STAGE06:
+	case Common::FLOW_STAGE06:
 		soundTag = "BossBattle";
 		break;
 
-	case GameRecorder::STATE_STAGE07:
+	case Common::FLOW_STAGE07:
 		soundTag = "stage03";
+		readFileScore = "NumberWhite.json";	// 背景が黒なので見やすい白文字でScore表示
 		break;
 
-	case GameRecorder::STATE_STAGE08:
+	case Common::FLOW_STAGE08:
 		soundTag = "stage03";
+		readFileScore = "NumberWhite.json";
 		break;
 
-	case GameRecorder::STATE_STAGE09:
+	case Common::FLOW_STAGE09:
 		soundTag = "BossBattle";
+		readFileScore = "NumberWhite.json";
 		break;
 
-	case GameRecorder::STATE_STAGE10:
+	case Common::FLOW_STAGE10:
 		soundTag = "stageLast";
+		readFileScore = "NumberWhite.json";
 		break;
 	}
+
+	// ゲーム中に表示するスコア準備
+	m_pNumScore = NumberCounter::Create( readFileScore.c_str() );
+	if( m_pNumScore ){
+		// 数値が変化するときにSEは鳴らさない
+		m_pNumScore->SetCountUpSeInvalidFlag( true );
+	}
+
+	// BGM再生開始
+	SoundManager::GetInstance()->PlayBGM( soundTag.c_str() );
+
 
 	// 初めてのゲームプレイかどうかチェック
 	Common::SAVE_DATA saveData;
@@ -106,9 +119,6 @@ bool FlowGame::Init()
 	// いくつめのステージかを画面に出す
 	StageStart *pStageStart = StageStart::Create();
 	PushStageEffect( pStageStart );
-
-	// BGM再生開始
-	SoundManager::GetInstance()->PlayBGM( soundTag.c_str() );
 
 	return true;
 }

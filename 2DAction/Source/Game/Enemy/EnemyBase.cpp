@@ -327,7 +327,7 @@ void EnemyBase::UpdateEnemyDamage( const uint32_t &damageValue )
 		case Common::ENEMY_KIND_COW:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_COW_DEATH, GetEnemyLevel() );
 			break;
-		case Common::ENEMY_KIND_BOSS:
+		case Common::ENEMY_KIND_RANGER:
 			GameRecorder::GetInstance()->ScoreEvent( GameRecorder::ENEMY_BOSS_DEATH, GetEnemyLevel() );
 			break;
 		case Common::ENEMY_KIND_SLIME_KING:

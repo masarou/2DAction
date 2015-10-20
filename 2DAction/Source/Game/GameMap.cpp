@@ -106,10 +106,8 @@ void GameMap::DrawUpdate()
 
 const math::Vector2 GameMap::GetPlayerStartPos() const
 {
-	math::Vector2 pos = math::Vector2( 1340.0f
+	math::Vector2 pos = math::Vector2( GameRegister::GetInstance()->GetGameMap()->GetMapWidth() / 2.0f
 		, GameRegister::GetInstance()->GetGameMap()->GetMapHeight() / 2.0f );
-	//math::Vector2 pos = math::Vector2( GameRegister::GetInstance()->GetGameMap()->GetMapWidth() / 2.0f
-	//	, GameRegister::GetInstance()->GetGameMap()->GetMapHeight() / 2.0f );
 	return pos;
 }
 

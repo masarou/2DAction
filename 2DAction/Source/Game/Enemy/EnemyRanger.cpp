@@ -7,31 +7,24 @@
  */
 /* ====================================================================== */
 
-#include "EnemyDragon.h"
+#include "EnemyRanger.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
-#include "Game/GameManager.h"
 #include "Flow/FlowManager.h"
 #include "Flow/Process/FlowProcessBossEnemyDeath.h"
 
-EnemyDragon *EnemyDragon::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
+EnemyRanger *EnemyRanger::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
-	return NEW EnemyDragon( uniqueID, enemyLevel, enemyPos );
+	return NEW EnemyRanger( uniqueID, enemyLevel, enemyPos );
 }
 
-EnemyDragon::EnemyDragon( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
-	: EnemyBase( "EnemyDragon.json", uniqueID, Common::ENEMY_KIND_DRAGON, enemyLevel, enemyPos )
-{
-}
-
-EnemyDragon::~EnemyDragon(void)
+EnemyRanger::EnemyRanger( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
+	: EnemyBase( "EnemyRanger.json", uniqueID, Common::ENEMY_KIND_RANGER, enemyLevel, enemyPos )
 {
 }
 
-
-const uint32_t EnemyDragon::GetEnemyDefaultHP() const
+EnemyRanger::~EnemyRanger(void)
 {
-	return 6000 + ( 800 * GetEnemyLevel() );
 }
 
 /* ================================================ */
@@ -39,7 +32,7 @@ const uint32_t EnemyDragon::GetEnemyDefaultHP() const
  * @brief	斬撃を受けた時の処理
  */
 /* ================================================ */
-void EnemyDragon::HitPlayreSlashing( const uint32_t &damageValue )
+void EnemyRanger::HitPlayreSlashing( const uint32_t &damageValue )
 {
 	// スタンはなし
 	SetStunTime( 10 );
@@ -49,11 +42,21 @@ void EnemyDragon::HitPlayreSlashing( const uint32_t &damageValue )
 
 /* ================================================ */
 /**
+ * @brief	斬撃を与えた時のダメージ量を返す
+ */
+/* ================================================ */
+uint32_t EnemyRanger::GetSlashingDamage() const
+{
+	return 20 + ( 6 * GetEnemyLevel() );
+}
+
+/* ================================================ */
+/**
  * @brief	死亡時に呼ばれる
  * 			ボスクラス特有処理セット
  */
 /* ================================================ */
-void EnemyDragon::EnemyDeath()
+void EnemyRanger::EnemyDeath()
 {
 	// 死亡したので専用演出再生
 	ProcessBossEnemyDeath *pDeathEffect = ProcessBossEnemyDeath::Create( m_drawTexture.m_pTex2D->GetDrawInfo().m_posOrigin );
@@ -79,7 +82,7 @@ void EnemyDragon::EnemyDeath()
  * @brief	ダメージ軽減処理
  */
 /* ================================================ */
-void EnemyDragon::ReduceDamage( Common::CMN_EVENT &eventId )
+void EnemyRanger::ReduceDamage( Common::CMN_EVENT &eventId )
 {
 	float levelReduce = static_cast<float>( GetEnemyLevel()*0.02f );
 	switch( eventId.m_event ){

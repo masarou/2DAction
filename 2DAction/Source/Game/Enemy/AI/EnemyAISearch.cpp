@@ -39,8 +39,7 @@ bool EnemyAISearch::InitAI()
 
 void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
-	return;
-	// 
+
 	if( SearchPlayer( enemyInfo ) ){
 
 		// プレイヤー発見!!!
@@ -61,7 +60,7 @@ void EnemyAISearch::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo
 			DEBUG_PRINT("【プレイヤー発見! ステータスをDashTackleに変更】\n");
 			ChangeEnemyAI( Common::AI_DASH_TACKLE );
 		}
-		else if( GetEnemyKind() == Common::ENEMY_KIND_BOSS ){
+		else if( GetEnemyKind() == Common::ENEMY_KIND_RANGER ){
 			if( SearchPlayer( enemyInfo, 600.0f ) ){
 				DEBUG_PRINT("【プレイヤー発見! ステータスをAttackに変更】\n");
 				ChangeEnemyAI( Common::AI_ATTACK_NEAR );

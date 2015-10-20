@@ -130,9 +130,6 @@ void FlowManager::Update()
 			GameRecorder *pRecorder = GameRecorder::GetInstance();
 			if( pRecorder ){
 				switch( m_currFlow ){
-				case Common::FLOW_TITLE:
-					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_TITLE );
-					break;
 				case Common::FLOW_STAGE01:
 					pRecorder->SetGameStateOfProgress( GameRecorder::STATE_STAGE01 );
 					break;

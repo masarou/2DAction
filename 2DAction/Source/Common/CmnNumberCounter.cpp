@@ -19,6 +19,7 @@ NumberCounter *NumberCounter::Create( const char *readJson )
 NumberCounter::NumberCounter( const char *readJson )
 : TaskUnit("GameScoreRecorder")
 , m_invalidDraw( false )
+, m_invalidCallCountUpSE( false )
 , m_readFile( readJson )
 , m_counter( 0 )
 , m_currDispValue( 0 )
@@ -118,7 +119,7 @@ void NumberCounter::Update()
 		m_currDispValue = m_value;
 	}
 	else{
-		if( m_counter%10 == 0 ){	
+		if( m_counter%10 == 0 && !m_invalidCallCountUpSE ){	
 			// ƒJƒEƒ“ƒgSE–Â‚ç‚·
 			SoundManager::GetInstance()->PlaySE("Count", 8500);
 		}

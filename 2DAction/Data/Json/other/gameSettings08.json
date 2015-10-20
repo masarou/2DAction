@@ -1,14 +1,14 @@
 {
 	"stageKind":[
-		{"type": "DESTROY_BOSS"},
+		{"type": "DESTROY"},
 		{"TimeS": 0},
 		{"destroyMax": 2}
 	],
 	"bossInfo":[
-		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 4, "num": 1, "initPosX": 1600, "initPosY": 1000},
-		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 4, "num": 1, "initPosX": 1190, "initPosY": 1000}
 	],
 	"initEnemy":[
+		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 4, "num": 1, "initPosX": 1550, "initPosY": 1000},
+		{"enemyKind": "ENEMY_KIND_SLIME_KING", "level": 4, "num": 1, "initPosX": 1150, "initPosY": 1000}
 	],
 	"gameCondition":[
 		{"EnemyMax": 40, "frequency":4},

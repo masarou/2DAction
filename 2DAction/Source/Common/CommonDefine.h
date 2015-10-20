@@ -13,7 +13,7 @@ namespace Common{
 		TYPE_ENEMY_SLIME_ANOTHER,
 		TYPE_ENEMY_AHRIMAN,
 		TYPE_ENEMY_COW,
-		TYPE_ENEMY_BOSS,
+		TYPE_ENEMY_RANGER,
 		TYPE_ENEMY_SLIME_KING,
 		TYPE_ENEMY_WIZARD,
 		TYPE_WIZARD_CRYSTAL,
@@ -83,7 +83,7 @@ namespace Common{
 		{	TYPE_ENEMY_SLIME_ANOTHER,	EVENT_HIT_ENEMY_SLIME_ANOTHER	},	// 敵との接触
 		{	TYPE_ENEMY_AHRIMAN,			EVENT_HIT_ENEMY_AHRIMAN			},	// 敵との接触
 		{	TYPE_ENEMY_COW,				EVENT_HIT_ENEMY_COW				},	// 敵との接触
-		{	TYPE_ENEMY_BOSS,			EVENT_HIT_ENEMY_BOSS			},	// 敵との接触
+		{	TYPE_ENEMY_RANGER,			EVENT_HIT_ENEMY_BOSS			},	// 敵との接触
 		{	TYPE_ENEMY_SLIME_KING,		EVENT_HIT_ENEMY_SLIME_KING		},	// 敵との接触
 		{	TYPE_ENEMY_WIZARD,			EVENT_HIT_ENEMY_WIZARD			},	// 敵との接触
 		{	TYPE_WIZARD_CRYSTAL,		EVENT_HIT_WIZARD_CRYSTAL		},	// 敵との接触
@@ -246,7 +246,7 @@ namespace Common{
 		ENEMY_KIND_SLIME_ANOTHER,
 		ENEMY_KIND_AHRIMAN,
 		ENEMY_KIND_COW,
-		ENEMY_KIND_BOSS,
+		ENEMY_KIND_RANGER,
 		ENEMY_KIND_SLIME_KING,
 		ENEMY_KIND_WIZARD,
 		ENEMY_KIND_DRAGON,
@@ -259,7 +259,7 @@ namespace Common{
 	static ENEMY_KIND s_uniqueEnemyKind[] = {
 		Common::ENEMY_KIND_WIZARD,
 		Common::ENEMY_KIND_DRAGON,
-		Common::ENEMY_KIND_BOSS,
+		Common::ENEMY_KIND_RANGER,
 	};
 	
 	// ライトモンスター配列(複数体存在することあり)
@@ -289,7 +289,7 @@ namespace Common{
 		// 以下、ボス用AI
 		AI_SEARCHING_SLIME_KING,	// プレイヤー探索(スライムキング)
 		AI_MOVE_PLAYER_SLIME_KING,	// プレイヤーに近づく(スライムキング)
-		AI_ATTACK_NEAR,				// ボスAI
+		AI_ATTACK_NEAR,				// レンジャーAI
 		AI_ATTACK_WIZARD,			// 魔法使いAI
 		AI_ATTACK_DRAGON,			// ドラゴンAI
 		AI_ATTACK_LAST_BOSS,		// ラスボスAI

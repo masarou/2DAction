@@ -74,7 +74,7 @@ ResultStageMenu::~ResultStageMenu(void)
 
 bool ResultStageMenu::InitMenu()
 {
-	if( GameRecorder::GetInstance()->GetGameStateOfProgress() != GameRecorder::STATE_STAGE10 ){
+	if( FlowManager::GetInstance()->GetPreFlowKind() != Common::FLOW_STAGE10 ){
 		// BGM再生開始
 		SoundManager::GetInstance()->PlayBGM( "interval" );
 	}
@@ -147,43 +147,42 @@ void ResultStageMenu::PadEventDecide()
 		Utility::GetSaveData( saveData );
 
 		// 次のステージor画面へ
-		switch( pRecorder->GetGameStateOfProgress() ){
-		case GameRecorder::STATE_TITLE:
+		switch( FlowManager::GetInstance()->GetPreFlowKind() ){
 		default:
 			DEBUG_ASSERT( 0, "想定外のフロー" );
 			// とりあえずタイトルへ
 			SetNextFlowStr( "title" );
 			break;
-		case GameRecorder::STATE_STAGE01:
+		case Common::FLOW_STAGE01:
 			SetNextFlowStr( "nextgame02" );
 			break;
-		case GameRecorder::STATE_STAGE02:
+		case Common::FLOW_STAGE02:
 			SetNextFlowStr( "nextgame03" );
 			break;
-		case GameRecorder::STATE_STAGE03:
+		case Common::FLOW_STAGE03:
 			SetNextFlowStr( "nextgame04" );
 			saveData.m_isClearPhase01 = true;
 			break;
-		case GameRecorder::STATE_STAGE04:
+		case Common::FLOW_STAGE04:
 			SetNextFlowStr( "nextgame05" );
 			break;
-		case GameRecorder::STATE_STAGE05:
+		case Common::FLOW_STAGE05:
 			SetNextFlowStr( "nextgame06" );
 			break;
-		case GameRecorder::STATE_STAGE06:
+		case Common::FLOW_STAGE06:
 			SetNextFlowStr( "nextgame07" );
 			saveData.m_isClearPhase02 = true;
 			break;
-		case GameRecorder::STATE_STAGE07:
+		case Common::FLOW_STAGE07:
 			SetNextFlowStr( "nextgame08" );
 			break;
-		case GameRecorder::STATE_STAGE08:
+		case Common::FLOW_STAGE08:
 			SetNextFlowStr( "nextgame09" );
 			break;
-		case GameRecorder::STATE_STAGE09:
+		case Common::FLOW_STAGE09:
 			SetNextFlowStr( "nextgame10" );
 			break;
-		case GameRecorder::STATE_STAGE10:
+		case Common::FLOW_STAGE10:
 			SetNextFlowStr( "totalresult" );	// すべてのステージ終了
 			break;
 		}

@@ -1,24 +1,24 @@
 /* ====================================================================== */
 /**
- * @brief  敵AIの通常クラス(プレイヤー未発見)
+ * @brief  RangerAIクラス
  *
  * @note
  *		デフォルトAI
  */
 /* ====================================================================== */
 
-#ifndef __AI_BOSS_NEAE_ATTACK__
-#define __AI_BOSS_NEAE_ATTACK__
+#ifndef __AI_ENEMY_RANGER__
+#define __AI_ENEMY_RANGER__
 
 #include "Game/Enemy/AI/EnemyAIBase.h"
-#include "Game/Enemy/EnemyBoss.h"
+#include "Game/Enemy/EnemyRanger.h"
 #include "Common/Utility/CommonGameUtility.h"
 
-class AIBossNearAttack : public EnemyAIBase
+class AIRanger : public EnemyAIBase
 {
 public:
 
-	static AIBossNearAttack *Create();
+	static AIRanger *Create();
 
 	// AIの種類を派生先でセットしておく
 	virtual const Common::ENEMY_AI GetAIKind() const{ return Common::AI_ATTACK_NEAR; }
@@ -84,7 +84,7 @@ private:
 	bool ExecSlashing( TEX_DRAW_INFO &enemyInfo )
 	{
 		uint32_t currTime = GetNowCount();
-		const EnemyBoss *const pBoss = static_cast<const EnemyBoss*const>( GetEnemeyMine() );
+		const EnemyRanger *const pBoss = static_cast<const EnemyRanger*const>( GetEnemeyMine() );
 
 		reenter( m_coro ){
 
@@ -120,8 +120,8 @@ private:
 		return true;
 	}
 
-	AIBossNearAttack(void);
-	~AIBossNearAttack(void);
+	AIRanger(void);
+	~AIRanger(void);
 
 	coroutine		m_coro;					// コルーチン
 	uint32_t		m_actionIntervalTime;	// アクションを起こしてから次のアクションまでの余暇時間

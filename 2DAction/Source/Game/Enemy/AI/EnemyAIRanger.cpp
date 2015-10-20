@@ -1,24 +1,24 @@
 /* ====================================================================== */
 /**
- * @brief BOSSAIの攻撃クラス
+ * @brief RangerAIクラス
  *
  * @note
- *		敵発見時に遷移
+ *		デフォルトAI
  */
 /* ====================================================================== */
 
-#include "AIBossNearAttack.h"
-#include "Game/Enemy/EnemyBoss.h"
+#include "EnemyAIRanger.h"
+#include "Game/Enemy/EnemyRanger.h"
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 
-AIBossNearAttack *AIBossNearAttack::Create()
+AIRanger *AIRanger::Create()
 {
-	AIBossNearAttack *tmpAI = NEW AIBossNearAttack();
+	AIRanger *tmpAI = NEW AIRanger();
 	return tmpAI;
 }
 
-AIBossNearAttack::AIBossNearAttack(void)
+AIRanger::AIRanger(void)
 : m_actionIntervalTime( 0 )
 , m_currActionType( ACTION_MAX )
 , m_nextActionType( ACTION_MAX )
@@ -28,11 +28,11 @@ AIBossNearAttack::AIBossNearAttack(void)
 }
 
 
-AIBossNearAttack::~AIBossNearAttack(void)
+AIRanger::~AIRanger(void)
 {
 }
 
-bool AIBossNearAttack::InitAI()
+bool AIRanger::InitAI()
 {
 	m_actionIntervalTime = 30;
 
@@ -42,7 +42,7 @@ bool AIBossNearAttack::InitAI()
 	return true;
 }
 
-void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
+void AIRanger::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo )
 {
 	// 攻撃中なら行動しない
 	if( s_pAttackBlade->IsSlashingAnimPlay() ){
@@ -102,7 +102,7 @@ void AIBossNearAttack::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionI
 	SetEnemyAnim( animTag );
 }
 
-void AIBossNearAttack::ChangeActionType( const ACTION_TYPE &nextType )
+void AIRanger::ChangeActionType( const ACTION_TYPE &nextType )
 {
 	if( m_currActionType == ACTION_MAX ){
 		m_currActionType = nextType;
@@ -112,7 +112,7 @@ void AIBossNearAttack::ChangeActionType( const ACTION_TYPE &nextType )
 	}
 }
 
-AIBossNearAttack::ACTION_TYPE AIBossNearAttack::GetNextAction()
+AIRanger::ACTION_TYPE AIRanger::GetNextAction()
 {
 	ACTION_TYPE type;
 	
@@ -129,7 +129,7 @@ AIBossNearAttack::ACTION_TYPE AIBossNearAttack::GetNextAction()
 	return type;
 }
 
-bool AIBossNearAttack::ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo )
+bool AIRanger::ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo )
 {
 	// スプレッド弾発射
 	for( uint32_t i = 0; i < 8 ; ++i ){
@@ -150,7 +150,7 @@ bool AIBossNearAttack::ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo )
 	return true;
 }
 
-bool AIBossNearAttack::DashMove( TEX_DRAW_INFO &enemyInfo, const math::Vector2 &targetPos )
+bool AIRanger::DashMove( TEX_DRAW_INFO &enemyInfo, const math::Vector2 &targetPos )
 {
 	bool retVal = false;
 	if( !math::IsInRange( enemyInfo.m_posOrigin, targetPos, 100.0f ) ){
@@ -186,7 +186,7 @@ bool AIBossNearAttack::DashMove( TEX_DRAW_INFO &enemyInfo, const math::Vector2 &
 	return retVal;
 }
 
-bool AIBossNearAttack::SetRunAwayPosFromPlayer( TEX_DRAW_INFO &enemyInfo )
+bool AIRanger::SetRunAwayPosFromPlayer( TEX_DRAW_INFO &enemyInfo )
 {
 	// 移動先を決定
 	math::Vector2 nextTargetVec = GetEnemyEyeSight() * -1.0f;

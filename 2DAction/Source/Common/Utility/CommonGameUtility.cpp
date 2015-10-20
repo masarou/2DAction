@@ -17,7 +17,7 @@
 #include "Game/Enemy/AI/EnemyAITackle.h"
 #include "Game/Enemy/AI/EnemyAIShoot.h"
 #include "Game/Enemy/AI/EnemyAIDashTackle.h"
-#include "Game/Enemy/AI/Boss/AIBossNearAttack.h"
+#include "Game/Enemy/AI/EnemyAIRanger.h"
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingSearching.h"
 #include "Game/Enemy/AI/SlimeKing/AISlimeKingTackle.h"
 #include "Game/Enemy/AI/EnemyAIWizard.h"
@@ -304,9 +304,6 @@ const bool CheckCollisionCircleSquare( const CollisionCircle &circle, const math
 			return true;
 		}
 	}
-	
-	Utility::DrawDebugCircle( circle.m_relativePos, circle.m_radius );
-	Utility::DrawDebugBox( squarePosUpperLeft, math::Abs( squarePosUnderRight.x - squarePosUpperLeft.x ) );
 
 	return false;
 }
@@ -502,7 +499,7 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 		pRetAI = EnemyAIShoot::Create();
 		break;
 	case Common::AI_ATTACK_NEAR:	// 遠距離攻撃(遠距離攻撃)
-		pRetAI = AIBossNearAttack::Create();
+		pRetAI = AIRanger::Create();
 		break;
 	case Common::AI_SEARCHING_SLIME_KING:	// スライムキングプレイヤー探索
 		pRetAI = AISlimeKingSearching::Create();

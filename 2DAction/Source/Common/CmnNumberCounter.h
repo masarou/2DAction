@@ -37,6 +37,8 @@ public:
 	bool IsPlayCountAnim();
 	// 描画無効にするかフラグセット
 	void SetDrawInvalidFlag( const bool &flg ){ m_invalidDraw = flg; }
+	// 数値が変わる時にSEを鳴らさないかフラグセット
+	void SetCountUpSeInvalidFlag( const bool &flg ){ m_invalidCallCountUpSE = flg; }
 
 protected:
 
@@ -51,9 +53,10 @@ private:
 
 	void UpdateScore( const uint32_t &score );
 
-	bool		m_invalidDraw;		// 数字の描画を行うかどうか
-	std::string	m_readFile;			// 読み込んでいるjson
-	uint32_t	m_counter;			// 数値が上がっているときにSEを定期的にならすカウンタ
+	bool		m_invalidDraw;			// 数字の描画を行うかどうか(trueで描画しない)
+	bool		m_invalidCallCountUpSE;	// 数字が変化するときにSEを鳴らすかどうか(trueで鳴らさない)
+	std::string	m_readFile;				// 読み込んでいるjson
+	uint32_t	m_counter;				// 数値が上がっているときにSEを定期的にならすカウンタ
 	int32_t		m_value;
 	int32_t		m_currDispValue;
 

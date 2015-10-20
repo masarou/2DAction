@@ -12,7 +12,8 @@
 #include "EnemyAnotherSlime.h"
 #include "EnemyAhriman.h"
 #include "EnemyCow.h"
-#include "EnemyBoss.h"
+#include "EnemySlimeKing.h"
+#include "EnemyRanger.h"
 #include "EnemyWizard.h"
 #include "EnemyDragon.h"
 #include "EnemyLastBoss.h"
@@ -84,8 +85,8 @@ void EnemyManager::AddEnemy( const Common::ENEMY_KIND &kind, const uint32_t &ene
 	case Common::ENEMY_KIND_COW:
 		pEnemy = EnemyCCC::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
-	case Common::ENEMY_KIND_BOSS:
-		pEnemy = EnemyBoss::Create( currUniqueNo, enemyLevel, enemyPos );
+	case Common::ENEMY_KIND_RANGER:
+		pEnemy = EnemyRanger::Create( currUniqueNo, enemyLevel, enemyPos );
 		break;
 	case Common::ENEMY_KIND_SLIME_KING:
 		pEnemy = EnemySlimeKing::Create( currUniqueNo, enemyLevel, enemyPos );
