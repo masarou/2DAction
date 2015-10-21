@@ -157,7 +157,7 @@ void EnemyAIBase::ClearAttackMaterial()
 	s_pAttackBlade = NULL;
 }
 
-uint32_t EnemyAIBase::GetSecStartThisAI()
+uint32_t EnemyAIBase::GetTimeStartThisAIBySec()
 {
 	uint32_t retVal = GetNowCount() - m_thisAIStartTime;
 	return retVal / 1000;

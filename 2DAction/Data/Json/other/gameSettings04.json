@@ -19,8 +19,8 @@
 		{"enemyKind": "ENEMY_KIND_COW",		"level":4, "frequency":10}
 	],
 	"pointInfo":[
-		{"score": 53500, "value": 50},
-		{"score": 48500, "value": 30},
+		{"score": 38000, "value": 50},
+		{"score": 32000, "value": 30},
 		{"score": 0, "value": 20}
 	]
 }

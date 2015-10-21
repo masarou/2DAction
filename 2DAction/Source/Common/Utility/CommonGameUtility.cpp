@@ -23,7 +23,6 @@
 #include "Game/Enemy/AI/EnemyAIWizard.h"
 #include "Game/Enemy/AI/EnemyAIDragon.h"
 #include "Game/Enemy/AI/LastBoss/EnemyAILastBoss.h"
-#include "Game/Enemy/AI/LastBoss/EnemyAILastBossHand.h"
 #include "Game/GameMap.h"
 #include "Game/GameRegister.h"
 #include "Game/GameRecorder.h"
@@ -515,9 +514,6 @@ EnemyAIBase *CreateEnemyAI( Common::ENEMY_AI nextAI )
 		break;
 	case Common::AI_ATTACK_LAST_BOSS:
 		pRetAI = EnemyAILastBoss::Create();
-		break;
-	case Common::AI_ATTACK_LAST_BOSS_HAND:
-		pRetAI = EnemyAILastBossHand::Create();
 		break;
 	}
 	return pRetAI;

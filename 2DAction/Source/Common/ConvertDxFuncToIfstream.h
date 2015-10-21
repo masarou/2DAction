@@ -12,6 +12,7 @@
 #define __CONV_DX_FUNC__
 
 #include <sstream>
+#include "System/SystemDefine.h"
 
 class dxfstreambuf:public std::streambuf{
 protected:
@@ -23,7 +24,7 @@ public:
 	~dxfstreambuf(){FileRead_close(FileHandle);}
 protected:
 	std::streamsize xsgetn(char* c_p,std::streamsize size){
-		return FileRead_read(c_p,size,FileHandle);
+		return static_cast<std::streamsize>( FileRead_read( c_p, static_cast<int>( size ), FileHandle) );
 	}
 	int uflow(){return FileRead_getc(FileHandle);}
 	int pbackfail(int nCh){
@@ -37,7 +38,7 @@ protected:
 	}
 public:
 	bool eof(){return FileRead_eof(FileHandle)!=0;}
-	int tellg(){return FileRead_tell(FileHandle);}
+	LONGLONG tellg(){return FileRead_tell(FileHandle);}
 	void seekg(int n){seekg(n,SEEK_SET);}
 	void seekg(int n,int origin){FileRead_seek(FileHandle,n,origin);}
 };
@@ -65,8 +66,8 @@ public:
 	bool eof(){return streambuf->eof();}
 	bool is_open(){return streambuf!=0;}
 	pos_type tellg(){return streambuf->tellg();}
-	void seekg(pos_type n){return streambuf->seekg(n);}
-	void seekg(off_type n,int rel){return streambuf->seekg(n,rel);}
+	void seekg(pos_type n){return streambuf->seekg( static_cast<int>( n ) );}
+	void seekg(off_type n,int rel){return streambuf->seekg( static_cast<int>( n ),rel);}
 };
 
 #endif

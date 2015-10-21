@@ -26,17 +26,18 @@
 #include "System/SystemFPSManager.h"
 
 // 固定値
-static uint32_t DAMAGE_INVISIBLE_TIME	= 40;
+static uint32_t DAMAGE_INVISIBLE_TIME	= 40;		// ダメージを受けた時の無敵時間
+static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;		// デフォルトのHP
+static uint32_t MOVE_SPEED_DEFAULT		= 3;		// デフォルトの移動スピード
+static float DASH_MULTIPLY_DEFAULT		= 5.0f;		// デフォルトのダッシュ時の掛け数
+static uint32_t DASH_SPEED_MAX			= 15;		// ダッシュ時のMAXスピード
+static uint32_t WARNING_LIFE			= 40;		// ダメージ時に警告音を鳴らすHP
+static uint32_t EMERGENCY_LIFE			= 20;		// ダメージ時に緊急音を鳴らすHP
 
-static uint32_t LIFE_POINT_DEFAULT_MAX	= 200;
-static uint32_t MOVE_SPEED_DEFAULT		= 3;
-static float DASH_MULTIPLY_DEFAULT		= 5.0f;
-static uint32_t DASH_SPEED_MAX			= 15;
-static uint32_t WARNING_LIFE			= 40;
-static uint32_t EMERGENCY_LIFE			= 20;
-
-static uint32_t BULLET_INTERBAL_MIN		= 1;
-static uint32_t BULLET_DAMAGE_MAX		= 100;
+// アイテム系の固定値
+static uint32_t BULLET_INTERBAL_MIN		= 1;		// マシンガン発射時の次の弾までの最低余暇時間
+static uint32_t BULLET_DAMAGE_MAX		= 100;		// マシンガンの弾の最高ダメージ
+static uint32_t ITEM_HEAL_VALUE			= 60;		// HEALアイテム取得時の回復量
 
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
@@ -703,7 +704,7 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 	case Common::ITEM_KIND_LIFE_UP:
 		{
 			// ライフ回復
-			m_playerLife += 60;
+			m_playerLife += ITEM_HEAL_VALUE;
 			if( m_playerLife > m_playerLifeMax ){
 				m_playerLife = m_playerLifeMax;
 			}

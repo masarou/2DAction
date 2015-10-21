@@ -19,8 +19,6 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "System/SystemFPSManager.h"
 
-static const uint32_t ACTION_INTERVAL = 90;
-
 AIDragon *AIDragon::Create()
 {
 	AIDragon *tmpAI = NEW AIDragon();
@@ -44,6 +42,9 @@ bool AIDragon::InitAI()
 {
 	m_currAction = ACTION_FIRE_BOMB;
 	m_nextAction = ACTION_MAX;
+
+	// 最初の待ち時間セット
+	m_waitCounter = ACTION_INTERVAL_SHORT;
 	return true;
 }
 
@@ -172,12 +173,12 @@ bool AIDragon::ActionShootFireBall( TEX_DRAW_INFO &enemyInfo, const bool &onlyAc
 	vec.Normalize();
 
 	// 火の玉クラス作成 + SE再生
-	DragonFireBomb::Create( enemyInfo.m_posOrigin, vec, 30 );
+	DragonFireBomb::Create( enemyInfo.m_posOrigin, vec, 20 + ( GetEnemyLevel() * 3 ) );
 	SoundManager::GetInstance()->PlaySE("FireBall");
 
 	if( !onlyAction ){
 		// 次の行動セット
-		m_waitCounter = 60;
+		m_waitCounter = ACTION_INTERVAL;
 		ChangeActionType( GetRandamNextAction() );
 	}
 

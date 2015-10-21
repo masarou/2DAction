@@ -45,20 +45,25 @@ void EnemyAnotherSlime::EnemyDeath()
 	TaskStartDie();
 }
 
+
+static const uint32_t DEFAULT_HP = 50;
+static const float DEFAULT_SPEED = 1.0f;
+static const uint32_t DEFAULT_DAMAGE_HIT = 10;
+
  const uint32_t EnemyAnotherSlime::GetEnemyDefaultHP() const
 {
 	// LvÇ…ÇÊÇ¡Çƒç≈ëÂÉâÉCÉtïœçX
-	return 50 + ( 150 * GetEnemyLevel() );
+	return DEFAULT_HP + ( 150 * GetEnemyLevel() );
 }
 
  const float EnemyAnotherSlime::GetEnemyDefaultSPD() const
 {
-	return 1.0f + ( static_cast<float>( GetEnemyLevel() ) / 3.0f );
+	return DEFAULT_SPEED + ( static_cast<float>( GetEnemyLevel() ) / 3.0f );
 }
 
 const uint32_t EnemyAnotherSlime::GetPlayerHitDamage() const
 {
-	return 10 + ( 10 * GetEnemyLevel() );
+	return DEFAULT_DAMAGE_HIT + ( 10 * GetEnemyLevel() );
 }
 
 void EnemyAnotherSlime::ReduceDamage( Common::CMN_EVENT &eventId )

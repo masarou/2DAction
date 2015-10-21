@@ -41,17 +41,21 @@ void EnemyBBB::EventUpdate( Common::CMN_EVENT &eventId )
 
 }
 
+static const uint32_t DEFAULT_HP = 100;
+static const float DEFAULT_SPEED = 1.0f;
+static const uint32_t DEFAULT_DAMAGE_HIT = 10;
+
 const uint32_t EnemyBBB::GetEnemyDefaultHP() const
 {
-	return 100 + ( 120 * GetEnemyLevel() );
+	return DEFAULT_HP + ( 120 * GetEnemyLevel() );
 }
 
 const float EnemyBBB::GetEnemyDefaultSPD() const
 {
-	return 1 + ( GetEnemyLevel() / 3 );
+	return DEFAULT_SPEED + ( GetEnemyLevel() / 3 );
 }
 
 const uint32_t EnemyBBB::GetPlayerHitDamage() const
 {
-	return 10 + ( 5 * GetEnemyLevel() );
+	return DEFAULT_DAMAGE_HIT + ( 5 * GetEnemyLevel() );
 }

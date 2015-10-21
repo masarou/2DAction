@@ -16,6 +16,9 @@ class EnemyAIShoot : public EnemyAIBase
 {
 public:
 
+	// ’e‚ğ”­Ë‚µ‚Ä‚©‚ç‚ÌÅ’á‘Ò‚¿ŠÔ
+	static const uint32_t ACTION_INTERVAL = 60;
+
 	static EnemyAIShoot *Create();
 
 	// AI‚Ìí—Ş‚ğ”h¶æ‚ÅƒZƒbƒg‚µ‚Ä‚¨‚­

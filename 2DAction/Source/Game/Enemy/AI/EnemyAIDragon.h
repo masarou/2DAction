@@ -20,10 +20,15 @@ class AIDragon : public EnemyAIBase
 {
 public:
 
+	// 次の各行動に移るまでの待ち時間
+	static const uint32_t ACTION_INTERVAL_SHORT = 30;
+	static const uint32_t ACTION_INTERVAL = 60;
+	static const uint32_t ACTION_INTERVAL_LONG = 100;
+
 	static AIDragon *Create();
 
 	// AIの種類を派生先でセットしておく
-	virtual const Common::ENEMY_AI GetAIKind() const{ return Common::AI_ATTACK_WIZARD; }
+	virtual const Common::ENEMY_AI GetAIKind() const{ return Common::AI_ATTACK_DRAGON; }
 
 protected:
 	
@@ -61,7 +66,7 @@ private:
 		reenter( m_coro ){
 			// 炎上前エフェクト
 			GameEffect::CreateEffect( GameEffect::EFFECT_PRE_FIRE_WALL, enemyInfo.m_posOrigin );
-			m_waitCounter = 100;
+			m_waitCounter = ACTION_INTERVAL_LONG;
 			yield return false;
 			
 			// 炎上エフェクト
@@ -79,8 +84,16 @@ private:
 		fireCounter = 0;
 
 		// 次の行動セット
-		ChangeActionType( GetRandamNextAction() );
-		m_waitCounter = 100;
+		if( math::IsInRange( Utility::GetPlayerPos(), enemyInfo.m_posOrigin, 400.0f ) )
+		{
+			// 近くにプレイヤーがいるなら逃げる
+			ChangeActionType( ACTION_MOVE_AWAY );
+		}
+		else{
+			ChangeActionType( GetRandamNextAction() );
+		}
+		
+		m_waitCounter = ACTION_INTERVAL_LONG;
 		return true;
 	}
 
@@ -105,7 +118,7 @@ private:
 		
 		// 次の行動セット
 		ChangeActionType( GetRandamNextAction() );
-		m_waitCounter = 100;
+		m_waitCounter = ACTION_INTERVAL_LONG;
 		return true;
 	}
 

@@ -340,9 +340,6 @@
     <ClInclude Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBoss.h">
       <Filter>Game\Enemy\AI\LastBoss</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.h">
-      <Filter>Game\Enemy\AI\LastBoss</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Flow\FlowStageSelect.h">
       <Filter>Flow</Filter>
     </ClInclude>
@@ -596,9 +593,6 @@
       <Filter>Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBoss.cpp">
-      <Filter>Game\Enemy\AI\LastBoss</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.cpp">
       <Filter>Game\Enemy\AI\LastBoss</Filter>
     </ClCompile>
     <ClCompile Include="Source\Flow\FlowStageSelect.cpp">

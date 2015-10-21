@@ -30,17 +30,22 @@ bool EnemyCCC::InitMain()
 	return true;
 }
 
+
+static const uint32_t DEFAULT_HP = 1000;
+static const float DEFAULT_SPEED = 1.0f;
+static const uint32_t DEFAULT_DAMAGE_HIT = 20;
+
 const uint32_t EnemyCCC::GetEnemyDefaultHP() const
 {
-	return 1000 + ( GetEnemyLevel() * 100 );
+	return DEFAULT_HP + ( GetEnemyLevel() * 120 );
 }
 
 const float EnemyCCC::GetEnemyDefaultSPD() const
 {
-	return 1.0f + ( static_cast<float>( GetEnemyLevel() ) / 4.0f );
+	return DEFAULT_SPEED + ( static_cast<float>( GetEnemyLevel() ) / 4.0f );
 }
 
 const uint32_t EnemyCCC::GetPlayerHitDamage() const
 {
-	return 20 + ( 7 * GetEnemyLevel() );
+	return DEFAULT_DAMAGE_HIT + ( 7 * GetEnemyLevel() );
 }

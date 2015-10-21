@@ -18,8 +18,8 @@
 		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 6, "frequency": 100}
 	],
 	"pointInfo":[
-		{"score": 10000, "value": 180},
-		{"score": 5000, "value": 120},
-		{"score": 0, "value": 40}
+		{"score": 38000, "value": 160},
+		{"score": 30000, "value": 120},
+		{"score": 0, "value": 60}
 	]
 }

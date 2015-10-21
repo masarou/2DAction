@@ -13,6 +13,8 @@
 #include "Common/Utility/CommonGameUtility.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 
+static const uint32_t ENEMY_CREATE_VALUE = 45;
+
 AISlimeKingSearching *AISlimeKingSearching::Create()
 {
 	AISlimeKingSearching *tmpAI = NEW AISlimeKingSearching();
@@ -44,7 +46,7 @@ void AISlimeKingSearching::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &act
 	}
 
 	// àÍíËämó¶Ç≈ìGÇê∂ê¨
-	if( Utility::GetRandamValue( 45 - ( GetEnemyLevel() * 2 ), 0 ) == 0 ){
+	if( Utility::GetRandamValue( ENEMY_CREATE_VALUE - ( GetEnemyLevel() * 2 ), 0 ) == 0 ){
 		for(;;){
 			math::Vector2 targetPos = enemyInfo.m_posOrigin;
 			math::Vector2 enemyPos = math::Vector2( 

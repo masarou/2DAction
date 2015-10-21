@@ -16,8 +16,8 @@
 	"appearEnemy":[
 	],
 	"pointInfo":[
-		{"score": 12000, "value": 30},
-		{"score": 6000, "value": 20},
+		{"score": 15000, "value": 30},
+		{"score": 10000, "value": 20},
 		{"score": 0, "value": 10}
 	]
 }

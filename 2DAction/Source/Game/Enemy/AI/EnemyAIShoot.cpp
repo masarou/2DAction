@@ -76,7 +76,8 @@ void EnemyAIShoot::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionInfo 
 	if( m_shootInterval == 0
 		&& Utility::GetRandamValue( 120, 0 ) == 0 ){
 		// ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä’e‚ğ”­Ë
-		ShootBullet();
-		m_shootInterval = 60;
+		uint32_t damage = 20 + GetEnemyLevel() * 5;
+		ShootBullet( math::Vector2(), math::Vector2(), damage );
+		m_shootInterval = ACTION_INTERVAL;
 	}
 }

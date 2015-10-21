@@ -61,7 +61,6 @@ protected:
 	virtual bool DieMainMenu() override;
 	virtual void UpdateMenu() override;
 	virtual void PadEventDecide() override;
-	virtual void PadEventCancel() override;
 	virtual void PadEventRight() override;
 	virtual void PadEventLeft() override;
 

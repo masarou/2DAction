@@ -189,6 +189,7 @@ std::string GameEffect::SelectEffectFile() const
  *
  */
 /* ====================================================================== */
+static const uint32_t FIRE_WALL_EFFECT_TIME = 110;
 PreFireWall::PreFireWall( const EFFECT_KIND &kind, const math::Vector2 &pos )
 : GameEffect( kind, pos )
 , m_liveTime( 0 )
@@ -207,7 +208,7 @@ void PreFireWall::Update()
 	texInfo.m_scale *= 1.05f;
 
 	// ˆê’èŽžŠÔ‚½‚Á‚½‚çŽ©ŽE
-	if( m_liveTime >= 110 ){
+	if( m_liveTime >= FIRE_WALL_EFFECT_TIME ){
 		TaskStartDie();
 	}
 }

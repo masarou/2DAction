@@ -15,6 +15,10 @@
 #include "System/Draw2D/SystemDraw2DResource.h"
 #include "Game/Effect/GameEffect.h"
 
+// 本体から見た両手の位置
+static const math::Vector2 BASE_LEFT_HAND_POS = math::Vector2( 150.0f, 50.0f );
+static const math::Vector2 BASE_RIGHT_HAND_POS = math::Vector2( -150.0f, 50.0f );
+
 EnemyAILastBoss *EnemyAILastBoss::Create()
 {
 	EnemyAILastBoss *tmpAI = NEW EnemyAILastBoss();
@@ -38,9 +42,9 @@ bool EnemyAILastBoss::InitAI()
 
 	// 基準点更新
 	math::Vector2 letfPos = GetEnemyPos();
-	letfPos += math::Vector2( 150.0f, 50.0f );
+	letfPos += BASE_LEFT_HAND_POS;
 	math::Vector2 rightPos = GetEnemyPos();
-	rightPos += math::Vector2( -150.0f, 50.0f );
+	rightPos += BASE_RIGHT_HAND_POS;
 
 	m_pRightHand	= LastBossRight::Create( "EnemyLastBossRight.json", rightPos );
 	m_pRightHand->SetAnotherHand( m_pLeftHand );
@@ -89,9 +93,9 @@ void EnemyAILastBoss::ExecHandsUpdate( TEX_DRAW_INFO &enemyInfo )
 {
 	// 基準点更新
 	math::Vector2 letfPos = enemyInfo.m_posOrigin;
-	letfPos += math::Vector2( 150.0f, 50.0f );
+	letfPos += BASE_LEFT_HAND_POS;
 	math::Vector2 rightPos = enemyInfo.m_posOrigin;
-	rightPos += math::Vector2( -150.0f, 50.0f );
+	rightPos += BASE_RIGHT_HAND_POS;
 
 	if( m_pRightHand && m_pLeftHand ){
 		m_pRightHand->SetBasicPos( rightPos );

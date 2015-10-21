@@ -186,11 +186,6 @@ void StageSelectMenu::PadEventDecide()
 	}
 }
 
-void StageSelectMenu::PadEventCancel()
-{
-	SetNextFlowStr( "return" );
-}
-
 void StageSelectMenu::PadEventRight()
 {
 	// ƒJ[ƒ\ƒ‹SE–Â‚ç‚·

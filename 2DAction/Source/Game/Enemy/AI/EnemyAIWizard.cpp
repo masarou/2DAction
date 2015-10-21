@@ -18,7 +18,8 @@
 #include "System/Sound/SystemSoundManager.h"
 #include "System/Draw2D/SystemDraw2DResource.h"
 
-static const uint32_t ACTION_INTERVAL = 90;
+static uint32_t CRYSTAL_DISTANCE_TO_PLAYER = 150;
+static uint32_t CRYSTAL_DISTANCE_TO_ENEMY = 100;
 
 AIWizard *AIWizard::Create()
 {
@@ -173,14 +174,14 @@ void AIWizard::ChangeActionType( const ACTION_TYPE &nextAction )
 
 	DEBUG_PRINT( "Wizard ActionTypeïœçX To %d\n", static_cast<uint32_t>(nextAction) );
 	m_nextAction = nextAction;
-	uint32_t crystalDistance = 100;
+	uint32_t crystalDistance = CRYSTAL_DISTANCE_TO_ENEMY;
 	switch( m_nextAction ){
 	case ACTION_SET_CRYSTAL_PLAYER:
 		{
 			EnemyWizard *pWizard = static_cast<EnemyWizard*>( UpdateEnemyMine() );
 			pWizard->SetCrystalAroundTarget( EnemyWizard::CRYSTAL_AROUND_PLAYER );
 			m_waitCounter = ACTION_INTERVAL;
-			crystalDistance = 150;
+			crystalDistance = CRYSTAL_DISTANCE_TO_PLAYER;
 		}
 		break;
 	default:

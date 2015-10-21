@@ -84,6 +84,8 @@ private:
 	// 次のレベルまでのポイントを取得
 	uint32_t GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind, uint32_t currLevel );
 
+	bool						m_isProceedEnd;	// 決定進行で画面が終了したかどうか
+
 	Common::SAVE_DATA			m_loadData;
 	Common::PLAYER_BASE_STATE	m_selectStateKind;
 

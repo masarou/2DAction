@@ -60,7 +60,7 @@ public:
 	static void ClearAttackMaterial();
 
 	// このAIになってからの経過時間を取得( 1000 = 1s )
-	uint32_t GetSecStartThisAI();
+	uint32_t GetTimeStartThisAIBySec();
 	
 	// 敵クラスが他のクラスからもらったイベント
 	virtual void EnemyRecievedEvent( const Common::CMN_EVENT &eventInfo ){};

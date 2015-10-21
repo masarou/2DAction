@@ -72,7 +72,9 @@ PowerUpMenu *PowerUpMenu::CreatePowerUp2D( const std::string &fileName )
 
 PowerUpMenu::PowerUpMenu( const std::string &fileName )
 : MenuWindow( fileName )
+, m_isProceedEnd( false )
 , m_selectStateKind( Common::BASE_STATE_LIFE )
+, m_explanationStr("")
 {
 	// セーブデータロード
 	Utility::GetSaveData( m_loadData );
@@ -139,8 +141,10 @@ bool PowerUpMenu::InitMenu()
 /* ================================================ */
 bool PowerUpMenu::DieMainMenu()
 {
-	// 余ったポイントはなくす
-	m_loadData.m_battlePoint = 0;
+	if( m_isProceedEnd ){
+		// 余ったポイントはなくす
+		m_loadData.m_battlePoint = 0;
+	}
 
 	// 解説終了
 	m_loadData.m_isFirst = false;
@@ -302,6 +306,9 @@ void PowerUpMenu::PadEventDecide()
 			// ステージセレクトへ
 			SetNextFlowStr( "stageselect" );
 		}
+
+		// 決定進行フラグを立てる = PPを0
+		m_isProceedEnd = true;
 	}
 	else{
 
@@ -467,23 +474,23 @@ uint32_t PowerUpMenu::GetPointToNextLevel( const Common::PLAYER_BASE_STATE &kind
 		break;
 
 	case Common::BASE_STATE_DEFFENCE:			// 被ダメージを決める
-		retVal = levelPointTableLow[currLevel];
+		retVal = levelPointTableMiddle[currLevel];
 		break;
 
 	case Common::BASE_STATE_BULLET_SPD:			// マシンガンの間隔
-		retVal = levelPointTableHigh[currLevel];
+		retVal = levelPointTableMiddle[currLevel];
 		break;
 
 	case Common::BASE_STATE_BULLET_DMG:			// マシンガンのダメージ
-		retVal = levelPointTableMiddle[currLevel];
+		retVal = levelPointTableHigh[currLevel];
 		break;
 	
 	case Common::BASE_STATE_BLADE_LEVEL:		// 斬撃のダメージ
-		retVal = levelPointTableMiddle[currLevel];
+		retVal = levelPointTableHigh[currLevel];
 		break;
 
 	case Common::BASE_STATE_CONTINUE:		// コンティニュー
-		retVal = ( currLevel == 0 ) ? 400 : 9999 ;
+		retVal = ( currLevel == 0 ) ? 300 : 9999 ;
 		break;
 	}
 

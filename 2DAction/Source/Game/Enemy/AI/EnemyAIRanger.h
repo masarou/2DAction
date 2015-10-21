@@ -18,6 +18,10 @@ class AIRanger : public EnemyAIBase
 {
 public:
 
+	// 次の各行動に移るまでの待ち時間
+	static const uint32_t ACTION_INTERVAL_SHORT = 30;
+	static const uint32_t ACTION_INTERVAL = 60;
+
 	static AIRanger *Create();
 
 	// AIの種類を派生先でセットしておく
@@ -73,7 +77,7 @@ private:
 
 		// 次の行動セット
 		ChangeActionType( GetNextAction() );
-		m_actionIntervalTime = Utility::GetRandamValue( 60, 40 );
+		m_actionIntervalTime = Utility::GetRandamValue( ACTION_INTERVAL, ACTION_INTERVAL_SHORT );
 		return true;
 	}
 
@@ -116,7 +120,7 @@ private:
 		
 		// 次の行動セット
 		ChangeActionType( GetNextAction() );
-		m_actionIntervalTime = Utility::GetRandamValue( 60, 40 );
+		m_actionIntervalTime = Utility::GetRandamValue( ACTION_INTERVAL, ACTION_INTERVAL_SHORT );
 		return true;
 	}
 

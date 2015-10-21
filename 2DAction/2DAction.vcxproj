@@ -46,7 +46,6 @@
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAITackle.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\EnemyAIWizard.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBoss.cpp" />
-    <ClCompile Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.cpp" />
     <ClCompile Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.cpp" />
     <ClCompile Include="Source\Game\Enemy\EnemyAhriman.cpp" />
@@ -136,7 +135,6 @@
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAITackle.h" />
     <ClInclude Include="Source\Game\Enemy\AI\EnemyAIWizard.h" />
     <ClInclude Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBoss.h" />
-    <ClInclude Include="Source\Game\Enemy\AI\LastBoss\EnemyAILastBossHand.h" />
     <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingSearching.h" />
     <ClInclude Include="Source\Game\Enemy\AI\SlimeKing\AISlimeKingTackle.h" />
     <ClInclude Include="Source\Game\Enemy\EnemyAhriman.h" />

@@ -14,6 +14,9 @@
 #include "Flow/FlowManager.h"
 #include "Flow/Process/FlowProcessBossEnemyDeath.h"
 
+// äÓèÄÇ∆Ç»ÇÈç≈í·ÇÃHP
+static const uint32_t DEFAULT_HP = 5000;
+
 EnemyDragon *EnemyDragon::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	return NEW EnemyDragon( uniqueID, enemyLevel, enemyPos );
@@ -31,7 +34,7 @@ EnemyDragon::~EnemyDragon(void)
 
 const uint32_t EnemyDragon::GetEnemyDefaultHP() const
 {
-	return 6000 + ( 800 * GetEnemyLevel() );
+	return DEFAULT_HP + ( 800 * GetEnemyLevel() );
 }
 
 /* ================================================ */

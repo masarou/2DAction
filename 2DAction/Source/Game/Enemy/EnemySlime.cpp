@@ -55,20 +55,25 @@ bool EnemySlime::InitMain()
 	return true;
 }
 
+
+static const uint32_t DEFAULT_HP = 50;
+static const float DEFAULT_SPEED = 1.0f;
+static const uint32_t DEFAULT_DAMAGE_HIT = 10;
+
  const uint32_t EnemySlime::GetEnemyDefaultHP() const
 {
 	// LvÇ…ÇÊÇ¡Çƒç≈ëÂÉâÉCÉtïœçX
-	return 50 + ( 150 * GetEnemyLevel() );
+	return DEFAULT_HP + ( 150 * GetEnemyLevel() );
 }
 
  const float EnemySlime::GetEnemyDefaultSPD() const
 {
-	return 1.0f + ( static_cast<float>( GetEnemyLevel() ) / 3.0f );
+	return DEFAULT_SPEED + ( static_cast<float>( GetEnemyLevel() ) / 3.0f );
 }
 
 const uint32_t EnemySlime::GetPlayerHitDamage() const
 {
-	return 10 + ( 5 * GetEnemyLevel() );
+	return DEFAULT_DAMAGE_HIT + ( 5 * GetEnemyLevel() );
 }
 
 void EnemySlime::ReduceDamage( Common::CMN_EVENT &eventId )

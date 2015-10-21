@@ -17,6 +17,10 @@ class AIWizard : public EnemyAIBase
 {
 public:
 
+	// 次の各行動に移るまでの待ち時間
+	static const uint32_t ACTION_INTERVAL_SHORT = 60;
+	static const uint32_t ACTION_INTERVAL = 90;
+
 	static AIWizard *Create();
 
 	// AIの種類を派生先でセットしておく
@@ -79,7 +83,7 @@ private:
 			for( uint32_t i = 0; i < pWizard->GetCrystalIndex() ; ++i ){
 				ShootBullet( pWizard->GetCrystalPos( i ), math::Vector2(), pWizard->GetBulletDamage() );
 			}
-			m_waitCounter = 60;
+			m_waitCounter = ACTION_INTERVAL_SHORT;
 		}
 		
 		ChangeActionType( GetRandamNextAction() );

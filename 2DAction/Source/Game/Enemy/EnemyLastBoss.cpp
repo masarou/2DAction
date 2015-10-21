@@ -14,6 +14,9 @@
 #include "Flow/FlowManager.h"
 #include "Flow/Process/FlowProcessBossEnemyDeath.h"
 
+// äÓèÄÇ∆Ç»ÇÈç≈í·ÇÃHP
+static const uint32_t DEFAULT_HP = 10000;
+
 LastBoss *LastBoss::Create( const uint32_t &uniqueID, const uint32_t &enemyLevel, const math::Vector2 &enemyPos )
 {
 	return NEW LastBoss( uniqueID, enemyLevel, enemyPos );
@@ -38,7 +41,7 @@ bool LastBoss::InitMain()
 
 const uint32_t LastBoss::GetEnemyDefaultHP() const
 {
-	return 10000 + ( 800 * GetEnemyLevel() );
+	return DEFAULT_HP + ( 800 * GetEnemyLevel() );
 }
 
 /* ================================================ */
@@ -91,7 +94,7 @@ void LastBoss::ReduceDamage( Common::CMN_EVENT &eventId )
 		break;
 	case Common::EVENT_HIT_BLADE_PLAYER:
 		// éaåÇÇÕÉ_ÉÅÅ[ÉWÇëùÇ‚Ç∑
-		eventId.m_eventValue *= 1.3f - levelReduce;
+		eventId.m_eventValue *= 1.0f - levelReduce;
 		break;
 	}
 

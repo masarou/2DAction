@@ -34,7 +34,7 @@ AIRanger::~AIRanger(void)
 
 bool AIRanger::InitAI()
 {
-	m_actionIntervalTime = 30;
+	m_actionIntervalTime = ACTION_INTERVAL_SHORT;
 
 	// 斬撃
 	ChangeActionType( ACTION_SLASHING );
@@ -146,7 +146,7 @@ bool AIRanger::ExecSpreadBullet( TEX_DRAW_INFO &enemyInfo )
 	// 次の行動セット
 	ChangeActionType( GetNextAction() );
 
-	m_actionIntervalTime = Utility::GetRandamValue( 60, 40 );
+	m_actionIntervalTime = Utility::GetRandamValue( ACTION_INTERVAL, ACTION_INTERVAL_SHORT );
 	return true;
 }
 

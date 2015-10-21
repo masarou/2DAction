@@ -5,7 +5,7 @@
 		{"destroyMax": 1}
 	],
 	"bossInfo":[
-		{"enemyKind": "ENEMY_KIND_LAST_BOSS", 	"level": 5, "num": 1, "initPosX": 1350, "initPosY": 1000}
+		{"enemyKind": "ENEMY_KIND_LAST_BOSS", 	"level": 7, "num": 1, "initPosX": 1300, "initPosY": 1000}
 	],
 	"initEnemy":[
 	],
@@ -16,7 +16,7 @@
 	"appearEnemy":[
 	],
 	"pointInfo":[
-		{"score": 10000, "value": 120},
+		{"score": 10000, "value": 150},
 		{"score": 5000, "value": 70},
 		{"score": 0, "value": 30}
 	]
