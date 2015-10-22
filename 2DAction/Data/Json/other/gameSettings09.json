@@ -7,8 +7,8 @@
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_DRAGON", "level": 5, "num": 1, "initPosX": 1550, "initPosY": 1000},
-		{"enemyKind": "ENEMY_KIND_DRAGON", "level": 5, "num": 1, "initPosX": 1150, "initPosY": 1000},
+		{"enemyKind": "ENEMY_KIND_DRAGON", "level": 4, "num": 1, "initPosX": 1550, "initPosY": 1000},
+		{"enemyKind": "ENEMY_KIND_DRAGON", "level": 4, "num": 1, "initPosX": 1150, "initPosY": 1000},
 		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 8, "num": 5}
 	],
 	"gameCondition":[

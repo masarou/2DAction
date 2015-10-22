@@ -144,7 +144,7 @@ void GameRecorder::ScoreEvent( const SCORE_KIND &kind, const uint32_t &tmpInfo )
 		addValue = 30000 + ( 1000 * tmpInfo );
 		break;
 	case ENEMY_LAST_BOSS_DEATH:
-		addValue = 80000;
+		addValue = 100000;
 		break;
 	case ENEMY_LAST_BOSS_RIGHT_DEATH:
 		addValue = 4000;

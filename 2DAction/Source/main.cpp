@@ -85,9 +85,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPreInst, LPSTR lpszCmdLine, i
 		}
 	}
 
-	//! ƒtƒHƒ“ƒgíœ
-	RemoveFontResourceEx("Data/Font/misaki_gothic.ttf", FR_PRIVATE, NULL);
-
 	//! í’“•¨íœ
 	CollisionManager::GetInstance()->DeleteCollisionManager();
 	SystemMessageManager::GetInstance()->DeleteMessageManager();

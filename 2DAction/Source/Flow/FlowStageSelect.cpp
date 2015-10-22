@@ -220,11 +220,11 @@ std::string StageSelectMenu::GetExplanationStr( const SELECT_STAGE &stage )
 		break;
 
 	case SEELCT_STAGE02:
-		retStr = "Stage2-1から始めます。\nクリアしてもランキングには反映されません";
+		retStr = "Stage2-1から始めます。";
 		break;
 
 	case SEELCT_STAGE03:
-		retStr = "Stage3-1から始めます。\nクリアしてもランキングには反映されません";
+		retStr = "Stage3-1から始めます。";
 		break;
 	}
 	return retStr;

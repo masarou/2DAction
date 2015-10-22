@@ -437,7 +437,7 @@ std::string PowerUpMenu::GetExplanationStr( const Common::PLAYER_BASE_STATE &kin
 		break;
 	
 	case Common::BASE_STATE_CONTINUE:		// コンティニュー
-		retStr = "ゲームを開始するときに以前クリアしたStageから始める\nことができるようになります。途中から始めた場合は\nクリアしてもランキングには反映されません。";
+		retStr = "ゲームを開始するときに以前クリアしたStageから始める\nことができるようになります。";
 		break;
 	}
 	return retStr;

@@ -102,6 +102,11 @@ protected:
 	// 各種アクション内での右手、左手用位置調整オフセット
 	virtual math::Vector2 GetSummonEffectOffset() = 0;
 	
+	// ユニークモンスターを生成した回数(両手で共通)
+	static uint32_t	m_createUniqueEnemyCount;
+
+private:
+
 	// パンチアクション
 	virtual bool ExecFist( TEX_DRAW_INFO &drawInfo )
 	{
@@ -285,12 +290,12 @@ protected:
 		return true;
 	}
 
-private:
 
 	// 次のアクションを求める
-	ACTION_KIND GetNextActionKind() const;
+	ACTION_KIND GetNextActionKind();
 
 	// モンスターを作成してもよいかどうかチェック
+	uint32_t CountUniqueMonster() const;
 	bool IsCreateUniqueMonster() const;
 	bool IsCreateLightMonster() const;
 
@@ -322,6 +327,7 @@ private:
 	
 	// コルーチン
 	coroutine		m_coro;
+
 };
 
 class LastBossRight : public LastBossHand

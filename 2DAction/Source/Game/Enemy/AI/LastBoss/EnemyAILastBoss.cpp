@@ -114,6 +114,10 @@ void EnemyAILastBoss::ExecHandsUpdate( TEX_DRAW_INFO &enemyInfo )
  *		
  */
 /* ====================================================================== */
+
+
+uint32_t LastBossHand::m_createUniqueEnemyCount = 0;
+
 LastBossHand::LastBossHand( const std::string &readFileName, const math::Vector2 &enemyPos )
 : TaskUnit("Enemy")
 , Collision2DUnit( readFileName.c_str() )
@@ -130,7 +134,7 @@ LastBossHand::LastBossHand( const std::string &readFileName, const math::Vector2
 
 LastBossHand::~LastBossHand()
 {
-
+	m_createUniqueEnemyCount = 0;
 }
 
 void LastBossHand::SetBasicPos( math::Vector2 basicPos )
@@ -223,28 +227,41 @@ void LastBossHand::DrawUpdate()
  * @brief	次の行動選定
  */
 /* ================================================ */
-LastBossHand::ACTION_KIND LastBossHand::GetNextActionKind() const
+LastBossHand::ACTION_KIND LastBossHand::GetNextActionKind()
 {
 	ACTION_KIND retAction = ACTION_NONE;
-	for(;;){
-		retAction = static_cast<ACTION_KIND>( Utility::GetRandamValue( ACTION_MAX, ACTION_NONE ) );
-		
-		// モンスター召喚の時は召喚してもよいかどうかチェック
-		if( retAction == ACTION_SUMMON ){
-			if( IsCreateUniqueMonster() ){
+	if( CountUniqueMonster() == 0 ){
+		// ユニークモンスターが以内なら即生成
+		retAction = ACTION_SUMMON;
+	}
+	else{
+		for(;;){
+			retAction = static_cast<ACTION_KIND>( Utility::GetRandamValue( ACTION_MAX, ACTION_NONE ) );
+
+			// モンスター召喚の時は召喚してもよいかどうかチェック
+			if( retAction == ACTION_SUMMON ){
+				if( IsCreateUniqueMonster() ){
+					break;
+				}
+			}
+			else if( retAction == ACTION_SUMMONS ){
+				if( IsCreateLightMonster() ){
+					break;
+				}
+			}
+			else{
+				// 行動決定！
 				break;
 			}
-		}
-		else if( retAction == ACTION_SUMMONS ){
-			if( IsCreateLightMonster() ){
-				break;
-			}
-		}
-		else{
-			// 行動決定！
-			break;
 		}
 	}
+
+	if( retAction == ACTION_SUMMON ){
+		// ユニークモンスター召喚ならば召喚回数に応じて待ち時間設定
+		++m_createUniqueEnemyCount;
+		m_waitCounter += 10 * m_createUniqueEnemyCount;
+	}
+
 	return retAction;
 }
 
@@ -260,15 +277,31 @@ LastBossHand::ACTION_KIND LastBossHand::GetNextActionKind() const
  * @brief	ユニークモンスターを生成していいか決定
  */
 /* ================================================ */
+uint32_t LastBossHand::CountUniqueMonster() const
+{
+	uint32_t countEnemy = 0;
+	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();	
+	// 敵の生成
+	if( pEnemyManager ){
+		for( uint32_t i = 0; i < NUMBEROF(Common::s_uniqueEnemyKind) ; ++i ){
+			countEnemy += pEnemyManager->CountEnemy( Common::s_uniqueEnemyKind[i] );
+		}
+	}
+
+	// もう一方の片腕が生成中なら+1
+	if( m_pAnotherHand && m_pAnotherHand->GetCurrentActionKind() == ACTION_SUMMON ){
+		++countEnemy;
+	}
+
+	return countEnemy;
+}
 bool LastBossHand::IsCreateUniqueMonster() const
 {
 	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();	
 	// 敵の生成
 	if( pEnemyManager ){
-		uint32_t countEnemy = 0;
-		for( uint32_t i = 0; i < NUMBEROF(Common::s_uniqueEnemyKind) ; ++i ){
-			countEnemy += pEnemyManager->CountEnemy( Common::s_uniqueEnemyKind[i] );
-		}
+
+		uint32_t countEnemy = CountUniqueMonster();
 
 		// ユニークモンスターは2体以上召喚しない
 		if( countEnemy < 1 ){

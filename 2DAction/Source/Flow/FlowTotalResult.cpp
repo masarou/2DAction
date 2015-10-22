@@ -64,10 +64,10 @@ void FlowTotalResult::RecordGameResult()
 	if( retVal ){
 
 		// 最初からプレイしたかどうかチェック
-		if( GameRecorder::GetInstance()->IsContinue() ){
+		//if( !GameRecorder::GetInstance()->IsContinue() ){
 			// ランキング作成
 			UpdateSortRanking( updateData );
-		}
+		//}
 
 		// 取得したバトルポイントを反映させる
 		updateData.m_battlePoint = GameRecorder::GetInstance()->GetClearBattlePointAll();
