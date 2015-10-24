@@ -87,6 +87,9 @@ public:
 		}
 	};
 
+	// キーボード配列最大数
+	static const uint32_t KEY_BOARD_ARRAY_MAX = 256;
+
 protected:
 
 	InputWatcher( const uint32_t &padIndex = DX_INPUT_PAD1 );
@@ -103,10 +106,11 @@ protected:
 	bool IsButtonRelease( const BUTTON_KIND &kind );
 	bool IsPreFrameButtonPress( const BUTTON_KIND &kind );
 
-	//! ボタンのイベントステータス設定
+	//!ボタンイベントをどのタイミングで呼ぶか設定
 	void SetPadButtonState( const BUTTON_KIND &kind, const BUTTON_EVENT_KIND &eventKind );
-	bool IsButtonEvent( const BUTTON_KIND &kind );	//!設定しているボタンによって有効か無効か判断
 
+	//! ボタンイベントチェック
+	bool IsButtonEvent( const BUTTON_KIND &kind );
 
 	void CallPadEvent();
 	virtual void PadEventDecide(){};
@@ -154,12 +158,15 @@ private:
 
 		BUTTON_MAX,
 	};
-	const STICK_INFO GetStickInfo( const STICK_KIND &stickKind );
-	BUTTON ConvButtonKindToButton( const BUTTON_KIND &kind );
 
-	uint32_t	m_buttonState;					//!< 現在のボタンステータス
-	uint32_t	m_preButtonState;				//!< 前フレームのボタンステータス
-	STICK_INFO	m_stickInfo[STICK_MAX];			//!< スティックのステータス
+	const STICK_INFO GetStickInfo( const STICK_KIND &stickKind );
+	BUTTON	ConvButtonKindToButton( const BUTTON_KIND &kind );
+	void	SetStickInfoFromKeyBoard();					//!< 現在のキーボードの状態から擬似的にアナログスティックに情報セット
+
+	uint32_t	m_buttonState;							//!< 現在のボタンステータス
+	uint32_t	m_preButtonState;						//!< 前フレームのボタンステータス
+	STICK_INFO	m_stickInfo[STICK_MAX];					//!< スティックのステータス
+	char		m_keyBoardStateChar[KEY_BOARD_ARRAY_MAX];//!< 現在のキーボードステータス
 
 	//! ボタンイベントをどのタイミングで呼ぶ、呼ばないの識別
 	BUTTON_EVENT_KIND	m_buttonEventStatus[BUTTON_MAX];
@@ -169,6 +176,10 @@ private:
 
 	//! このクラスが見ているパッド
 	uint32_t					m_watchPadIndex;
+
+	//! キーボードのボタン押しフラグ
+	bool						m_preKeyBoardState[KEY_BOARD_ARRAY_MAX];
+	bool						m_keyBoardState[KEY_BOARD_ARRAY_MAX];
 };
 
 

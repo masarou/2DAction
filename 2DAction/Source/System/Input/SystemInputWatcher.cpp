@@ -15,6 +15,26 @@
 //! スティックの無効範囲
 #define STICK_INVALID_RANGE 0
 
+//! 
+static const uint32_t s_keyBoardButtonArray[] = {
+	KEY_INPUT_UP,			//! BUTTON_UP
+	KEY_INPUT_DOWN,			//! BUTTON_DOWN
+	KEY_INPUT_RIGHT,		//! BUTTON_RIGHT
+	KEY_INPUT_LEFT,			//! BUTTON_LEFT
+	KEY_INPUT_SPACE,		//! BUTTON_DECIDE
+	KEY_INPUT_C,			//! BUTTON_CANCEL
+	KEY_INPUT_I,			//! BUTTON_SPECIAL1
+	KEY_INPUT_I,			//! BUTTON_SPECIAL2
+	KEY_INPUT_LSHIFT,		//! BUTTON_R1
+	KEY_INPUT_LSHIFT,		//! BUTTON_L1
+	KEY_INPUT_I,			//! BUTTON_R2
+	KEY_INPUT_I,			//! BUTTON_L2
+	KEY_INPUT_RETURN,		//! BUTTON_START
+	KEY_INPUT_I,			//! BUTTON_SELECT
+	KEY_INPUT_I,			//! BUTTON_R3
+	KEY_INPUT_I,			//! BUTTON_L3
+};
+
 InputWatcher::InputWatcher( const uint32_t &padIndex )
 : m_buttonState(0)
 , m_preButtonState(0)
@@ -33,6 +53,18 @@ InputWatcher::InputWatcher( const uint32_t &padIndex )
 	m_buttonEventStatus[DOWN] = EVENT_PRESS;
 	m_buttonEventStatus[RIGHT] = EVENT_PRESS;
 	m_buttonEventStatus[LEFT] = EVENT_PRESS;
+	
+	static_assert(
+		   NUMBEROF(m_keyBoardStateChar) == KEY_BOARD_ARRAY_MAX
+		&& NUMBEROF(m_preKeyBoardState) == KEY_BOARD_ARRAY_MAX
+		&& NUMBEROF(m_keyBoardState) == KEY_BOARD_ARRAY_MAX
+		, "キーボード配列サイズが異なる" );
+
+	for(uint32_t i = 0; i < KEY_BOARD_ARRAY_MAX; ++i){
+		m_keyBoardStateChar[i] = '0';
+		m_preKeyBoardState[i] = false;
+		m_keyBoardState[i] = false;
+	}
 }
 
 
@@ -54,7 +86,15 @@ InputWatcher::~InputWatcher(void)
 /* ================================================ */
 bool InputWatcher::IsButtonPush( const BUTTON_KIND &kind )
 {
+	// パッドチェック
 	if( (m_buttonState & kind) && !(m_preButtonState & kind) ){
+		return true;
+	}
+	
+	// キーボードチェック
+	BUTTON button = ConvButtonKindToButton(kind);
+	uint32_t index = s_keyBoardButtonArray[button];
+	if( !m_preKeyBoardState[index] && m_keyBoardState[index] ){
 		return true;
 	}
 	return false;
@@ -67,14 +107,30 @@ bool InputWatcher::IsButtonPush( const BUTTON_KIND &kind )
 /* ================================================ */
 bool InputWatcher::IsButtonPress( const BUTTON_KIND &kind )
 {
+	// パッドチェック
 	if(m_buttonState & kind){
+		return true;
+	}
+
+	// キーボードチェック
+	BUTTON button = ConvButtonKindToButton(kind);
+	uint32_t index = s_keyBoardButtonArray[button];
+	if( m_keyBoardState[index] ){
 		return true;
 	}
 	return false;
 }
 bool InputWatcher::IsPreFrameButtonPress( const BUTTON_KIND &kind )
 {
+	// パッドチェック
 	if(m_preButtonState & kind){
+		return true;
+	}
+
+	// キーボードチェック
+	BUTTON button = ConvButtonKindToButton(kind);
+	uint32_t index = s_keyBoardButtonArray[button];
+	if( m_preKeyBoardState[index] ){
 		return true;
 	}
 	return false;
@@ -88,6 +144,13 @@ bool InputWatcher::IsPreFrameButtonPress( const BUTTON_KIND &kind )
 bool InputWatcher::IsButtonRelease( const BUTTON_KIND &kind )
 {
 	if( !(m_buttonState & kind) && (m_preButtonState & kind) ){
+		return true;
+	}
+
+	// キーボードチェック
+	BUTTON button = ConvButtonKindToButton(kind);
+	uint32_t index = s_keyBoardButtonArray[button];
+	if( m_preKeyBoardState[index] && !m_keyBoardState[index] ){
 		return true;
 	}
 	return false;
@@ -111,8 +174,8 @@ void InputWatcher::SetPadButtonState( const BUTTON_KIND &kind, const BUTTON_EVEN
 /* ================================================ */
 bool InputWatcher::IsButtonEvent( const BUTTON_KIND &kind )
 {
+	// ゲームパッド状態からチェック
 	BUTTON button = ConvButtonKindToButton(kind);
-
 	switch( m_buttonEventStatus[button] ){
 	case EVENT_NOUSE:
 		break;
@@ -130,6 +193,7 @@ bool InputWatcher::IsButtonEvent( const BUTTON_KIND &kind )
 		DEBUG_ASSERT( 0, "想定外");
 		break;
 	}
+
 	return false;
 }
 
@@ -145,12 +209,23 @@ void InputWatcher::CallPadEvent()
 		return;
 	}
 
-	//! 保持しているボタン更新
+	//! ボタン情報更新
+	//! パッド
 	m_preButtonState = m_buttonState;
 	m_buttonState = GetJoypadInputState( m_watchPadIndex );
+
+	// パッドアナログスティック情報更新
 	for(uint32_t i = 0; i < STICK_MAX; ++i){
 		m_stickInfo[i] = GetStickInfo(static_cast<STICK_KIND>(i));
 	}
+
+	//! キーボード情報更新
+	GetHitKeyStateAll( m_keyBoardStateChar );
+	for( uint32_t i = 0; i < KEY_BOARD_ARRAY_MAX ; ++i ){
+		m_preKeyBoardState[i] = m_keyBoardState[i];
+		m_keyBoardState[i] = ( m_keyBoardStateChar[i] == 0 ) ? 0 : 1 ;
+	}
+	SetStickInfoFromKeyBoard();
 
 	if(IsButtonEvent(BUTTON_START)){
 		PadEventStart();
@@ -164,15 +239,19 @@ void InputWatcher::CallPadEvent()
 
 	if(IsButtonEvent(BUTTON_UP)){
 		PadEventUp();
+		DEBUG_PRINT("PAD_INPUT_UP\n");
 	}
 	if(IsButtonEvent(BUTTON_DOWN)){
 		PadEventDown();
+		DEBUG_PRINT("PAD_INPUT_DOWN\n");
 	}
 	if(IsButtonEvent(BUTTON_LEFT)){
 		PadEventLeft();
+		DEBUG_PRINT("PAD_INPUT_LEFT\n");
 	}
 	if(IsButtonEvent(BUTTON_RIGHT)){
 		PadEventRight();
+		DEBUG_PRINT("PAD_INPUT_RIGHT\n");
 	}
 	if(IsButtonEvent(BUTTON_DECIDE)){
 		PadEventDecide();
@@ -402,4 +481,81 @@ InputWatcher::BUTTON InputWatcher::ConvButtonKindToButton( const BUTTON_KIND &ki
 		break;
 	}
 	return BUTTON_MAX;
+}
+
+/* ================================================ */
+/**
+ * @brief	キーボードの状態から擬似的にアナログスティック用変数に数字セット
+ */
+/* ================================================ */
+void InputWatcher::SetStickInfoFromKeyBoard()
+{
+	if( m_stickInfo[STICK_LEFT].m_vec == math::Vector2() ){
+		if( m_keyBoardState[KEY_INPUT_UP] && m_keyBoardState[KEY_INPUT_RIGHT] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( 1000.0f, -1000.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 45.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_RIGHT] && m_keyBoardState[KEY_INPUT_DOWN] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( 1000.0f, 1000.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 135.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_DOWN] && m_keyBoardState[KEY_INPUT_LEFT] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( -1000.0f, 1000.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 225.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_LEFT] && m_keyBoardState[KEY_INPUT_UP] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( -1000.0f, -1000.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 315.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_UP] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( 0.0f, -1000.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 90.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_DOWN] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( 0.0f, 1000.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 270.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_RIGHT] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( 1000.0f, 0.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 0.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_LEFT] ){
+			m_stickInfo[STICK_LEFT].m_vec = math::Vector2( -1000.0f, 0.0f );
+			m_stickInfo[STICK_LEFT].m_angle = 180.0f;
+		}
+	}
+	if( m_stickInfo[STICK_RIGHT].m_vec == math::Vector2() ){
+		if( m_keyBoardState[KEY_INPUT_W] && m_keyBoardState[KEY_INPUT_D] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( 1000.0f, -1000.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 45.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_D] && m_keyBoardState[KEY_INPUT_S] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( 1000.0f, 1000.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 135.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_S] && m_keyBoardState[KEY_INPUT_A] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( -1000.0f, 1000.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 225.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_A] && m_keyBoardState[KEY_INPUT_W] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( -1000.0f, -1000.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 315.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_W] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( 0.0f, -1000.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 90.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_S] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( 0.0f, 1000.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 270.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_D] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( 1000.0f, 0.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 0.0f;
+		}
+		else if( m_keyBoardState[KEY_INPUT_A] ){
+			m_stickInfo[STICK_RIGHT].m_vec = math::Vector2( -1000.0f, 0.0f );
+			m_stickInfo[STICK_RIGHT].m_angle = 180.0f;
+		}
+	}
 }
