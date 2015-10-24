@@ -62,12 +62,9 @@ static const char *TEXTURE_PATH				= "Data/Texture/";
 //アサート
 //#define DEBUG_ASSERT( expr, msg ) _ASSERT_EXPR( expr, _T(msg) )
 #define DEBUG_ASSERT( expr, msg ) \
-	{ \
-		if(!expr){ \
-			DEBUG_PRINT(msg); \
-			assert(expr); \
-		} \
-	}
+	(void) ((!!(expr)) || \
+	(1 != _CrtDbgReport(_CRT_ASSERT, __FILE__, __LINE__, NULL, msg )) || \
+	(_CrtDbgBreak(), 0))
 
 //出力プリント
 #define DEBUG_PRINT( str, ... ) \
