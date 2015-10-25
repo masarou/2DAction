@@ -403,7 +403,7 @@ math::Vector2 GetMapRandamPos( bool allowInWindow, int32_t mapHeight )
 		}
 		if( !allowInWindow ){
 			// 画面外かどうかチェック
-			if( IsPositionInWindowArea( pos.x, pos.y ) ){
+			if( IsPositionInWindowArea( static_cast<uint32_t>( pos.x ), static_cast<uint32_t>( pos.y ) ) ){
 				continue;
 			}
 		}

@@ -69,7 +69,7 @@ void EnemyAILastBoss::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &actionIn
 
 	// ‚Ó‚í‚Ó‚í•‚‚¢‚Ä‚¢‚é•ª‚Ì”’l
 	static uint32_t counter = 0;
-	enemyInfo.m_posOrigin.y += math::Sin(counter) * 10.0f;
+	enemyInfo.m_posOrigin.y += math::Sin( static_cast<float>( counter ) ) * 10.0f;
 	++counter;
 
 }

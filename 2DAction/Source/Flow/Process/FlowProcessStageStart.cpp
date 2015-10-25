@@ -52,7 +52,7 @@ bool StageStart::Init()
 	TEX_DRAW_INFO drawInfoPhase;
 	drawInfoPhase.Init();
 	drawInfoPhase.m_fileName = "StageStart01.json";
-	drawInfoPhase.m_posOrigin = math::Vector2( -1*m_texSizeW, 200 );
+	drawInfoPhase.m_posOrigin = math::Vector2( static_cast<float>( -1.0f*m_texSizeW ), 200.0f );
 	drawInfoPhase.m_usePlayerOffset = false;
 	drawInfoPhase.m_prioity = Common::PRIORITY_HIGHEST;
 	m_stagePhaseTex.m_pTex2D->SetDrawInfo( drawInfoPhase );
@@ -62,7 +62,7 @@ bool StageStart::Init()
 	TEX_DRAW_INFO drawInfoClear;
 	drawInfoClear.Init();
 	drawInfoClear.m_fileName = "StageStart02.json";
-	drawInfoClear.m_posOrigin = math::Vector2( -1*m_texSizeW, 520 );
+	drawInfoClear.m_posOrigin = math::Vector2( static_cast<float>( -1.0f*m_texSizeW ), 520.0f );
 	drawInfoClear.m_usePlayerOffset = false;
 	drawInfoClear.m_prioity = Common::PRIORITY_HIGHEST;
 	m_stageClearTex.m_pTex2D->SetDrawInfo( drawInfoClear );
@@ -111,7 +111,7 @@ void StageStart::PadEventDecide()
 
 void StageStart::FadeUpdate( TEX_DRAW_INFO &info )
 {
-	uint32_t diff = math::Abs( info.m_posOrigin.x - (WINDOW_WIDTH/2) );
+	uint32_t diff = math::Abs( static_cast<uint32_t>( info.m_posOrigin.x - (WINDOW_WIDTH/2) ) );
 	diff *= 0.1f;
 	if( diff <= 0 && m_IsFadeOut ){
 		diff = 1;

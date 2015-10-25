@@ -66,7 +66,7 @@ void ShowAddressMenu::UpdateMenu()
 
 	if( Utility::GetRandamValue( 30, 0 ) == 0 ){
 		// 花火エフェクト
-		math::Vector2 effectPos = math::Vector2( Utility::GetRandamValue( WINDOW_WIDTH - 100, 100 ), Utility::GetRandamValue( WINDOW_HEIGHT - 100, 100 ) );
+		math::Vector2 effectPos = math::Vector2( static_cast<float>( Utility::GetRandamValue( WINDOW_WIDTH - 100, 100 ) ), static_cast<float>( Utility::GetRandamValue( WINDOW_HEIGHT - 100, 100 ) ) );
 		GameEffect::CreateEffect( GameEffect::EFFECT_FIRE_FLOWER, effectPos );
 		SoundManager::GetInstance()->PlaySE("FireFlower");
 		DEBUG_PRINT( "FireFlower x = %lf, y = %lf\n", effectPos.x, effectPos.y );
