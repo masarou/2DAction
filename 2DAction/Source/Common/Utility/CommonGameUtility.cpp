@@ -815,7 +815,7 @@ void GetPartsInfoFromJson( const std::string &jsonStr, std::map< std::string, Co
 			}
 		}
 
-		vParts.insert( std::make_pair< std::string, Common::PARTS_INFO >( name, info ));
+		vParts.insert( std::map< std::string, Common::PARTS_INFO >::value_type( name, info ));
 	}
 }
 
