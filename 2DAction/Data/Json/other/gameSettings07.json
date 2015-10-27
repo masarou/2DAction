@@ -7,18 +7,18 @@
 	"bossInfo":[
 	],
 	"initEnemy":[
-		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 7, "num": 5},
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level": 6, "num": 5},
 		{"enemyKind": "ENEMY_KIND_SLIME", 	"level": 7, "num": 20},
-		{"enemyKind": "ENEMY_KIND_COW", 	"level": 7, "num": 3}
+		{"enemyKind": "ENEMY_KIND_COW", 	"level": 6, "num": 3}
 	],
 	"gameCondition":[
-		{"EnemyMax": 35, "frequency":4},
+		{"EnemyMax": 30, "frequency":4},
 		{"ItemMax": 0, "frequency":0}
 	],
 	"appearEnemy":[
-		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level":7, "frequency":15},
+		{"enemyKind": "ENEMY_KIND_AHRIMAN", "level":6, "frequency":15},
 		{"enemyKind": "ENEMY_KIND_SLIME",	"level":7, "frequency":70},
-		{"enemyKind": "ENEMY_KIND_COW",		"level":7, "frequency":15}
+		{"enemyKind": "ENEMY_KIND_COW",		"level":6, "frequency":15}
 	],
 	"pointInfo":[
 		{"score": 53500, "value": 100},

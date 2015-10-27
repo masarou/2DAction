@@ -1,6 +1,6 @@
 {
 	"basicInfo":[
-		{"fileName":"itemBattlePoint.png"
+		{"fileName":"itemAntidote.png"
 		, "animDefault":"idle"
 		, "sizeW": 32
 		, "sizeH": 32
@@ -10,6 +10,6 @@
 	],
 	
 	"animeInfo":[
-		{"animTag":"idle",	"frameSpeed":1,	"animIndex":[0],	"nextAnim":"idle"}
+		{"animTag":"idle",	"frameSpeed":1000,	"animIndex":[0],	"nextAnim":"idle"}
 	]	
 }

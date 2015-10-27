@@ -69,7 +69,7 @@ bool EnemyWizard::DieMainCustom()
  * @brief	敵クラスのデフォルト値取得
  */
 /* ================================================ */
- const uint32_t EnemyWizard::GetEnemyDefaultHP() const
+const uint32_t EnemyWizard::GetEnemyDefaultHP() const
 {
 	// Lvによって最大ライフ変更
 	return 1000 + ( 300 * GetEnemyLevel() );
@@ -101,6 +101,8 @@ void EnemyWizard::ReduceDamage( Common::CMN_EVENT &eventId )
 			eventId.m_eventValue = 0;
 			// ダメージ無効エフェクト
 			GameEffect::CreateEffect( GameEffect::EFFECT_INVALID_DAMAGE, GetDrawInfo().m_posOrigin );
+			// 無効SE
+			SoundManager::GetInstance()->PlaySE( "invalidDamage" );
 		}
 		break;
 	case Common::EVENT_HIT_BLADE_PLAYER:
@@ -111,6 +113,8 @@ void EnemyWizard::ReduceDamage( Common::CMN_EVENT &eventId )
 			eventId.m_eventValue = 0;
 			// ダメージ無効エフェクト
 			GameEffect::CreateEffect( GameEffect::EFFECT_INVALID_DAMAGE, GetDrawInfo().m_posOrigin );
+			// 無効SE
+			SoundManager::GetInstance()->PlaySE( "invalidDamage" );
 		}
 		break;
 	}
@@ -177,7 +181,7 @@ const math::Vector2 EnemyWizard::GetCrystalPos( const uint32_t &index ) const
 /* ================================================ */
 uint32_t EnemyWizard::GetBulletDamage() const
 {
-	return 20 + ( 5 * GetEnemyLevel() );
+	return 15 + ( 4 * GetEnemyLevel() );
 }
 
 /* ================================================ */

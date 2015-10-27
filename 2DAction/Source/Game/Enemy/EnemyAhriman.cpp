@@ -47,7 +47,7 @@ static const uint32_t DEFAULT_DAMAGE_HIT = 10;
 
 const uint32_t EnemyBBB::GetEnemyDefaultHP() const
 {
-	return DEFAULT_HP + ( 120 * GetEnemyLevel() );
+	return DEFAULT_HP + ( 100 * GetEnemyLevel() );
 }
 
 const float EnemyBBB::GetEnemyDefaultSPD() const

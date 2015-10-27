@@ -239,63 +239,63 @@ void InputWatcher::CallPadEvent()
 
 	if(IsButtonEvent(BUTTON_UP)){
 		PadEventUp();
-		DEBUG_PRINT("PAD_INPUT_UP\n");
+		//DEBUG_PRINT("PAD_INPUT_UP\n");
 	}
 	if(IsButtonEvent(BUTTON_DOWN)){
 		PadEventDown();
-		DEBUG_PRINT("PAD_INPUT_DOWN\n");
+		//DEBUG_PRINT("PAD_INPUT_DOWN\n");
 	}
 	if(IsButtonEvent(BUTTON_LEFT)){
 		PadEventLeft();
-		DEBUG_PRINT("PAD_INPUT_LEFT\n");
+		//DEBUG_PRINT("PAD_INPUT_LEFT\n");
 	}
 	if(IsButtonEvent(BUTTON_RIGHT)){
 		PadEventRight();
-		DEBUG_PRINT("PAD_INPUT_RIGHT\n");
+		//DEBUG_PRINT("PAD_INPUT_RIGHT\n");
 	}
 	if(IsButtonEvent(BUTTON_DECIDE)){
 		PadEventDecide();
-		DEBUG_PRINT("PAD_INPUT_DECIDE\n");
+		//DEBUG_PRINT("PAD_INPUT_DECIDE\n");
 	}
 	if(IsButtonEvent(BUTTON_CANCEL)){
 		PadEventCancel();
-		DEBUG_PRINT("PAD_INPUT_CANCEL\n");
+		//DEBUG_PRINT("PAD_INPUT_CANCEL\n");
 	}
 	if(IsButtonEvent(BUTTON_SPECIAL1)){
 		PadEventSpecial1();
-		DEBUG_PRINT("PAD_INPUT_SP1\n");
+		//DEBUG_PRINT("PAD_INPUT_SP1\n");
 	}
 	if(IsButtonEvent(BUTTON_SPECIAL2)){
 		PadEventSpecial2();
-		DEBUG_PRINT("PAD_INPUT_SP2\n");
+		//DEBUG_PRINT("PAD_INPUT_SP2\n");
 	}
 	if(IsButtonEvent(BUTTON_L1)){
 		PadEventL1();
-		DEBUG_PRINT("BUTTON_LB\n");
+		//DEBUG_PRINT("BUTTON_LB\n");
 	}
 	if(IsButtonEvent(BUTTON_R1)){
 		PadEventR1();
-		DEBUG_PRINT("BUTTON_RB\n");
+		//DEBUG_PRINT("BUTTON_RB\n");
 	}
 	if(IsButtonEvent(BUTTON_L2)){
 		PadEventL2();
-		DEBUG_PRINT("BUTTON_L2\n");
+		//DEBUG_PRINT("BUTTON_L2\n");
 	}
 	if(IsButtonEvent(BUTTON_R2)){
 		PadEventR2();
-		DEBUG_PRINT("BUTTON_R2\n");
+		//DEBUG_PRINT("BUTTON_R2\n");
 	}
 	if(IsButtonEvent(BUTTON_SELECT)){
 		PadEventSelect();
-		DEBUG_PRINT("BUTTON_BACK\n");
+		//DEBUG_PRINT("BUTTON_BACK\n");
 	}
 	if(IsButtonEvent(BUTTON_L3)){
 		PadEventL3();
-		DEBUG_PRINT("BUTTON_L3\n");
+		//DEBUG_PRINT("BUTTON_L3\n");
 	}
 	if(IsButtonEvent(BUTTON_R3)){
 		PadEventR3();
-		DEBUG_PRINT("BUTTON_R3\n");
+		//DEBUG_PRINT("BUTTON_R3\n");
 	}
 
 	//! 設定されたコマンドの確認

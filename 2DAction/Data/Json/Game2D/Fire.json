@@ -13,5 +13,9 @@
 		{"animTag":"move",	"frameSpeed":5,		"animIndex":[0,1,2,3,4,5],	"nextAnim":"fire"},
 		{"animTag":"fire",	"frameSpeed":5,		"animIndex":[5,6],			"nextAnim":"fire"},
 		{"animTag":"stop",	"frameSpeed":5,		"animIndex":[6,7],			"nextAnim":""}
+	],
+	
+	"collisionCircle":[
+		{"posX":35,	"posY":95,	"radius":20}
 	]
 }

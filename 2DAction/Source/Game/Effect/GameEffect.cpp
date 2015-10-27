@@ -75,6 +75,10 @@ GameEffect::GameEffect( const EFFECT_KIND &kind, const math::Vector2 &pos )
 	if( m_kind == EFFECT_FIRE_FLOWER ){
 		drawInfo.m_usePlayerOffset = false;
 	}
+	if( m_kind == EFFECT_HEALING ){
+		drawInfo.m_usePlayerOffset = false;
+		drawInfo.m_posOrigin.y -= 40.0f;
+	}
 	m_textureEffect.m_pTex2D->SetDrawInfo( drawInfo );
 }
 
@@ -169,6 +173,10 @@ std::string GameEffect::SelectEffectFile() const
 
 	case EFFECT_FIRE_FLOWER:
 		rtn = "FireFlower.json";
+		break;
+		
+	case EFFECT_HEALING:
+		rtn = "EffectHeal.json";
 		break;
 
 	default:

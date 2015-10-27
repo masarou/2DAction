@@ -32,7 +32,8 @@
 		{"tag":"Poison", "file":"poison.mp3"},
 		{"tag":"Summon", "file":"summon.mp3"},
 		{"tag":"Cheer", "file":"cheer.mp3"},
-		{"tag":"FireFlower", "file":"fireFlower.mp3"}
+		{"tag":"FireFlower", "file":"fireFlower.mp3"},
+		{"tag":"invalidDamage", "file":"invalidDamage.mp3"}
 		
 	]
 }

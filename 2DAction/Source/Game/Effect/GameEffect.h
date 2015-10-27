@@ -37,6 +37,7 @@ public:
 		EFFECT_FIRE_WALL,		// 画面全体炎演出
 		EFFECT_SUMMON,			// 召喚
 		EFFECT_FIRE_FLOWER,		// クリア後花火
+		EFFECT_HEALING,			// ヒールエフェクト
 	};
 
 	static GameEffect *CreateEffect( const EFFECT_KIND &kind, const int32_t &posX, const int32_t &posY );

@@ -240,7 +240,7 @@ void GameManager::Update()
 	}
 	// ÉAÉCÉeÉÄÇÃê∂ê¨
 	if( IsCreateItem( m_itemMax, m_itemFrequency ) ){
-		uint32_t kind = Utility::GetRandamValue( Common::ITEM_KIND_BATTLE_POINT-1, 0 );
+		uint32_t kind = Utility::GetRandamValue( Common::ITEM_KIND_ANTIDOTE-1, 0 );
 		CreateItem( static_cast<Common::ITEM_KIND>(kind) );
 	}
 }

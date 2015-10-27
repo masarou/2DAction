@@ -48,16 +48,19 @@ void AISlimeKingTackle::ExecMain( TEX_DRAW_INFO &enemyInfo, ACTION_ARRAY &action
 	}
 
 	// àÍíËämó¶Ç≈ìGÇê∂ê¨
-	if( Utility::GetRandamValue( ENEMY_CREATE_VALUE - ( GetEnemyLevel() * 2 ), 0 ) == 0 ){
-		for(;;){
-			math::Vector2 targetPos = enemyInfo.m_posOrigin;
-			math::Vector2 enemyPos = math::Vector2( 
-				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.x + ENEMY_CREATE_RANGE ), static_cast<uint32_t>( targetPos.x - ENEMY_CREATE_RANGE ) ) ),
-				static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.y + ENEMY_CREATE_RANGE ), static_cast<uint32_t>( targetPos.y - ENEMY_CREATE_RANGE ) ) )
-				);
-			if( Utility::GetMapHeight( enemyPos ) == 0){
-				GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_SLIME_ANOTHER, 5, true, enemyPos );
-				break;
+	EnemyManager *pEnemyManager = GameRegister::GetInstance()->UpdateManagerEnemy();
+	if( pEnemyManager && Utility::GetRandamValue( ENEMY_CREATE_VALUE/* - ( GetEnemyLevel() * 2 )*/, 0 ) == 0 ){
+		if( pEnemyManager->CountEnemy( Common::ENEMY_KIND_SLIME_ANOTHER ) < 25 ){
+			for(;;){
+				math::Vector2 targetPos = enemyInfo.m_posOrigin;
+				math::Vector2 enemyPos = math::Vector2( 
+					static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.x + 200 ), static_cast<uint32_t>( targetPos.x - 200 ) ) ),
+					static_cast<float>( Utility::GetRandamValue( static_cast<uint32_t>( targetPos.y + 200 ), static_cast<uint32_t>( targetPos.y - 200 ) ) )
+					);
+				if( Utility::GetMapHeight( enemyPos ) == 0){
+					GameRegister::GetInstance()->UpdateManagerGame()->CreateEnemy( Common::ENEMY_KIND_SLIME_ANOTHER, GetEnemyLevel(), true, enemyPos );
+					break;
+				}
 			}
 		}
 	}

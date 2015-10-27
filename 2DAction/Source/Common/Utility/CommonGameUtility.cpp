@@ -682,43 +682,43 @@ uint32_t ConvertLevelToBaseState( Common::PLAYER_BASE_STATE stateKind, uint32_t 
 	// ライフのレベルテーブル
 	static uint32_t s_lifeStateTable[STATE_TABLE_MAX] = {
 		0,		// lv1
-		30,		// lv2
-		50,		// lv3
-		80,		// lv4
-		100,	// lv5
-		130,	// lv6
-		160,	// lv7
-		200,	// lv8
-		250,	// lv9
+		40,		// lv2
+		80,		// lv3
+		110,	// lv4
+		150,	// lv5
+		290,	// lv6
+		220,	// lv7
+		240,	// lv8
+		270,	// lv9
 		300,	// lv10
 	};
 
 	// 斬撃のレベルテーブル
 	static uint32_t s_damageSlashingTable[STATE_TABLE_MAX] = {
 		0,		// lv1
-		15,		// lv2
-		30,		// lv3
-		50,	// lv4
-		70,	// lv5
-		100,	// lv6
-		130,	// lv7
-		160,	// lv8
-		200,	// lv9
+		30,		// lv2
+		60,		// lv3
+		90,		// lv4
+		120,	// lv5
+		140,	// lv6
+		160,	// lv7
+		180,	// lv8
+		210,	// lv9
 		240,	// lv10
 	};
 
 	// マシンガンのレベルテーブル
 	static uint32_t s_damageBulletTable[STATE_TABLE_MAX] = {
 		0,		// lv1
-		15,		// lv2
-		25,		// lv3
-		35,		// lv4
-		45,		// lv5
-		55,		// lv6
-		65,		// lv7
-		75,		// lv8
-		85,		// lv9
-		100,	// lv10
+		20,		// lv2
+		35,		// lv3
+		50,		// lv4
+		65,		// lv5
+		80,		// lv6
+		95,		// lv7
+		110,	// lv8
+		120,	// lv9
+		130,	// lv10
 	};
 
 	// マシンガンSPDのレベルテーブル

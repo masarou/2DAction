@@ -332,7 +332,7 @@ bool DragonFireBomb::Init()
 void DragonFireBomb::Update()
 {
 	std::string currAnim = "move";
-	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin += m_vec * 15.0f;
+	m_drawTexture.m_pTex2D->UpdateDrawInfo().m_posOrigin += m_vec * 12.0f;
 	++m_liveTime;
 
 	if( m_liveTime >= m_liveTimeMax ){

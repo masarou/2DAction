@@ -188,7 +188,7 @@ void CollisionManager::CollisionUpdate()
 				case Common::TYPE_ITEM_BULLET:
 				case Common::TYPE_ITEM_LIFE:
 				case Common::TYPE_ITEM_DAMAGE:
-				case Common::TYPE_ITEM_BATTLE_POINT:
+				case Common::TYPE_ITEM_ANTIDOTE:
 					break;
 				case Common::TYPE_BLADE_PLAYER:
 					{
@@ -349,7 +349,7 @@ bool CollisionManager::NeedEvent( const Common::TYPE_OBJECT typeA, const Common:
 	case Common::TYPE_ITEM_BULLET:
 	case Common::TYPE_ITEM_LIFE:
 	case Common::TYPE_ITEM_DAMAGE:
-	case Common::TYPE_ITEM_BATTLE_POINT:
+	case Common::TYPE_ITEM_ANTIDOTE:
 	case Common::TYPE_BLADE_ENEMY:
 		if( typeB != Common::TYPE_PLAYER ){
 			retVal = false;

@@ -60,6 +60,7 @@ private:
 		ABNORMAL_STATE_NONE			= 0,	// 通常状態
 		ABNORMAL_STATE_POISON		= 1<<0,	// 毒
 		ABNORMAL_STATE_MOVE_LOCK	= 1<<1,	// 動けない
+		ABNORMAL_STATE_FIRE			= 1<<2,	// 炎ダメージ
 
 		ABNORMAL_STATE_MAX,
 	};
@@ -107,7 +108,8 @@ private:
 	uint32_t				m_speedMoveBase;	// 基本行動速度
 	float					m_deffenceLate;		// 防御力
 	float					m_speedMultiply;	// 行動速度の倍率
-	uint32_t				m_poisonTime;		// 毒状態時間
+	int32_t					m_poisonTime;		// 毒状態時間
+	int32_t					m_fireTime;			// 炎状態時間
 	uint32_t				m_invisibleTime;	// 何らかの理由で敵の攻撃を受けない時間
 	uint32_t				m_invalidCtrlTime;	// 何らかの理由で操作を受け付けない時間
 	Common::EX_FORCE_MOVE	m_forceMoveInfo;	// 他のクラスから受ける衝撃

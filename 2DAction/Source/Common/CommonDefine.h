@@ -24,7 +24,7 @@ namespace Common{
 		TYPE_ITEM_BULLET,
 		TYPE_ITEM_LIFE,
 		TYPE_ITEM_DAMAGE,
-		TYPE_ITEM_BATTLE_POINT,
+		TYPE_ITEM_ANTIDOTE,
 		TYPE_BLADE_PLAYER,
 		TYPE_BLADE_ENEMY,
 		TYPE_BULLET_PLAYER,
@@ -56,7 +56,7 @@ namespace Common{
 		EVENT_GET_ITEM_BULLET,			// アイテム取得
 		EVENT_GET_ITEM_LIFE,			// アイテム取得
 		EVENT_GET_ITEM_DAMAGE,			// アイテム取得
-		EVENT_GET_ITEM_BATTLE_POINT,	// アイテム取得
+		EVENT_GET_ITEM_ANTIDOTE,		// アイテム取得
 		EVENT_HIT_BLADE_PLAYER,			// プレイヤーの斬撃に当たった
 		EVENT_HIT_BLADE_ENEMY,			// 敵の斬撃に当たった
 		EVENT_HIT_BULLET_PLAYER,		// プレイヤーの攻撃弾に当たった
@@ -94,7 +94,7 @@ namespace Common{
 		{	TYPE_ITEM_BULLET,			EVENT_GET_ITEM_BULLET			},	// アイテム取得
 		{	TYPE_ITEM_LIFE,				EVENT_GET_ITEM_LIFE				},	// アイテム取得
 		{	TYPE_ITEM_DAMAGE,			EVENT_GET_ITEM_DAMAGE			},	// アイテム取得
-		{	TYPE_ITEM_BATTLE_POINT,		EVENT_GET_ITEM_BATTLE_POINT		},	// アイテム取得
+		{	TYPE_ITEM_ANTIDOTE,			EVENT_GET_ITEM_ANTIDOTE			},	// アイテム取得
 		{	TYPE_BLADE_PLAYER,			EVENT_HIT_BLADE_PLAYER			},	// プレイヤーの斬撃に当たった
 		{	TYPE_BLADE_ENEMY,			EVENT_HIT_BLADE_ENEMY			},	// 敵の斬撃に当たった
 		{	TYPE_BULLET_PLAYER,			EVENT_HIT_BULLET_PLAYER			},	// プレイヤーの攻撃弾に当たった
@@ -274,7 +274,7 @@ namespace Common{
 		ITEM_KIND_RAPID_BULLET,	// 連射速度UP
 		ITEM_KIND_LIFE_UP,		// ライフ回復
 		ITEM_KIND_DAMAGE_UP,	// 弾の威力UP
-		ITEM_KIND_BATTLE_POINT,	// ベースステータスLvをあげるポイント
+		ITEM_KIND_ANTIDOTE,		// 解毒剤
 
 		ITEM_KIND_MAX,
 	};

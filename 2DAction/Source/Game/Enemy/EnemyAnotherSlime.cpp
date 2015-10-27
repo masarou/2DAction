@@ -41,6 +41,14 @@ void EnemyAnotherSlime::EnemyDeath()
 	// ”š”­SE–Â‚ç‚·
 	SoundManager::GetInstance()->PlaySE("Death");
 
+	// ˆê’èŠm—¦‚Å‰ð“ÅÜ‚ð—Ž‚Æ‚·
+	if( Utility::GetRandamValue( 6, 0 ) == 0 ){
+		GameManager *pGameMan = GameRegister::GetInstance()->UpdateManagerGame();
+		if( pGameMan ){
+			pGameMan->CreateItem( Common::ITEM_KIND_ANTIDOTE, GetDrawInfo().m_posOrigin );
+		}
+	}
+
 	// Ž€–S
 	TaskStartDie();
 }
@@ -63,7 +71,7 @@ static const uint32_t DEFAULT_DAMAGE_HIT = 10;
 
 const uint32_t EnemyAnotherSlime::GetPlayerHitDamage() const
 {
-	return DEFAULT_DAMAGE_HIT + ( 10 * GetEnemyLevel() );
+	return DEFAULT_DAMAGE_HIT + ( 5 * GetEnemyLevel() );
 }
 
 void EnemyAnotherSlime::ReduceDamage( Common::CMN_EVENT &eventId )

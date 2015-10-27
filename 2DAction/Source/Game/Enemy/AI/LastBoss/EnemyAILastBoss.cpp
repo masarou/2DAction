@@ -259,7 +259,12 @@ LastBossHand::ACTION_KIND LastBossHand::GetNextActionKind()
 	if( retAction == ACTION_SUMMON ){
 		// ユニークモンスター召喚ならば召喚回数に応じて待ち時間設定
 		++m_createUniqueEnemyCount;
-		m_waitCounter += 10 * m_createUniqueEnemyCount;
+		m_waitCounter = 60 + ( 20 * m_createUniqueEnemyCount );
+		// あんまり長いとバグっぽくなるので
+		if( m_waitCounter > 200 ){
+			m_waitCounter = 0;
+		}
+		DEBUG_PRINT( "m_waitCounter = %d\n", m_waitCounter );
 	}
 
 	return retAction;

@@ -27,6 +27,12 @@ EnemyRanger::~EnemyRanger(void)
 {
 }
 
+const uint32_t EnemyRanger::GetEnemyDefaultHP() const
+{
+	// Lvによって最大ライフ変更
+	return 6000 + ( 400 * GetEnemyLevel() );
+}
+
 /* ================================================ */
 /**
  * @brief	斬撃を受けた時の処理
@@ -88,7 +94,7 @@ void EnemyRanger::ReduceDamage( Common::CMN_EVENT &eventId )
 	switch( eventId.m_event ){
 	case Common::EVENT_HIT_BULLET_PLAYER:
 		// マシンガン攻撃は効きにくい( 0.9~4.5 )
-		eventId.m_eventValue *= 0.7f - levelReduce;
+		eventId.m_eventValue *= 0.8f - levelReduce;
 		break;
 	case Common::EVENT_HIT_BLADE_PLAYER:
 		// 斬撃はダメージを増やす

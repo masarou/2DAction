@@ -38,6 +38,7 @@ static uint32_t EMERGENCY_LIFE			= 20;		// ダメージ時に緊急音を鳴らすHP
 static uint32_t BULLET_INTERBAL_MIN		= 1;		// マシンガン発射時の次の弾までの最低余暇時間
 static uint32_t BULLET_DAMAGE_MAX		= 100;		// マシンガンの弾の最高ダメージ
 static uint32_t ITEM_HEAL_VALUE			= 60;		// HEALアイテム取得時の回復量
+static uint32_t ITEM_ANTIDOTE_HEAL_VALUE= 20;		// HEALアイテム取得時の回復量
 
 // アニメタグ
 static char *ANIM_TAG_UP	= "up";
@@ -64,6 +65,7 @@ GamePlayer::GamePlayer(void)
 , m_deffenceLate( 1.0f )
 , m_speedMultiply( 0.0f )
 , m_poisonTime( 0 )
+, m_fireTime( 0 )
 , m_invisibleTime( 0 )
 , m_invalidCtrlTime( 0 )
 , m_attackGun(NULL)
@@ -160,14 +162,18 @@ void GamePlayer::Update()
 		// 毒状態ならデクリメント
 		if( m_poisonTime > 0 ){
 			--m_poisonTime;
-			if( FpsManager::GetUpdateCounter() % 30 == 0 ){
+			if( FpsManager::GetUpdateCounter() % 40 == 0 ){
 				// 一定時間ごとにダメージ
-				ReflectDamage( 5 );
+				ReflectDamage( 3 );
 			}
 			if( m_poisonTime == 0 ){
 				// 毒状態終了
 				SetPlayerState( ABNORMAL_STATE_POISON, false );
 			}
+		}
+		// 毒にならない時間帯(毒から回復した直後)ならインクリメント
+		else if( m_poisonTime < 0 ){
+			++m_poisonTime;
 		}
 
 		// 無敵時間中ならデクリメント
@@ -181,6 +187,14 @@ void GamePlayer::Update()
 			if( m_invalidCtrlTime == 0 ){
 				// 操作不能時間終了
 				SetPlayerState( ABNORMAL_STATE_MOVE_LOCK, false );
+			}
+		}
+
+		// 炎ダメージアイコン
+		if( m_fireTime >= 0 ){
+			--m_fireTime;
+			if( m_fireTime == 0 ){
+				SetPlayerState( ABNORMAL_STATE_FIRE, false );
 			}
 		}
 	}
@@ -514,12 +528,14 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 		PlayerGetItem( Common::ITEM_KIND_RAPID_BULLET );
 		break;
 	case Common::EVENT_HIT_POISON:
-		// 毒ダメージ
-		m_poisonTime = 60 * 7;
-		if( !IsPlayerState( ABNORMAL_STATE_POISON ) ){
-			// ステータス変更とSEを鳴らす
-			SetPlayerState( ABNORMAL_STATE_POISON, true );
-			SoundManager::GetInstance()->PlaySE("Poison");
+		if( m_poisonTime >= 0 ){
+			// 毒ダメージ
+			m_poisonTime = 60 * 5;
+			if( !IsPlayerState( ABNORMAL_STATE_POISON ) ){
+				// ステータス変更とSEを鳴らす
+				SetPlayerState( ABNORMAL_STATE_POISON, true );
+				SoundManager::GetInstance()->PlaySE("Poison");
+			}
 		}
 		break;
 	case Common::EVENT_GET_ITEM_LIFE:
@@ -528,8 +544,8 @@ void GamePlayer::EventUpdate( Common::CMN_EVENT &eventId )
 	case Common::EVENT_GET_ITEM_DAMAGE:
 		PlayerGetItem( Common::ITEM_KIND_DAMAGE_UP );
 		break;
-	case Common::EVENT_GET_ITEM_BATTLE_POINT:
-		PlayerGetItem( Common::ITEM_KIND_BATTLE_POINT );
+	case Common::EVENT_GET_ITEM_ANTIDOTE:
+		PlayerGetItem( Common::ITEM_KIND_ANTIDOTE );
 		break;
 	case Common::EVENT_ADD_FORCE_MOVE:
 		// 必要な情報を取り出す
@@ -643,8 +659,13 @@ void GamePlayer::EventDamage( Common::CMN_EVENT &eventId )
 		}
 		break;
 	case Common::EVENT_HIT_FIRE:
+		// 炎ダメージアイコン
+		if( !IsPlayerState( ABNORMAL_STATE_FIRE ) ){
+			SetPlayerState( ABNORMAL_STATE_FIRE, true );
+		}
+		m_fireTime = 5;
 		// 一定時間ごとにダメージ
-		if( FpsManager::GetUpdateCounter() % 8 == 0 ){
+		if( FpsManager::GetUpdateCounter() % 15 == 0 ){
 			damageValue = 10;
 		}
 		else{
@@ -709,6 +730,9 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 				m_playerLife = m_playerLifeMax;
 			}
 
+			// 回復エフェクト
+			GameEffect::CreateEffect( GameEffect::EFFECT_HEALING, WINDOW_CENTER );
+
 			if( isCountUp ){
 				// 取得アイテム数をカウント
 				GameRecorder::GetInstance()->AddItem( Common::ITEM_KIND_LIFE_UP );
@@ -741,10 +765,25 @@ void GamePlayer::PlayerGetItem( const Common::ITEM_KIND &itemKind, bool isCountU
 			}
 		}
 		break;
-	case Common::ITEM_KIND_BATTLE_POINT:
-		if( isCountUp ){
-			// 取得アイテム数をカウント
-			GameRecorder::GetInstance()->AddItem( Common::ITEM_KIND_BATTLE_POINT );
+	case Common::ITEM_KIND_ANTIDOTE:
+		{
+			// ライフ微回復
+			m_playerLife += ITEM_ANTIDOTE_HEAL_VALUE;
+			if( m_playerLife > m_playerLifeMax ){
+				m_playerLife = m_playerLifeMax;
+			}
+			// 毒終了(すぐには毒にならない)
+			m_poisonTime = -60;
+			SetPlayerState( ABNORMAL_STATE_POISON, false );
+
+			if( isCountUp ){
+				// 取得アイテム数をカウント
+				GameRecorder::GetInstance()->AddItem( Common::ITEM_KIND_ANTIDOTE );
+				// アイテム取得音を鳴らす
+				SoundManager::GetInstance()->PlaySE("GetItemHeal");
+				// 回復エフェクト
+				GameEffect::CreateEffect( GameEffect::EFFECT_HEALING, WINDOW_CENTER );
+			}
 		}
 		break;
 	}
@@ -807,6 +846,7 @@ void GamePlayer::SetPlayerState( const PLAYER_ABNORMAL_STATE &checkState, const 
 	const static PLAYER_ABNORMAL_STATE abnormalStatus[] = {
 		ABNORMAL_STATE_POISON,
 		ABNORMAL_STATE_MOVE_LOCK,
+		ABNORMAL_STATE_FIRE,
 	};
 
 	if( !m_pMyStateIcon ){
@@ -833,6 +873,9 @@ void GamePlayer::SetPlayerState( const PLAYER_ABNORMAL_STATE &checkState, const 
 				break;
 			case ABNORMAL_STATE_POISON:
 				m_pMyStateIcon->SetEffectAnim( "poison" );
+				break;
+			case ABNORMAL_STATE_FIRE:
+				m_pMyStateIcon->SetEffectAnim( "fire" );
 				break;
 			}
 		}

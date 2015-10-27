@@ -144,7 +144,7 @@ private:
 			// Œ³‚ÌˆÊ’u‚É–ß‚é
 			for(;;){
 				if( MoveToTargetPos( m_basicPos, 10.0f, 0.3f ) ){
-					m_waitCounter = 90;
+					m_waitCounter = 120;
 					break;
 				}
 				yield return false;
@@ -213,7 +213,7 @@ private:
 				yield return false;
 			}
 		}
-		m_waitCounter = 60;
+		m_waitCounter = 120;
 		return true;
 	}
 
@@ -286,7 +286,7 @@ private:
 				}
 			}
 		}
-		m_waitCounter = 60;
+		m_waitCounter = 120;
 		return true;
 	}
 

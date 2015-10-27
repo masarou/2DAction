@@ -19,7 +19,7 @@ class AIRanger : public EnemyAIBase
 public:
 
 	// 次の各行動に移るまでの待ち時間
-	static const uint32_t ACTION_INTERVAL_SHORT = 30;
+	static const uint32_t ACTION_INTERVAL_SHORT = 40;
 	static const uint32_t ACTION_INTERVAL = 60;
 
 	static AIRanger *Create();
@@ -92,9 +92,12 @@ private:
 
 		reenter( m_coro ){
 
+			// 現在のプレイヤー位置を目的地に
+			m_movingPos = Utility::GetPlayerPos();
+
 			// プレイヤーに急接近
 			for(;;){
-				if( DashMove( enemyInfo, Utility::GetPlayerPos() ) ){
+				if( DashMove( enemyInfo, m_movingPos ) ){
 					break;
 				}
 				yield return false;

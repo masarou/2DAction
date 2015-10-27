@@ -113,6 +113,8 @@ void LastBoss::ReduceDamage( Common::CMN_EVENT &eventId )
 			eventId.m_eventValue = 0;
 			// ダメージ無効エフェクト
 			GameEffect::CreateEffect( GameEffect::EFFECT_INVALID_DAMAGE, GetDrawInfo().m_posOrigin );
+			// 無効SE
+			SoundManager::GetInstance()->PlaySE( "invalidDamage" );
 		}
 	}
 }
