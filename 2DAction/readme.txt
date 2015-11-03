@@ -1,5 +1,5 @@
 ===================================
-        MonsterBuster ver1.00
+        MonsterBuster ver1.01
 	yuki masato
 ===================================
 

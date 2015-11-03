@@ -58,23 +58,19 @@ void AttackGun::SetGunLevel( const uint32_t &damageLv, const uint32_t &speedLv )
 	switch( speedLv ){
 	case 0:
 	case 1:
-		m_currState.m_shootInterval		= 5;
-		break;
 	case 2:
 	case 3:
-		m_currState.m_shootInterval		= 4;
+		m_currState.m_shootInterval		= 5;
 		break;
 	case 4:
 	case 5:
-		m_currState.m_shootInterval		= 3;
-		break;
 	case 6:
 	case 7:
-	case 8:
-		m_currState.m_shootInterval		= 2;
+		m_currState.m_shootInterval		= 4;
 		break;
+	case 8:
 	case 9:
-		m_currState.m_shootInterval		= 1;
+		m_currState.m_shootInterval		= 3;
 		break;
 	}
 	
